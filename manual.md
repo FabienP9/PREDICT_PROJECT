@@ -508,7 +508,7 @@ The program runs tasks automatically based on [the planned calendar](#calendar).
 
 ## Automatic email sent<a name="emailsent"></a>
 
-After running [an entry points](#usage) through GitHub actions, GitHub will send an email to the recipient [see Input parameters](#inputparameters), to inform them of the success or failure.
+After running [an entry point](#usage) through GitHub actions, GitHub will send an email to the recipient [see Input parameters](#inputparameters), to inform them of the success or failure.
 The mail of success of the [main entry point](#mainrun) will be send with copy of:  
 - output_need file text (#outputneed) automatically or manually generated
 - next run time utc file text (#nextruntimeutc)

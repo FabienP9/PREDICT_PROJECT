@@ -5,20 +5,22 @@
 - [Prediction game rules](#gamerules)
 - [Input tools and accounts](#inputtoolsaccounts)
 - [Input Parameters](#inputparameters)
-- [Current scope](#currentscope)
+- [Current sources](#currentsources)
 - [DropBox repository tree](#dropboxtree)
 - [Files required](#filesrequired)
 - [How to add competition to scope](#addtoscope)
-- [Calendar management](#calendar)
+- [Calendar management and automatic run](#calendar)
 - [Usage - Entry points](#usage)
 - [Modifying output_need_manual file](#modifyingoutputneedmanual)
-- [Error management and impacts](#error)
-- [Tests](#tests)
+- [Automatic email sent](#emailsent)
 
 ## Vocabulary<a name="vocabulary"></a>
 
 Vocabulary used in the rules and in the software
 
+- **source**: A source is external websites to which the program connects:  
+  - to get games to predict details (sport league source)
+  - to get messages prediction, and post templates and results (forums sources)
 - **season**: A season is a specific sport league during a year from a specific country (ex: The Elite league of basketball in France in 2024-2025)
 - **competition**: A competition is a part of a season where rules are consistent (ex: Regular Season, or PlayOffs)
 - **gameday**: A gameday is a set of games from a competition grouped together, where each team can play only once (ex: Gameday 3),usually designed by the sport league organization. Usually, all games of a gameday occur within the same time frame.
@@ -85,7 +87,7 @@ Players compete individually based on the number of points earned.
 
 - Gameday Number of points
 
-    For each player, the gameday number of points is the sum of:
+    For each player, the gameday number of points is the sum of scores for all predicted games related to the gameday:
     - Good winner score  
     - Good score difference score  
     - Automatic score  
@@ -110,11 +112,12 @@ Players compete individually based on the number of points earned.
 
 ### Prediction championship
 
-    Players can choose or change their team amongst predicted league teams, until a deadline fixed by the software administrator with the column SEASON_TEAMCHOICE_DEADLINE of [the input required manual file season.csv](#season). Their individual points contribute to the chosen team, for the prediction championship, until the end of the season, unless changed before the deadline.
+Players can choose or change their team amongst predicted league teams, until a deadline fixed by the software administrator with the column SEASON_TEAMCHOICE_DEADLINE of [the input required manual file season.csv](#season).  
+Their individual points contribute to the chosen team, for the prediction championship, until the end of the season, unless changed before the deadline.
 
 - Games in the prediction championship
 
-    During regular season, games are assumed to be the same than the ones of the predicted league.   
+    During the competition of the regular season, games are assumed to be the same than the ones of the predicted league.   
     This is decided by the software administrator with the column IS_SAME_FOR_PREDICTCHAMP of [the input required manual file competition.csv](#competition).  
     For other competitions, depending on the ranking of the prediction championship, their schedule might be different. For exemple for playoffs, the qualified TOP8 will probably be different than the one from the predicted league.
     In this case, the software administrator have to write manual prediction championship games in [the input required manual file predictchamp_game_to_add.csv](#predictchampgametoadd)
@@ -122,9 +125,9 @@ Players compete individually based on the number of points earned.
 - Teams  points
 
     For each game:
-    - A team’s score is the **maximum** gameday individual score among all players who selected that team.
-    - The home team receives a **20% bonus**.
-    - If the game is at a neutral venue, the administrator may disable the home advantage using **HAS_HOME_ADV** in  
+    - A team’s score is the maximum gameday individual score among all players who selected that team.
+    - The home team receives a 20% bonus.
+    - If the game is at a neutral venue, the administrator may disable the home advantage using HAS_HOME_ADV in  
     [predictchamp_game_to_add.csv](#predictchampgametoadd).
 
 - Prediction championship game results:
@@ -139,41 +142,32 @@ Players compete individually based on the number of points earned.
 
 ### MVP election [Most Valuable Predictor]
 
-For the last gameday of each month—or the last gameday of a competition—the program posts the results along with the total points earned during that period (both individual and team-based).  
-Players vote for the MVP based on these results.
+For the last gameday of each month—or the last gameday of a competition—the program posts the results along with the total points earned during that period for each player (both individual and team-based).  
+An election for the MVP takes place based on these total points earned.
 
 ## Input tools and accounts<a name="inputtoolsaccounts"></a>
 
-The software relies on several external tools, services, and accounts to operate correctly:
-- **Snowflake account**, to store predictions and calculations, with at least one user having DML privileges (The software uses its credentials)
-- **DropBox account**, containing some input files for a successful run, and some program files results in a stable tree
-- **imgbb account** (https://imgbb.com/), to send results pictures online, in order to post them on forums
-- **Gmail account** to send by email the status of the run<a name="emailsent"></a> (if ran through GitHub Actions), with details of run:
-    - details from output need file, manually chosen with [the input file output_need_manual.csv](#outputneedmanual) or generated thanks to the [planned calendar of run](#calendar)
-    - the next run timestamp from [the file next_run_time_utc.txt](#nextruntimeutc)
-    - if applicable, the query to [check](#messageactioncheck) new messages from players  
-    An exemple of the content of a mail can be found in *file_exemples/email_from_the_program.txt*
-- **Sport season source accounts** for each season in the scope, a possible account to get games and result
-- **Forum accounts** for each forum in the scope, a possible account to read players' predictions, and post prediction template and results
+The software relies on several external tools, services, and accounts to operate correctly.  
+See *README.md* section for more details.
 
 ## Input Parameters<a name="inputparameters"></a>
 
-The software uses a set of environment variables as input, provided as GitHub secrets:
+The software uses a set of environment variables as input, provided as GitHub secrets, or before run for local running:
 - **SNOWFLAKE_USERNAME** and **SNOWFLAKE_PASSWORD** to log in Snowflake account
 - **RCLONE_CONFIG_BASE64**, Base64‑encoded rclone configuration used to authenticate to the Dropbox account.
 - **IMGBB_API_KEY**, API key to log to imgbb account
 - **GMAIL_USER** and **GMAIL_APP_PASSWORD**, email adress and password to send [automatic email on the status of run](#emailsent)
 - **RECIPIENT_EMAIL**, comma-separated list of email adress for recipient of the [email automatically sent on the status of run](#emailsent)
 
-Moreover, considering the [current scope](#currentscope), stored as GitHub actions:
+Moreover, considering the [current sources](#currentsources), stored as GitHub secrets, or before run for local running:
 - **LNB_URL** : the LNB website url
 - **BI_URL**, the BI forum website, BI_USERNAME and BI_PASSWORD to log to BI acccount and post results
 
 Considering the context of run:
-- <a name="isoutputauto"></a>**IS_OUTPUT_AUTO** (0/1): If 1, the output_need file will be generated during run from the [planned calendar](#calendar). If 0, it uses the [output_need_manual file](#outputneedmanual), which can be [edited prealably by the software administrator](modifyingoutputneedmanual)
+- <a name="isoutputauto"></a>**IS_OUTPUT_AUTO** (0/1): If 1, the output_need file will be generated during run from the [planned calendar](#calendar). If 0, it uses the [output_need_manual file](#outputneedmanual), which can be [edited prealably by the software administrator](#modifyingoutputneedmanual)
 - **IS_TESTRUN** (0/1): If 1, the program runs in test environment. If 0 it runs in production environment
 
-## Current scope<a name="currentscope"></a>
+## Current sources<a name="currentsources"></a>
 The software currently processes seasons from one source named "LNB" (French Elite basketball).  
 These LNB seasons are handled through the module *get_game_details_lnb.py*, which retrieves game schedules, results, and competition metadata.
 
@@ -255,6 +249,7 @@ Example of each file is copied under *file_exemples/* folder
 - <a name="playoffstable"></a>**playoffs_table.txt**: 
     Contains Python arrays representing playoff bracket positions.  
     Used to generate the graphical playoff image posted on forums.
+    (See [generate playoffs](#generateplayoffs) for details.)
     
 ### Manual files required (either in global_manual_inputs - if used both in Prod and Test-  or local_manual_inputs):
 They must be created and updated by the software administrator, according to the scope or evolutions.
@@ -275,7 +270,7 @@ They must be created and updated by the software administrator, according to the
     - **COMPETITION_SOURCE_ID**: The id of the competition on the source for filtering
     - **IS_SAME_FOR_PREDICTCHAMP** (0/1): Boolean telling if the predition championship games will be the same as the one from the prediction league or not.  
     If not, the software administrator must add manual games to [predictchamp_game_to_add.csv](#predictchampgametoadd)
-    - **IS_TO_LOAD** (0/1): Boolean telling if it needs to load the competition on the database while running ["Init compet"](#initcompet) or notTo store 
+    - **IS_TO_LOAD** (0/1): Boolean telling if it needs to load the competition on the database while running ["Init compet"](#initcompet) or not
 
 - <a name="topic"></a>**topic.csv**: Defines forum topics used for predictions and results.
     - **SEASON_ID**: the id of season corresponding to the topic - same as on [season.csv](#season)/SEASON_ID
@@ -373,7 +368,7 @@ The following files are downloaded, modified by the program then uploaded back t
     - **OUTPUT_AUTO**: Will store the value of the parameter [IS_OUTPUT_AUTO](#isoutputauto)
     - **PLANNED_RUN_TIME_UTC**: Will store the utc run time [planned in the calendar](#calendar), if ran automatically
 
-- <a name="taskdone"></a>task_done.csv, in *current/outputs/python*: Tracks tasks already ran. The program will compare it with the [planned calendar](#calendar) to know what remains to be run.
+- **task_done.csv**<a name="taskdone"></a>, in *current/outputs/python*: Tracks tasks already ran. The program will compare it with the [planned calendar](#calendar) to know what remains to be run, and when.
     - **TASK_RUN**: The [type of the task](#taskrun)
     - **SEASON_ID**: The id of the season - same as on [season.csv](#season)/SEASON_ID	
     - **GAMEDAY**: The gameday name	
@@ -384,7 +379,7 @@ When creating it must store the value "NONE". The calendar and its value will be
 
 ## How to add competition to the scope<a name="addtoscope"></a>
 
-The software administrator can add to the scope any sport season they want, for which games cannot end with a tie score; and link it to any forum they want, in any language:
+The software administrator can add to the scope any competion from any sport league they want, as long as games cannot end with a tie score; and link it to any forum they want, in any language:
 - To prepare a new competition
 
     If the competition is on a new source, the software administrator must:
@@ -396,7 +391,8 @@ The software administrator can add to the scope any sport season they want, for 
     - add the season to [the input required manual file season.csv](#season)
 
     Finally the software administrator must:  
-    - add the new competition to [the input required manual file competition.csv](#competition) with possibly modifying other required manual files
+    - add the new competition to [the input required manual file competition.csv](#competition) with IS_TO_LOAD = 1 
+    - possibly modify other [required files](#filesrequired) according to modification the software administrator wants to apply to sources
 
 - To link the competition with new topics
 
@@ -415,24 +411,25 @@ The software administrator can add to the scope any sport season they want, for 
 - To add the new competition and topics to the database, the software administrator must:
     - run [the "Init compet" entry point](#initcompet)
 
-## Calendar management<a name="calendar"></a>
+## Calendar management and automatic run <a name="calendar"></a>
 
-The software can be run manually by the software administrator, using an [output_need_manual file](#outputneedmanual) that they prealably [modified](modifyingoutputneedmanual).  
+The software can be run manually by the software administrator, using an [output_need_manual file](#outputneedmanual) that they prealably [modified](#modifyingoutputneedmanual).  
 But the software is also ran automatically, every 12 minutes, by GitHub using GitHub Actions, the file ouput_need being generated automatically. 
-The automatic run of the software relies on the calendar management, to know what to run.
+The automatic run of the software relies on the calendar management, to know what to run, and when.
 
-During the [main run](#mainrun) or ["Init compet" run](#initcompet), DBT performs DML operations on database.  
+During the [main run](#mainrun) or ["Init compet" run](#initcompet), DBT performs DML operations on database:  
+
 For each gameday of the season, the begin datetime of the first game, and the begin datetime of the last game is calculated.  
-
-Considering it, the view *VW_CALENDAR* (see the file *vw_calendar.sql* for more details) enables the program to know when to perform tasks for the gameday (for more details of the definition of tasks see [here](#taskrun))
-- TASK_RUN = 'UPDATEGAMES': planned several times before the first game of the gameday to detect possible changes of date and times of games in the predicted league
+Considering them, the view *VW_CALENDAR* (see the file *vw_calendar.sql* for more details) enables the program to know when to perform tasks for each gameday (for more details of the definition of tasks see [here](#taskrun)). 
+- TASK_RUN = 'UPDATEGAMES': planned several times before the begin datetime of the first game of the gameday to detect possible changes of date and times of games
 - TASK_RUN = 'INIT': planned at the beginning of the first game of the previous gameday - it will post the prediction template for the new gameday
-- TASK_RUN = 'CHECK': planned at the beginning of each game, to read the latest predictions from players
-- TASK_RUN = 'CALCULATE': planned two hours after the beginning of last game of the gameday, to perform and post calculations. If the last game is not finished, the extraction will return an error (see the module *get_game_details_lnb.py*), and wait for the next automatic run to retry again.
+- TASK_RUN = 'CHECK': planned at the beginning of each game, to read the latest games predictions from players
+- TASK_RUN = 'CALCULATE': planned two hours after the beginning of last game of the gameday, to perform and post calculations. If the last game is not finished yet, the extraction will return an error (see the module *get_game_details_lnb.py*), and wait for the next automatic run to retry again.
 
-After updating the database without errors, the software will insert the ran task into [task_done.csv file](#taskdone), then compare the calendar of run to it, to get what utc time will be run next, and insert it into [next_run_time_utc.txt](nextruntimeutc).
+After updating the database without errors, the software will insert the ran task into [task_done.csv file](#taskdone).  
+It will then compare the calendar of run to it, to get what utc time will be run next, and insert it into [next_run_time_utc.txt](#nextruntimeutc).
     
-Next automatic run by GitHub actions, at the very beginning of the run, the software will check if current utc time greater than the time from [next_run_time_utc.txt](nextruntimeutc).  
+Next automatic run by GitHub actions, at the very beginning of the run, the software will check if current utc time greater than the time from [#next_run_time_utc.txt](nextruntimeutc).  
 If it is not, it stops running, and [no email is sent](#emailsent). 
 Else it continues, generating output_need related to the task from the calendar and downstreams. 
 
@@ -482,7 +479,7 @@ The playoffs competition must exist in the database through the file [competitio
 
 ## Modifying output_need_manual file<a name="modifyingoutputneedmanual"></a>
 
-The program runs tasks automatically based on [the planned calendar](#calendar). It can be overwrite by running a specific task with [the input file output_need_manual](#outputneed). Following is presented the different tasks processed by the software:
+The program runs tasks automatically based on [the planned calendar](#calendar). It can be overwrite by running a specific task with [the input file output_need_manual](#outputneedmanual). Following is presented the different tasks processed by the software:
 
 - <a name="gameaction"></a>GAME_ACTION
     - 'RUN': Will get games from the source with the specified GAMEDAY and update the database with details (date, time, results)
@@ -499,7 +496,7 @@ The program runs tasks automatically based on [the planned calendar](#calendar).
 
 - <a name="taskrun"></a>TASK_RUN
     - 'INIT': Will initiate the defined GAMEDAY by posting the template of predictions on the forum
-    - 'UPDATEGAMES': if combined with GAME_ACTION = 'RUN', will update details about games in the database, looking for possible change in date and time
+    - 'UPDATEGAMES': if combined with GAME_ACTION = 'RUN', will update details about games about the specified GAMEDAY in the database, looking for possible change in date and time
     - 'CHECK': if associated with MESSAGE_ACTION = 'CHECK', retreives messages for the software administrator validation
     - 'CALCULATE': Post GAMEDAY results message
 
@@ -509,41 +506,15 @@ The program runs tasks automatically based on [the planned calendar](#calendar).
 
 - <a name="istorecalculate"></a>IS_TO_RECALCULATE: If 1, will recalculate by deleting and calculating again the desired GAMEDAY on the database
 
-## Error management and impacts<a name="error"></a>
+## Automatic email sent<a name="emailsent"></a>
 
-If an error occurs at any point, the software will behave differently depending on the origin:
-- on functions communicating with external tools (Snowflake, ImgBB, DropBox, Forums, sport leagues websites), it will retry 3 times before considering it as a failure. 
-- Otherwise it will consider as a failure directly.
+After running [an entry point](#usage) through GitHub actions, GitHub will send an email to the recipient - [see Input parameters](#inputparameters) - to inform them of the success or failure.  
+The mail of success of the [main entry point](#mainrun) will be sent with copy of:  
+- output_need file text (#outputneed) automatically or manually generated
+- next run time utc file text (#nextruntimeutc)
+- the sql query to validate players prediction, for a [CHECK run](#messageactioncheck). 
+If ran by GitHub action automatically without meeting any task of  [the planned calendar](#calendar), no email will be sent.
+An exemple of email sent can be found in **files_examples**
 
-The failure stops the program immediately, running essential closing functions, then exit and returning the error to the software administrator.  
-The decorators handling that behaviour are developped in *config.py*
 
-There won't be impact on [the planned calendar](#calendar), neither on files [next_run_time_utc.txt](#nextruntimeutc) or [task_done.csv](#taskdone). Next GitHub automatic run, the same calendar task will be retried, as it didn't complete.
 
-This ensures that:
-- no task is skipped due to an error,  
-- no partial state is incorrectly recorded,  
-- the system remains consistent across runs.
-
-## Tests<a name="tests"></a>
-
-- Python tests
-
-    The program includes tests for each Python module: one happy paths module, and one edge cases scenarii module.   
-    Each test module uses dedicated material files in the test directory.  
-    To run them:
-    ```
-        cd PYTHON_PREDICT/tests
-        python nameofthetest.py
-    ```
-
-- DBT tests
-
-    DBT automatically runs a large number of tests during program execution.  
-    These tests are defined in the project’s `.yml` files.
-    If tests don't succeed, the program stops.   
-    To run them:
-    ```
-        cd DBT_PREDICT
-        dbt test -- select nameofthetest
-    ```

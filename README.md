@@ -1,8 +1,9 @@
 # Sport Prediction Project
 A Python-based software that manages a sport prediction game on forums.  
-It runs on Linux (Ubuntu) and can be executed locally or automatically through GitHub Actions.
+It runs on Linux (Ubuntu) and can be executed locally or manually/automatically through GitHub Actions.
 
 ## Table of Contents
+- [Current sources](#currentsources)
 - [Input tools and accounts](#inputtoolsaccounts)
 - [High level overview](#overview)
 - [Installation](#installation)
@@ -10,29 +11,39 @@ It runs on Linux (Ubuntu) and can be executed locally or automatically through G
 - [GitHub project repository tree](#githubtree)
 - [Features](#feature)
 - [Snowflake database architecture](#snowflakearchitecture)
+- [Error management and impacts](#error)
+- [Tests](#tests)
 - [Documentation](#documentation)
+
+## Current sources<a name="currentsources"></a>
+
+The software currently contains one source of leagues to predict: The French Elite Basketball.  
+It currently processes message from one French forum.  
+The only language for message posting is French.  
+
+To add more souces, read [the full manual](#documentation).  
 
 ## Input tools and accounts<a name="inputtoolsaccounts"></a>
 
 The software uses the following external tools and account:
 - **Snowflake account**, to store predictions and calculations, with at least one user having DML privileges (The software uses its credentials)
 - **DBT account**, to run transformations and calculations in Snowflake using sql files.
-- **DropBox account**, containing some input files for a successful run, and some program files results in a stable tree. Full details in the manual
-- **Gmail account** to send by email the status of the run, if ran through GitHub Actions, with details of run
-- **Sport season source accounts** for each season in the scope, a possible account to get games and result
+- **DropBox account**, containing some input files for a successful run, and some program files results in a stable tree. Full details in [the manual](#documentation)
+- **Gmail account** to send by email the status of the run, with details of run - only if ran through GitHub Actions
+- **Sports league source accounts** for each season in the scope, a possible account to get games to predict and result
 - **Forum accounts** for each forum in the scope, a possible account to read players' predictions, and post prediction template and results
 
 ## High level overview<a name="overview"></a>
 
 ```
-Sources → Python → Snowflake → Python → Forums posts → DropBox (upload)
-           ↑         ↑
-        Dropbox     DBT
-       (download)
+Sources (Forums, Leagues) → Python (files processing) → Snowflake (updates) → Python (output files generation) → Forums posts (with output files generated)
+                                 ↑                          ↑                                                            ↓ 
+                              Dropbox                      DBT                                                         Dropbox
+                             (download)                  transformation                                                (upload)
 
 ```
 The workflow:
-- Fetch game schedules and results from sport seasons source
+- Fetch game schedules and results from sport leagues source
 - Read predictions from forum topics sources
 - Store and compute results in Snowflake, via DBT
 - Generate messages, images, and rankings
@@ -57,26 +68,21 @@ The workflow:
 
 ## Input Parameters<a name="inputparameters"></a>
 
-Set the required parameters (Snowflake, Dropbox, imgbb, Gmail, forum credentials).
+Set the required parameters (Snowflake, Dropbox, imgbb, Gmail, forum credentials) for a good run.
 Some of them are set on GitHub secrets, others set before running.
-See the Full Manual for the complete list.
+See [the Full Manual]((#documentation) for the complete list.
 
 ## Usage - Entry points<a name="usage"></a>
 
-The system exposes several entry points:  
-- init competition: to add new competitions to predict from potential new sources
-- init snowflake: copies the snowflake database on a new account
-- playoffs table: creates a playoffs bracket with prediction results for playoffs competition
-- main entry point: run automatically and manually the daily business  path with reading predictions, updating database, posting results,...
-
-- Typical local manual usage of main entry point
+The system exposes several entry points (init competitions, post templates, calculate results,..). 
+- Typical local usage:
     ```
         cd PYTHON_PREDICT
         python exe_main.py
     ```
-- Typical GitHub Actions usage of main entry point through *gitrun_main_auto_prod.yml*  
+- Typical GitHub Actions usage through *gitrun_main_auto_prod.yml*  
 
-See more on the full manual.
+See more on [the full manual]((#documentation).
 
 ## GitHub project repository tree<a name="githubtree"></a>
 
@@ -95,8 +101,7 @@ PREDICT_PROJECT/
 |       # also includes yml files for test while running dbt
 │
 ├── file_exemples/
-│   └── # files copied from Dropbox as exemple.
-|       # (details in section "Files required" of the manual)
+│   └── # files copied from Dropbox as exemple for Section "Files required" of the full manual
 │
 ├── PYTHON_PREDICT/
 │   ├── # all Python modules except those in output_actions/
@@ -127,6 +132,7 @@ PREDICT_PROJECT/
 - Full Prod/Test environment separation
 - GitHub Actions automation scheduled
 - Snowflake + DBT transformation pipeline
+- Python and DBT tests
 
 ## Snowflake database architecture<a name="snowflakearchitecture"></a>
 
@@ -148,6 +154,46 @@ To explore DBT documentation:
     dbt docs serve
 ```
 
+## Error management and impacts<a name="error"></a>
+
+If an error occurs at any point, the software will behave differently depending on the origin:
+- on functions communicating with external tools (Snowflake, ImgBB, DropBox, Forums, sport leagues websites), it will retry 3 times before considering it as a failure. 
+- Otherwise it will consider as a failure directly.
+
+The failure stops the program immediately, running essential closing functions, then exit and returning the error to the software administrator.  
+The decorators handling that behaviour are developped in *config.py*
+
+Next GitHub automatic run, the same calendar task will be retried, as it didn't complete.
+
+This ensures that:
+- no task is skipped due to an error,  
+- no partial state is incorrectly recorded,  
+- the system remains consistent across runs.
+
+## Tests<a name="tests"></a>
+
+- Python tests
+
+    The program includes tests for each Python module: one happy paths module, and one edge cases scenarii module.   
+    Each test module uses dedicated material files in the test directory.  
+    To run them:
+    ```
+        cd PYTHON_PREDICT/tests
+        python nameofthetest.py
+    ```
+
+- DBT tests
+
+    DBT automatically runs a large number of tests during program execution.  
+    These tests are defined in the project’s `.yml` files.
+    If tests don't succeed, the program stops.   
+    To run them:
+    ```
+        cd DBT_PREDICT
+        dbt test -- select nameofthetest
+    ```
+
 ## Documentation<a name="documentation"></a>
 
 A full documentation can be found in the file manual.md
+

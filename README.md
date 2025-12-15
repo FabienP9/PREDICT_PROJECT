@@ -21,14 +21,14 @@ The software currently contains one source of leagues to predict: The French Eli
 It currently processes message from one French forum.  
 The only language for message posting is French.  
 
-To add more souces, read the full manual.  
+To add more souces, read [the full manual](#documentation).  
 
 ## Input tools and accounts<a name="inputtoolsaccounts"></a>
 
 The software uses the following external tools and account:
 - **Snowflake account**, to store predictions and calculations, with at least one user having DML privileges (The software uses its credentials)
 - **DBT account**, to run transformations and calculations in Snowflake using sql files.
-- **DropBox account**, containing some input files for a successful run, and some program files results in a stable tree. Full details in the manual
+- **DropBox account**, containing some input files for a successful run, and some program files results in a stable tree. Full details in [the manual](#documentation)
 - **Gmail account** to send by email the status of the run, with details of run - only if ran through GitHub Actions
 - **Sports league source accounts** for each season in the scope, a possible account to get games to predict and result
 - **Forum accounts** for each forum in the scope, a possible account to read players' predictions, and post prediction template and results
@@ -70,7 +70,7 @@ The workflow:
 
 Set the required parameters (Snowflake, Dropbox, imgbb, Gmail, forum credentials) for a good run.
 Some of them are set on GitHub secrets, others set before running.
-See the Full Manual for the complete list.
+See [the Full Manual]((#documentation) for the complete list.
 
 ## Usage - Entry points<a name="usage"></a>
 
@@ -82,7 +82,7 @@ The system exposes several entry points (init competitions, post templates, calc
     ```
 - Typical GitHub Actions usage through *gitrun_main_auto_prod.yml*  
 
-See more on the full manual.
+See more on [the full manual]((#documentation).
 
 ## GitHub project repository tree<a name="githubtree"></a>
 

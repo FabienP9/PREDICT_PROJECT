@@ -36,10 +36,10 @@ The software uses the following external tools and account:
 ## High level overview<a name="overview"></a>
 
 ```
-Sources → Python → Snowflake → Python → Forums posts → DropBox (upload)
-           ↑         ↑
-        Dropbox     DBT
-       (download)
+Sources (Forums, Leagues) → Python (files processing) → Snowflake (updates) → Python (output files generation) → Forums posts (with output files generated)
+                                 ↑                          ↑                                                            ↓ 
+                              Dropbox                      DBT                                                         Dropbox
+                             (download)                  transformation                                                (upload)
 
 ```
 The workflow:

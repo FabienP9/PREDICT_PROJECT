@@ -29,7 +29,7 @@ The software uses the following external tools and account:
 - **Snowflake account**, to store predictions and calculations, with at least one user having DML privileges (The software uses its credentials)
 - **DBT account**, to run transformations and calculations in Snowflake using sql files.
 - **DropBox account**, containing some input files for a successful run, and some program files results in a stable tree. Full details in the manual
-- **Gmail account** to send by email the status of the run, if ran through GitHub Actions, with details of run
+- **Gmail account** to send by email the status of the run, with details of run - only if ran through GitHub Actions
 - **Sports league source accounts** for each season in the scope, a possible account to get games to predict and result
 - **Forum accounts** for each forum in the scope, a possible account to read players' predictions, and post prediction template and results
 

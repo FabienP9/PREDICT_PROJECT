@@ -101,7 +101,7 @@ PREDICT_PROJECT/
 |       # also includes yml files for test while running dbt
 │
 ├── file_exemples/
-│   └── # files copied from Dropbox as exemple for Section "Files required"
+│   └── # files copied from Dropbox as exemple for Section "Files required" of the full manual
 │
 ├── PYTHON_PREDICT/
 │   ├── # all Python modules except those in output_actions/

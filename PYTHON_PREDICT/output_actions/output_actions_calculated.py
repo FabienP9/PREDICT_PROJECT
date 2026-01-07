@@ -417,8 +417,10 @@ def get_mvp_month_race_figure(sr_snowflake_account: pd.Series, sr_gameday_output
     # We call the MVPRace Month query
     df_month_mvp = snowflake_execute(sr_snowflake_account,sqlQ.qMVPRace_month_figures,(sr_gameday_output_calculate['SEASON_ID'],sr_gameday_output_calculate['END_YEARMONTH_LOCAL']))
 
-    #we create the output string
-    df_month_mvp['STRING'] = df_month_mvp['USER_NAME'] + " - " + df_month_mvp['POINTS'].astype(str) + " pts / " + df_month_mvp['WIN'].astype(str) + "__W__-" + df_month_mvp['LOSS'].astype(str) + "__L__ [__with__ " + df_month_mvp['LIST_TEAMS'].astype(str) + "]"
+    #we create the output string - without the team display if there are not
+    df_month_mvp['STRING'] = np.where(df_month_mvp['LIST_TEAMS'] == '',
+                                  df_month_mvp['USER_NAME'] + " - " + df_month_mvp['POINTS'].astype(str) + " pts",
+                                  df_month_mvp['USER_NAME'] + " - " + df_month_mvp['POINTS'].astype(str) + " pts / " + df_month_mvp['WIN'].astype(str) + "__W__-" + df_month_mvp['LOSS'].astype(str) + "__L__ [__with__ " + df_month_mvp['LIST_TEAMS'].astype(str) + "]")
     LIST_USER_MONTH = "\n".join(df_month_mvp['STRING'].tolist())
     return GAMEDAY_MONTH, LIST_USER_MONTH, len(df_month_mvp)
 
@@ -442,8 +444,11 @@ def get_mvp_compet_race_figure(sr_snowflake_account: pd.Series, sr_gameday_outpu
     # We call the MVPRace competition query
     df_compet_mvp = snowflake_execute(sr_snowflake_account,sqlQ.qMVPRace_Compet_figures,(sr_gameday_output_calculate['SEASON_ID'],GAMEDAY_COMPETITION))
 
-    #we create the output string
-    df_compet_mvp['STRING'] = df_compet_mvp['USER_NAME'] + " - " + df_compet_mvp['POINTS'].astype(str) + " pts / " + df_compet_mvp['WIN'].astype(str) + "__W__-" + df_compet_mvp['LOSS'].astype(str) + "__L__ [__with__ " + df_compet_mvp['LIST_TEAMS'].astype(str) + "]"
+    #we create the output string - without the team display if there are not
+    df_compet_mvp['STRING'] = np.where(df_compet_mvp['LIST_TEAMS'] == '',
+                                  df_compet_mvp['USER_NAME'] + " - " + df_compet_mvp['POINTS'].astype(str) + " pts",
+                                  df_compet_mvp['USER_NAME'] + " - " + df_compet_mvp['POINTS'].astype(str) + " pts / " + df_compet_mvp['WIN'].astype(str) + "__W__-" + df_compet_mvp['LOSS'].astype(str) + "__L__ [__with__ " + df_compet_mvp['LIST_TEAMS'].astype(str) + "]")
+
     LIST_USER_COMPETITION = "\n".join(df_compet_mvp['STRING'].tolist())
     return GAMEDAY_COMPETITION, LIST_USER_COMPETITION, len(df_compet_mvp)
 

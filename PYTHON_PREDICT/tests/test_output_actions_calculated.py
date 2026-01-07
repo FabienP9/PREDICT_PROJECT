@@ -159,14 +159,14 @@ def test_get_mvp_month_race_figure():
     # this test the function get_calculated_predictchamp_ranking
     sr_snowflake_account = pd.read_csv("materials/snowflake_account_connect.csv").iloc[0]
     sr_gameday_output_calculate = pd.read_csv("materials/sr_gameday_output_calculate.csv").iloc[0]
-    mock_df_month_mvp = pd.read_csv("materials/qMVPRace_figures.csv",quotechar='"')
+    mock_df_month_mvp = pd.read_csv("materials/qMVPRace_figures.csv",quotechar='"',keep_default_na=False)
     expected_str = read_txt("materials/output_actions_calculated_get_mvp_race_figures.txt")
 
     # mock snowflake_execute to return df_teamscores
     with patch.object(output_actions_calculated, "snowflake_execute", return_value=mock_df_month_mvp):
         gameday_month, list_user, count = output_actions_calculated.get_mvp_month_race_figure(sr_snowflake_account, sr_gameday_output_calculate)
         assert gameday_month == "MONTH_01"
-        assert count == 2
+        assert count == 3
         assert list_user == expected_str
 
 def test_get_mvp_compet_race_figure():
@@ -174,14 +174,15 @@ def test_get_mvp_compet_race_figure():
     # this test the function get_calculated_predictchamp_ranking
     sr_snowflake_account = pd.read_csv("materials/snowflake_account_connect.csv").iloc[0]
     sr_gameday_output_calculate = pd.read_csv("materials/sr_gameday_output_calculate.csv").iloc[0]
-    mock_df_compet_mvp = pd.read_csv("materials/qMVPRace_figures.csv",quotechar='"')
+    mock_df_compet_mvp = pd.read_csv("materials/qMVPRace_figures.csv",quotechar='"',keep_default_na=False)
     expected_str = read_txt("materials/output_actions_calculated_get_mvp_race_figures.txt")
 
     # mock snowflake_execute to return df_teamscores
     with patch.object(output_actions_calculated, "snowflake_execute", return_value=mock_df_compet_mvp):
         (compet, list_user, count) = output_actions_calculated.get_mvp_compet_race_figure(sr_snowflake_account, sr_gameday_output_calculate)
+        
         assert compet == "Regular season"
-        assert count == 2
+        assert count == 3
         assert list_user == expected_str
 
 def test_get_calculated_parameters():

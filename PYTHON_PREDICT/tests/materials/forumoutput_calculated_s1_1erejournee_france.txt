@@ -102,7 +102,8 @@ USER2 : 1EJ.09|2|
 |0|[u][b]Election du MVP du mois de Janvier [/b][/u]|1|
 |0|-> Résultats des pronostiqueurs des journees calculees sur le mois de Janvier|1|
 |0|[quote]USER1 - 682 pts / 3__W__-1__L__ [__with__ TeamA, TeamB]
-USER2 - 598 pts / 1__W__-2__L__ [__with__ TeamC] [/quote]|0|
+USER2 - 598 pts / 1__W__-2__L__ [__with__ TeamC]
+USER3 - 432 pts [/quote]|0|
 #WITH_MONTH_MVP_END#
 
 #WITH_COMPETITION_MVP_BEGIN#
@@ -110,5 +111,6 @@ USER2 - 598 pts / 1__W__-2__L__ [__with__ TeamC] [/quote]|0|
 |0|[u][b]Election du MVP de Regular season [/b][/u]|1|
 |0|-> Résultats des pronostiqueurs des journees calculees sur l'ensemble de la compétition|1|
 |0|[quote]USER1 - 682 pts / 3__W__-1__L__ [__with__ TeamA, TeamB]
-USER2 - 598 pts / 1__W__-2__L__ [__with__ TeamC]|0|
+USER2 - 598 pts / 1__W__-2__L__ [__with__ TeamC]
+USER3 - 432 pts|0|
 #WITH_COMPETITION_MVP_END#

@@ -1,3 +1,4 @@
 USER_NAME,POINTS,WIN,LOSS,LIST_TEAMS
 "USER1","682","3","1","TeamA, TeamB"
 "USER2","598","1","2","TeamC"
+"USER3","432","0","0",""

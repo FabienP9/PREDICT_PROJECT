@@ -197,7 +197,7 @@ def get_calculated_scores_gameday(sr_snowflake_account: pd.Series, sr_gameday_ou
 
     '''
         The purpose of this function is to:
-        - get scores per user for a specified gameday
+        - get scores and number of predictions per user for a specified gameday
         - rank user by scores descending
         Inputs:
             sr_snowflake_account (series - one row) containing snowflake credentials to run the sql predict game query
@@ -214,7 +214,8 @@ def get_calculated_scores_gameday(sr_snowflake_account: pd.Series, sr_gameday_ou
     
     df_userscores_gameday['STRING'] = (df_userscores_gameday['RANK'].astype(str) + ". " +
                                         df_userscores_gameday['USER_NAME'] + " - " +
-                                        df_userscores_gameday['GAMEDAY_POINTS'].astype(str) + " pts ")
+                                        df_userscores_gameday['GAMEDAY_POINTS'].astype(str) + " pts (" +  
+                                        df_userscores_gameday['NB_PREDICTION_GAMEDAY'].astype(str) + " __predictions__)")
 
     # we create the SCORES_GAMEDAY string by concatenating all users on several lines
     SCORES_GAMEDAY = "\n".join(df_userscores_gameday['STRING'])
@@ -480,6 +481,7 @@ def get_calculated_parameters(sr_snowflake_account: pd.Series, sr_gameday_output
     df_gameday_calculated = snowflake_execute(sr_snowflake_account,sqlQ.qList_Gameday_Calculated,(sr_gameday_output_calculate['SEASON_ID'],))
     param_dict['NB_GAMEDAY_CALCULATED'] = len(df_gameday_calculated)
     param_dict['NB_TOTAL_PREDICT'] = df_gameday_calculated['NB_PREDICTION'].sum()
+    param_dict['NB_MAX_PREDICT'] = df_gameday_calculated.loc[df_gameday_calculated['GAMEDAY'] == param_dict['GAMEDAY'], 'NB_PREDICTION'].iloc[0]
     param_dict['SCORES_AVERAGE'] ,param_dict['NB_USER_AVERAGE'], param_dict['NB_MIN_PREDICTION'] = get_calculated_scores_average(param_dict['NB_TOTAL_PREDICT'],df_userscores_global)
 
     param_dict['SCORES_GAMEDAY'],param_dict['NB_USER_GAMEDAY'] = get_calculated_scores_gameday(sr_snowflake_account,sr_gameday_output_calculate)
@@ -654,6 +656,7 @@ def create_calculated_messages_for_country(param_dict: dict, country: str, templ
         ("#SEASON_DIVISION#",param_dict['SEASON_DIVISION']),
         ("#RESULT_GAMES#",param_dict['RESULT_GAMES']),
         ("#NB_GAMEDAY_CALCULATED#",str(param_dict['NB_GAMEDAY_CALCULATED'])),
+        ("#NB_MAX_PREDICT#",str(param_dict['NB_MAX_PREDICT'])),
         ("#NB_TOTAL_PREDICT#",str(param_dict['NB_TOTAL_PREDICT'])),
         ("#LIST_GAMEDAY_CALCULATED#",param_dict['LIST_GAMEDAY_CALCULATED']) 
     ]

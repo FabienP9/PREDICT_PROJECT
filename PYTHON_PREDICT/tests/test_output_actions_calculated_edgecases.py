@@ -377,6 +377,7 @@ def test_create_calculated_messages_for_country_conditional_blocks():
         "RESULT_GAMES": read_txt("materials/output_calculated_get_calculated_games_result.txt"),
         "NB_GAMEDAY_CALCULATED": 3,
         "NB_TOTAL_PREDICT": 66,
+        "NB_MAX_PREDICT": 8,
         "LIST_GAMEDAY_CALCULATED": read_txt("materials/output_actions_calculated_get_list_gameday_calculated.txt"),
         "NB_USER_DETAIL": 2,
         "SCORES_GAMEDAY": read_txt("materials/output_calculated_get_calculated_scores_gameday.txt"),

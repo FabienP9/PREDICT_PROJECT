@@ -1,2 +1,2 @@
-1. USER1 - 198 pts 
-2. USER2 - 105 pts 
+1. USER1 - 198 pts (8 __predictions__)
+2. USER2 - 105 pts (5 __predictions__)

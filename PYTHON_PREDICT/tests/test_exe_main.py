@@ -50,13 +50,35 @@ def test_process_messages():
             assert "df_message_check" in result
             assert "extraction_time_utc" in result
 
-def test_display_check_string():
+def test_display_check_string_with_messages():
     
-    # this test the display_check_string function
+    # this test the display_check_string function with messages
     context = {
         'sr_output_need': pd.read_csv("materials/output_need_calculate.csv").iloc[0],
+        'sr_snowflake_account_connect': pd.read_csv("materials/snowflake_account_connect.csv").iloc[0],
+        'extraction_time_utc':  "2000-01-02 01:00:00",
+        'nb_new_messages': 3
     }
-    exe_main.display_check_string(context)
+    context['sr_output_need']['TASK_RUN']  = "CHECK"
+    context['sr_output_need']['LAST_MESSAGE_CHECK_TS_UTC']  = "2000-01-01 00:01:00"
+    check_string = exe_main.display_check_string(context)
+    assert check_string.strip() != ""
+    assert check_string is not None
+    assert check_string != "No need to check - no new messages"
+
+def test_display_check_string_without_messages():
+    
+    # this test the display_check_string function without messages
+    context = {
+        'sr_output_need': pd.read_csv("materials/output_need_calculate.csv").iloc[0],
+        'sr_snowflake_account_connect': pd.read_csv("materials/snowflake_account_connect.csv").iloc[0],
+        'extraction_time_utc':  "2000-01-02 01:00:00",
+        'nb_new_messages': 0
+    }
+    context['sr_output_need']['TASK_RUN']  = "CHECK"
+    context['sr_output_need']['LAST_MESSAGE_CHECK_TS_UTC']  = "2000-01-01 00:01:00"
+    check_string = exe_main.display_check_string(context)
+    assert check_string == "No need to check - no new messages"
 
 def test_exe_main():
     
@@ -91,7 +113,8 @@ if __name__ == "__main__":
     test_suite = unittest.TestSuite()
     test_suite.addTest(unittest.FunctionTestCase(test_process_games))
     test_suite.addTest(unittest.FunctionTestCase(test_process_messages))
-    test_suite.addTest(unittest.FunctionTestCase(test_display_check_string))
+    test_suite.addTest(unittest.FunctionTestCase(test_display_check_string_with_messages))
+    test_suite.addTest(unittest.FunctionTestCase(test_display_check_string_without_messages))
     test_suite.addTest(unittest.FunctionTestCase(test_exe_main))
     runner = unittest.TextTestRunner()
     runner.run(test_suite)

@@ -72,16 +72,6 @@ def test_display_check_string_missing_key():
     }
     assertExit(lambda: exe_main.display_check_string(context))
     
-def test_display_check_string_newer_timestamp():
-    
-    # this test the display_check_string with LAST_MESSAGE_CHECK_TS_UTC >= extraction_time_utc. Must return No need to check - no new messages
-    context = {
-        'sr_output_need': pd.read_csv("materials/output_need_check_with_message_check_ts.csv").iloc[0],
-        "extraction_time_utc": pd.Timestamp('2000-01-01 00:00:00')
-    }
-    result = exe_main.display_check_string(context)
-    assert result == "No need to check - no new messages"
-    
 def test_exe_main_dropbox_failure():
     
     # this test the exe_main with dropbox connection failing. Must exit the program.
@@ -111,7 +101,6 @@ if __name__ == "__main__":
     test_suite.addTest(unittest.FunctionTestCase(test_process_messages_extract_messages_failure))
     test_suite.addTest(unittest.FunctionTestCase(test_process_messages_invalid_message_dataframe))
     test_suite.addTest(unittest.FunctionTestCase(test_display_check_string_missing_key))
-    test_suite.addTest(unittest.FunctionTestCase(test_display_check_string_newer_timestamp))
     test_suite.addTest(unittest.FunctionTestCase(test_exe_main_dropbox_failure))
     test_suite.addTest(unittest.FunctionTestCase(test_exe_main_generate_output_need_failure))
     runner = unittest.TextTestRunner()

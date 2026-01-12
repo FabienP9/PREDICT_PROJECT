@@ -58,9 +58,9 @@ def process_messages(context_dict: dict) -> dict:
 
         # We count number of new messages -which are not beginning with 5+ (posted by the program) or 5* (technical)
         messages = context_dict['df_message_check']
-        nb_new_messages = messages[~messages['MESSAGE_CONTENT'].str.startswith(config.message_prefix_program_string, config.message_prefix_technical_string)].shape[0]
+        context_dict['nb_new_messages'] = messages[~messages['MESSAGE_CONTENT'].str.startswith(config.message_prefix_program_string, config.message_prefix_technical_string)].shape[0]
         
-        if nb_new_messages > 0:
+        if context_dict['nb_new_messages'] > 0:
         
             # if there are new messages and we were supposed to run, we modify the output_need file and the related dataframe
             if context_dict['sr_output_need']['MESSAGE_ACTION'] == config.MESSAGE_ACTION_MAP["RUN"]:
@@ -87,8 +87,9 @@ def display_check_string(context_dict: dict) -> str:
     '''
 
     check_string = ""
-    if context_dict['sr_output_need']['MESSAGE_ACTION'] == config.MESSAGE_ACTION_MAP['CHECK']:
-        if pd.Timestamp(context_dict['sr_output_need']['LAST_MESSAGE_CHECK_TS_UTC']) < pd.Timestamp (context_dict['extraction_time_utc']):
+    print("*",context_dict,"*")
+    if context_dict['sr_output_need']['TASK_RUN'] == config.MESSAGE_ACTION_MAP['CHECK']:
+        if context_dict['nb_new_messages'] > 0:
             check_string = (f"check messages at ==> \n"
                 f";SELECT * FROM {context_dict['sr_snowflake_account_connect']['DATABASE_PROD']}.CURATED.VW_MESSAGE_CHECKING WHERE SEASON_ID = '{context_dict['sr_output_need']['SEASON_ID']}' AND EDITION_TIME_UTC between '{context_dict['sr_output_need']['LAST_MESSAGE_CHECK_TS_UTC']}' AND '{context_dict['extraction_time_utc']}'; \n"
                 f"If ok replace SEASON_ID {context_dict['sr_output_need']['SEASON_ID']} check time with:\n"
@@ -98,7 +99,6 @@ def display_check_string(context_dict: dict) -> str:
         logging.info("__________________________________________________________________")
         logging.info(check_string)
         logging.info("__________________________________________________________________")
-
         return check_string
     
 @config.exit_program(log_filter=lambda args: {})

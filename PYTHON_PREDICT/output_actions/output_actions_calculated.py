@@ -193,7 +193,7 @@ def get_calculated_scores_global(df_userscores_global: pd.DataFrame) -> Tuple[pd
     return df_userscores_modified, len(df_userscores_modified)
 
 @config.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate',)})
-def get_calculated_scores_gameday(sr_snowflake_account: pd.Series, sr_gameday_output_calculate: pd.Series) -> Tuple[str,int]:
+def get_calculated_scores_gameday(sr_snowflake_account: pd.Series, sr_gameday_output_calculate: pd.Series) -> Tuple[pd.DataFrame,int]:
 
     '''
         The purpose of this function is to:
@@ -203,23 +203,16 @@ def get_calculated_scores_gameday(sr_snowflake_account: pd.Series, sr_gameday_ou
             sr_snowflake_account (series - one row) containing snowflake credentials to run the sql predict game query
             sr_gameday_output_calculate (series - one row) containing the query filters
         Returns:
-            The string with user ranked by scores 
-            The number of users
+            The dataframe of scores, with ranked users
+            The number of users   
         Raises:
             Exits the program if error running the function (using decorator)
     '''
 
     df_userscores_gameday = snowflake_execute(sr_snowflake_account,sqlQ.qUserScores_Gameday,(sr_gameday_output_calculate['SEASON_ID'],sr_gameday_output_calculate['GAMEDAY']))
     df_userscores_gameday = outputA.display_rank(df_userscores_gameday,'RANK')
-    
-    df_userscores_gameday['STRING'] = (df_userscores_gameday['RANK'].astype(str) + ". " +
-                                        df_userscores_gameday['USER_NAME'] + " - " +
-                                        df_userscores_gameday['GAMEDAY_POINTS'].astype(str) + " pts (" +  
-                                        df_userscores_gameday['NB_PREDICTION_GAMEDAY'].astype(str) + " __predictions__)")
-
-    # we create the SCORES_GAMEDAY string by concatenating all users on several lines
-    SCORES_GAMEDAY = "\n".join(df_userscores_gameday['STRING'])
-    return SCORES_GAMEDAY, len(df_userscores_gameday)
+    df_userscores_gameday = df_userscores_gameday[['RANK','USER_NAME', 'GAMEDAY_POINTS', 'NB_PREDICTION_GAMEDAY', 'AVERAGE_POINTS']]
+    return df_userscores_gameday, len(df_userscores_gameday)
 
 @config.exit_program(log_filter=lambda args: {'nb_prediction': args['nb_prediction'], 'columns_df_userscores_global': args['df_userscores_global'].columns.tolist() })
 def get_calculated_scores_average(nb_prediction: int, df_userscores_global: pd.DataFrame) -> Tuple[str,int, int]:
@@ -484,7 +477,7 @@ def get_calculated_parameters(sr_snowflake_account: pd.Series, sr_gameday_output
     param_dict['NB_MAX_PREDICT'] = df_gameday_calculated.loc[df_gameday_calculated['GAMEDAY'] == param_dict['GAMEDAY'], 'NB_PREDICTION'].iloc[0]
     param_dict['SCORES_AVERAGE'] ,param_dict['NB_USER_AVERAGE'], param_dict['NB_MIN_PREDICTION'] = get_calculated_scores_average(param_dict['NB_TOTAL_PREDICT'],df_userscores_global)
 
-    param_dict['SCORES_GAMEDAY'],param_dict['NB_USER_GAMEDAY'] = get_calculated_scores_gameday(sr_snowflake_account,sr_gameday_output_calculate)
+    param_dict['SCORES_GAMEDAY_DF'],param_dict['NB_USER_GAMEDAY'] = get_calculated_scores_gameday(sr_snowflake_account,sr_gameday_output_calculate)
     param_dict['LIST_GAMEDAY_CALCULATED'] =  get_calculated_list_gameday(df_gameday_calculated)
 
     # we get the prediction championship results query
@@ -568,6 +561,10 @@ def derive_calculated_parameters_for_country(param_dict: dict, sr_gameday_output
             "capture_func": outputA.capture_df_oneheader,
             "filename_prefix": "table_global_scores"
         },
+        "SCORES_GAMEDAY_DF": {
+            "capture_func": outputA.capture_df_oneheader,
+            "filename_prefix": "table_gameday_scores"
+        },
         "RANK_PREDICTCHAMP_DF": {
             "capture_func": outputA.capture_df_oneheader,
             "filename_prefix": "table_predictchamp_ranking"
@@ -609,7 +606,7 @@ def derive_calculated_parameters(param_dict: dict, sr_gameday_output_calculate: 
     translations = fileA.read_json("output_actions/output_actions_translations.json")
 
     # we filter only the relevant non-None entries and non empty dataframe from param_dict
-    keys_to_check = ['SCORES_DETAILED_DF', 'SCORES_GLOBAL_DF', 'RANK_PREDICTCHAMP_DF','RESULTS_PREDICTCHAMP','GAMEDAY_MONTH','LIST_USER_MONTH','GAMEDAY_COMPETITION','LIST_USER_COMPETITION']
+    keys_to_check = ['SCORES_DETAILED_DF', 'SCORES_GLOBAL_DF', 'SCORES_GAMEDAY_DF', 'RANK_PREDICTCHAMP_DF','RESULTS_PREDICTCHAMP','GAMEDAY_MONTH','LIST_USER_MONTH','GAMEDAY_COMPETITION','LIST_USER_COMPETITION']
     dict_to_derive = {}
     for key in keys_to_check:
         value = param_dict.get(key)
@@ -663,7 +660,7 @@ def create_calculated_messages_for_country(param_dict: dict, country: str, templ
 
     if param_dict['NB_USER_DETAIL'] > 0:   
         replacement_substr.extend([
-            ("#SCORES_GAMEDAY#",param_dict['SCORES_GAMEDAY']),
+            ("#IMGGAMEDAY#",param_dict['SCORES_GAMEDAY_DF_URL_'+country]),
             ("#IMGDETAIL#",param_dict['SCORES_DETAILED_DF_URL_'+country]),
             ("#NB_GAMES#",str(param_dict['NB_GAMES']))
         ])

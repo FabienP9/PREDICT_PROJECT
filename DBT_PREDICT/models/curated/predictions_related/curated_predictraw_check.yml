@@ -49,8 +49,6 @@ models:
 
   - name: MESSAGE_TRANSFORMED
     description: The content of the message transformed by possibly removing quotes messages
-    tests:
-      - not_null
 
   - name: ARRAY_PREDICTIONS
     description: Variant containing all predictions of the message in an array

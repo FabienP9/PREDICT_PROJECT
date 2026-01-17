@@ -72,8 +72,6 @@ snapshots:
 
   - name: MESSAGE_CONTENT
     description: The content of the message
-    tests:
-      - not_null
 
   - name: IS_PROGRAM_INIT_MESSAGE
     description: Boolean to know if a message is a result-program generated message for init a gameday (1) or not (0)

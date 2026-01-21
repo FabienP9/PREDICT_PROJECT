@@ -342,8 +342,8 @@ The game_modification file is used to overwrite the ForumGameID displayed to pla
     - **MESSAGE_FORUM_ID**: The number of the message on the forum source where to keep quote
 
 - <a name="booleancheckmessagemanually"></a>**boolean_check_message_manually.csv**: Define decision to check messages before running calculations or not. 
-- **SEASON_ID**: the id of the season - same as on [season.csv](#season)/SEASON_ID
-- **BOOLEAN_CHECK_MESSAGE_MANUALLY** (0/1): If 1, then the software administrator will need to validate messages before the program to run calculations. Else no.
+    - **SEASON_ID**: the id of the season - same as on [season.csv](#season)/SEASON_ID
+    - **BOOLEAN_CHECK_MESSAGE_MANUALLY** (0/1): If 1, then the software administrator will need to validate messages before the program to run calculations. Else no.
 
 - <a name="scriptcreatingdatabase"></a>**script_creating_database.txt**: Full SQL script used to [initialize a snowflake account](#initsnowflake). Parameters between `#` are replaced during runtime.
 
@@ -379,7 +379,7 @@ When creating it must store the value "NONE". The calendar and its value will be
 
 - <a name="messagecheckts"></a>**message_check_ts.csv**, in *current/outputs/python*: Stores the timestamp of the last manual message check. (messages before won't be loaded). It will be helpful for the program to know if there are [new messages to validate before running calculation](#messageaction):
     - **SEASON_ID**: The id of the related season - same as on [season.csv](#season)/SEASON_ID
-    - **LAST_CHECK_TS_UTC**: The timestamp of the last time messages have been manually checked in UTC time
+    - **LAST_CHECK_TS_UTC**: The timestamp of the last time messages have been manually checked in UTC time  
 If the [boolean_check_message_manually](#booleancheckmessagemanually) is 0, the modification of message check ts will be automatic.
 
 ## How to add competition to the scope<a name="addtoscope"></a>

@@ -40,6 +40,8 @@ def test_process_messages_extract_messages_failure():
         'sr_snowflake_account_connect': pd.read_csv("materials/snowflake_account_connect.csv").iloc[0],
         'sr_output_need': pd.read_csv("materials/output_need_calculate.csv").iloc[0],
         "df_paths" : pd.read_csv("materials/paths.csv"),
+        "df_boolean_check_message_manually" : pd.read_csv("materials/boolean_check_message_manually_0.csv"),
+        "df_message_check_ts" : pd.read_csv("materials/message_check_ts.csv"),      
     }
 
     with patch("exe_main.extract_messages", side_effect=ValueError("bad")):
@@ -53,6 +55,8 @@ def test_process_messages_invalid_message_dataframe():
         'sr_snowflake_account_connect': pd.read_csv("materials/snowflake_account_connect.csv").iloc[0],
         'sr_output_need': pd.read_csv("materials/output_need_calculate.csv").iloc[0],
         "df_paths" : pd.read_csv("materials/paths.csv"),
+        "df_boolean_check_message_manually" : pd.read_csv("materials/boolean_check_message_manually_0.csv"),
+        "df_message_check_ts" : pd.read_csv("materials/message_check_ts.csv"),      
     }
     df_message_check = pd.DataFrame({"WRONG_COL": ["a", "b"]})
     extraction_time_utc = '2025-01-01 18:00:00'
@@ -69,6 +73,10 @@ def test_display_check_string_missing_key():
     # this test the display_check_string with missing columns in sr_output_need. Must exit the program.
     context = {
         'sr_output_need': {},
+        'sr_snowflake_account_connect': pd.read_csv("materials/snowflake_account_connect.csv").iloc[0],
+        'extraction_time_utc':  "2000-01-02 01:00:00",
+        'nb_new_messages': 3,
+        "df_boolean_check_message_manually" : pd.read_csv("materials/boolean_check_message_manually_1.csv")
     }
     assertExit(lambda: exe_main.display_check_string(context))
     

@@ -60,9 +60,10 @@ def process_messages(context_dict: dict) -> dict:
         messages = context_dict['df_message_check']
         context_dict['nb_new_messages'] = messages[~messages['MESSAGE_CONTENT'].str.startswith(config.message_prefix_program_string, config.message_prefix_technical_string)].shape[0]
         
-        if context_dict['nb_new_messages'] > 0:
+        bl_check_message = context_dict['df_boolean_check_message_manually'].loc[context_dict['df_boolean_check_message_manually']['SEASON_ID'] == context_dict['sr_output_need']['SEASON_ID'], 'BOOLEAN_CHECK_MESSAGE_MANUALLY'].iloc[0]
+        if (context_dict['nb_new_messages'] > 0) and (bl_check_message == 1):
         
-            # if there are new messages and we were supposed to run, we modify the output_need file and the related dataframe
+            # if there are new messages, and check_message is required, and we were supposed to run, we modify the output_need file and the related dataframe
             if context_dict['sr_output_need']['MESSAGE_ACTION'] == config.MESSAGE_ACTION_MAP["RUN"]:
 
                 set_output_need_to_check_status(context_dict['sr_output_need'])
@@ -70,6 +71,11 @@ def process_messages(context_dict: dict) -> dict:
             # We copy the message_check file to a file message, with encapsulation
             context_dict['df_message'] = context_dict['df_message_check']
             fileA.create_csv(os.path.join(config.TMPF,'message.csv'),context_dict['df_message'],config.message_encapsulated) 
+
+            # We modify message_check_ts with extraction time
+            context_dict['df_message_check_ts'].loc[context_dict['df_message_check_ts']['SEASON_ID'] == context_dict['sr_output_need']['SEASON_ID'], 'LAST_CHECK_TS_UTC'] = context_dict['extraction_time_utc'] 
+            fileA.create_csv(os.path.join(config.TMPF,'message_check_ts.csv'),context_dict['df_message_check_ts']) 
+
 
         return context_dict
 
@@ -87,15 +93,19 @@ def display_check_string(context_dict: dict) -> str:
     '''
 
     check_string = ""
-    print("*",context_dict,"*")
+    bl_check_message = context_dict['df_boolean_check_message_manually'].loc[context_dict['df_boolean_check_message_manually']['SEASON_ID'] == context_dict['sr_output_need']['SEASON_ID'], 'BOOLEAN_CHECK_MESSAGE_MANUALLY'].iloc[0]
+    
     if context_dict['sr_output_need']['TASK_RUN'] == config.MESSAGE_ACTION_MAP['CHECK']:
-        if context_dict['nb_new_messages'] > 0:
+        if (context_dict['nb_new_messages'] > 0) and (bl_check_message == 1):
             check_string = (f"check messages at ==> \n"
                 f";SELECT * FROM {context_dict['sr_snowflake_account_connect']['DATABASE_PROD']}.CURATED.VW_MESSAGE_CHECKING WHERE SEASON_ID = '{context_dict['sr_output_need']['SEASON_ID']}' AND EDITION_TIME_UTC between '{context_dict['sr_output_need']['LAST_MESSAGE_CHECK_TS_UTC']}' AND '{context_dict['extraction_time_utc']}'; \n"
                 f"If ok replace SEASON_ID {context_dict['sr_output_need']['SEASON_ID']} check time with:\n"
                 f"{context_dict['extraction_time_utc']}\n")
-        else:
+        elif (context_dict['nb_new_messages'] == 0) and (bl_check_message == 1):
             check_string = "No need to check - no new messages"
+        else:
+            check_string = "No need to check - messages processed automatically"
+
         logging.info("__________________________________________________________________")
         logging.info(check_string)
         logging.info("__________________________________________________________________")

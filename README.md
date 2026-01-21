@@ -70,7 +70,7 @@ The workflow:
 
 Set the required parameters (Snowflake, Dropbox, imgbb, Gmail, forum credentials) for a good run.
 Some of them are set on GitHub secrets, others set before running.
-See [the Full Manual]((#documentation) for the complete list.
+See [the Full Manual](#documentation) for the complete list.
 
 ## Usage - Entry points<a name="usage"></a>
 
@@ -82,7 +82,7 @@ The system exposes several entry points (init competitions, post templates, calc
     ```
 - Typical GitHub Actions usage through *gitrun_main_auto_prod.yml*  
 
-See more on [the full manual]((#documentation).
+See more on [the full manual](#documentation).
 
 ## GitHub project repository tree<a name="githubtree"></a>
 
@@ -147,7 +147,7 @@ There are three schemas (= layers):
     - dimensions (seasons, competitions, gameday, games, forum and topic)
     - calculations of scores and points (for each prediction, per user and gameday, per user and season, per team for the prediction championship)
 
-To explore DBT documentation:
+To explore DBT and Snowflake documentation:
 ```
     cd DBT_PREDICT
     dbt docs generate
@@ -190,7 +190,7 @@ This ensures that:
     To run them:
     ```
         cd DBT_PREDICT
-        dbt test -- select nameofthetest
+        dbt test --select nameofthetest
     ```
 
 ## Documentation<a name="documentation"></a>

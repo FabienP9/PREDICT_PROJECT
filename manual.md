@@ -161,7 +161,7 @@ The software uses a set of environment variables as input, provided as GitHub se
 
 Moreover, considering the [current sources](#currentsources), stored as GitHub secrets, or before run for local running:
 - **LNB_URL** : the LNB website url
-- **BI_URL**, the BI forum website, BI_USERNAME and BI_PASSWORD to log to BI acccount and post results
+- **BI_URL**, the BI forum website, **BI_USERNAME** and **BI_PASSWORD** to log to BI acccount and post results
 
 Considering the context of run:
 - <a name="isoutputauto"></a>**IS_OUTPUT_AUTO** (0/1): If 1, the output_need file will be generated during run from the [planned calendar](#calendar). If 0, it uses the [output_need_manual file](#outputneedmanual), which can be [edited prealably by the software administrator](#modifyingoutputneedmanual)
@@ -296,10 +296,6 @@ They must be created and updated by the software administrator, according to the
     - **IS_PROGRAM_REFINEMENT** (0/1): Boolean telling if it is a correction due to badly written message or program refinement.  
     If program refinement, players will have points for AUTOMATIC_SCORE, else they won't.
     
-- <a name="messagecheckts"></a>**message_check_ts.csv**: Stores the timestamp of the last manual message check. (messages before won't be loaded). It will be helpful for the program to know if there are [new messages to validate before running calculation](#messageaction):
-    - **SEASON_ID**: The id of the related season - same as on [season.csv](#season)/SEASON_ID
-    - **LAST_CHECK_TS_UTC**: The timestamp of the last time messages have been manually checked in UTC time
-
 - <a name="gamedaymodification"></a>**gameday_modification.csv**: Used to overwrite a source gameday name or group several gameday under the same name, for calculations
     - **SEASON_ID** : the id of the season - same as on [season.csv](#season)/SEASON_ID
     - **COMPETITION_ID**: the id of the competition - same as on [competition.csv](#competition)/COMPETITION_ID
@@ -345,6 +341,10 @@ The game_modification file is used to overwrite the ForumGameID displayed to pla
     - **FORUM_SOURCE**: The source of the forum - same as on [topic.csv](#topic)/FORUM_SOURCE
     - **MESSAGE_FORUM_ID**: The number of the message on the forum source where to keep quote
 
+- <a name="booleancheckmessagemanually"></a>**boolean_check_message_manually.csv**: Define decision to check messages before running calculations or not. 
+- **SEASON_ID**: the id of the season - same as on [season.csv](#season)/SEASON_ID
+- **BOOLEAN_CHECK_MESSAGE_MANUALLY** (0/1): If 1, then the software administrator will need to validate messages before the program to run calculations. Else no.
+
 - <a name="scriptcreatingdatabase"></a>**script_creating_database.txt**: Full SQL script used to [initialize a snowflake account](#initsnowflake). Parameters between `#` are replaced during runtime.
 
 - <a name="inittemplate"></a>**output_gameday_init_template_xxxx.txt**: Template for gameday initialization messages (prediction templates).  
@@ -376,6 +376,11 @@ The following files are downloaded, modified by the program then uploaded back t
 
 - <a name="nextruntimeutc"></a>**next_run_time_utc.txt**, in *current/outputs/python*: Store the next run time utc according to the [planned calendar](#calendar).   
 When creating it must store the value "NONE". The calendar and its value will be updated after [adding new seasons and competitions in the scope](#addtoscope), according to new [planned calendar](#calendar)
+
+- <a name="messagecheckts"></a>**message_check_ts.csv**, in *current/outputs/python*: Stores the timestamp of the last manual message check. (messages before won't be loaded). It will be helpful for the program to know if there are [new messages to validate before running calculation](#messageaction):
+    - **SEASON_ID**: The id of the related season - same as on [season.csv](#season)/SEASON_ID
+    - **LAST_CHECK_TS_UTC**: The timestamp of the last time messages have been manually checked in UTC time
+If the [boolean_check_message_manually](#booleancheckmessagemanually) is 0, the modification of message check ts will be automatic.
 
 ## How to add competition to the scope<a name="addtoscope"></a>
 
@@ -486,12 +491,12 @@ The program runs tasks automatically based on [the planned calendar](#calendar).
     - 'AVOID': Won't extract and update games details on the database
 
 - <a name="messageaction"></a>MESSAGE_ACTION
-    - <a name="messageactioncheck"></a>'CHECK': Will get messages from topics related with the SEASON_ID defined, from the utc datetime found in [the file message_check_ts.csv](#messagecheckts), update the database with predictions, but won't make calculation, so that the software administrator can validate them in the snowflake view *VW_MESSAGE_CHECKING*
+    - <a name="messageactioncheck"></a>'CHECK': Will get messages from topics related with the SEASON_ID defined, from the utc datetime found in [the file message_check_ts.csv](#messagecheckts), update the database with predictions, but won't make calculation yet
     - 'RUN': Will get messages from topics related with the SEASON_ID defined, from the utc datetime indicated in message_check_ts.csv, until the beginning of the last game of the specified GAMEDAY
-        - If there are messages, the task is converted into MESSAGE_ACTION = 'CHECK' and don't make calculation.
+        - If there are messages, and the [boolean_check_message_manually](#booleancheckmessagemanually) is 1, the task is converted into MESSAGE_ACTION = 'CHECK' and don't make calculation.
             The software administrator will have to validate them and change [the file message_check_ts.csv](#messagecheckts) in order to run calculations.  
             If ran automatically, the program will indefinitely convert the task until messages are validated
-        - If there are no new messages (ie no messages not validated yet), it will perform calculations
+        - If there are no new messages (ie no messages not validated yet), or the [boolean_check_message_manually](#booleancheckmessagemanually) is 0, it will perform calculations.
     - 'AVOID': won't get messages
 
 - <a name="taskrun"></a>TASK_RUN

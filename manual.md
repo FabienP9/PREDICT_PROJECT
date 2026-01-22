@@ -427,7 +427,7 @@ During the [main run](#mainrun) or ["Init compet" run](#initcompet), DBT perform
 For each gameday of the season, the begin datetime of the first game, and the begin datetime of the last game is calculated.  
 Considering them, the view *VW_CALENDAR* (see the file *vw_calendar.sql* for more details) enables the program to know when to perform tasks for each gameday (for more details of the definition of tasks see [here](#taskrun)). 
 - TASK_RUN = 'UPDATEGAMES': planned several times before the begin datetime of the first game of the gameday to detect possible changes of date and times of games
-- TASK_RUN = 'INIT': planned at the beginning of the first game of the previous gameday - it will post the prediction template for the new gameday
+- TASK_RUN = 'INIT': planned at the beginning of the first game of the previous gameday - it will post the prediction template for the new gameday. If more than one gameday begin same day, both will be inited same planned time, based on the previous gameday day.
 - TASK_RUN = 'CHECK': planned at the beginning of each game, to read the latest games predictions from players
 - TASK_RUN = 'CALCULATE': planned two hours after the beginning of last game of the gameday, to perform and post calculations. If the last game is not finished yet, the extraction will return an error (see the module *get_game_details_lnb.py*), and wait for the next automatic run to retry again.
 

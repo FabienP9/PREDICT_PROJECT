@@ -25,36 +25,60 @@ with read_message as (
         game_readm.TIME_GAME_UTC IS NOT NULL
 ),
 -- we get the time when we should init the gameday
--- if exists a previous gameday in the season we init 15 mns after the beginning of previous gameday
+-- if exists a previous gameday in the season we init 15 mns after the beginning of previous gameday.
 -- else we init one week before the beginning of the gameday
+-- as some gameday begin same day, we focus on the min time of them, to define the init time the following gameday
+init_gameday_begin AS (
+    SELECT
+        gameday.GAMEDAY_KEY,
+        gameday.SEASON_KEY,
+        TO_TIMESTAMP(gameday.BEGIN_DATE_UTC || ' ' || gameday.BEGIN_TIME_UTC) AS BEGIN_TS_UTC,
+        gameday.BEGIN_DATE_UTC
+    FROM {{ref('consumpted_gameday')}} gameday
+    WHERE gameday.BEGIN_TIME_UTC IS NOT NULL
+),
+init_begin_min_per_day AS (
+    SELECT
+        init_gameday_begin.SEASON_KEY,
+        init_gameday_begin.BEGIN_DATE_UTC,
+        MIN(init_gameday_begin.BEGIN_TS_UTC) AS FIRST_TS_UTC_OF_DAY
+    FROM init_gameday_begin
+    GROUP BY init_gameday_begin.SEASON_KEY, init_gameday_begin.BEGIN_DATE_UTC
+),
+init_calculation_per_day AS (
+    SELECT
+        init_begin_min_per_day.SEASON_KEY,
+        init_begin_min_per_day.BEGIN_DATE_UTC,
+        CASE
+            WHEN LAG(init_begin_min_per_day.FIRST_TS_UTC_OF_DAY)
+                 OVER (PARTITION BY init_begin_min_per_day.SEASON_KEY 
+                    ORDER BY init_begin_min_per_day.BEGIN_DATE_UTC) IS NULL
+            THEN DATEADD(DAY, -7, init_begin_min_per_day.FIRST_TS_UTC_OF_DAY)
+            ELSE DATEADD(MINUTE,15,LAG(init_begin_min_per_day.FIRST_TS_UTC_OF_DAY)
+                OVER (PARTITION BY init_begin_min_per_day.SEASON_KEY 
+                    ORDER BY init_begin_min_per_day.BEGIN_DATE_UTC)
+            )
+        END AS TS_TASK_UTC
+    FROM init_begin_min_per_day
+),
 init_gameday as (
     SELECT
         'INIT' AS TASK_RUN,
-        gameday_init.GAMEDAY_KEY,
-        CASE
-            WHEN 
-                -- if there is no previous gameday in the season
-                LAG(TO_TIMESTAMP(gameday_init.BEGIN_DATE_UTC || ' ' || gameday_init.BEGIN_TIME_UTC)) 
-                    OVER(PARTITION BY gameday_init.SEASON_KEY 
-                    ORDER BY TO_TIMESTAMP(gameday_init.BEGIN_DATE_UTC || ' ' || gameday_init.BEGIN_TIME_UTC)) IS NULL 
-                -- we init 7 days before
-                THEN DATEADD(DAY, -7, TO_TIMESTAMP(gameday_init.BEGIN_DATE_UTC || ' ' || gameday_init.BEGIN_TIME_UTC))
-            ELSE
-                -- we init 15 minutes later the previous gameday begin_time
-                DATEADD(MINUTE,15,LAG(TO_TIMESTAMP(gameday_init.BEGIN_DATE_UTC || ' ' || gameday_init.BEGIN_TIME_UTC)) 
-                    OVER(PARTITION BY gameday_init.SEASON_KEY 
-                    ORDER BY TO_TIMESTAMP(gameday_init.BEGIN_DATE_UTC || ' ' || gameday_init.BEGIN_TIME_UTC))) 
-        END AS TS_TASK_UTC,
+        init_gameday_begin.GAMEDAY_KEY,
+        init_calculation_per_day.TS_TASK_UTC,
         1 AS IS_TO_INIT,
         0 AS IS_TO_CALCULATE,
         0 AS IS_TO_DELETE,
         0 AS IS_TO_RECALCULATE,
         'AVOID' AS MESSAGE_ACTION,
         'RUN' AS GAME_ACTION
-    FROM
-        {{ref('consumpted_gameday')}} gameday_init
-    WHERE
-        gameday_init.BEGIN_TIME_UTC IS NOT NULL
+    FROM 
+        init_gameday_begin
+    JOIN 
+        init_calculation_per_day
+    ON 
+        init_gameday_begin.SEASON_KEY = init_calculation_per_day.SEASON_KEY
+        AND init_gameday_begin.BEGIN_DATE_UTC = init_calculation_per_day.BEGIN_DATE_UTC
 ),
 -- we get the time when we should calculate the result of gameday
 -- 2h after the begin of the last game of the gameday

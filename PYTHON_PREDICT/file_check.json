@@ -8,6 +8,7 @@
         "COMPETITION_SOURCE": "object",
         "COMPETITION_SOURCE_ID": "int64",
         "IS_SAME_FOR_PREDICTCHAMP": "int64",
+        "IS_FOR_RANK": "int64",
         "IS_TO_LOAD": "int64"
       }
     },

@@ -27,7 +27,8 @@ with compet as (
         compet.COMPETITION_ID,
         compet.COMPETITION_SOURCE,
         compet.COMPETITION_LABEL,
-        compet.IS_SAME_FOR_PREDICTCHAMP
+        compet.IS_SAME_FOR_PREDICTCHAMP,
+        compet.IS_FOR_RANK
     FROM
         {{source("LAND",'COMPET')}} compet
 ),
@@ -39,7 +40,8 @@ compet_with_key as (
         competition.COMPETITION_ID,
         competition.COMPETITION_SOURCE,
         competition.COMPETITION_LABEL,
-        competition.IS_SAME_FOR_PREDICTCHAMP
+        competition.IS_SAME_FOR_PREDICTCHAMP,
+        competition.IS_FOR_RANK
     FROM
         compet competition
     LEFT JOIN
@@ -53,6 +55,7 @@ SELECT
     final_compet.COMPETITION_SOURCE,
     final_compet.COMPETITION_LABEL,
     final_compet.IS_SAME_FOR_PREDICTCHAMP,
+    final_compet.IS_FOR_RANK,
     {{updated_at_fields()}}
 FROM 
     compet_with_key final_compet

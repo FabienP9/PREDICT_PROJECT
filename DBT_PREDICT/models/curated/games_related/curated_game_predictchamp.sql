@@ -47,7 +47,7 @@ with game as (
         game.TEAM_HOME_KEY,
         game.TEAM_AWAY_KEY,
         1 AS HAS_HOME_ADV,
-        1 AS IS_FOR_RANK
+        compet.IS_FOR_RANK
     FROM
         {{ref('curated_game')}} game
     JOIN
@@ -67,9 +67,7 @@ pc_game as (
         AS GAME_MESSAGE_SHORT,
         MD5('PREDICTCHAMP_GAME' || '^^' || gp.PREDICTCHAMP_GAME_ID) AS GAME_KEY,
         gp.PREDICTCHAMP_GAME_ID AS GAME_PC_ID,
-        gp.HAS_HOME_ADV,
-        -- those games are added outside the regular season, they are not used for ranking
-        0 AS IS_FOR_RANK
+        gp.HAS_HOME_ADV
     FROM
         {{source('LAND','GAME_PREDICTCHAMP')}} gp
     LEFT JOIN
@@ -92,7 +90,7 @@ pc_game_with_key as (
         teamhome.TEAM_KEY AS TEAM_HOME_KEY,
         teamaway.TEAM_KEY AS TEAM_AWAY_KEY,
         pcg.HAS_HOME_ADV,
-        pcg.IS_FOR_RANK,
+        compet.IS_FOR_RANK,
         JAROWINKLER_SIMILARITY(lower(trim(pcg.TEAM_HOME)), lower(trim(teamhome.TEAM_NAME))) AS TEAM_HOME_SCORE_JARO,
         JAROWINKLER_SIMILARITY(lower(trim(pcg.TEAM_AWAY)), lower(trim(teamaway.TEAM_NAME))) AS TEAM_AWAY_SCORE_JARO,
     FROM
@@ -110,6 +108,9 @@ pc_game_with_key as (
     LEFT JOIN
         {{ref("curated_team")}} teamaway
         ON teamaway.SEASON_KEY = season.SEASON_KEY
+    LEFT JOIN
+        {{ref('curated_competition')}} compet
+        ON compet.COMPETITION_KEY = gameday.COMPETITION_KEY
     QUALIFY    
         -- we get the closest home and away teams
         RANK() OVER (

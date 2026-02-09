@@ -42,6 +42,12 @@ sources:
               - accepted_values: 
                   values: [0, 1]
 
+          - name: IS_FOR_RANK
+            description: Boolean to know if games from a competition are used for season ranking (1) or not (0) for the prediction championship
+            tests:
+              - accepted_values: 
+                  values: [0, 1]
+
           - name: IS_TO_LOAD
             description: Boolean to know if competition is to be loaded in the database or not (already there and completed)
             tests:

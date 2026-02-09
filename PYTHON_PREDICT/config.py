@@ -19,8 +19,10 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 dropbox_folder_root = 'dropbox:prediction_files'
 if os.getenv("IS_TESTRUN") == '0':
     dropbox_folder = os.path.join(dropbox_folder_root,"Prod")
+    logging.info("Prod run")
 else:
-    dropbox_folder = os.path.join(dropbox_folder_root,"Test")    
+    dropbox_folder = os.path.join(dropbox_folder_root,"Test")
+    logging.info("Test run")    
 paths_file = os.path.join(dropbox_folder_root,'docs/paths.csv')
 rclone_config_path = '~/.config/rclone/rclone.conf'
 dbt_directory = "../DBT_PREDICT"

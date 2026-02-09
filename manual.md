@@ -270,6 +270,7 @@ They must be created and updated by the software administrator, according to the
     - **COMPETITION_SOURCE_ID**: The id of the competition on the source for filtering
     - **IS_SAME_FOR_PREDICTCHAMP** (0/1): Boolean telling if the predition championship games will be the same as the one from the prediction league or not.  
     If not, the software administrator must add manual games to [predictchamp_game_to_add.csv](#predictchampgametoadd)
+    - **IS_FOR_RANK** (0/1): Boolean telling if games related to the competition are used in the season prediction championship ranking, or not
     - **IS_TO_LOAD** (0/1): Boolean telling if it needs to load the competition on the database while running ["Init compet"](#initcompet) or not
 
 - <a name="topic"></a>**topic.csv**: Defines forum topics used for predictions and results.

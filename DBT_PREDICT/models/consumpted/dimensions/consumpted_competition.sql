@@ -30,7 +30,8 @@ with final_compet as (
         compet.COMPETITION_ID,
         compet.COMPETITION_SOURCE,
         compet.COMPETITION_LABEL,
-        compet.IS_SAME_FOR_PREDICTCHAMP
+        compet.IS_SAME_FOR_PREDICTCHAMP,
+        compet.IS_FOR_RANK
     FROM 
         {{ref('curated_competition')}} compet
     {% if is_incremental() and max_updated_at is not none %}
@@ -44,6 +45,7 @@ SELECT
     final_compet.COMPETITION_SOURCE,
     final_compet.COMPETITION_LABEL,
     final_compet.IS_SAME_FOR_PREDICTCHAMP,
+    final_compet.IS_FOR_RANK,
     {{updated_at_fields()}}
 FROM 
     final_compet

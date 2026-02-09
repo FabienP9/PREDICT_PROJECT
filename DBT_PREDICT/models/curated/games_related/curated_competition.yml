@@ -38,6 +38,12 @@ models:
       - accepted_values: 
           values: [0, 1]
 
+  - name: IS_FOR_RANK
+    description: Boolean to know if games from a competition are used for season ranking (1) or not (0) for the prediction championship
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
   - name: UPDATED_AT_UTC
     description: The datetime of update in utc timezone
     tests:

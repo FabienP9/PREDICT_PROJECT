@@ -12,6 +12,7 @@ SELECT
     season.SEASON_ID,
     competition.COMPETITION_ID,
     competition.COMPETITION_SOURCE,
+    gameday.GAMEDAY_MESSAGE,
     gameday.GAMEDAY,
     gameday.BEGIN_DATE_UTC AS GAMEDAY_BEGIN_DATE_UTC,
     gameday.END_DATE_UTC AS GAMEDAY_END_DATE_UTC,

@@ -41,7 +41,8 @@
     "__L__": "D",
     "__with__": "avec",
     "REGULAR SEASON": "Saison réguliere",
-    "PLAY OFFS": "Play offs"
+    "PLAY OFFS": "Play offs",
+    "__Bonus game id__": "Identifiant du match bonus"
     
   }
 }

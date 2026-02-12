@@ -1,0 +1,4 @@
+#3EJ.02# teamA vs teamB ==> [i]+1[/i]
+#3EJ.BN# Identifiant du match bonus ==> 3EJ.02
+#4EJ.02# teamC vs teamD ==> [i]+1[/i]
+#4EJ.BN# Identifiant du match bonus ==> 4EJ.02

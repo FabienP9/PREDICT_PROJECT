@@ -74,6 +74,7 @@ qGame = f'''
 qGame_Remaining_AtDate = f'''
     with game as(
         SELECT
+            GAMEDAY_MESSAGE,
             GAMEDAY,
             GAME_MESSAGE,
             TEAM_HOME_NAME,
@@ -101,6 +102,7 @@ qGame_Remaining_AtDate = f'''
         GROUP BY GAMEDAY
     )
     SELECT
+        game.GAMEDAY_MESSAGE,
         game.GAMEDAY,
         game.GAME_MESSAGE,
         game.TEAM_HOME_NAME,

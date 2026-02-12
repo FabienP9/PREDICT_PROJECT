@@ -67,8 +67,12 @@ def get_inited_remaining_games(sr_snowflake_account: pd.Series, sr_gameday_outpu
     df_games_remaining['STRING'] = ("#" + df_games_remaining['GAME_MESSAGE'] + "# " +
                                           df_games_remaining['TEAM_HOME_NAME'] + " vs " +
                                           df_games_remaining['TEAM_AWAY_NAME'] + " ==> [i]+1[/i]")
-    # we create the REMAINING_GAMES string by concatenating all games on several lines
-    REMAINING_GAMES = "\n".join(df_games_remaining['STRING'])
+    # we create the REMAINING_GAMES string by concatenating all games on several lines, grouped by gameday separated by bonus choices
+    remaining_lines = []
+    for gameday_message, group in df_games_remaining.groupby("GAMEDAY_MESSAGE", sort=False):
+        remaining_lines.extend(group['STRING'])
+        remaining_lines.append(f"#{gameday_message}.BN# __Bonus game id__ ==> {group.iloc[0]["GAME_MESSAGE"]}")
+    REMAINING_GAMES = "\n".join(remaining_lines)
     return REMAINING_GAMEDAYS,REMAINING_GAMES,len(df_games_remaining)
 
 @config.exit_program(log_filter=lambda args: dict(args))
@@ -168,7 +172,7 @@ def derive_inited_parameters(param_dict: dict, list_countries: list[str]) -> dic
     translations = fileA.read_json("output_actions/output_actions_translations.json")
 
     # we filter only the relevant entries from param_dict
-    dict_to_derive = {'DATEGAME1': param_dict['DATEGAME1']}
+    dict_to_derive = {'DATEGAME1': param_dict['DATEGAME1'],'REMAINING_GAMES': param_dict['REMAINING_GAMES']}
     
     #we then call derive_inited_parameters_for_country, for each country parallelizing
     param_dict_derived = {}
@@ -218,7 +222,7 @@ def create_inited_messages_for_country(param_dict: dict, country: str, template:
     
     if param_dict['NB_GAMES_REMAINING'] > 0: 
         content = content.replace("#REMAINING_GAMEDAYS#",param_dict['REMAINING_GAMEDAYS'])
-        content = content.replace("#REMAINING_GAMES#",param_dict['REMAINING_GAMES'])
+        content = content.replace("#REMAINING_GAMES#",param_dict['REMAINING_GAMES_'+country])
     
     file_name = outputA.define_filename("forumoutput_inited", sr_gameday_output_init, 'txt', country)
     fileA.create_txt(os.path.join(config.TMPF,file_name),content)

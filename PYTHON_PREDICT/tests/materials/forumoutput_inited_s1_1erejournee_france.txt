@@ -1,7 +1,7 @@
 |0|+++++|2|
 
 |0|Lancement [b]1ere journee[/b]:  1er match le [b]Lundi 01/01 20h[/b]|2|
- 
+
 |0|[u]Trame - vous pouvez la copier-coller et la remplacer par vos choix[/u]|1|
 |0|"[b]|1|
 |0|#1EJ.01# TEAM1 vs TEAM2 ==> [i]+1[/i]
@@ -13,7 +13,7 @@
 |0|1/ De [b] conserver l'identifiant associé (entre "#")[/b]|1|
 |0|2/ D'indiquer votre choix [b]après la flèche "==>" [/b]|1|
 |0|Si vous suivez ces deux points, vous augmentez votre score total de 2 grâce au "score de l'automatisation" :computer:|1|
-|0|De plus pour que votre choix soit valide il est évidemment important de l'indiquer avant le début du match qu'il concerne :wink: |0|
+|0|De plus pour que votre choix soit valide il est évidemment important de l'indiquer avant le début du match qu'il concerne :wink: |0|        
 
 #USER_CAN_CHOOSE_TEAM_FOR_PREDICTCHAMP_BEGIN#
 |2|Vous pouvez choisir / changer votre équipe préférée pour le championnat de pronostics jusqu'au début de la phase retour en (ré)indiquant la ligne avec votre (nouvelle) équipe.|1|
@@ -29,6 +29,8 @@
 |0|Vous pouvez encore réaliser ou modifier vos pronos sur tous ces matchs ou une partie d'entre eux, jusqu'à leur début.|1|
 |0|"[b]|1|
 |0|#3EJ.02# teamA vs teamB ==> [i]+1[/i]
-#4EJ.02# teamC vs teamD ==> [i]+1[/i]|1|
+#3EJ.BN# Identifiant du match bonus ==> 3EJ.02
+#4EJ.02# teamC vs teamD ==> [i]+1[/i]
+#4EJ.BN# Identifiant du match bonus ==> 4EJ.02|1|
 |0|[/b]"|0|
 #REMAINING_GAMES_END#

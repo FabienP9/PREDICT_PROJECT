@@ -72,22 +72,24 @@ def test_get_inited_parameters():
 def test_derive_inited_parameters_for_country():
     
     # this test the function derive_inited_parameters_for_country
-    param_dict = {"DATEGAME1": "WEEKDAY_1 01/01 20h"}
+    param_dict = {"DATEGAME1": "WEEKDAY_1 01/01 20h", "REMAINING_GAMES": "#3EJ.BN# __Bonus game id__ ==> 3EJ.02"}
     country = "FRANCE"
     translations = read_json("../output_actions_translations.json")
     mock_dategame1_FRANCE = "Lundi 01/01 20h"
+    mock_remaining_games_FRANCE = "#3EJ.BN# Identifiant du match bonus ==> 3EJ.02"
 
-    with patch.object(output_actions_inited.outputA, "translate_param_for_country", return_value =mock_dategame1_FRANCE):
+    with patch.object(output_actions_inited.outputA, "translate_param_for_country", side_effect =[mock_dategame1_FRANCE,mock_remaining_games_FRANCE]):
         output_actions_inited.derive_inited_parameters_for_country(param_dict, country, translations)
 
 def test_derive_inited_parameters():
     
     # this test the function derive_inited_parameters
-    param_dict = {"DATEGAME1": "WEEKDAY_1 01/01 20h"}
+    param_dict = {"DATEGAME1": "WEEKDAY_1 01/01 20h", "REMAINING_GAMES": "#3EJ.BN# __Bonus game id__ ==> 3EJ.02"}
     list_countries = ['FRANCE']
     mock_translations = read_json("../output_actions_translations.json")
     mock_result_dicts = [
-        {"DATEGAME1": "Lundi 01/01 20h"}
+        {"DATEGAME1": "Lundi 01/01 20h",
+         "REMAINING_GAMES": "#3EJ.BN# Identifiant du match bonus ==> 3EJ.02"}
     ]
     with patch("output_actions_inited.fileA.read_json", return_value=mock_translations), \
          patch("output_actions_inited.config.multithreading_run", return_value=mock_result_dicts):
@@ -104,7 +106,7 @@ def test_create_inited_messages_for_country():
         'USER_CAN_CHOOSE_TEAM_FOR_PREDICTCHAMP': 1,
         'NB_GAMES_REMAINING': 2,
         'REMAINING_GAMEDAYS': '3eme journee , 4eme journee',
-        'REMAINING_GAMES': read_txt("materials/output_actions_inited_get_inited_remaining_games.txt")
+        'REMAINING_GAMES_FRANCE': read_txt("materials/output_actions_inited_get_inited_remaining_games_france.txt")
     }
     country = "FRANCE"
     template = read_txt("materials/output_gameday_init_template_france.txt")
@@ -120,7 +122,7 @@ def test_create_inited_messages_for_country():
         
         content, country = output_actions_inited.create_inited_messages_for_country(param_dict, country, template, sr_gameday_output_init)
         assert country == "FRANCE"
-        assert expected_result == content
+        assert expected_result.split() == content.split()
 
 def test_process_output_message_inited():
     

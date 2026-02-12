@@ -1,7 +1,8 @@
-# This GitHub actions workflow is intended to run exe_main in test environment
+# This GitHub actions workflow is intended to run exe_main in production environment
 # It gets secrets variables, install rclone to interact with dropbox, install dependencies, run python program
 # and send an email to report success or failure with output_need dataframe, check string and next run timestamp values
-name: Run main [Test - manual output_need]
+# It runs on a manual dispatch, and every 10 minutes.
+name: Run main [Prod - auto output_need - Status game overwrited]
 
 concurrency:
   group: predict-run
@@ -14,9 +15,9 @@ jobs:
   run-python:
     runs-on: ubuntu-latest
     env:
-      IS_TESTRUN: 1 
-      IS_OUTPUT_AUTO: 0
-      OVERWRITE_GAMES_STATUS: 0
+      IS_TESTRUN: 0 
+      IS_OUTPUT_AUTO: 1
+      OVERWRITE_GAMES_STATUS: 1
       BI_URL: ${{ secrets.BI_URL }}
       BI_USERNAME: ${{ secrets.BI_USERNAME }}
       BI_PASSWORD: ${{ secrets.BI_PASSWORD }}
@@ -31,30 +32,86 @@ jobs:
 
     steps:
       - name: Checkout repository
+        id: check_repo
         uses: actions/checkout@v4
 
-      - name: Install rclone for DropBox 
+      - name: Install rclone for DropBox
+        id: install_rclone
         run: | 
           curl https://rclone.org/install.sh | sudo bash
           
-      - name: Configure rclone 
+      - name: Configure rclone [ USING API KEY ]
+        id: configure_rclone
         run: | 
           mkdir -p ~/.config/rclone 
           echo "$RCLONE_CONFIG_BASE64" | base64 --decode > ~/.config/rclone/rclone.conf
           chmod 600 ~/.config/rclone/rclone.conf
+          echo "::add-mask::$RCLONE_CONFIG_BASE64"
+
+      - name: Extract next_run_time_utc.txt path from config.py 
+        id: extract_nextrun_path 
+        run: | 
+          echo "NEXT_RUN_PATH=$(python -c 'import sys; sys.path.append(".."); from PYTHON_PREDICT import config; print(config.next_run_time_file_path)')" >> $GITHUB_ENV
+
+      - name: Download next_run_time_utc.txt from DropBox 
+        id: download_nextrun 
+        run: | 
+          rclone copy "${NEXT_RUN_PATH}" . --config ~/.config/rclone/rclone.conf || echo "FAILED" > next_run_ts.txt
+      
+      - name: Check if execution should proceed
+        id: check_run
+        run: |
+          NEXT_RUN=$(cat next_run_time_utc.txt)  # Read the calculated timestamp utc
+          CURRENT_TIME=$(TZ='UTC' date +"%Y-%m-%d %H:%M") # UTC
+
+          
+          if [[ "$NEXT_RUN" == "FAILED" ]]; then
+            echo "Next run failed to get."
+            echo "should_proceed=false" >> $GITHUB_ENV
+            exit 1
+          fi
+
+          if [[ "$NEXT_RUN" == "NONE" ]]; then
+            echo "No available next run. Add some compet in Dropbox,and run workflow "Init compet". Exiting."
+            echo "should_proceed=false" >> $GITHUB_ENV
+            exit 0
+          fi
+
+          if (( $(date -d "$NEXT_RUN" +%s) > $(date -d "$CURRENT_TIME" +%s) )); then
+            echo "Not time yet. Exiting."
+            echo "should_proceed=false" >> $GITHUB_ENV
+            exit 0
+          fi
+
+          echo "Proceeding with execution."
+          echo "should_proceed=true" >> $GITHUB_ENV
+
+      - name: Destroying next_run_ts.txt from the run
+        id: destroy_nextrun
+        run: rm -f next_run_ts.txt
 
       - name: Set up Python
+        id: setup_python
         uses: actions/setup-python@v4
         with:
           python-version: '3.12'
 
       - name: Cache pip packages
+        id: cache_packages
         uses: actions/cache@v3
+        if: ${{ env.should_proceed == 'true' }}
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        id: install_dependencies
+        if: ${{ env.should_proceed == 'true' }}
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
       - name: Send Email if setup or pre-run steps fail
         if: ${{ failure() }}
@@ -66,7 +123,7 @@ jobs:
           run_url = f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}"
           
           msg = EmailMessage()
-          msg['Subject'] = f'GitHub Action PRE-RUN FAILED - Main Test / manual'
+          msg['Subject'] = f'GitHub Action PRE-RUN FAILED - Main Prod / auto'
           msg.set_content(f"An error occurred before running exe_main.\n\nCheck logs: {run_url}")
           msg['From'] = os.environ["GMAIL_USER"]
           msg['To'] = os.environ["RECIPIENT_EMAIL"]
@@ -76,13 +133,11 @@ jobs:
               server.login(os.environ["GMAIL_USER"],os.environ["GMAIL_APP_PASSWORD"])
               server.send_message(msg)
           EOF
+          echo "should_proceed=false" >> $GITHUB_ENV
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Run Python script
+      - name: Run program
+        id: run_program
+        if: ${{ env.should_proceed == 'true' }}
         run: |
           set -e
           cd PYTHON_PREDICT
@@ -90,8 +145,9 @@ jobs:
           cd ..
           echo "output=$(cat PYTHON_PREDICT/exe_output.json | base64 -w0)" >> $GITHUB_ENV
 
-      - name: Send Email (Success or Failure)
-        if: always()
+      - name: Send Email for program (Success or Failure)
+        id: send_email_program
+        if: ${{ env.should_proceed == 'true' && always() }} 
         run: |
           python - <<EOF
           import os, smtplib, json, base64
@@ -101,9 +157,10 @@ jobs:
           run_url = f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}"
           
           msg = EmailMessage()
+
           if status == "success":
               output_data = json.loads(base64.b64decode(os.environ["output"]).decode())
-              msg['Subject'] = f'GitHub Action SUCCEEDED - Main Test / manual'
+              msg['Subject'] = f'GitHub Action SUCCEEDED - Main Prod / auto'
               msg.add_alternative(f"""
                 <html>
                   <body>
@@ -117,7 +174,7 @@ jobs:
                 """, subtype='html')
               
           else:
-              msg['Subject'] = f'GitHub Action FAILED - Main Test / manual'
+              msg['Subject'] = f'GitHub Action FAILED - Main Prod / auto'
               msg.set_content(f"Failed to exe main \n\nRun logs: {run_url}")
 
           msg['From'] = os.environ["GMAIL_USER"]
@@ -128,3 +185,5 @@ jobs:
               server.login(os.environ["GMAIL_USER"],os.environ["GMAIL_APP_PASSWORD"])
               server.send_message(msg)
           EOF
+
+      

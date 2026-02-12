@@ -166,6 +166,7 @@ Moreover, considering the [current sources](#currentsources), stored as GitHub s
 Considering the context of run:
 - <a name="isoutputauto"></a>**IS_OUTPUT_AUTO** (0/1): If 1, the output_need file will be generated during run from the [planned calendar](#calendar). If 0, it uses the [output_need_manual file](#outputneedmanual), which can be [edited prealably by the software administrator](#modifyingoutputneedmanual)
 - **IS_TESTRUN** (0/1): If 1, the program runs in test environment. If 0 it runs in production environment
+- <a name="overwritegamesstatus"></a>**OVERWRITE_GAMES_STATUS** (0/1): When calculating results, if 1, the program won't check if all games are over. Else it will and raise an error.
 
 ## Current sources<a name="currentsources"></a>
 The software currently processes seasons from one source named "LNB" (French Elite basketball).  
@@ -477,11 +478,16 @@ The playoffs competition must exist in the database through the file [competitio
         - *gitrun_main_auto_prod.yml*  
             Runs in production with output_need calculated automatically based on the [calendar of run](#calendar).  
                 - Can be triggered manually through worflow_dispatch  
-                - Scheduled to run automatically every 12 minutes  
+                - Scheduled to run automatically every 10 minutes 
+        - *gitrun_main_auto_prod_overwrite_game_status.yml*  
+            Runs in production with output_need calculated automatically based on the [calendar of run](#calendar), and game status not stopping calculations with [OVERWRITE_GAMES_STATUS](#overwritegamesstatus) = 1
+                - Can only be triggered manually through worflow_dispatch 
         - *gitrun_main_manual_prod.yml*  
             Runs in production with output_need got from the file [output_need_manual.csv file](#outputneedmanual)
+                - Can only be triggered manually through worflow_dispatch 
         - *gitrun_main_manual_test.yml*  
             Runs in test with output_need got from the file [output_need_manual.csv file](#outputneedmanual)
+                - Can only be triggered manually through worflow_dispatch 
 
 ## Modifying output_need_manual file<a name="modifyingoutputneedmanual"></a>
 

@@ -5,6 +5,7 @@
 import requests
 import pandas as pd
 from zoneinfo import ZoneInfo
+import os
 
 import config
 
@@ -40,7 +41,7 @@ def get_game_details_lnb(competition_row: tuple, gameday: str | None = None) -> 
         df_game = df_game[df_game["round_description"].astype(str) == gameday]
 
     game_status = df_game["match_status"]
-    if not game_status.isin(['SCHEDULED','COMPLETE']).all():
+    if not game_status.isin(['SCHEDULED','COMPLETE']).all() and os.getenv('OVERWRITE_GAMES_STATUS') == 0:
         raise ValueError("At least one game is in progress or unknow status- retry extraction later")
     
     df_game["COMPETITION_SOURCE"] = competition_row.COMPETITION_SOURCE

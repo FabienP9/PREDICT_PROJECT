@@ -19,6 +19,7 @@ jobs:
     env:
       IS_TESTRUN: 0 
       IS_OUTPUT_AUTO: 1
+      OVERWRITE_GAMES_STATUS: 0
       BI_URL: ${{ secrets.BI_URL }}
       BI_USERNAME: ${{ secrets.BI_USERNAME }}
       BI_PASSWORD: ${{ secrets.BI_PASSWORD }}

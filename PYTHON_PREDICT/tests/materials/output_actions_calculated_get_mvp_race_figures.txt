@@ -1,3 +1,3 @@
-USER1 - 682 pts / 3__W__-1__L__ [__with__ TeamA, TeamB]
-USER2 - 598 pts / 1__W__-2__L__ [__with__ TeamC]
+USER1 - 682 pts / 3__L__WIN__L__-1__L__LOSS__L__ [__L__with__L__ TeamA, TeamB]
+USER2 - 598 pts / 1__L__WIN__L__-2__L__LOSS__L__ [__L__with__L__ TeamC]
 USER3 - 432 pts

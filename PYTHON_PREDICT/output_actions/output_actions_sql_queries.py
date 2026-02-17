@@ -127,7 +127,7 @@ qPredictGame = f'''
         SEASON_ID = %s
         AND GAMEDAY = %s
     ORDER BY
-        lower(NAME)
+        lower(USER_NAME)
     '''
 
 #Query to get global (per season) result per user

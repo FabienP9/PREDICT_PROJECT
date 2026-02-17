@@ -1,103 +1,117 @@
 |0|#MESSAGE_PREFIX_PROGRAM_STRING#|2|
 
-|0|[center][size=200][b]Résultats - #GAMEDAY#[/b][/size][/center]|3|
 
-|0|[size=150][b]Résultats #SEASON_DIVISION#[/b][/size]|1|
-|0|[quote]#RESULT_GAMES#[/quote]|2|
+|0|__F__centerbegin__F____F__sizeverybigbegin__F____F__boldbegin__F__Résultats - #GAMEDAY#__F__boldend__F____F__sizeverybigend__F____F__centerend__F__|3|
 
-|0|[size=150][b]Concours individuel [/b][/size]|2|
 
-|0|[b][u]Résultats et classement individuel de journée [/b][/u]|1|
+|0|__F__sizebigbegin__F____F__boldbegin__F__Résultats #SEASON_DIVISION#__F__boldend__F____F__sizebigend__F__|1|
+|0|__F__quote1begin__F__#RESULT_GAMES#__F__quote1end__F__|2|
+
+
+|0|__F__sizebigbegin__F____F__boldbegin__F__Concours individuel __F__boldend__F____F__sizebigend__F__|2|
+
+
+|0|__F__boldbegin__F____F__underlinebegin__F__Résultats et classement individuel de journée __F__boldend__F____F__underlineend__F__|1|
 #WITH_PREDICTORS_GAMEDAY_BEGIN#
-|0|[i]-> Pour chaque bon vainqueur votre "score du bon vainqueur" est de 15 \:D/|1|
-|0|-> Pour chaque écart à moins de 15 points du resultat (même avec mauvais vainqueur) votre "score du bon ecart" est de 15 - cet ecart. Pour un ecart parfait il est de 30 \:D/|1|
-|0|-> Si vous avez suivi les 2 points importants de la trame, votre "score de l'automatisation" est de 1. :hiding:|1|
-|0|-> Le match bonus triple votre score :3some:|1| 
-|0|-> Votre nombre de points pour le classement est la somme des scores pour tous les matchs de la journee [/i]|2|
+|0|__F__italicbegin__F__-> “Score du bon vainqueur”: 15 pts sì vainqueur trouvé __F__enjoyment__F__|1|
+|0|-> “Score du bon écart”: 30 pts si résultat trouvé __F__glasssmile__F__ Sinon, 15 pts - l’écart entre pronostic et résultat. __F__tonguesmile__F__ |1|
+|0|-> “Score de l’automatisation”: 1 pt si les 2 points importants de la trame sont respectés __F__computer__F__|1|
+|0|-> Le match bonus compte comme 3 pronostics et triple les scores __F__explode__F__ |1| 
+|0|-> Nombre de points de journée: somme des scores pour tous les matchs pronostiqués (#NB_MAX_PREDICT# pronos pour cette journée) __F__italicend__F__|2|
 
-|0|[img]#IMGGAMEDAY#[/img]|2|
 
-|0|[b][u] Détail des scores :[/u][/b]|1|
-|0|[i]['PT' = "Nombre de points total" ; 'G..' = "Numéro du match" ; 
+|0|__F__picbegin__F__#IMGGAMEDAY#__F__picend__F__|2|
+
+
+|0|__F__boldbegin__F____F__underlinebegin__F__ Détail des scores :__F__underlineend__F____F__boldend__F__|1|
+|0|__F__italicbegin__F__['PT' = "Nombre de points de journée" ; 'G..' = "Numéro du match" ; 
 'BO' = "Match choisi comme bonus (*3)" ; 'RE' = "Résultat du match" ; 'PR' = "Pronostic du match" ; 
-'SW' = "Score du bon vainqueur" ; 'SD' = "Score du bon écart" ; 'SA' = "Score de l'automatisation" ][/i]|1|
-|0|[img]#IMGDETAIL#[/img]|1|
-|0| (Si vous ne parvenez pas à lire l’image (trop petite), cliquez ici pour l’afficher en grand: [url] #IMGDETAIL#)[/url])|2|
+'SW' = "Score du bon vainqueur" ; 'SD' = "Score du bon écart" ; 'SA' = "Score de l'automatisation" ]__F__italicend__F__|1|
+|0|__F__picbegin__F__#IMGDETAIL#__F__picend__F__|1|
+|0| (Si vous ne parvenez pas à lire l’image (trop petite), cliquez ici pour l’afficher en grand: __F__urlbegin__F__ #IMGDETAIL#__F__urlend__F__)|2|
+
 
 #SCOREAUTO0_BEGIN#
-|0|[i]*Score de l'automatisation=0 - problème de format sur:|1|
-|0|#LIST_USER_SCOREAUTO0#|2|
+|0|__F__italicbegin__F__Score de l'automatisation=0 (problème de format - action manuelle exécutée ) pour:|1|
+|0|#LIST_USER_SCOREAUTO0#__F__italicend__F__|2|
 #SCOREAUTO0_END#
 #WITH_PREDICTORS_GAMEDAY_END#
 
+
 #WITHOUT_PREDICTORS_GAMEDAY_BEGIN#
-|1|[i]Pas de pronostiqueurs sur cette journée[/i]|2|
+|1|__F__italicbegin__F__Pas de pronostiqueurs sur cette journée__F__italicend__F__|2|
 #WITHOUT_PREDICTORS_GAMEDAY_END#
 
-|0|[b][u] Classement individuel global:[/u][/b]|1|
+
+|0|__F__boldbegin__F____F__underlinebegin__F__ Classement individuel global (sur toute la saison):__F__underlineend__F____F__boldend__F__|1|
 #WITH_PREDICTORS_GLOBAL_BEGIN#
-|0|[img]#IMGSEASON#[/img]|2|
+|0|__F__picbegin__F__#IMGSEASON#__F__picend__F__|2|
 #WITH_PREDICTORS_GLOBAL_END#
 
+
 #WITHOUT_PREDICTORS_GLOBAL_BEGIN#
-|1|[i]Pas de pronostiqueurs sur cette saison[/i]|2|
+|1|__F__italicbegin__F__Pas de pronostiqueurs sur cette saison__F__italicend__F__|2|
 #WITHOUT_PREDICTORS_GLOBAL_END#
 
-|0|[b][u] Classement moyen par pronostic :[/u][/b]|1|
-|0|[i]-> Pour participer au classement moyen vous devez avoir realisé au moins > #NB_MIN_PREDICTION# prono (> 50% pronos depuis le début de saison) [/i] :bootyshake:|1|
+
+|0|__F__boldbegin__F____F__underlinebegin__F__ Classement moyen par pronostic (sur toute la saison) :__F__underlineend__F____F__boldend__F__|1|
+|0|__F__italicbegin__F__-> Pour les pronostiqueurs avec au moins > #NB_MIN_PREDICTION# prono (> 50% des journées terminées ) __F__thumbup__F____F__italicend__F__  |1|
 #WITH_PREDICTORS_AVERAGE_BEGIN#
-|0|[i]-> Calcul: TOTAL_POINTS / NB_TOTAL_PRONO [Les matchs bonus comptent comme 3 pronostics]|1|[/i]
-|0|[quote]#SCORES_AVERAGE#[/quote]|2|
+|0|__F__italicbegin__F__-> Calcul: TOTAL_POINTS / NB_TOTAL_PRONO __F__italicend__F__|1|
+|0|__F__quote1begin__F__#SCORES_AVERAGE#__F__quote1end__F__|2|
 #WITH_PREDICTORS_AVERAGE_END#
 
+
 #WITHOUT_PREDICTORS_AVERAGE_BEGIN#
-|1|[i]Pas de pronostiqueurs ayant suffisamment pronostiqué[/i]|2|
+|1|__F__italicbegin__F__Pas de pronostiqueurs ayant suffisamment pronostiqué__F__italicend__F__|2|
 #WITHOUT_PREDICTORS_AVERAGE_END#
 
-|0|[size=150][b]Championnat de pronostics[/b][/size]|2|
 
-|0|[b][u]Résultats du championnat de pronostics [/u][/b]|1|
+|0|__F__sizebigbegin__F____F__boldbegin__F__Championnat de pronostics__F__boldend__F____F__sizebigend__F__|2|
+
+
+|0|__F__boldbegin__F____F__underlinebegin__F__Résultats du championnat de pronostics __F__underlineend__F____F__boldend__F__|1|
 
 #WITH_PREDICTCHAMP_BEGIN#
 #WITH_HOME_ADV_BEGIN#
-|0|[i]-> Le nombre de points de chaque équipe est égal au nombre de points de son meilleur pronostiqueur sur le classement individuel de journée :director:|1|
-|0|-> Les équipes à domicile reçoivent un bonus de 20% :director:|1|
-|0|-> En cas d'égalité, le vainqueur est l'équipe à domicile[/i] :laughing3:|2|
+|0|__F__italicbegin__F__-> Nombre de points d’une équipe: Nombre de points de journée de son meilleur pronostiqueur __F__hatsmile__F__ |1|
+|0|-> Les équipes à domicile reçoivent un bonus de 20% __F__fansmiley__F__|1|
+|0|-> En cas d'égalité, le vainqueur est l'équipe à domicile__F__italicend__F__|2|
 #WITH_HOME_ADV_END#
 
 #WITHOUT_HOME_ADV_BEGIN#
-|0|[i]-> Le nombre de points de chaque équipe est égal au nombre de points de son meilleur pronostiqueur sur le classement individuel de journée :director:|1|
+|0|__F__italicbegin__F__-> Nombre de points d’une équipe: Nombre de points de journée de son meilleur pronostiqueur __F__hatsmile__F__: |1|
 |0|-> Pas d'avantage domicile sur cette journée (comme en #SEASON_DIVISION#)|1|
-|0|-> En cas d'égalité, le vainqueur est l'équipe la mieux classée du championnat de pronostics.[/i]|1|
+|0|-> En cas d'égalité, le vainqueur est l'équipe la mieux classée du championnat de pronostics. :wink: __F__italicend__F__|1|
 #WITHOUT_HOME_ADV_END#
-|0|[quote]#RESULTS_PREDICTCHAMP#[/quote]|2|
+|0|__F__quote1begin__F__#RESULTS_PREDICTCHAMP#__F__quote1end__F__|2|
 
 #WITH_PREDICTCHAMPRANKING_BEGIN#
-|0|[b][u] Classement [/b][/u]|1|
-|0|[i]-> Les équipes classées entre 1 & 6 seront qualifiés pour les plays-offs du championnat de pronostics.[/i]|1|
-|0|[i]-> Les équipes classées entre 7 & 10 seront qualifiés pour les plays-in du championnat de pronostics.[/i]|1|
-|0|[i]-> Les équipes classées entre 1 & 4 seront qualifiés pour la leadeers cup du championnat de pronostics.[/i]|1|
-|0|[img]#RANK_PREDICTCHAMP_IMG#[/img]|2|
+|0|__F__boldbegin__F____F__underlinebegin__F__ Classement __F__boldend__F____F__underlineend__F__|1|
+|0|__F__italicbegin__F__-> Les équipes classées entre 1 & 10 seront qualifiés pour les plays-offs/ plays-in du championnat de pronostics.__F__italicend__F__|1|
+|0|__F__picbegin__F__#RANK_PREDICTCHAMP_IMG#__F__picend__F__|2|
 #WITH_PREDICTCHAMPRANKING_END#
 #WITH_PREDICTCHAMP_END#
 
 #WITHOUT_PREDICTCHAMP_BEGIN#
-|1|[i]Pas de matchs de championnat de pronostics sur cette journée[/i]|2|
+|1|__F__italicbegin__F__Pas de matchs de championnat de pronostics sur cette journée__F__italicend__F__|2|
 #WITHOUT_PREDICTCHAMP_END#
 
-|0|[i] Ces classements tiennent compte des #NB_GAMEDAY_CALCULATED# journées calculées suivantes (#NB_TOTAL_PREDICT# pronos):|1|
-|0|#LIST_GAMEDAY_CALCULATED# [/i]|0|
+|0|__F__sizebigbegin__F____F__boldbegin__F__Périmètre des journées terminées __F__boldend__F____F__sizebigend__F__|2|
+
+|0|#NB_GAMEDAY_CALCULATED# journées terminées (#NB_TOTAL_PREDICT# pronos):|1|
+|0|#LIST_GAMEDAY_CALCULATED# |0|
 
 #WITH_MONTH_MVP_BEGIN#
-|2|[size=150][b]Trophée de MVP - Most Valuable Predictor[/b][/size] |1|
-|0|[u][b]Election du MVP du mois de #GAMEDAY_MONTH# [/b][/u]|1|
-|0|-> Résultats des pronostiqueurs des journees calculees sur le mois de #GAMEDAY_MONTH#|1|
-|0|[quote]#LIST_USER_MONTH# [/quote]|0|
+|2|__F__sizebigbegin__F____F__boldbegin__F__Trophée de MVP - Most Valuable Predictor__F__boldend__F____F__sizebigend__F__ |1|
+|0|__F__underlinebegin__F____F__boldbegin__F__Election du MVP du mois de #GAMEDAY_MONTH# __F__boldend__F____F__underlineend__F__|1|
+|0|-> Résultats des pronostiqueurs des journees terminées au cours du mois de #GAMEDAY_MONTH#|1|
+|0|__F__quote1begin__F__#LIST_USER_MONTH# __F__quote1end__F__|0|
 #WITH_MONTH_MVP_END#
 
 #WITH_COMPETITION_MVP_BEGIN#
-|2|[size=150][b]Trophée de MVP - Most Valuable Predictor[/b][/size] |1|
-|0|[u][b]Election du MVP de #GAMEDAY_COMPETITION# [/b][/u]|1|
-|0|-> Résultats des pronostiqueurs des journees calculees sur l'ensemble de la compétition|1|
-|0|[quote]#LIST_USER_COMPETITION#|0|
+|2|__F__sizebigbegin__F____F__boldbegin__F__Trophée de MVP - Most Valuable Predictor__F__boldend__F____F__sizebigend__F__ |1|
+|0|__F__underlinebegin__F____F__boldbegin__F__Election du MVP de #GAMEDAY_COMPETITION# __F__boldend__F____F__underlineend__F__|1|
+|0|-> Résultats des pronostiqueurs des journées sur l'ensemble de la compétition|1|
+|0|__F__quote1begin__F__#LIST_USER_COMPETITION#|0|
 #WITH_COMPETITION_MVP_END#

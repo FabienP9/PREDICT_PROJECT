@@ -1,2 +1,2 @@
-#1EJ.01# M@tch! vs TEAM2 ==> [i]+1[/i]
-#&TeamB# <TeamA> vs <TeamA> ==> [i]+1[/i]
+#1EJ.01# M@tch! vs TEAM2 ==>  __F__italicbegin__F__ +1 __F__italicend__F__
+#&TeamB# <TeamA> vs <TeamA> ==>  __F__italicbegin__F__ +1 __F__italicend__F__

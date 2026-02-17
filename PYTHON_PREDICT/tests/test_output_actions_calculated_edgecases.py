@@ -40,24 +40,6 @@ def test_get_calculated_games_result_negative_result():
         s, count = output_actions_calculated.get_calculated_games_result(sr_snowflake_account, sr_gameday_output_calculate)
         assert count == 1
         assert s == s_expected
-
-def test_capture_scores_detailed_empty_df():
-    
-    # this test the function capture_scores_detailed with empty dataframe. Must exit the program.
-    df = pd.DataFrame()
-    capture_name = "mycapture"
-
-    with patch.object(output_actions_calculated.fileA, 'create_jpg'):
-        assertExit(lambda: output_actions_calculated.capture_scores_detailed(df, capture_name))
-    
-def test_capture_scores_detailed_invalid_columns():
-    
-    # this test the function capture_scores_detailed with invalid columns in dataframe. Must exit the program.
-    df = pd.DataFrame({"A":[1,2,3]})
-    capture_name = "mycapture"
-
-    with patch.object(output_actions_calculated.fileA, 'create_jpg'):
-        assertExit(lambda: output_actions_calculated.capture_scores_detailed(df, capture_name))
     
 def test_get_calculated_scores_detailed_missing_split():
     
@@ -188,7 +170,7 @@ def test_get_mvp_month_race_figure_empty_df():
 
     with patch.object(output_actions_calculated, "snowflake_execute", return_value=mock_df_month_mvp):
         gameday_month, list_user, count = output_actions_calculated.get_mvp_month_race_figure(sr_snowflake_account, sr_gameday_output_calculate)
-        assert gameday_month == "MONTH_01"
+        assert gameday_month == "__L__MONTH_01__L__"
         assert count == 0
         assert list_user == ""
 
@@ -202,7 +184,7 @@ def test_get_mvp_month_race_figure_invalid_points():
 
     with patch.object(output_actions_calculated, "snowflake_execute", return_value=mock_df_month_mvp):
         gameday_month, list_user, count = output_actions_calculated.get_mvp_month_race_figure(sr_snowflake_account, sr_gameday_output_calculate)
-        assert gameday_month == "MONTH_01"
+        assert gameday_month == "__L__MONTH_01__L__"
         assert count == 2
         assert list_user == expected_str
 
@@ -221,13 +203,14 @@ def test_get_calculated_parameters_no_predictchamp():
     # this test get_calculated_parameters without predictchamp results and rank (empty df_gamepredictchamp). Must not call it
     sr_snowflake_account = pd.read_csv("materials/snowflake_account_connect.csv").iloc[0]
     sr_gameday_output_calculate = pd.read_csv("materials/sr_gameday_output_calculate.csv").iloc[0]
-    mock_str_games_result = read_txt("materials/output_calculated_get_calculated_games_result.txt")
-    mock_df_predict_games = pd.read_csv("materials/table_scores_details.csv", header=[0, 1],keep_default_na=False,na_filter=False)
+
+    mock_str_games_result = read_txt("materials/output_actions_calculated_get_calculated_games_result.txt")
+    mock_df_predict_games = pd.read_csv("materials/output_actions_calculated_scores_details.csv", header=[0, 1],keep_default_na=False,na_filter=False)
     mock_df_userscores_global = pd.read_csv("materials/qUserScores_Global.csv")
-    mock_df_scores_global = pd.read_csv("materials/output_calculated_get_calculated_scores_global.csv")
-    mock_df_scores_gameday = pd.read_csv("materials/output_actions_calculated_scores_gameday.csv")
+    mock_df_scores_global = pd.read_csv("materials/output_actions_calculated_get_calculated_scores_global.csv")
     mock_df_list_gameday = pd.read_csv("materials/qList_Gameday_Calculated.csv")
     mock_str_scores_average = read_txt("materials/output_actions_get_calculated_scores_average.txt")
+    mock_df_scores_gameday = pd.read_csv("materials/output_actions_calculated_scores_gameday.csv")
     mock_str_list_gameday = read_txt("materials/output_actions_calculated_get_list_gameday_calculated.txt")
     mock_df_gamepredictchamp = pd.read_csv("materials/edgecases/qGamePredictchamp_empty.csv")
     mock_str_correction = read_txt("materials/output_actions_calculated_get_calculated_correction.txt")
@@ -238,15 +221,15 @@ def test_get_calculated_parameters_no_predictchamp():
          patch("output_actions_calculated.get_calculated_scores_detailed", return_value=(mock_df_predict_games, 2)), \
          patch("output_actions_calculated.snowflake_execute", side_effect=[mock_df_userscores_global, mock_df_list_gameday, mock_df_gamepredictchamp]), \
          patch("output_actions_calculated.get_calculated_scores_global", return_value=(mock_df_scores_global, 2)), \
-         patch("output_actions_calculated.get_calculated_scores_gameday", return_value=(mock_df_scores_gameday, 2)), \
          patch("output_actions_calculated.get_calculated_scores_average", return_value=(mock_str_scores_average, 1, 33)), \
+         patch("output_actions_calculated.get_calculated_scores_gameday", return_value=(mock_df_scores_gameday, 2)), \
          patch("output_actions_calculated.get_calculated_list_gameday", return_value=mock_str_list_gameday), \
          patch("output_actions_calculated.get_calculated_predictchamp_result") as mock_predictchamp_result, \
          patch("output_actions_calculated.get_calculated_predictchamp_ranking") as mock_predictchamp_ranking, \
          patch("output_actions_calculated.get_calculated_correction", return_value=(mock_str_correction, 2)), \
-         patch("output_actions_calculated.get_mvp_month_race_figure", return_value=("MONTH_01", mock_str_mvp_month, 2)), \
-         patch("output_actions_calculated.get_mvp_compet_race_figure", return_value=("Regular season", mock_str_mvp_compet, 2)):
-
+         patch("output_actions_calculated.get_mvp_month_race_figure", return_value=("__L__MONTH_01__L__", mock_str_mvp_month, 2)), \
+         patch("output_actions_calculated.get_mvp_compet_race_figure", return_value=("__L__REGULAR SEASON__L__", mock_str_mvp_compet, 2)):
+        
         params = output_actions_calculated.get_calculated_parameters(sr_snowflake_account, sr_gameday_output_calculate)
         mock_predictchamp_result.assert_not_called()
         mock_predictchamp_ranking.assert_not_called()
@@ -256,17 +239,18 @@ def test_get_calculated_parameters_missing_key():
     # this test the function get_calculated_parameters with missing key in sr_gameday_output_calculate. Must exit the program.
     sr_snowflake_account = pd.read_csv("materials/snowflake_account_connect.csv").iloc[0]
     sr_gameday_output_calculate = pd.read_csv("materials/edgecases/sr_gameday_output_calculate_noseasonid.csv").iloc[0]
-    mock_str_games_result = read_txt("materials/output_calculated_get_calculated_games_result.txt")
-    mock_df_predict_games = pd.read_csv("materials/table_scores_details.csv", header=[0, 1],keep_default_na=False,na_filter=False)
+
+    mock_str_games_result = read_txt("materials/output_actions_calculated_get_calculated_games_result.txt")
+    mock_df_predict_games = pd.read_csv("materials/output_actions_calculated_scores_details.csv", header=[0, 1],keep_default_na=False,na_filter=False)
     mock_df_userscores_global = pd.read_csv("materials/qUserScores_Global.csv")
-    mock_df_scores_global = pd.read_csv("materials/output_calculated_get_calculated_scores_global.csv")
-    mock_df_scores_gameday = pd.read_csv("materials/output_actions_calculated_scores_gameday.csv")
+    mock_df_scores_global = pd.read_csv("materials/output_actions_calculated_get_calculated_scores_global.csv")
     mock_df_list_gameday = pd.read_csv("materials/qList_Gameday_Calculated.csv")
     mock_str_scores_average = read_txt("materials/output_actions_get_calculated_scores_average.txt")
+    mock_df_scores_gameday = pd.read_csv("materials/output_actions_calculated_scores_gameday.csv")
     mock_str_list_gameday = read_txt("materials/output_actions_calculated_get_list_gameday_calculated.txt")
     mock_df_gamepredictchamp = pd.read_csv("materials/qGamePredictchamp.csv")
     mock_str_predictchamp_result = read_txt("materials/output_actions_calculated_get_calculated_predictchamp_result.txt")
-    mock_df_predictchamp_rank = pd.read_csv("materials/qTeamScores_ranked.csv")
+    mock_df_predictchamp_rank = pd.read_csv("materials/output_actions_calculated_predictchamp_rank.csv")
     mock_str_correction = read_txt("materials/output_actions_calculated_get_calculated_correction.txt")
     mock_str_mvp_month = read_txt("materials/output_actions_calculated_get_mvp_race_figures.txt")
     mock_str_mvp_compet = read_txt("materials/output_actions_calculated_get_mvp_race_figures.txt")
@@ -275,8 +259,8 @@ def test_get_calculated_parameters_missing_key():
          patch("output_actions_calculated.get_calculated_scores_detailed", return_value=(mock_df_predict_games, 2)), \
          patch("output_actions_calculated.snowflake_execute", side_effect=[mock_df_userscores_global, mock_df_list_gameday, mock_df_gamepredictchamp]), \
          patch("output_actions_calculated.get_calculated_scores_global", return_value=(mock_df_scores_global, 2)), \
-         patch("output_actions_calculated.get_calculated_scores_gameday", return_value=(mock_df_scores_gameday, 2)), \
          patch("output_actions_calculated.get_calculated_scores_average", return_value=(mock_str_scores_average, 1, 33)), \
+         patch("output_actions_calculated.get_calculated_scores_gameday", return_value=(mock_df_scores_gameday, 2)), \
          patch("output_actions_calculated.get_calculated_list_gameday", return_value=mock_str_list_gameday), \
          patch("output_actions_calculated.get_calculated_predictchamp_result", return_value=mock_str_predictchamp_result), \
          patch("output_actions_calculated.get_calculated_predictchamp_ranking", return_value=mock_df_predictchamp_rank), \
@@ -286,148 +270,54 @@ def test_get_calculated_parameters_missing_key():
 
         assertExit(lambda: output_actions_calculated.get_calculated_parameters(sr_snowflake_account, sr_gameday_output_calculate))
 
-def test_derive_calculated_parameters_for_country_empty_param_dict():
-    
-    # this test the function derive_calculated_parameters_for_country with an empty param_dict. Must return an empty dict
-    param_dict = {}
-    sr_gameday_output_calculate = pd.read_csv("materials/sr_gameday_output_calculate.csv").iloc[0]
-    country = "FRANCE"
-    translations = read_json("../output_actions_translations.json")
-    with patch.object(output_actions_calculated.outputA, "translate_param_for_country"), \
-         patch("output_actions_calculated.capture_scores_detailed"), \
-         patch.object(output_actions_calculated.outputA, "capture_df_oneheader"), \
-         patch.object(output_actions_calculated.outputA, "define_filename"), \
-         patch.object(output_actions_calculated, "push_capture_online"):
-
-        result_dict = output_actions_calculated.derive_calculated_parameters_for_country(
-            param_dict, sr_gameday_output_calculate, country, translations
-        )
-        assert result_dict == {}
-
-def test_derive_calculated_parameters_for_country_capture_func_raises():
-    
-    # this test the function derive_calculated_parameters_for_country with an capture_df_oneheader function failing. Must exit the program.
-    SCORES_DETAILED_DF = pd.read_csv("materials/table_scores_details.csv", header=[0, 1],keep_default_na=False,na_filter=False)
-    SCORES_GLOBAL_DF = pd.read_csv("materials/output_calculated_get_calculated_scores_global.csv")
-    SCORES_GAMEDAY_DF = pd.read_csv("materials/output_actions_calculated_scores_gameday.csv")
-    RANK_PREDICTCHAMP_DF = pd.read_csv("materials/qTeamScores_ranked.csv")
-    param_dict = {
-        "SCORES_DETAILED_DF": SCORES_DETAILED_DF,
-        "SCORES_GLOBAL_DF": SCORES_GLOBAL_DF,
-        "SCORES_GAMEDAY_DF": SCORES_GAMEDAY_DF,
-        "RANK_PREDICTCHAMP_DF": RANK_PREDICTCHAMP_DF,
-        "OTHER_PARAM": "value"
-    }
-    sr_gameday_output_calculate = pd.read_csv("materials/sr_gameday_output_calculate.csv").iloc[0]
-    country = "FRANCE"
-    translations = read_json("../output_actions_translations.json")
-
-    mock_SCORES_DETAILED_DF_FRANCE = pd.read_csv("materials/table_scores_details.csv", header=[0, 1],keep_default_na=False,na_filter=False)
-    mock_SCORES_GLOBAL_DF_FRANCE = pd.read_csv("materials/output_calculated_get_calculated_scores_global_france.csv")
-    mock_SCORES_GAMEDAY_DF_FRANCE = pd.read_csv("materials/output_actions_calculated_scores_gameday_france.csv")
-    mock_RANK_PREDICTCHAMP_DF_FRANCE = pd.read_csv("materials/qTeamScores_ranked_FRANCE.csv")
-    mock_OTHER_PARAM_FRANCE = "value"
-
-    mock_name_SCORE_DETAILED_DF_FRANCE = "table_scores_detailed_1erejournee_france.jpg"
-    mock_name_SCORES_GLOBAL_DF_FRANCE = "table_scores_global_1erejournee_france.jpg"
-    mock_name_SCORES_GAMEDAY_DF_FRANCE = "table_scores_gameday_1erejournee_france.jpg"
-    mock_name_RANK_PREDICTCHAMP_DF_FRANCE = "table_scores_detailed_1erejournee_france.jpg"
-    
-    mock_url_SCORE_DETAILED_DF_FRANCE = "url1"
-    mock_url_SCORES_GLOBAL_DF_FRANCE = "url2"
-    mock_url_SCORES_GAMEDAY_DF_FRANCE = "url"
-    mock_url_RANK_PREDICTCHAMP_DF_FRANCE = "url3"
-
-    with patch.object(output_actions_calculated.outputA, "translate_param_for_country", side_effect=[mock_SCORES_DETAILED_DF_FRANCE, mock_SCORES_GLOBAL_DF_FRANCE, mock_SCORES_GAMEDAY_DF_FRANCE, mock_RANK_PREDICTCHAMP_DF_FRANCE, mock_OTHER_PARAM_FRANCE]), \
-         patch("output_actions_calculated.capture_scores_detailed"), \
-         patch.object(output_actions_calculated.outputA, "capture_df_oneheader", side_effect=Exception("boom")), \
-         patch.object(output_actions_calculated.outputA, "define_filename", side_effect=[mock_name_SCORE_DETAILED_DF_FRANCE, mock_name_SCORES_GLOBAL_DF_FRANCE, mock_name_SCORES_GAMEDAY_DF_FRANCE, mock_name_RANK_PREDICTCHAMP_DF_FRANCE]), \
-         patch.object(output_actions_calculated, "push_capture_online", side_effect=[mock_url_SCORE_DETAILED_DF_FRANCE, mock_url_SCORES_GLOBAL_DF_FRANCE, mock_url_SCORES_GAMEDAY_DF_FRANCE, mock_url_RANK_PREDICTCHAMP_DF_FRANCE]):
-
-        assertExit(lambda: output_actions_calculated.derive_calculated_parameters_for_country(
-            param_dict, sr_gameday_output_calculate, country, translations
-        ))
-    
-def test_derive_calculated_parameters_filters_none_and_empty_df():
-    
-    # this test the function derive_calculated_parameters with an empty dataframe for SCORE_DETAILED_DF and SCORE_GAMEDAY_DF, and None for SCORES_GLOBAL_DF. Must return a dict with empty SCORE_DETAILED_DF and SCORE_GAMEDAY_DF only
-    param_dict = {
-        'SCORES_DETAILED_DF': pd.DataFrame(),
-        'SCORES_GLOBAL_DF': None,
-        'SCORES_GAMEDAY_DF': pd.DataFrame()
-    }
-    sr_gameday_output_calculate = pd.read_csv("materials/sr_gameday_output_calculate.csv").iloc[0]
-    list_countries = ['FRANCE']
-    mock_translations = read_json("../output_actions_translations.json")
-    mock_SCORES_DETAILED_DF_FRANCE = pd.DataFrame()
-    mock_SCORES_GAMEDAY_DF_FRANCE = pd.DataFrame()
-    mock_result_dicts = [
-        {"SCORES_DETAILED_DF": mock_SCORES_DETAILED_DF_FRANCE,
-         "SCORES_GAMEDAY_DF": mock_SCORES_GAMEDAY_DF_FRANCE}
-    ]
-    expected_dict = {
-        'SCORES_DETAILED_DF': pd.DataFrame(),
-        'SCORES_GAMEDAY_DF': pd.DataFrame()
-    }
-
-    with patch("output_actions_calculated.fileA.read_json", return_value=mock_translations), \
-         patch("output_actions_calculated.config.multithreading_run", return_value=mock_result_dicts):
-
-        result_dict = output_actions_calculated.derive_calculated_parameters(param_dict, sr_gameday_output_calculate, list_countries)
-        assert result_dict.keys() == expected_dict.keys()
-        assert result_dict['SCORES_DETAILED_DF'].equals(expected_dict['SCORES_DETAILED_DF'])
-        assert result_dict['SCORES_GAMEDAY_DF'].equals(expected_dict['SCORES_GAMEDAY_DF'])
-
-def test_create_calculated_messages_for_country_conditional_blocks():
+def test_create_calculated_message_conditional_blocks():
     
     # this test the function create_calculated_messages_for_country with a template without parameters. Must return the same result than the template
     param_dict = {
         "GAMEDAY": "1ere journee",
         "SEASON_DIVISION": "PROB",
-        "RESULT_GAMES": read_txt("materials/output_calculated_get_calculated_games_result.txt"),
+        "RESULT_GAMES": read_txt("materials/output_actions_calculated_get_calculated_games_result.txt"),
         "NB_GAMEDAY_CALCULATED": 3,
-        "NB_TOTAL_PREDICT": 66,
         "NB_MAX_PREDICT": 8,
+        "NB_TOTAL_PREDICT": 66,
         "LIST_GAMEDAY_CALCULATED": read_txt("materials/output_actions_calculated_get_list_gameday_calculated.txt"),
         "NB_USER_DETAIL": 2,
-        "SCORES_DETAILED_DF_URL_FRANCE": "url_detail",
+        "SCORES_GAMEDAY_DF_URL_FRANCE_BI": "url_gameday",
+        "SCORES_DETAILED_DF_URL_FRANCE_BI": "url_detail",
         "NB_GAMES": 2,
         "NB_CORRECTION": 2,
         "LIST_CORRECTION": read_txt("materials/output_actions_calculated_get_calculated_correction.txt"),
         "NB_USER_GLOBAL": 2,
-        "SCORES_GLOBAL_DF_URL_FRANCE": "url_global",
-        "SCORES_GAMEDAY_DF_URL_FRANCE": "url_gameday",
+        "SCORES_GLOBAL_DF_URL_FRANCE_BI": "url_global",
         "NB_USER_AVERAGE": 1,
         "NB_MIN_PREDICTION": 33,
         "SCORES_AVERAGE": read_txt("materials/output_actions_get_calculated_scores_average.txt"),
         "NB_GAME_PREDICTCHAMP": 2,
-        "RESULTS_PREDICTCHAMP_FRANCE": read_txt("materials/output_actions_calculated_get_calculated_predictchamp_result.txt"),   
+        "RESULTS_PREDICTCHAMP": read_txt("materials/output_actions_calculated_get_calculated_predictchamp_result.txt"),   
         "IS_FOR_RANK": 1,
-        "RANK_PREDICTCHAMP_DF_URL_FRANCE": "url_predictchamp",
+        "RANK_PREDICTCHAMP_DF_URL_FRANCE_BI": "url_predictchamp",
         "NB_USER_MONTH": 2,
-        "GAMEDAY_MONTH_FRANCE": "Janvier",
-        "LIST_USER_MONTH_FRANCE": read_txt("materials/output_actions_calculated_get_mvp_race_figures.txt"),   
+        "GAMEDAY_MONTH": "__L__MONTH_01__L__",
+        "LIST_USER_MONTH": read_txt("materials/output_actions_calculated_get_mvp_race_figures.txt"),   
         "NB_USER_COMPETITION": 2,
-        "GAMEDAY_COMPETITION_FRANCE": "Regular season",
-        "LIST_USER_COMPETITION_FRANCE": read_txt("materials/output_actions_calculated_get_mvp_race_figures.txt"), 
+        "GAMEDAY_COMPETITION": "__L__REGULAR SEASON__L__",
+        "LIST_USER_COMPETITION": read_txt("materials/output_actions_calculated_get_mvp_race_figures.txt"), 
         "HAS_HOME_ADV": 1
     }
-    country = "FRANCE"
     template = "template"
+    country = "FRANCE"
+    forum = 'BI'
     sr_gameday_output_calculate = pd.read_csv("materials/sr_gameday_output_calculate.csv").iloc[0]
-    mock_str_format_message = template
     mock_filename = "result.txt"
-    
-    with patch("output_actions_calculated.outputA.format_message", return_value=mock_str_format_message), \
-         patch("output_actions_calculated.outputA.replace_conditionally_message", side_effect=lambda c, b, e, cond: c) as mock_replace, \
-         patch("output_actions_calculated.outputA.define_filename", return_value=mock_filename) as mock_filename, \
+
+    with patch("output_actions_calculated.outputA.define_filename", return_value=mock_filename) as mock_filename, \
          patch("output_actions_calculated.fileA.create_txt") as mock_create_txt:
         
-        content, result_country = output_actions_calculated.create_calculated_messages_for_country(
-            param_dict, country, template, sr_gameday_output_calculate
-        )
-        assert template == content
-        assert result_country == "FRANCE"
+        content, country, forum = output_actions_calculated.create_calculated_message(param_dict, template, country, forum, sr_gameday_output_calculate)
+        
+        assert content == template
+        assert country == "FRANCE"
+        assert forum == 'BI'
 
 def test_process_output_message_calculated_no_topics():
     
@@ -440,14 +330,18 @@ def test_process_output_message_calculated_no_topics():
     sr_gameday_output_calculate = pd.read_csv("materials/sr_gameday_output_calculate.csv").iloc[0]
     mock_df_topics = pd.read_csv("materials/edgecases/qTopics_Calculate_empty.csv")
     mock_params_retrieved = {'dummy':'param_retrieved'}
-    mock_params_derived = {'dummy':'param_derived'}
-    mock_messages = [("fake_content_FRANCE", "FRANCE"), ("fake_content_ITALIA", "ITALIA")]
+    mock_params_df_retrieved = [{
+        'df1_FRANCE_BI':"url1",
+        'df2_FRANCE_BI':"url2"
+    },{
+        'df1_ITALIA_II':"url3",
+        'df2_ITALIA_II':"url4"        
+    }]
+    mock_messages = [("fake_content_FRANCE", "FRANCE", "BI"), ("fake_content_ITALIA", "ITALIA", "II")]
 
     with patch("output_actions_calculated.snowflake_execute", return_value=mock_df_topics), \
          patch("output_actions_calculated.get_calculated_parameters", return_value=mock_params_retrieved), \
-         patch("output_actions_calculated.derive_calculated_parameters", return_value=mock_params_derived), \
-         patch("output_actions_calculated.config.multithreading_run", return_value=mock_messages), \
-         patch("output_actions_calculated.post_message"):
+         patch("output_actions_calculated.config.multithreading_run", side_effect=[mock_params_df_retrieved, mock_messages,None]):
 
         output_actions_calculated.process_output_message_calculated(context_dict, sr_gameday_output_calculate)
 
@@ -462,22 +356,25 @@ def test_process_output_message_calculated_posting_fails():
     sr_gameday_output_calculate = pd.read_csv("materials/sr_gameday_output_calculate.csv").iloc[0]
     mock_df_topics = pd.read_csv("materials/qTopics_Calculate.csv")
     mock_params_retrieved = {'dummy':'param_retrieved'}
-    mock_params_derived = {'dummy':'param_derived'}
-    
+    mock_params_df_retrieved = [{
+        'df1_FRANCE_BI':"url1",
+        'df2_FRANCE_BI':"url2"
+    },{
+        'df1_ITALIA_II':"url3",
+        'df2_ITALIA_II':"url4"        
+    }]
+    mock_messages = [("fake_content_FRANCE", "FRANCE", "BI"), ("fake_content_ITALIA", "ITALIA", "II")]
+
     with patch("output_actions_calculated.snowflake_execute", return_value=mock_df_topics), \
          patch("output_actions_calculated.get_calculated_parameters", return_value=mock_params_retrieved), \
-         patch("output_actions_calculated.derive_calculated_parameters", return_value=mock_params_derived), \
-         patch("output_actions_calculated.config.multithreading_run", side_effect=Exception("boom")), \
-         patch("output_actions_calculated.post_message"):
-        
+         patch("output_actions_calculated.config.multithreading_run", side_effect=Exception("boom")):
+
         assertExit(lambda: output_actions_calculated.process_output_message_calculated(context_dict, sr_gameday_output_calculate))
 
 if __name__ == '__main__':
     test_suite = unittest.TestSuite()
     test_suite.addTest(unittest.FunctionTestCase(test_get_calculated_games_result_empty_df))
     test_suite.addTest(unittest.FunctionTestCase(test_get_calculated_games_result_negative_result))
-    test_suite.addTest(unittest.FunctionTestCase(test_capture_scores_detailed_empty_df))
-    test_suite.addTest(unittest.FunctionTestCase(test_capture_scores_detailed_invalid_columns))
     test_suite.addTest(unittest.FunctionTestCase(test_get_calculated_scores_detailed_missing_split))
     test_suite.addTest(unittest.FunctionTestCase(test_get_calculated_scores_global_empty_df))
     test_suite.addTest(unittest.FunctionTestCase(test_get_calculated_scores_global_missing_cols))
@@ -494,10 +391,7 @@ if __name__ == '__main__':
     test_suite.addTest(unittest.FunctionTestCase(test_get_mvp_compet_race_figure_missing_key))
     test_suite.addTest(unittest.FunctionTestCase(test_get_calculated_parameters_no_predictchamp))
     test_suite.addTest(unittest.FunctionTestCase(test_get_calculated_parameters_missing_key))
-    test_suite.addTest(unittest.FunctionTestCase(test_derive_calculated_parameters_for_country_empty_param_dict))
-    test_suite.addTest(unittest.FunctionTestCase(test_derive_calculated_parameters_for_country_capture_func_raises))
-    test_suite.addTest(unittest.FunctionTestCase(test_derive_calculated_parameters_filters_none_and_empty_df))
-    test_suite.addTest(unittest.FunctionTestCase(test_create_calculated_messages_for_country_conditional_blocks))
+    test_suite.addTest(unittest.FunctionTestCase(test_create_calculated_message_conditional_blocks))
     test_suite.addTest(unittest.FunctionTestCase(test_process_output_message_calculated_no_topics))
     test_suite.addTest(unittest.FunctionTestCase(test_process_output_message_calculated_posting_fails))
     runner = unittest.TextTestRunner()

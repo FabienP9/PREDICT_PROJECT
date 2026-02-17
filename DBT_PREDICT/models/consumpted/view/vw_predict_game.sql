@@ -14,7 +14,7 @@
 -- we get the prediction
 with predict_game AS (
     SELECT
-        user.USER_NAME AS NAME,
+        user.USER_NAME,
         game.GAME_MESSAGE_SHORT,
         ug.POINTS,
         game.RESULT,
@@ -49,7 +49,7 @@ with predict_game AS (
 )
 -- we pivot the table to get users and gamedays in rows
 SELECT
-    NAME,
+    USER_NAME,
     GAMEDAY,
     SEASON_ID,
     POINTS AS PT,
@@ -66,7 +66,7 @@ SELECT
 FROM 
     predict_game
 GROUP BY
-    NAME,
+    USER_NAME,
     GAMEDAY,
     SEASON_ID,
     POINTS

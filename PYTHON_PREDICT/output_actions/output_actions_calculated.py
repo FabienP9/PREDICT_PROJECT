@@ -7,15 +7,12 @@ import logging
 logging.basicConfig(level=logging.INFO)
 import os
 import pandas as pd
-import matplotlib.pyplot as plt
-from matplotlib.table import Table
 import numpy as np
 from typing import Tuple
 
 from output_actions import output_actions as outputA
 from output_actions import output_actions_sql_queries as sqlQ
 from snowflake_actions import snowflake_execute
-from imgbb_actions import push_capture_online
 import config
 from message_actions import post_message
 import file_actions as fileA
@@ -44,92 +41,14 @@ def get_calculated_games_result(sr_snowflake_account: pd.Series, sr_gameday_outp
     #we extract the list of games to display, concatenating fields into a string
     df_games['STRING'] = (df_games['GAME_MESSAGE_SHORT'].astype(str) +"/ " +
         df_games['TEAM_HOME_NAME'] + " vs " + 
-        df_games['TEAM_AWAY_NAME']+ ": [b]" +
-        df_games['RESULT'].astype(str) + "[/b] [ " +
+        df_games['TEAM_AWAY_NAME']+ ": __F__boldbegin__F__" +
+        df_games['RESULT'].astype(str) + "__F__boldend__F__ [ " +
         df_games['SCORE_HOME'].astype(str) +" - " + df_games['SCORE_AWAY'].astype(str)) + " ]"
     
     # we create the LIST_GAMES string by concatenating all games-strings on several lines
     RESULT_GAMES = "\n".join(df_games['STRING'])
     
     return RESULT_GAMES, len(df_games)
-
-@config.exit_program(log_filter=lambda args: {'columns_df': args['df'].columns.tolist(), 'capture_name': args['capture_name'] })
-def capture_scores_detailed(df: pd.DataFrame, capture_name: str):
-
-    '''
-        Captures a styled jpg using matplotlib from
-        the dataframe presenting the detailed scores per user and prediction. 
-        It is a two-level header dataframe, so it needs a specific style
-        Inputs:
-            df (dataframe): the dataframe we capture
-            capture_name (str): the name of the capture
-        Style of the figure:
-            applies alternating row colors for readability
-            highlights specific columns and headers in bold
-        Raises:
-            Exits the program if error running the function (using decorator)
-    '''
-
-    # Create table data
-    header_1 = list(df.columns.get_level_values(0))
-    header_2 = list(df.columns.get_level_values(1))
-    table_data = [header_2]  # Start with second-level headers
-    table_data.insert(0,header_1)  # Add first-level headers
-    for row in df.values:
-        table_data.append(list(row))
-
-    # Create the figure
-    fig, ax = plt.subplots(figsize=(80, 30))  # Adjust figure size
-    ax.axis('tight')
-    ax.axis('off')
-
-    # colors for row background color switch
-    color1 ='#fff2cc'
-    color2 ='#ccfff5'
-
-    # Create the table
-    tbl = Table(ax, bbox=[0, 0, 1, 1])
-
-    ncols = len(table_data[0])  # Total number of columns
-
-    # Add cells
-    for row_idx, row in enumerate(table_data):
-        for col_idx, cell in enumerate(row):
-            if row_idx == 0 and col_idx > 0:  # Handle merged effect for the first-level header
-                if col_idx == 1 or table_data[row_idx][col_idx] != table_data[row_idx][col_idx - 1]:
-                    tbl.add_cell(row_idx, col_idx, 1 / ncols, 0.15, text=cell, loc='center', facecolor='white')
-                else:
-                    # Skip duplicate cells
-                    continue
-            else:
-                height = 0.1 if row_idx > 1 else 0.15  # Adjust height for headers
-                tbl.add_cell(row_idx, col_idx, 1 / ncols, height, text=cell, loc='center', facecolor='white')
-
-    # Style the table
-    for (row, col), cell in tbl.get_celld().items():
-        if row in (0,1):  # Header row
-            cell.set_text_props(weight='bold')  # Bold text for column headers
-        elif row > 1:  # Data rows (skip the header row)
-            # Alternate row colors for readability
-            if row % 2 == 0:  # Even row index (data rows)
-                cell.set_facecolor(color1) 
-            else:  # Odd row index (data rows)
-                cell.set_facecolor(color2) 
-        #if col == 0:
-        #    cell.set_width(0.05)
-        if col%6 in (0,1,5):
-            cell.set_text_props(weight='bold')
-    
-    # Add column and row lines to emphasize merged cells
-    tbl.auto_set_font_size(False)
-    tbl.set_fontsize(30)
-    tbl.auto_set_column_width(range(len(df.columns))) # Adjust scale for better visibility
-
-    # Add the table to the plot
-    ax.add_table(tbl)
-
-    # we finally create the jpg file
-    fileA.create_jpg(os.path.join(config.TMPF,capture_name),fig)
 
 @config.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate',)})
 def get_calculated_scores_detailed(sr_snowflake_account: pd.Series, sr_gameday_output_calculate: pd.Series) -> Tuple[pd.DataFrame,int]:
@@ -154,14 +73,15 @@ def get_calculated_scores_detailed(sr_snowflake_account: pd.Series, sr_gameday_o
     if df_predict_games.shape[0] == 0 or df_predict_games.shape[1]  == 0:
         return df_predict_games,0
     else:
-        # we remove GAMEDAY and SEASON_ID they were used to filter
+        # we remove GAMEDAY and SEASON_ID they were used to filter and rename USER_NAME to USERNAME
+        df_predict_games = df_predict_games.rename(columns={'USER_NAME': 'USERNAME'})
         df_predict_games = df_predict_games.drop(columns=['GAMEDAY','SEASON_ID'])
-        # We transform the dataframe on two level header
+        # We transform the dataframe on two level header splitting on _ 
         split_cols = df_predict_games.columns.to_series().str.split('_', n=1, expand=True)
 
-        # For 'NAME' and 'PT', set the second level to empty string
+        # For 'USERNAME' and 'PT', set the second level to empty string
         split_cols[1] = split_cols[1].fillna('')  # fill None for columns without underscore
-        split_cols.loc[split_cols[0].isin(['NAME', 'PT']), 1] = ''
+        split_cols.loc[split_cols[0].isin(['USERNAME', 'PT']), 1] = ''
  
         # Convert to MultiIndex
         df_predict_games.columns = pd.MultiIndex.from_frame(split_cols)
@@ -169,6 +89,7 @@ def get_calculated_scores_detailed(sr_snowflake_account: pd.Series, sr_gameday_o
         num_cols = df_predict_games.select_dtypes(include=['float', 'int']).columns
         df_predict_games[num_cols] = df_predict_games[num_cols].fillna(0).astype(int)
         df_predict_games = df_predict_games.fillna('')
+        df_predict_games = df_predict_games.rename(columns={'USERNAME': '__D__USER_NAME__D__'})
         return df_predict_games, len(df_predict_games)
 
 @config.exit_program(log_filter=lambda args: {'columns_df_userscores_global': args['df_userscores_global'].columns.tolist(),})
@@ -190,6 +111,7 @@ def get_calculated_scores_global(df_userscores_global: pd.DataFrame) -> Tuple[pd
     df_userscores_modified = df_userscores_global.copy()
     df_userscores_modified = outputA.display_rank(df_userscores_modified,'RANK')
     df_userscores_modified = df_userscores_modified[['RANK','USER_NAME', 'TOTAL_POINTS', 'NB_GAMEDAY_PREDICT', 'NB_GAMEDAY_FIRST', 'NB_TOTAL_PREDICT']]
+    df_userscores_modified = df_userscores_modified.add_prefix("__D__").add_suffix("__D__")
     return df_userscores_modified, len(df_userscores_modified)
 
 @config.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate',)})
@@ -212,6 +134,7 @@ def get_calculated_scores_gameday(sr_snowflake_account: pd.Series, sr_gameday_ou
     df_userscores_gameday = snowflake_execute(sr_snowflake_account,sqlQ.qUserScores_Gameday,(sr_gameday_output_calculate['SEASON_ID'],sr_gameday_output_calculate['GAMEDAY']))
     df_userscores_gameday = outputA.display_rank(df_userscores_gameday,'RANK')
     df_userscores_gameday = df_userscores_gameday[['RANK','USER_NAME', 'GAMEDAY_POINTS', 'NB_PREDICTION_GAMEDAY', 'AVERAGE_POINTS']]
+    df_userscores_gameday = df_userscores_gameday.add_prefix("__D__").add_suffix("__D__")
     return df_userscores_gameday, len(df_userscores_gameday)
 
 @config.exit_program(log_filter=lambda args: {'nb_prediction': args['nb_prediction'], 'columns_df_userscores_global': args['df_userscores_global'].columns.tolist() })
@@ -239,7 +162,7 @@ def get_calculated_scores_average(nb_prediction: int, df_userscores_global: pd.D
     df_userscores_modified = outputA.calculate_and_display_rank(df_userscores_modified,['AVERAGE_POINTS'])
     df_userscores_modified['STRING'] = (df_userscores_modified['RANK'].astype(str) + ". " +
                                         df_userscores_modified['USER_NAME'] + " - " +
-                                        df_userscores_modified['AVERAGE_POINTS'].astype(str) + " pts")
+                                        df_userscores_modified['AVERAGE_POINTS'].astype(str) + " pts/__L__predict__L__")
     # we create the SCORES_AVERAGE string by concatenating all users on several lines
     SCORES_AVERAGE = "\n".join(df_userscores_modified['STRING'])
     return SCORES_AVERAGE, len(df_userscores_modified),NB_MIN_PREDICTION
@@ -261,10 +184,10 @@ def get_calculated_predictchamp_result(df_gamepredictchamp: pd.DataFrame, sr_sno
     # we create the string for displaying result game according to winner
     df_gamepredictchamp_modified = df_gamepredictchamp.copy()
     df_gamepredictchamp_modified['STRING_TEAM_HOME'] = np.where(df_gamepredictchamp_modified['WINNER'] == 1,
-    "[b]" + df_gamepredictchamp_modified['TEAM_HOME_NAME'] + "[/b]", df_gamepredictchamp_modified['TEAM_HOME_NAME'])
+    "__F__boldbegin__F__" + df_gamepredictchamp_modified['TEAM_HOME_NAME'] + "__F__boldend__F__", df_gamepredictchamp_modified['TEAM_HOME_NAME'])
     
     df_gamepredictchamp_modified['STRING_TEAM_AWAY'] = np.where(df_gamepredictchamp_modified['WINNER'] == 2,
-    "[b]" + df_gamepredictchamp_modified['TEAM_AWAY_NAME'] + "[/b]", df_gamepredictchamp_modified['TEAM_AWAY_NAME'])
+    "__F__boldbegin__F__" + df_gamepredictchamp_modified['TEAM_AWAY_NAME'] + "__F__boldend__F__", df_gamepredictchamp_modified['TEAM_AWAY_NAME'])
     
     df_gamepredictchamp_modified['STRING'] = (df_gamepredictchamp_modified['GAME_MESSAGE_SHORT'].astype(str) + "/ " +
                                               df_gamepredictchamp_modified['STRING_TEAM_HOME'] + " vs " +
@@ -286,7 +209,7 @@ def get_calculated_predictchamp_result(df_gamepredictchamp: pd.DataFrame, sr_sno
         team_string = "-> " + "\n-> ".join(g.loc[g["RANK_USER_TEAM"] == 1, "STRING"])
         others = g.loc[g["RANK_USER_TEAM"] != 1, "STRING"].tolist()
         if others:
-            team_string += "   - [__Not counted__: " + "/ ".join(others) + "]"
+            team_string += "   - [__L__Not counted__L__: " + "/ ".join(others) + "]"
         return team_string
 
     df_team_summary = (
@@ -303,12 +226,12 @@ def get_calculated_predictchamp_result(df_gamepredictchamp: pd.DataFrame, sr_sno
     bonus_str = bonus_str.astype(float) # ensure float to allow safe fill
     df_team_summary["TEAM_STRING"] = np.where(
         bonus_str != 0,
-        df_team_summary["TEAM_STRING"] + "\n-> __Home bonus__: " + bonus_str.astype(int).astype(str) + " pts",
+        df_team_summary["TEAM_STRING"] + "\n-> __L__HOMEBONUS__L__: " + bonus_str.astype(int).astype(str) + " pts",
         df_team_summary["TEAM_STRING"]
     )
     
-    # We wrap in [code] block
-    df_team_summary["TEAM_STRING"] = "[code]__FOR__ " + df_team_summary["TEAM_NAME"] + ":\n" + df_team_summary["TEAM_STRING"] + "[/code]"
+    # We wrap in quotes block
+    df_team_summary["TEAM_STRING"] = "__F__quote2begin__F____L__FOR__L__ " + df_team_summary["TEAM_NAME"] + ":\n" + df_team_summary["TEAM_STRING"] + "__F__quote2end__F__"
     
     # We aggregate team string per game
     df_game_output = (
@@ -346,6 +269,7 @@ def get_calculated_predictchamp_ranking(sr_snowflake_account: pd.Series, sr_game
     #we add a rank per team - first by percentage of win, then by points difference
     df_teamscores = outputA.display_rank(df_teamscores,'RANK')
     
+    df_teamscores = df_teamscores.add_prefix("__D__").add_suffix("__D__")
     return df_teamscores
 
 @config.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate',)})
@@ -414,8 +338,9 @@ def get_mvp_month_race_figure(sr_snowflake_account: pd.Series, sr_gameday_output
     #we create the output string - without the team display if there are not
     df_month_mvp['STRING'] = np.where(df_month_mvp['LIST_TEAMS'] == '',
                                   df_month_mvp['USER_NAME'] + " - " + df_month_mvp['POINTS'].astype(str) + " pts",
-                                  df_month_mvp['USER_NAME'] + " - " + df_month_mvp['POINTS'].astype(str) + " pts / " + df_month_mvp['WIN'].astype(str) + "__W__-" + df_month_mvp['LOSS'].astype(str) + "__L__ [__with__ " + df_month_mvp['LIST_TEAMS'].astype(str) + "]")
+                                  df_month_mvp['USER_NAME'] + " - " + df_month_mvp['POINTS'].astype(str) + " pts / " + df_month_mvp['WIN'].astype(str) + "__L__WIN__L__-" + df_month_mvp['LOSS'].astype(str) + "__L__LOSS__L__ [__L__with__L__ " + df_month_mvp['LIST_TEAMS'].astype(str) + "]")
     LIST_USER_MONTH = "\n".join(df_month_mvp['STRING'].tolist())
+    GAMEDAY_MONTH = "__L__" + GAMEDAY_MONTH + "__L__"
     return GAMEDAY_MONTH, LIST_USER_MONTH, len(df_month_mvp)
 
 @config.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate',)})
@@ -441,9 +366,11 @@ def get_mvp_compet_race_figure(sr_snowflake_account: pd.Series, sr_gameday_outpu
     #we create the output string - without the team display if there are not
     df_compet_mvp['STRING'] = np.where(df_compet_mvp['LIST_TEAMS'] == '',
                                   df_compet_mvp['USER_NAME'] + " - " + df_compet_mvp['POINTS'].astype(str) + " pts",
-                                  df_compet_mvp['USER_NAME'] + " - " + df_compet_mvp['POINTS'].astype(str) + " pts / " + df_compet_mvp['WIN'].astype(str) + "__W__-" + df_compet_mvp['LOSS'].astype(str) + "__L__ [__with__ " + df_compet_mvp['LIST_TEAMS'].astype(str) + "]")
-
+                                  df_compet_mvp['USER_NAME'] + " - " + df_compet_mvp['POINTS'].astype(str) + " pts / " + df_compet_mvp['WIN'].astype(str) + "__L__WIN__L__-" + df_compet_mvp['LOSS'].astype(str) + "__L__LOSS__L__ [__L__with__L__ " + df_compet_mvp['LIST_TEAMS'].astype(str) + "]")
+    
     LIST_USER_COMPETITION = "\n".join(df_compet_mvp['STRING'].tolist())
+    
+    GAMEDAY_COMPETITION = "__L__" + GAMEDAY_COMPETITION + "__L__"
     return GAMEDAY_COMPETITION, LIST_USER_COMPETITION, len(df_compet_mvp)
 
 @config.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate',)})
@@ -465,11 +392,11 @@ def get_calculated_parameters(sr_snowflake_account: pd.Series, sr_gameday_output
     param_dict['SEASON_DIVISION'] = sr_gameday_output_calculate['SEASON_DIVISION']
     param_dict['RESULT_GAMES'],param_dict['NB_GAMES'] = get_calculated_games_result(sr_snowflake_account,sr_gameday_output_calculate)
     param_dict['SCORES_DETAILED_DF'], param_dict['NB_USER_DETAIL'] = get_calculated_scores_detailed(sr_snowflake_account,sr_gameday_output_calculate) 
-
+    
     # we get the scores per users query 
     df_userscores_global = snowflake_execute(sr_snowflake_account,sqlQ.qUserScores_Global,(sr_gameday_output_calculate['SEASON_ID'],))
     param_dict['SCORES_GLOBAL_DF'],param_dict['NB_USER_GLOBAL'] = get_calculated_scores_global(df_userscores_global)
-
+    
     # we get the gamedays calculated query 
     df_gameday_calculated = snowflake_execute(sr_snowflake_account,sqlQ.qList_Gameday_Calculated,(sr_gameday_output_calculate['SEASON_ID'],))
     param_dict['NB_GAMEDAY_CALCULATED'] = len(df_gameday_calculated)
@@ -499,7 +426,7 @@ def get_calculated_parameters(sr_snowflake_account: pd.Series, sr_gameday_output
         param_dict['RANK_PREDICTCHAMP_DF'] = None
     else:
         param_dict['RANK_PREDICTCHAMP_DF'] = get_calculated_predictchamp_ranking(sr_snowflake_account,sr_gameday_output_calculate)
-
+        
     param_dict['LIST_CORRECTION'],param_dict['NB_CORRECTION'] = get_calculated_correction(sr_snowflake_account,sr_gameday_output_calculate)
 
     # we process MVP race figures, only if need to display them
@@ -525,119 +452,49 @@ def get_calculated_parameters(sr_snowflake_account: pd.Series, sr_gameday_output
 
     return param_dict
 
-@config.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate','country')})
-def derive_calculated_parameters_for_country(param_dict: dict, sr_gameday_output_calculate: pd.Series, country: str,translations: list[str]) -> dict:
+@config.exit_program(log_filter=lambda args: {k: args[k] for k in ('country','forum')})
+def get_calculated_parameters_df_management(param_dict: dict, sr_gameday_output_calculate: pd.Series, country: str, forum: str ) -> dict:
 
     '''
-        Calculates derived parameters from a part of the the one retrieved by:
-        - translating parameters for the given country
-        - capturing specific translated dataframe parameters in jpg parameter
-        - push captures on imgbb online provider and get the url parameter
+        Defines additional parameters per country and forums for dataframes parameters
         Inputs:
-            param_dict (data dictionary) contains calculated parameters we want to derive for the given country
-            sr_gameday_output_calculate (serie - one row): used to calculate derived parameters
-            country (str): we translate parameters for this country
-            translations (list): contains all strings to translate
+            param_dict (dict) containing df parameters
+            sr_gameday_output_calculate (series - one row) containing parameters to call manage_df function
+            country (str): the country of the forum for the message, we translate __D__ text for this country in df headers
+            forum (str): the forum for the message, we translate __F__ text for this forum formats
         Returns:
-            translated, captured, and url parameters into a dictionary
+            data dictionary with all calculated parameters
         Raises:
             Exits the program if error running the function (using decorator)
     '''
 
-    translated_dict={}
-    captured_dict={}
-
-    #For each parameter we translate
-    for (key,value) in param_dict.items():
-        translated_dict[key+'_'+country] = outputA.translate_param_for_country(value,country,translations)
+    param_df_dict = {}
+    param_df_dict['SCORES_DETAILED_DF_URL_'+country+'_'+forum] = outputA.manage_df(param_dict['SCORES_DETAILED_DF'], country, forum, "table_score_details", sr_gameday_output_calculate)
+    param_df_dict['SCORES_GLOBAL_DF_URL_'+country+'_'+forum] = outputA.manage_df(param_dict['SCORES_GLOBAL_DF'], country, forum, "table_global_scores", sr_gameday_output_calculate)
+    param_df_dict['SCORES_GAMEDAY_DF_URL_'+country+'_'+forum] = outputA.manage_df(param_dict['SCORES_GAMEDAY_DF'], country, forum, "table_gameday_scores", sr_gameday_output_calculate)
     
-    # we define capture behavior for specific parameters
-    capture_configs = {
-        "SCORES_DETAILED_DF": {
-            "capture_func": capture_scores_detailed,
-            "filename_prefix": "table_score_details"
-        },
-        "SCORES_GLOBAL_DF": {
-            "capture_func": outputA.capture_df_oneheader,
-            "filename_prefix": "table_global_scores"
-        },
-        "SCORES_GAMEDAY_DF": {
-            "capture_func": outputA.capture_df_oneheader,
-            "filename_prefix": "table_gameday_scores"
-        },
-        "RANK_PREDICTCHAMP_DF": {
-            "capture_func": outputA.capture_df_oneheader,
-            "filename_prefix": "table_predictchamp_ranking"
-        }
-    }
-
-    for key, captconfig in capture_configs.items():
-        translated_key = key+'_'+country
-        if translated_key in translated_dict:
-            filename = outputA.define_filename(captconfig["filename_prefix"], sr_gameday_output_calculate, 'jpg', country)
-            local_path = os.path.join(config.TMPF, filename)
-
-            # Capture and push image
-            captconfig["capture_func"](translated_dict[translated_key], filename)
-            url = push_capture_online(local_path)
-
-            # Store metadata
-            captured_dict[f"{key}_CAPTURE_{country}"] = filename
-            captured_dict[f"{key}_URL_{country}"] = url
-
-    return translated_dict | captured_dict
-
-@config.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate',)})
-def derive_calculated_parameters(param_dict: dict, sr_gameday_output_calculate: pd.Series, list_countries: list[str]) -> dict:
-
-    '''
-        Calls derive_calculated_parameters_for_country for each country, parallelizing it
-        Inputs:
-            param_dict (data dictionary) contains calculated parameters - we derive part of them
-            sr_gameday_output_calculate (serie - one row): used to calculate derived parameters
-            list_countries (list): we call derive_calculated_parameters_for_country for each country of the list
-        Returns:
-            dict with all parameters derived
-        Raises:
-            Exits the program if error running the function (using decorator)
-    '''
-
-    # we get the json file of translation
-    translations = fileA.read_json("output_actions/output_actions_translations.json")
-
-    # we filter only the relevant non-None entries and non empty dataframe from param_dict
-    keys_to_check = ['SCORES_DETAILED_DF', 'SCORES_GLOBAL_DF', 'SCORES_GAMEDAY_DF', 'RANK_PREDICTCHAMP_DF','RESULTS_PREDICTCHAMP','GAMEDAY_MONTH','LIST_USER_MONTH','GAMEDAY_COMPETITION','LIST_USER_COMPETITION']
-    dict_to_derive = {}
-    for key in keys_to_check:
-        value = param_dict.get(key)
-        if value is None:
-            continue
-        if isinstance(value, pd.DataFrame) and value.empty:
-            continue
-        dict_to_derive[key] = value
+    if param_dict['IS_FOR_RANK'] == 0:
+        param_df_dict['RANK_PREDICTCHAMP_DF_URL_'+country+'_'+forum] = None
+    else:
+        param_df_dict['RANK_PREDICTCHAMP_DF_URL_'+country+'_'+forum] = outputA.manage_df(param_dict['RANK_PREDICTCHAMP_DF'], country, forum, "table_predictchamp_ranking", sr_gameday_output_calculate)
     
-    #we then call derive_calculated_parameters_for_country, for each country parallelizing
-    param_dict_derived = {}
-    param_args= [(dict_to_derive,sr_gameday_output_calculate,country,translations) for country in list_countries]
-    results = config.multithreading_run(derive_calculated_parameters_for_country, param_args)
-    param_dict_derived.update({k: v for r in results for k, v in r.items()})
-    return param_dict_derived
+    return param_df_dict
 
-@config.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate','country')})
-def create_calculated_messages_for_country(param_dict: dict, country: str, template:str, sr_gameday_output_calculate: pd.Series) -> Tuple[str,str]:
+@config.exit_program(log_filter=lambda args: {k: args[k] for k in ('country', 'forum','sr_gameday_output_calculate')})
+def create_calculated_message(param_dict: dict, template:str, country: str, forum: str, sr_gameday_output_calculate: pd.Series) -> Tuple[str,str]:
 
     '''
-        Defines calculated message for each given country:
+        Defines calculated gameday message:
         - by replacing text with calculated parameters
-        - removing blocks of text according to the value of some of the calculated parameters
-        - create the text file containing the message
+        - create the text file containing the message, per country and per forum
         Inputs:
             param_dict (data dictionary) containing parameters
             template (str): the message text we want to personalize
-            country (str): the country of the forum for the message, some parameters depend on it
+            country (str): the country of the forum for the message, we translate __L__ text for this country
+            forum (str): the forum for the message, we translate __F__ text for this forum formats
+            sr_gameday_output_calculate (series - one row) containing parameters for the file name
         Returns:
-            the message personalized with its file name
-            the country concerned with the message
+            the message personalized with the related country and forum
         Raises:
             Exits the program if error running the function (using decorator)
     '''
@@ -660,8 +517,8 @@ def create_calculated_messages_for_country(param_dict: dict, country: str, templ
 
     if param_dict['NB_USER_DETAIL'] > 0:   
         replacement_substr.extend([
-            ("#IMGGAMEDAY#",param_dict['SCORES_GAMEDAY_DF_URL_'+country]),
-            ("#IMGDETAIL#",param_dict['SCORES_DETAILED_DF_URL_'+country]),
+            ("#IMGGAMEDAY#",param_dict['SCORES_GAMEDAY_DF_URL_'+country+'_'+forum]),
+            ("#IMGDETAIL#",param_dict['SCORES_DETAILED_DF_URL_'+country+'_'+forum]),
             ("#NB_GAMES#",str(param_dict['NB_GAMES']))
         ])
 
@@ -672,7 +529,7 @@ def create_calculated_messages_for_country(param_dict: dict, country: str, templ
 
     if param_dict['NB_USER_GLOBAL'] > 0:
         replacement_substr.extend([
-            ("#IMGSEASON#",param_dict['SCORES_GLOBAL_DF_URL_'+country])
+            ("#IMGSEASON#",param_dict['SCORES_GLOBAL_DF_URL_'+country+'_'+forum])
         ])
 
     if param_dict['NB_USER_AVERAGE'] > 0:
@@ -683,25 +540,25 @@ def create_calculated_messages_for_country(param_dict: dict, country: str, templ
 
     if param_dict['NB_GAME_PREDICTCHAMP'] > 0:
         replacement_substr.extend([
-            ("#RESULTS_PREDICTCHAMP#",param_dict['RESULTS_PREDICTCHAMP_'+country])
+            ("#RESULTS_PREDICTCHAMP#",param_dict['RESULTS_PREDICTCHAMP'])
         ])  
 
     if param_dict['IS_FOR_RANK'] == 1:
         replacement_substr.extend([
-            ("#RANK_PREDICTCHAMP_IMG#",param_dict['RANK_PREDICTCHAMP_DF_URL_'+country])
+            ("#RANK_PREDICTCHAMP_IMG#",param_dict['RANK_PREDICTCHAMP_DF_URL_'+country+'_'+forum])
         ])  
 
     if param_dict['NB_USER_MONTH'] > 0:
         replacement_substr.extend([
-            ("#GAMEDAY_MONTH#",param_dict['GAMEDAY_MONTH_'+country]),
-            ("#LIST_USER_MONTH#",param_dict['LIST_USER_MONTH_'+country]),
+            ("#GAMEDAY_MONTH#",param_dict['GAMEDAY_MONTH']),
+            ("#LIST_USER_MONTH#",param_dict['LIST_USER_MONTH']),
             ("#NB_USER_MONTH#",str(param_dict['NB_USER_MONTH']))
         ])  
 
     if param_dict['NB_USER_COMPETITION'] > 0:
         replacement_substr.extend([
-            ("#GAMEDAY_COMPETITION#",param_dict['GAMEDAY_COMPETITION_'+country]),
-            ("#LIST_USER_COMPETITION#",param_dict['LIST_USER_COMPETITION_'+country]),
+            ("#GAMEDAY_COMPETITION#",param_dict['GAMEDAY_COMPETITION']),
+            ("#LIST_USER_COMPETITION#",param_dict['LIST_USER_COMPETITION']),
             ("#NB_USER_COMPETITION#",str(param_dict['NB_USER_COMPETITION']))
         ])          
 
@@ -729,15 +586,20 @@ def create_calculated_messages_for_country(param_dict: dict, country: str, templ
     for begin_tag, end_tag, condition in conditional_blocks:
         content = outputA.replace_conditionally_message(content,begin_tag, end_tag, condition)
 
-    file_name = outputA.define_filename("forumoutput_calculated", sr_gameday_output_calculate, 'txt', country)
+    #We then translate the content for the country and the forum
+    content = outputA.translate_string(content,country,forum)
+
+    #We finally create a filename related to this content
+    file_name = outputA.define_filename("forumoutput_calculated", sr_gameday_output_calculate, 'txt', country, forum)
     fileA.create_txt(os.path.join(config.TMPF,file_name),content)
-    return content,country
+
+    return content,country,forum
 
 @config.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate',)})
 def process_output_message_calculated(context_dict: dict, sr_gameday_output_calculate: pd.Series):
 
     '''
-        Defines calculated gameday message for each topics and country we want to post:
+        Defines calculated gameday message:
         - by getting templates
         - modify templates with parameters calculated 
         - posting the text on forums
@@ -753,20 +615,23 @@ def process_output_message_calculated(context_dict: dict, sr_gameday_output_calc
     sr_snowflake_account = context_dict['sr_snowflake_account_connect']
     # we get the distinct list of topics where we want to post, and the list of distinct countries for these topics
     df_topics = snowflake_execute(sr_snowflake_account,sqlQ.qTopics_Calculate,(sr_gameday_output_calculate['SEASON_ID'],))
-    list_countries = df_topics['FORUM_COUNTRY'].unique().tolist()
+    list_countries_forums = (df_topics[['FORUM_COUNTRY', 'FORUM_SOURCE']].drop_duplicates().values.tolist())
 
-    param_dict_retrieve = get_calculated_parameters(sr_snowflake_account,sr_gameday_output_calculate)
+    # we get all parameters needed
+    param_dict = get_calculated_parameters(sr_snowflake_account,sr_gameday_output_calculate)
+    param_args= [(param_dict,sr_gameday_output_calculate,country,forum) for (country,forum) in list_countries_forums]
+    results = config.multithreading_run(get_calculated_parameters_df_management, param_args)
+    for param_df_dict in results:
+        param_dict.update(param_df_dict)
     logging.info(f"OUTPUT -> PARAM RETRIEVED")
-    param_dict_derived = derive_calculated_parameters(param_dict_retrieve,sr_gameday_output_calculate,list_countries)
-    logging.info(f"OUTPUT -> PARAM DERIVED")
-    param_dict = param_dict_retrieve | param_dict_derived
 
-    message_args= [(param_dict,country,context_dict['str_output_gameday_calculation_template_'+country],sr_gameday_output_calculate) for country in list_countries]
-    results = config.multithreading_run(create_calculated_messages_for_country, message_args)
-    for content,country in results:
-        param_dict['MESSAGE_'+country] = content
-    logging.info(f"OUTPUT -> MESSAGES CALCULATED")
+    message_args= [(param_dict,context_dict['str_output_gameday_calculation_template_'+country],country,forum,sr_gameday_output_calculate) for (country,forum) in list_countries_forums]
+    results = config.multithreading_run(create_calculated_message, message_args)
+    for content,country,forum in results:
+        param_dict['MESSAGE_'+country+'_'+forum] = content
+    logging.info(f"OUTPUT -> MESSAGES CREATED")
 
-    posting_args = [(row,param_dict['MESSAGE_'+row['FORUM_COUNTRY']]) for _,row in df_topics.iterrows()]
+    # we post messages for each concerned topics
+    posting_args = [(row,param_dict['MESSAGE_'+row['FORUM_COUNTRY']+'_'+row['FORUM_SOURCE']]) for _,row in df_topics.iterrows()]
     config.multithreading_run(post_message, posting_args)
     logging.info(f"OUTPUT -> GENERATING CALCULATED MESSAGE [DONE]")

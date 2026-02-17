@@ -11,6 +11,7 @@ import unicodedata
 import re
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.table import Table
 
 import config
 import file_actions as fileA
@@ -18,31 +19,55 @@ from output_actions import output_actions_sql_queries as sqlQ
 from output_actions import output_actions_calculated as outputAC
 from output_actions import output_actions_inited as outputAI
 from snowflake_actions import snowflake_execute
+from imgbb_actions import push_capture_online
 
-@config.exit_program(log_filter=lambda args: {k: args[k] for k in ('param_to_translate','country')})
-def translate_param_for_country(param_to_translate: str | pd.DataFrame, country: str, translations: dict) -> str | pd.DataFrame:
+@config.exit_program(log_filter=lambda args: {k: args[k] for k in ('country','forum')})
+def translate_string(content: str, country: str, forum: str) -> str:
 
     '''
-        Translates a text or dataframe headers for a given country
+        Translates a text for a given country and a given forum
         Inputs:
-            param_to_translate (str or df): the parameter to translate
+            content (str): The text we want to translate
             country (str): The country for which we translate
-            translations (dict): translations strings to translate
+            forum (str): The forum for which we translate
         Returns:
-            The parameter translated (str or df)
+            The text translated (str)
         Raises:
             Exits the program if error running the function (using decorator)
     '''
 
-    if isinstance(param_to_translate, pd.DataFrame):
-        param_translated = param_to_translate.rename(columns=translations[country])
+    translations = fileA.read_json("output_actions/output_actions_translations.json")
+    # We translate for the country...
+    country_mapping = translations.get(country, {})
+    pattern = re.compile("|".join(map(re.escape, sorted(country_mapping, key=len, reverse=True))))
+    content = pattern.sub(lambda m: country_mapping[m.group(0)], content)
+    #and for the forum
+    forum_mapping = translations.get("FORUM_"+forum, {})
+    pattern = re.compile("|".join(map(re.escape, sorted(forum_mapping, key=len, reverse=True))))
+    content = pattern.sub(lambda m: forum_mapping[m.group(0)], content)
 
-    elif isinstance(param_to_translate, str):
-        param_translated = param_to_translate
-        for key, val in translations[country].items():
-            param_translated = param_translated.replace(key, val)
+    return content
 
-    return param_translated
+@config.exit_program(log_filter=lambda args: {k: args[k] for k in ('country','forum')})
+def translate_df_headers(df: pd.DataFrame, country: str, forum: str) -> pd.DataFrame:
+    
+    '''
+        Translates df headers for a given country and a given forum
+        Inputs:
+            df (dataframe): The dataframe for which we want to translate headers
+            country (str): The country for which we translate
+            forum (str): The forum for which we translate
+        Returns:
+            The dataframe translated (dataframe)
+        Raises:
+            Exits the program if error running the function (using decorator)
+    '''
+
+    translations = fileA.read_json("output_actions/output_actions_translations.json")
+    df = df.rename(columns=translations[country])
+    df = df.rename(columns=translations['FORUM_'+forum])
+
+    return df
 
 @config.exit_program(log_filter=lambda args: {})
 def format_message(message: str) -> str:
@@ -96,17 +121,18 @@ def replace_conditionally_message(output_text: str, begin_tag: str, end_tag: str
     return output_text
 
 @config.exit_program(log_filter=lambda args: dict(args))
-def define_filename(input_type: str, sr_gameday_output_init: pd.Series, extension: str, country: str | None = None):
+def define_filename(input_type: str, sr_gameday_output_init: pd.Series, extension: str, country: str | None = None, forum: str | None = None) -> str:
 
     '''
         Creates the name of the output file
         Inputs:
             input_type (str): the type of file (forumoutput_inited, forumoutput_calculated, capture_calculated,...)
             sr_gameday_output_init (series - one row) containing elements for the name
-            country (str): the country will be suffixed to the name if provided
             extension (str): file extension (txt or jpg)
+            country (str): the country will be suffixed to the name if provided
+            forum (str): the forum name will be suffixed to the name if provided
         Returns:
-            The name of the file
+            The name of the file (str)
         Raises:
             Exits the program if error running the function (using decorator)
     '''
@@ -128,6 +154,8 @@ def define_filename(input_type: str, sr_gameday_output_init: pd.Series, extensio
     file_name = input_type + '_' + sr_gameday_output_init['SEASON_ID'] + '_' + sr_gameday_output_init['GAMEDAY'] 
     if country is not None:
         file_name += '_' + country
+    if forum is not None:
+        file_name += '_' + forum
     file_name += '.' + extension
     file_name = normalize_string(file_name)
 
@@ -221,6 +249,116 @@ def capture_df_oneheader(df: pd.DataFrame, capture_name: str):
 
     # we create the jpg from the figure
     fileA.create_jpg(os.path.join(config.TMPF,capture_name),fig)
+
+@config.exit_program(log_filter=lambda args: {'columns_df': args['df'].columns.tolist(), 'capture_name': args['capture_name'] })
+def capture_scores_detailed(df: pd.DataFrame, capture_name: str):
+
+    '''
+        Captures a styled jpg using matplotlib from
+        the dataframe presenting the detailed scores per user and prediction. 
+        It is a two-level header dataframe, so it needs a specific style
+        Inputs:
+            df (dataframe): the dataframe we capture
+            capture_name (str): the name of the capture
+        Style of the figure:
+            applies alternating row colors for readability
+            highlights specific columns and headers in bold
+        Raises:
+            Exits the program if error running the function (using decorator)
+    '''
+
+    # Create table data
+    header_1 = list(df.columns.get_level_values(0))
+    header_2 = list(df.columns.get_level_values(1))
+    table_data = [header_2]  # Start with second-level headers
+    table_data.insert(0,header_1)  # Add first-level headers
+    for row in df.values:
+        table_data.append(list(row))
+
+    # Create the figure
+    fig, ax = plt.subplots(figsize=(80, 30))  # Adjust figure size
+    ax.axis('tight')
+    ax.axis('off')
+
+    # colors for row background color switch
+    color1 ='#fff2cc'
+    color2 ='#ccfff5'
+
+    # Create the table
+    tbl = Table(ax, bbox=[0, 0, 1, 1])
+
+    ncols = len(table_data[0])  # Total number of columns
+
+    # Add cells
+    for row_idx, row in enumerate(table_data):
+        for col_idx, cell in enumerate(row):
+            if row_idx == 0 and col_idx > 0:  # Handle merged effect for the first-level header
+                if col_idx == 1 or table_data[row_idx][col_idx] != table_data[row_idx][col_idx - 1]:
+                    tbl.add_cell(row_idx, col_idx, 1 / ncols, 0.15, text=cell, loc='center', facecolor='white')
+                else:
+                    # Skip duplicate cells
+                    continue
+            else:
+                height = 0.1 if row_idx > 1 else 0.15  # Adjust height for headers
+                tbl.add_cell(row_idx, col_idx, 1 / ncols, height, text=cell, loc='center', facecolor='white')
+
+    # Style the table
+    for (row, col), cell in tbl.get_celld().items():
+        if row in (0,1):  # Header row
+            cell.set_text_props(weight='bold')  # Bold text for column headers
+        elif row > 1:  # Data rows (skip the header row)
+            # Alternate row colors for readability
+            if row % 2 == 0:  # Even row index (data rows)
+                cell.set_facecolor(color1) 
+            else:  # Odd row index (data rows)
+                cell.set_facecolor(color2) 
+        #if col == 0:
+        #    cell.set_width(0.05)
+        if col%6 in (0,1,5):
+            cell.set_text_props(weight='bold')
+    
+    # Add column and row lines to emphasize merged cells
+    tbl.auto_set_font_size(False)
+    tbl.set_fontsize(30)
+    tbl.auto_set_column_width(range(len(df.columns))) # Adjust scale for better visibility
+
+    # Add the table to the plot
+    ax.add_table(tbl)
+
+    # we finally create the jpg file
+    fileA.create_jpg(os.path.join(config.TMPF,capture_name),fig)
+
+@config.exit_program(log_filter=lambda args: {k: args[k] for k in ('country','forum','capture_name', 'sr_gameday_output')})
+def manage_df(df: pd.DataFrame, country: str, forum: str, capture_name: str, sr_gameday_output: pd.Series) -> str:
+
+    '''
+        Manage a dataframe for the output display:
+        - translate headers for a given country and forum
+        - capture it into a picture
+        - send it online
+        Inputs:
+            df (dataframe): the dataframe we capture
+            country(str): the given country
+            forum(str): the given forum
+            capture_name (str): the short name of the capture
+            sr_gameday_output (serie - one row): used to calculate the full name of the capture
+            
+        Returns:
+            the url of the capture online (str)    
+        Raises:
+            Exits the program if error running the function (using decorator)
+    '''
+
+    df = translate_df_headers(df, country, forum)
+    full_capture_name = define_filename(capture_name, sr_gameday_output, 'jpg', country, forum)
+    if df.columns.nlevels == 1:
+       capture_df_oneheader(df, full_capture_name) 
+    else:
+       capture_scores_detailed(df, full_capture_name) 
+    local_path = os.path.join(config.TMPF, full_capture_name)
+    url = push_capture_online(local_path)
+
+    return url
 
 @config.exit_program(log_filter=lambda args: {})
 def generate_output_message(context_dict: dict):

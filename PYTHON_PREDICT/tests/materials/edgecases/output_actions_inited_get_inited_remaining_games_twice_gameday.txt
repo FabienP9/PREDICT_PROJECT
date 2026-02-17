@@ -1,5 +1,5 @@
-#3EJ.01# teamZ vs teamY ==> [i]+1[/i]
-#3EJ.02# teamA vs teamB ==> [i]+1[/i]
-#3EJ.BN# __Bonus game id__ ==> 3EJ.01
-#4EJ.02# teamC vs teamD ==> [i]+1[/i]
-#4EJ.BN# __Bonus game id__ ==> 4EJ.02
+#3EJ.01# teamZ vs teamY ==> __F__italicbegin__F__ +1 __F__italicend__F__
+#3EJ.02# teamA vs teamB ==> __F__italicbegin__F__ +1 __F__italicend__F__
+#3EJ.BN# __L__Bonus game ID__L__ ==> __F__italicbegin__F__3EJ.01__F__italicend__F__
+#4EJ.02# teamC vs teamD ==> __F__italicbegin__F__ +1 __F__italicend__F__
+#4EJ.BN# __L__Bonus game ID__L__ ==> __F__italicbegin__F__4EJ.02__F__italicend__F__

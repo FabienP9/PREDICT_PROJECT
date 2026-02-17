@@ -19,3 +19,12 @@ Voici la ligne à indiquer:
 "[b]
 #SEASON.TM# Equipe - Championnat de pronostics ==> [i]votre équipe[/i]
 [/b]"
+
+A date, la/les journée(s) [b] 3eme journee , 4eme journee [/b] reste(nt) partiellement ouverte(s): les matchs suivants n'ont pas été joués.
+Vous pouvez encore réaliser ou modifier vos pronos sur les matchs que vous souhaitez parmi cette liste, jusqu'à leur début. :)
+"[b]
+#3EJ.02# teamA vs teamB ==> [i] +1 [/i]
+#3EJ.BN# Identifiant du match bonus ==> [i]3EJ.02[/i]
+#4EJ.02# teamC vs teamD ==> [i] +1 [/i]
+#4EJ.BN# Identifiant du match bonus ==> [i]4EJ.02[/i]
+[/b]"

@@ -1,0 +1,74 @@
++++++
+
+[center][size=200][b]Résultats - 1ere journee[/b][/size][/center]
+
+
+[size=150][b]Résultats PROB[/b][/size]
+[quote]1/ TEAM1 vs TEAM2: [b]+4[/b] [ 85 - 81 ]
+2/ TEAM3 vs TEAM4: [b]-1[/b] [ 71 - 72 ][/quote]
+
+[size=150][b]Concours individuel [/b][/size]
+
+[b][u]Résultats et classement individuel de journée [/b][/u]
+[i]-> “Score du bon vainqueur”: 15 pts sì vainqueur trouvé \:D/
+-> “Score du bon écart”: 30 pts si résultat trouvé 8) Sinon, 15 pts - l’écart entre pronostic et résultat. =P~ 
+-> “Score de l’automatisation”: 1 pt si les 2 points importants de la trame sont respectés :hiding:
+-> Le match bonus compte comme 3 pronostics et triple les scores :3some: 
+ -> Nombre de points de journée: somme des scores pour tous les matchs pronostiqués (8 pronos pour cette journée) [/i]
+
+[img]url_gameday[/img]
+
+[b][u] Détail des scores :[/u][/b]
+[i]['PT' = "Nombre de points de journée" ; 'G..' = "Numéro du match" ; 'BO' = "Match choisi comme bonus (*3)" ; 'RE' = "Résultat du match" ; 'PR' = "Pronostic du match" ; 'SW' = "Score du bon vainqueur" ; 'SD' = "Score du bon écart" ; 'SA' = "Score de l'automatisation" ][/i]
+[img]url_detail[/img]
+ (Si vous ne parvenez pas à lire l’image (trop petite), cliquez ici pour l’afficher en grand: [url] url_detail[/url])
+
+[i]Score de l'automatisation=0 (problème de format - action manuelle exécutée ) pour:
+USER1 : 1EJ.05 / 1EJ.08
+USER2 : 1EJ.09[/i]
+
+[b][u] Classement individuel global (sur toute la saison):[/u][/b]
+[img]url_global[/img]
+
+[b][u] Classement moyen par pronostic (sur toute la saison) :[/u][/b]
+[i]-> Pour les pronostiqueurs avec au moins > 33 prono (> 50% des journées terminées ) :thumbright:[/i]  
+[i]-> Calcul: TOTAL_POINTS / NB_TOTAL_PRONO [/i]
+[quote]1. USER1 - 19.5 pts/prono[/quote]
+
+[size=150][b]Championnat de pronostics[/b][/size]
+
+[b][u]Résultats du championnat de pronostics [/u][/b]
+[i]-> Nombre de points d’une équipe: Nombre de points de journée de son meilleur pronostiqueur :headbang: 
+-> Les équipes à domicile reçoivent un bonus de 20% :director:
+-> En cas d'égalité, le vainqueur est l'équipe à domicile[/i]
+
+[quote]1/ [b]TeamA[/b] vs TeamB : 240 - 0
+[code]Pour TeamA:
+-> USER1: 200 pts   - [Non comptabilisés: USER2 (188)]
+-> Bonus domicile: 40 pts[/code]
+2/ TeamC vs [b]TeamD[/b] : 0 - 102
+[code]Pour TeamD:
+-> USER3: 102 pts[/code][/quote]
+
+[b][u] Classement [/b][/u]
+[i]-> Les équipes classées entre 1 & 10 seront qualifiés pour les plays-offs/ plays-in du championnat de pronostics.[/i]
+[img]url_predictchamp[/img]
+
+[size=150][b]Périmètre des journées terminées [/b][/size]
+
+3 journées terminées (66 pronos):
+1ere journee (12) / 2eme journee (12) / 3eme journee (12) 
+
+[size=150][b]Trophée de MVP - Most Valuable Predictor[/b][/size] 
+[u][b]Election du MVP du mois de Janvier [/b][/u]
+-> Résultats des pronostiqueurs des journees terminées au cours du mois de Janvier
+[quote]USER1 - 682 pts / 3V-1D [avec TeamA, TeamB]
+USER2 - 598 pts / 1V-2D [avec TeamC]
+USER3 - 432 pts [/quote]
+
+[size=150][b]Trophée de MVP - Most Valuable Predictor[/b][/size] 
+[u][b]Election du MVP de Saison reguliere [/b][/u]
+-> Résultats des pronostiqueurs des journées sur l'ensemble de la compétition
+[quote]USER1 - 682 pts / 3V-1D [avec TeamA, TeamB]
+USER2 - 598 pts / 1V-2D [avec TeamC]
+USER3 - 432 pts

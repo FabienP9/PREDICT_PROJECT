@@ -1,2 +1,2 @@
-#1EJ.01# TEAM1 vs TEAM2 ==> [i]+1[/i]
-#1EJ.02# TEAM3 vs TEAM4 ==> [i]+1[/i]
+#1EJ.01# TEAM1 vs TEAM2 ==> __F__italicbegin__F__ +1 __F__italicend__F__
+#1EJ.02# TEAM3 vs TEAM4 ==> __F__italicbegin__F__ +1 __F__italicend__F__

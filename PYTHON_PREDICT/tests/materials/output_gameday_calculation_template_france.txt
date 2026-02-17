@@ -105,13 +105,15 @@
 #WITH_MONTH_MVP_BEGIN#
 |2|__F__sizebigbegin__F____F__boldbegin__F__Trophée de MVP - Most Valuable Predictor__F__boldend__F____F__sizebigend__F__ |1|
 |0|__F__underlinebegin__F____F__boldbegin__F__Election du MVP du mois de #GAMEDAY_MONTH# __F__boldend__F____F__underlineend__F__|1|
-|0|-> Résultats des pronostiqueurs des journees terminées au cours du mois de #GAMEDAY_MONTH#|1|
+|0|-> Résultats des pronostiqueurs des journees terminées* au cours du mois de #GAMEDAY_MONTH#|1|
+|0|__F__italicbegin__F__* #LIST_GAMEDAY_MONTH#__F__italicend__F__|2|
 |0|__F__quote1begin__F__#LIST_USER_MONTH# __F__quote1end__F__|0|
 #WITH_MONTH_MVP_END#
 
 #WITH_COMPETITION_MVP_BEGIN#
 |2|__F__sizebigbegin__F____F__boldbegin__F__Trophée de MVP - Most Valuable Predictor__F__boldend__F____F__sizebigend__F__ |1|
 |0|__F__underlinebegin__F____F__boldbegin__F__Election du MVP de #GAMEDAY_COMPETITION# __F__boldend__F____F__underlineend__F__|1|
-|0|-> Résultats des pronostiqueurs des journées sur l'ensemble de la compétition|1|
-|0|__F__quote1begin__F__#LIST_USER_COMPETITION#|0|
+|0|-> Résultats des pronostiqueurs des journées* sur l'ensemble de la compétition|1|
+|0|__F__italicbegin__F__* #LIST_GAMEDAY_COMPETITION#__F__italicend__F__|2|
+|0|__F__quote1begin__F__#LIST_USER_COMPETITION# __F__quote1end__F__|0|
 #WITH_COMPETITION_MVP_END#

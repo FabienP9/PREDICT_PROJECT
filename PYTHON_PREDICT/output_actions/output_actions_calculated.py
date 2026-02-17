@@ -1,7 +1,10 @@
 '''
     The purpose of this module is to generate message personalized for calculated gameday on forums topics.
     This module generates the calculated gameday message that users can copy to submit their own predictions.
-    It gets the template message, and replace all parameters with calculated ones by connectiong to snowflake database
+    It gets the template message, and replace all parameters with calculated ones by connectiong to snowflake database    Parameters being translated will be first encoded as
+    - __L__xxx__L__ for text being translated in local language
+    - __F__xxx__F__ for text being translating as specific forum layout
+    - __D__xxx__D__ for dataframe headers being translated in local language
 '''
 import logging
 logging.basicConfig(level=logging.INFO)
@@ -304,7 +307,7 @@ def get_calculated_list_gameday(df_gameday_calculated: pd.DataFrame) -> str:
         Inputs:
             df_gameday_calculated (dataframe) containing list of calculated gameday
         Returns:
-            A multiple row string displaying the list of gameday
+            A string displaying the list of gameday
         Raises:
             Exits the program if error running the function (using decorator)
     '''
@@ -325,7 +328,7 @@ def get_mvp_month_race_figure(sr_snowflake_account: pd.Series, sr_gameday_output
             sr_gameday_output_calculate (series - one row) containing the query filters
         Returns:
             The month of the gameday
-            The string of the corrections -one user per line -  
+            The string of the users with their figures  
             The number of user concerned
         Raises:
             Exits the program if error running the function (using decorator)
@@ -342,6 +345,27 @@ def get_mvp_month_race_figure(sr_snowflake_account: pd.Series, sr_gameday_output
     LIST_USER_MONTH = "\n".join(df_month_mvp['STRING'].tolist())
     GAMEDAY_MONTH = "__L__" + GAMEDAY_MONTH + "__L__"
     return GAMEDAY_MONTH, LIST_USER_MONTH, len(df_month_mvp)
+
+@config.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate',)})
+def list_mvp_month_race_gameday(sr_snowflake_account: pd.Series, sr_gameday_output_calculate: pd.Series) -> str:
+
+    '''
+        Gets the list of gameday calculated related the month MVP race
+        to display as a string on the output calculated message
+        Inputs:
+            sr_snowflake_account (series - one row) containing snowflake credentials to run the sql mvp query
+            sr_gameday_output_calculate (series - one row) containing the query filters
+        Returns:
+            A string displaying the list of gameday
+        Raises:
+            Exits the program if error running the function (using decorator)
+    '''
+
+    df_month_mvp_gamedays = snowflake_execute(sr_snowflake_account,sqlQ.qList_Gameday_Calculated_MVPMonth,(sr_gameday_output_calculate['SEASON_ID'],sr_gameday_output_calculate['END_YEARMONTH_LOCAL']))
+    df_month_mvp_gamedays['STRING'] = (df_month_mvp_gamedays['GAMEDAY'] + " (" + df_month_mvp_gamedays['NB_PREDICTION'].astype(str) + " __L__predict__L__)")
+    LIST_GAMEDAY_MVPMONTH = " / ".join(df_month_mvp_gamedays['STRING'])
+
+    return LIST_GAMEDAY_MVPMONTH
 
 @config.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate',)})
 def get_mvp_compet_race_figure(sr_snowflake_account: pd.Series, sr_gameday_output_calculate: pd.Series) -> Tuple[str, str, int]:
@@ -372,6 +396,27 @@ def get_mvp_compet_race_figure(sr_snowflake_account: pd.Series, sr_gameday_outpu
     
     GAMEDAY_COMPETITION = "__L__" + GAMEDAY_COMPETITION + "__L__"
     return GAMEDAY_COMPETITION, LIST_USER_COMPETITION, len(df_compet_mvp)
+
+@config.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate',)})
+def list_mvp_compet_race_gameday(sr_snowflake_account: pd.Series, sr_gameday_output_calculate: pd.Series) -> str:
+
+    '''
+        Gets the list of gameday calculated related the competition MVP race
+        to display as a string on the output calculated message
+        Inputs:
+            sr_snowflake_account (series - one row) containing snowflake credentials to run the sql mvp query
+            sr_gameday_output_calculate (series - one row) containing the query filters
+        Returns:
+            A string displaying the list of gameday
+        Raises:
+            Exits the program if error running the function (using decorator)
+    '''
+
+    df_month_mvp_gamedays = snowflake_execute(sr_snowflake_account,sqlQ.qList_Gameday_Calculated_MVPCompet,(sr_gameday_output_calculate['SEASON_ID'],sr_gameday_output_calculate['COMPETITION_LABEL']))
+    df_month_mvp_gamedays['STRING'] = (df_month_mvp_gamedays['GAMEDAY'] + " (" + df_month_mvp_gamedays['NB_PREDICTION'].astype(str) + " __L__predict__L__)")
+    LIST_GAMEDAY_MVPCOMPET = " / ".join(df_month_mvp_gamedays['STRING'])
+
+    return LIST_GAMEDAY_MVPCOMPET
 
 @config.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate',)})
 def get_calculated_parameters(sr_snowflake_account: pd.Series, sr_gameday_output_calculate: pd.Series) -> dict:
@@ -435,20 +480,24 @@ def get_calculated_parameters(sr_snowflake_account: pd.Series, sr_gameday_output
         param_dict['GAMEDAY_MONTH'] = GAMEDAY_MONTH
         param_dict['LIST_USER_MONTH'] = LIST_USER_MONTH
         param_dict['NB_USER_MONTH'] = NB_USER_MONTH
+        param_dict['LIST_GAMEDAY_MONTH'] = list_mvp_month_race_gameday(sr_snowflake_account, sr_gameday_output_calculate)
     else:
         param_dict['GAMEDAY_MONTH'] = None
         param_dict['LIST_USER_MONTH'] = None
         param_dict['NB_USER_MONTH'] = 0
+        param_dict['LIST_GAMEDAY_MONTH'] = None
 
     if sr_gameday_output_calculate['DISPLAY_COMPET_MVP_RANKING']  == 1:
         GAMEDAY_COMPETITION, LIST_USER_COMPETITION, NB_USER_COMPETITION = get_mvp_compet_race_figure(sr_snowflake_account,sr_gameday_output_calculate)
         param_dict['GAMEDAY_COMPETITION'] = GAMEDAY_COMPETITION
         param_dict['LIST_USER_COMPETITION'] = LIST_USER_COMPETITION
         param_dict['NB_USER_COMPETITION'] = NB_USER_COMPETITION
+        param_dict['LIST_GAMEDAY_COMPETITION'] = list_mvp_compet_race_gameday(sr_snowflake_account, sr_gameday_output_calculate)
     else:
         param_dict['GAMEDAY_COMPETITION'] = None
         param_dict['LIST_USER_COMPETITION'] = None
         param_dict['NB_USER_COMPETITION'] = 0
+        param_dict['LIST_GAMEDAY_COMPETITION'] = None
 
     return param_dict
 
@@ -552,14 +601,16 @@ def create_calculated_message(param_dict: dict, template:str, country: str, foru
         replacement_substr.extend([
             ("#GAMEDAY_MONTH#",param_dict['GAMEDAY_MONTH']),
             ("#LIST_USER_MONTH#",param_dict['LIST_USER_MONTH']),
-            ("#NB_USER_MONTH#",str(param_dict['NB_USER_MONTH']))
+            ("#NB_USER_MONTH#",str(param_dict['NB_USER_MONTH'])),
+            ("#LIST_GAMEDAY_MONTH#",str(param_dict['LIST_GAMEDAY_MONTH']))
         ])  
 
     if param_dict['NB_USER_COMPETITION'] > 0:
         replacement_substr.extend([
             ("#GAMEDAY_COMPETITION#",param_dict['GAMEDAY_COMPETITION']),
             ("#LIST_USER_COMPETITION#",param_dict['LIST_USER_COMPETITION']),
-            ("#NB_USER_COMPETITION#",str(param_dict['NB_USER_COMPETITION']))
+            ("#NB_USER_COMPETITION#",str(param_dict['NB_USER_COMPETITION'])),
+            ("#LIST_GAMEDAY_COMPETITION#",str(param_dict['LIST_GAMEDAY_COMPETITION']))
         ])          
 
     for replacement_field, replacement_value in replacement_substr:

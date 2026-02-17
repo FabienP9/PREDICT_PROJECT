@@ -161,6 +161,18 @@ def test_get_mvp_month_race_figure():
         assert count == 3
         assert list_user == expected_str
 
+def test_list_mvp_month_race_gameday():
+    
+    # this test the function list_mvp_month_race_gameday
+    sr_snowflake_account = pd.read_csv("materials/snowflake_account_connect.csv").iloc[0]
+    sr_gameday_output_calculate = pd.read_csv("materials/sr_gameday_output_calculate.csv").iloc[0]
+    
+    mock_df_list_gameday = pd.read_csv("materials/qList_Gameday_Calculated.csv")
+    expected_str = read_txt("materials/output_actions_calculated_get_list_gameday_calculated_with_predict.txt")
+    with patch.object(output_actions_calculated, "snowflake_execute", return_value=mock_df_list_gameday):
+        str_list_gameday = output_actions_calculated.list_mvp_month_race_gameday(sr_snowflake_account,sr_gameday_output_calculate)
+        assert str_list_gameday.split() == expected_str.split()
+
 def test_get_mvp_compet_race_figure():
     
     # this test the function get_calculated_predictchamp_ranking
@@ -176,6 +188,18 @@ def test_get_mvp_compet_race_figure():
         assert compet == "__L__Regular season__L__"
         assert count == 3
         assert list_user == expected_str
+
+def test_list_mvp_compet_race_gameday():
+    
+    # this test the function list_mvp_compet_race_gameday
+    sr_snowflake_account = pd.read_csv("materials/snowflake_account_connect.csv").iloc[0]
+    sr_gameday_output_calculate = pd.read_csv("materials/sr_gameday_output_calculate.csv").iloc[0]
+    
+    mock_df_list_gameday = pd.read_csv("materials/qList_Gameday_Calculated.csv")
+    expected_str = read_txt("materials/output_actions_calculated_get_list_gameday_calculated_with_predict.txt")
+    with patch.object(output_actions_calculated, "snowflake_execute", return_value=mock_df_list_gameday):
+        str_list_gameday = output_actions_calculated.list_mvp_compet_race_gameday(sr_snowflake_account,sr_gameday_output_calculate)
+        assert str_list_gameday.split() == expected_str.split()
 
 def test_get_calculated_parameters():
 
@@ -196,8 +220,10 @@ def test_get_calculated_parameters():
     mock_df_predictchamp_rank = pd.read_csv("materials/output_actions_calculated_predictchamp_rank.csv")
     mock_str_correction = read_txt("materials/output_actions_calculated_get_calculated_correction.txt")
     mock_str_mvp_month = read_txt("materials/output_actions_calculated_get_mvp_race_figures.txt")
+    mock_str_mvp_month_gameday = read_txt("materials/output_actions_calculated_get_list_gameday_calculated_with_predict.txt")
     mock_str_mvp_compet = read_txt("materials/output_actions_calculated_get_mvp_race_figures.txt")
-
+    mock_str_mvp_compet_gameday = read_txt("materials/output_actions_calculated_get_list_gameday_calculated_with_predict.txt")
+    
     with patch("output_actions_calculated.get_calculated_games_result", return_value=(mock_str_games_result, 2)), \
          patch("output_actions_calculated.get_calculated_scores_detailed", return_value=(mock_df_predict_games, 2)), \
          patch("output_actions_calculated.snowflake_execute", side_effect=[mock_df_userscores_global, mock_df_list_gameday, mock_df_gamepredictchamp]), \
@@ -209,7 +235,9 @@ def test_get_calculated_parameters():
          patch("output_actions_calculated.get_calculated_predictchamp_ranking", return_value=mock_df_predictchamp_rank), \
          patch("output_actions_calculated.get_calculated_correction", return_value=(mock_str_correction, 2)), \
          patch("output_actions_calculated.get_mvp_month_race_figure", return_value=("__L__MONTH_01__L__", mock_str_mvp_month, 2)), \
-         patch("output_actions_calculated.get_mvp_compet_race_figure", return_value=("__L__REGULAR SEASON__L__", mock_str_mvp_compet, 2)):
+         patch("output_actions_calculated.list_mvp_month_race_gameday", return_value=(mock_str_mvp_month_gameday)), \
+         patch("output_actions_calculated.get_mvp_compet_race_figure", return_value=("__L__REGULAR SEASON__L__", mock_str_mvp_compet, 2)), \
+         patch("output_actions_calculated.list_mvp_compet_race_gameday", return_value=(mock_str_mvp_compet_gameday)):
 
         output_actions_calculated.get_calculated_parameters(sr_snowflake_account, sr_gameday_output_calculate)
 
@@ -266,9 +294,11 @@ def test_create_calculated_message():
         "NB_USER_MONTH": 2,
         "GAMEDAY_MONTH": "__L__MONTH_01__L__",
         "LIST_USER_MONTH": read_txt("materials/output_actions_calculated_get_mvp_race_figures.txt"),   
+        "LIST_GAMEDAY_MONTH": read_txt("materials/output_actions_calculated_get_list_gameday_calculated_with_predict.txt"),
         "NB_USER_COMPETITION": 2,
         "GAMEDAY_COMPETITION": "__L__REGULAR SEASON__L__",
         "LIST_USER_COMPETITION": read_txt("materials/output_actions_calculated_get_mvp_race_figures.txt"), 
+        "LIST_GAMEDAY_COMPETITION": read_txt("materials/output_actions_calculated_get_list_gameday_calculated_with_predict.txt"),
         "HAS_HOME_ADV": 1
     }
     template = read_txt("materials/output_gameday_calculation_template_france.txt")
@@ -282,7 +312,6 @@ def test_create_calculated_message():
          patch("output_actions_calculated.fileA.create_txt") as mock_create_txt:
         
         content, country, forum = output_actions_calculated.create_calculated_message(param_dict, template, country, forum, sr_gameday_output_calculate)
-        
         assert content.split() == expected_result.split()
         assert country == "FRANCE"
         assert forum == 'BI'
@@ -325,7 +354,9 @@ if __name__ == '__main__':
     test_suite.addTest(unittest.FunctionTestCase(test_get_calculated_correction))
     test_suite.addTest(unittest.FunctionTestCase(test_get_calculated_list_gameday))
     test_suite.addTest(unittest.FunctionTestCase(test_get_mvp_month_race_figure))
+    test_suite.addTest(unittest.FunctionTestCase(test_list_mvp_month_race_gameday))
     test_suite.addTest(unittest.FunctionTestCase(test_get_mvp_compet_race_figure))
+    test_suite.addTest(unittest.FunctionTestCase(test_list_mvp_compet_race_gameday))
     test_suite.addTest(unittest.FunctionTestCase(test_get_calculated_parameters))
     test_suite.addTest(unittest.FunctionTestCase(test_get_calculated_parameters_df_management))
     test_suite.addTest(unittest.FunctionTestCase(test_create_calculated_message))

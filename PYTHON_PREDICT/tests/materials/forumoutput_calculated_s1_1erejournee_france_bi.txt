@@ -61,14 +61,18 @@ USER2 : 1EJ.09[/i]
 
 [size=150][b]Trophée de MVP - Most Valuable Predictor[/b][/size] 
 [u][b]Election du MVP du mois de Janvier [/b][/u]
--> Résultats des pronostiqueurs des journees terminées au cours du mois de Janvier
+-> Résultats des pronostiqueurs des journees terminées* au cours du mois de Janvier
+[i]* 1ere journee (12 prono) / 2eme journee (12 prono) / 3eme journee (12 prono)[/i]
+
 [quote]USER1 - 682 pts / 3V-1D [avec TeamA, TeamB]
 USER2 - 598 pts / 1V-2D [avec TeamC]
 USER3 - 432 pts [/quote]
 
 [size=150][b]Trophée de MVP - Most Valuable Predictor[/b][/size] 
 [u][b]Election du MVP de Saison reguliere [/b][/u]
--> Résultats des pronostiqueurs des journées sur l'ensemble de la compétition
+-> Résultats des pronostiqueurs des journées* sur l'ensemble de la compétition
+[i]* 1ere journee (12 prono) / 2eme journee (12 prono) / 3eme journee (12 prono)[/i]
+
 [quote]USER1 - 682 pts / 3V-1D [avec TeamA, TeamB]
 USER2 - 598 pts / 1V-2D [avec TeamC]
-USER3 - 432 pts
+USER3 - 432 pts [/quote]

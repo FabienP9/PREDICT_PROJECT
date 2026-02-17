@@ -273,6 +273,21 @@ qMVPRace_month_figures = f'''
         USER_NAME
 '''
 
+#Query to list gameday related to the month MVP race
+qList_Gameday_Calculated_MVPMonth = f'''
+    SELECT
+        GAMEDAY,
+        NB_PREDICTION
+    FROM
+        #DATABASE#.CONSUMPTED.VW_GAMEDAY 
+    WHERE
+        SEASON_ID = %s
+        AND END_YEARMONTH_LOCAL = %s
+    ORDER BY
+        BEGIN_DATE_LOCAL, BEGIN_TIME_LOCAL
+    '''
+
+
 #Query to get users figure for competition MVP race
 qMVPRace_Compet_figures = f'''
     SELECT 
@@ -292,3 +307,16 @@ qMVPRace_Compet_figures = f'''
         POINTS DESC, 
         USER_NAME
 '''
+
+qList_Gameday_Calculated_MVPCompet = f'''
+    SELECT
+        GAMEDAY,
+        NB_PREDICTION
+    FROM
+        #DATABASE#.CONSUMPTED.VW_GAMEDAY 
+    WHERE
+        SEASON_ID = %s
+        AND COMPETITION_LABEL = %s
+    ORDER BY
+        BEGIN_DATE_LOCAL, BEGIN_TIME_LOCAL
+    '''

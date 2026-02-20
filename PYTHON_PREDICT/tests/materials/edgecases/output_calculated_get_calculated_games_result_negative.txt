@@ -1,1 +1,2 @@
-1/ TEAM1 vs TEAM2: __F__boldbegin__F__-1__F__boldend__F__ [ 71 - 72 ]
+1EJ.01 (G01) - TEAM1 vs TEAM2: __F__boldbegin__F__+4__F__boldend__F__ [ 85 - 81 ]
+1EJ.02 (G02) - TEAM3 vs TEAM4: __F__boldbegin__F__-1__F__boldend__F__ [ 71 - 72 ]

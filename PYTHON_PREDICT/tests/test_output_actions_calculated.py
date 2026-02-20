@@ -312,6 +312,7 @@ def test_create_calculated_message():
          patch("output_actions_calculated.fileA.create_txt") as mock_create_txt:
         
         content, country, forum = output_actions_calculated.create_calculated_message(param_dict, template, country, forum, sr_gameday_output_calculate)
+        
         assert content.split() == expected_result.split()
         assert country == "FRANCE"
         assert forum == 'BI'

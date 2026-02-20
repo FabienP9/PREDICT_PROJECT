@@ -38,7 +38,7 @@ def test_get_calculated_games_result_negative_result():
 
     with patch.object(output_actions_calculated, 'snowflake_execute', return_value=mock_df_qgame):
         s, count = output_actions_calculated.get_calculated_games_result(sr_snowflake_account, sr_gameday_output_calculate)
-        assert count == 1
+        assert count == 2
         assert s == s_expected
     
 def test_get_calculated_scores_detailed_missing_split():

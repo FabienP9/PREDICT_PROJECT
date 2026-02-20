@@ -42,11 +42,12 @@ def get_calculated_games_result(sr_snowflake_account: pd.Series, sr_gameday_outp
     df_games['RESULT'] = df_games['RESULT'].map(lambda x: f"+{x}" if x > 0 else str(x))
 
     #we extract the list of games to display, concatenating fields into a string
-    df_games['STRING'] = (df_games['GAME_MESSAGE_SHORT'].astype(str) +"/ " +
-        df_games['TEAM_HOME_NAME'] + " vs " + 
-        df_games['TEAM_AWAY_NAME']+ ": __F__boldbegin__F__" +
-        df_games['RESULT'].astype(str) + "__F__boldend__F__ [ " +
-        df_games['SCORE_HOME'].astype(str) +" - " + df_games['SCORE_AWAY'].astype(str)) + " ]"
+    df_games['STRING'] = df_games['GAME_MESSAGE'] + \
+        " (G" + df_games['GAME_MESSAGE_SHORT'].astype(str).str.zfill(2) + ") - " + \
+        df_games['TEAM_HOME_NAME'] + " vs " + \
+        df_games['TEAM_AWAY_NAME']+ ": __F__boldbegin__F__" + \
+        df_games['RESULT'].astype(str) + "__F__boldend__F__ [ " + \
+        df_games['SCORE_HOME'].astype(str) +" - " + df_games['SCORE_AWAY'].astype(str) + " ]"  
     
     # we create the LIST_GAMES string by concatenating all games-strings on several lines
     RESULT_GAMES = "\n".join(df_games['STRING'])

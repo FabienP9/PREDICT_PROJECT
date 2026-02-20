@@ -1,7 +1,7 @@
 |0|#MESSAGE_PREFIX_PROGRAM_STRING#|2|
 
 
-|0|__F__centerbegin__F____F__sizeverybigbegin__F____F__boldbegin__F__Résultats - #GAMEDAY#__F__boldend__F____F__sizeverybigend__F____F__centerend__F__|3|
+|0|__F__centerbegin__F____F__resultsmiley__F____F__sizeverybigbegin__F____F__boldbegin__F__ Résultats - #GAMEDAY# __F__boldend__F____F__sizeverybigend__F____F__resultsmiley__F____F__centerend__F__|3|
 
 
 |0|__F__sizebigbegin__F____F__boldbegin__F__Résultats #SEASON_DIVISION#__F__boldend__F____F__sizebigend__F__|1|

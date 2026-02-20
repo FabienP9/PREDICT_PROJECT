@@ -1,11 +1,11 @@
 +++++
 
-[center][size=200][b]Résultats - 1ere journee[/b][/size][/center]
+[center]:cheers:[size=200][b] Résultats - 1ere journee [/b][/size]:cheers:[/center]
 
 
 [size=150][b]Résultats PROB[/b][/size]
-[quote]1/ TEAM1 vs TEAM2: [b]+4[/b] [ 85 - 81 ]
-2/ TEAM3 vs TEAM4: [b]-1[/b] [ 71 - 72 ][/quote]
+[quote]1EJ.01 (G01) - TEAM1 vs TEAM2: [b]+4[/b] [ 85 - 81 ]
+1EJ.02 (G02) - TEAM3 vs TEAM4: [b]-1[/b] [ 71 - 72 ][/quote]
 
 [size=150][b]Concours individuel [/b][/size]
 

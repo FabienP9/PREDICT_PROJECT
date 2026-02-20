@@ -24,10 +24,13 @@ with read_message as (
     WHERE
         game_readm.TIME_GAME_UTC IS NOT NULL
 ),
--- we get the time when we should init the gameday
--- if exists a previous gameday in the season we init 15 mns after the beginning of previous gameday.
--- else we init one week before the beginning of the gameday
--- as some gameday begin same day, we focus on the min time of them, to define the init time the following gameday
+-- we get the time when we should init the gameday G
+-- if exists a previous gameday GP in the season, beginning less than 10 days before the beginning of G
+--    we init G 15 mns after the beginning of gameday GP if this is less than 10 days before the first game of G
+-- else we init 10 days before the first game of G
+-- if several gameday G1 and G2 begin same day:
+--    we group them so that they share the same previous gameday GP
+--    the init time of the following gameday GF will be based on the min time of the group
 init_gameday_begin AS (
     SELECT
         gameday.GAMEDAY_KEY,
@@ -37,35 +40,44 @@ init_gameday_begin AS (
     FROM {{ref('consumpted_gameday')}} gameday
     WHERE gameday.BEGIN_TIME_UTC IS NOT NULL
 ),
-init_begin_min_per_day AS (
+init_gameday_group AS (
     SELECT
         init_gameday_begin.SEASON_KEY,
         init_gameday_begin.BEGIN_DATE_UTC,
-        MIN(init_gameday_begin.BEGIN_TS_UTC) AS FIRST_TS_UTC_OF_DAY
+        MIN(init_gameday_begin.BEGIN_TS_UTC) AS GROUP_BEGIN_TS
     FROM init_gameday_begin
     GROUP BY init_gameday_begin.SEASON_KEY, init_gameday_begin.BEGIN_DATE_UTC
 ),
-init_calculation_per_day AS (
+init_group_with_previous AS (
     SELECT
-        init_begin_min_per_day.SEASON_KEY,
-        init_begin_min_per_day.BEGIN_DATE_UTC,
+        init_gameday_group.SEASON_KEY,
+        init_gameday_group.BEGIN_DATE_UTC,
+        init_gameday_group.GROUP_BEGIN_TS,
+        LAG(init_gameday_group.GROUP_BEGIN_TS)
+            OVER (
+                PARTITION BY init_gameday_group.SEASON_KEY 
+                ORDER BY init_gameday_group.GROUP_BEGIN_TS)
+        AS PREV_GROUP_BEGIN_TS
+    FROM init_gameday_group
+),
+init_calculation_per_group AS (
+    SELECT
+        init_group_with_previous.SEASON_KEY,
+        init_group_with_previous.BEGIN_DATE_UTC,
         CASE
-            WHEN LAG(init_begin_min_per_day.FIRST_TS_UTC_OF_DAY)
-                 OVER (PARTITION BY init_begin_min_per_day.SEASON_KEY 
-                    ORDER BY init_begin_min_per_day.BEGIN_DATE_UTC) IS NULL
-            THEN DATEADD(DAY, -7, init_begin_min_per_day.FIRST_TS_UTC_OF_DAY)
-            ELSE DATEADD(MINUTE,15,LAG(init_begin_min_per_day.FIRST_TS_UTC_OF_DAY)
-                OVER (PARTITION BY init_begin_min_per_day.SEASON_KEY 
-                    ORDER BY init_begin_min_per_day.BEGIN_DATE_UTC)
-            )
+            WHEN 
+                init_group_with_previous.PREV_GROUP_BEGIN_TS IS NOT NULL
+                AND init_group_with_previous.PREV_GROUP_BEGIN_TS >= DATEADD(DAY, -10, init_group_with_previous.GROUP_BEGIN_TS)
+            THEN DATEADD(MINUTE, 15, init_group_with_previous.PREV_GROUP_BEGIN_TS)
+            ELSE DATEADD(DAY, -10, init_group_with_previous.GROUP_BEGIN_TS)
         END AS TS_TASK_UTC
-    FROM init_begin_min_per_day
+    FROM init_group_with_previous
 ),
 init_gameday as (
     SELECT
         'INIT' AS TASK_RUN,
         init_gameday_begin.GAMEDAY_KEY,
-        init_calculation_per_day.TS_TASK_UTC,
+        init_calculation_per_group.TS_TASK_UTC,
         1 AS IS_TO_INIT,
         0 AS IS_TO_CALCULATE,
         0 AS IS_TO_DELETE,
@@ -75,10 +87,10 @@ init_gameday as (
     FROM 
         init_gameday_begin
     JOIN 
-        init_calculation_per_day
+        init_calculation_per_group
     ON 
-        init_gameday_begin.SEASON_KEY = init_calculation_per_day.SEASON_KEY
-        AND init_gameday_begin.BEGIN_DATE_UTC = init_calculation_per_day.BEGIN_DATE_UTC
+        init_gameday_begin.SEASON_KEY = init_calculation_per_group.SEASON_KEY
+        AND init_gameday_begin.BEGIN_DATE_UTC = init_calculation_per_group.BEGIN_DATE_UTC
 ),
 -- we get the time when we should calculate the result of gameday
 -- 2h after the begin of the last game of the gameday

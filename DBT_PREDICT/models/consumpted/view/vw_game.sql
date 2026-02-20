@@ -20,6 +20,8 @@ SELECT
     game.GAME_MESSAGE,
     game.GAME_MESSAGE_SHORT,
     game.DATE_GAME_UTC,
+    game.DATE_GAME_LOCAL,
+    game.TIME_GAME_LOCAL,
     team_home.TEAM_NAME AS TEAM_HOME_NAME,
     team_away.TEAM_NAME AS TEAM_AWAY_NAME,
     game.SCORE_HOME,

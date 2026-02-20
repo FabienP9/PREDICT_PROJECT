@@ -1,2 +1,3 @@
 #1EJ.01# M@tch! vs TEAM2 ==>  __F__italicbegin__F__ +1 __F__italicend__F__
 #&TeamB# <TeamA> vs <TeamA> ==>  __F__italicbegin__F__ +1 __F__italicend__F__
+#1EJ.BN# __L__Bonus game ID__L__ ==> __F__italicbegin__F__ 1EJ.01 __F__italicend__F__

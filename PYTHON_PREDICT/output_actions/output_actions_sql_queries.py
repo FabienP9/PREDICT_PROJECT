@@ -55,13 +55,17 @@ qTopics_Calculate = f'''
 #Query to get topics where to list games
 qGame = f'''
     SELECT
+        GAMEDAY,
+        GAMEDAY_MESSAGE,
         GAME_MESSAGE,
         GAME_MESSAGE_SHORT,
         TEAM_HOME_NAME,
         TEAM_AWAY_NAME,
         SCORE_HOME,
         SCORE_AWAY,
-        RESULT
+        RESULT,
+        DATE_GAME_LOCAL,
+        TIME_GAME_LOCAL
     FROM
         #DATABASE#.CONSUMPTED.VW_GAME
     WHERE
@@ -79,6 +83,8 @@ qGame_Remaining_AtDate = f'''
             GAME_MESSAGE,
             TEAM_HOME_NAME,
             TEAM_AWAY_NAME,
+            DATE_GAME_LOCAL,
+            TIME_GAME_LOCAL,
             CASE 
                WHEN DATE_GAME_UTC <= DATEADD(WEEK, 3,TO_DATE(%s,'YYYY-MM-DD')) THEN 1
                ELSE 0
@@ -106,7 +112,9 @@ qGame_Remaining_AtDate = f'''
         game.GAMEDAY,
         game.GAME_MESSAGE,
         game.TEAM_HOME_NAME,
-        game.TEAM_AWAY_NAME
+        game.TEAM_AWAY_NAME,
+        game.DATE_GAME_LOCAL,
+        game.TIME_GAME_LOCAL
     FROM
         game
     JOIN 

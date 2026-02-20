@@ -1,19 +1,28 @@
 +++++
 
-Lancement [b]1ere journee[/b]:  1er match le [b]Lundi 01/01 20h[/b]
+[center][b][size=200]:angel8: Ouverture - 1ere journee[/size][/b] :angel8:
+[b][size=150]1er match : Lundi 01/01 15h[/size][/b][/center]
 
- [u]Trame - vous pouvez la copier-coller et la remplacer par vos choix[/u] :wink:
+
+[u]Trame pour pronostics[/u]
+ Vous pouvez copier-coller les matchs que vous voulez pronostiquer et les remplacer par vos choix :wink:
+
 "[b]
 #1EJ.01# TEAM1 vs TEAM2 ==> [i] +1 [/i]
 #1EJ.02# TEAM3 vs TEAM4 ==> [i] +1 [/i]
-#1EJ.BN# Identifiant du match bonus ==> [i]1EJ.01[/i]
+#1EJ.BN# Identifiant du match bonus ==> [i] 1EJ.01 [/i]
 [/b]"
 
-Pour que votre choix soit valide il doit être publié avant le début du match qu'il concerne :jerk:
-Pour que votre choix soit lu automatiquement et ainsi gagner un léger bonus (cf « score de l’automatisation ») merci de :
+Pour que votre choix soit valide il doit être publié avant le début du match qu'il concerne (voir le calendrier de la journée ci-dessous) :jerk: 
+Pour que votre choix soit lu automatiquement et ainsi gagner un léger bonus (cf « score de l’automatisation ») merci de :
 1/ [b] conserver l'identifiant associé (entre "#")[/b]
-2/ indiquer votre choix [b]après la flèche "==>" [/b]
+2/ indiquer votre choix [b]après la flèche "==>" [/b][/i]
 
+[u]Calendrier de la journée (à date)[/u]
+01/01: 1EJ.01 (15h) / 1EJ.02 (16h05)
+01/01 ~18h20: Prévision des résultats de vos pronostics de la journée 1ere journee
+
+[u]Choix d'une équipe pour le championnat de pronostics[/u]
 Vous pouvez choisir / changer votre équipe préférée pour le championnat de pronostics jusqu'au début de la phase retour en (ré)indiquant la ligne avec votre (nouvelle) équipe. Elle sera prise en compte pour toutes les journées jusqu'à la fin de saison. \:D/
 Voici la ligne à indiquer:
 "[b]

@@ -1,0 +1,4 @@
+#3EJ.02# teamA vs teamB ==> __F__italicbegin__F__ +1 __F__italicend__F__
+#3EJ.BN# __L__Bonus game ID__L__ ==> __F__italicbegin__F__ 3EJ.02 __F__italicend__F__
+#4EJ.02# teamC vs teamD ==> __F__italicbegin__F__ +1 __F__italicend__F__
+#4EJ.BN# __L__Bonus game ID__L__ ==> __F__italicbegin__F__ 4EJ.02 __F__italicend__F__

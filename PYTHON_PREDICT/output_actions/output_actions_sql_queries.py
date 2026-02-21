@@ -30,7 +30,10 @@ qTopics_Init = f'''
         FORUM_SOURCE,
         FORUM_COUNTRY,
         FORUM_TIMEZONE,
-        TOPIC_NUMBER
+        TOPIC_NUMBER,
+        MESSAGE_NUMBER_TO_EDIT,
+        IS_FOR_PREDICT,
+        IS_FOR_RESULT
     FROM
         #DATABASE#.CONSUMPTED.VW_TOPIC
     WHERE
@@ -44,7 +47,10 @@ qTopics_Calculate = f'''
         FORUM_SOURCE,
         FORUM_COUNTRY,
         FORUM_TIMEZONE,
-        TOPIC_NUMBER
+        TOPIC_NUMBER,
+        MESSAGE_NUMBER_TO_EDIT,
+        IS_FOR_PREDICT,
+        IS_FOR_RESULT
     FROM
         #DATABASE#.CONSUMPTED.VW_TOPIC
     WHERE
@@ -76,7 +82,6 @@ qGame = f'''
 
 #Query to get remaining games for already started gameday at a specific date
 qGame_Remaining_AtDate = f'''
-    with game as(
         SELECT
             GAMEDAY_MESSAGE,
             GAMEDAY,
@@ -84,11 +89,7 @@ qGame_Remaining_AtDate = f'''
             TEAM_HOME_NAME,
             TEAM_AWAY_NAME,
             DATE_GAME_LOCAL,
-            TIME_GAME_LOCAL,
-            CASE 
-               WHEN DATE_GAME_UTC <= DATEADD(WEEK, 3,TO_DATE(%s,'YYYY-MM-DD')) THEN 1
-               ELSE 0
-            END AS IS_CLOSE
+            TIME_GAME_LOCAL
         FROM 
             #DATABASE#.CONSUMPTED.VW_GAME
         WHERE
@@ -98,31 +99,7 @@ qGame_Remaining_AtDate = f'''
             AND GAMEDAY_END_DATE_UTC > TO_DATE(%s,'YYYY-MM-DD')
             AND DATE_GAME_UTC > TO_DATE(%s,'YYYY-MM-DD')
         ORDER BY 
-            GAME_MESSAGE
-    ),
-    gameday as(
-        SELECT
-            GAMEDAY,
-            MAX(IS_CLOSE) AS IS_CLOSE
-        FROM game
-        GROUP BY GAMEDAY
-    )
-    SELECT
-        game.GAMEDAY_MESSAGE,
-        game.GAMEDAY,
-        game.GAME_MESSAGE,
-        game.TEAM_HOME_NAME,
-        game.TEAM_AWAY_NAME,
-        game.DATE_GAME_LOCAL,
-        game.TIME_GAME_LOCAL
-    FROM
-        game
-    JOIN 
-        gameday
-        ON gameday.GAMEDAY = game.GAMEDAY
-    WHERE 
-        gameday.IS_CLOSE 
-        OR game.IS_CLOSE;
+            GAME_MESSAGE;
     '''
 
 #Query to get prediction and result per game and user

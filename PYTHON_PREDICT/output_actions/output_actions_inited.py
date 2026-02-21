@@ -146,8 +146,7 @@ def get_inited_parameters(sr_snowflake_account: pd.Series, sr_gameday_output_ini
     
     #parameters from gamedays already opened (at defined date)
     defined_date = datetime.now(timezone.utc).strftime('%Y-%m-%d')
-    df_games_opened = snowflake_execute(sr_snowflake_account,sqlQ.qGame_Remaining_AtDate,(defined_date,
-                                                                                 sr_gameday_output_init['SEASON_ID'],
+    df_games_opened = snowflake_execute(sr_snowflake_account,sqlQ.qGame_Remaining_AtDate,(sr_gameday_output_init['SEASON_ID'],
                                                                                  sr_gameday_output_init['GAMEDAY'],
                                                                                  defined_date,defined_date,defined_date))
     param_dict['NB_GAMES_OPENED'] = len(df_games_opened)

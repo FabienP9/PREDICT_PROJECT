@@ -283,6 +283,7 @@ They must be created and updated by the software administrator, according to the
     - **TOPIC_NUMBER** (int): The number of the topic of the forum source
     - **IS_FOR_PREDICT** (0/1): Boolean to define if the topic is for reading prediction and post templates or not
     - **IS_FOR_RESULT** (0/1): Boolean to define if the topic is for result publication or not
+    - **MESSAGE_NUMBER_TO_EDIT** (optional, int): The number of message on the forum which will be edited for every event (init or calculation). If not filled, no message will be edited, just posted.
 
 - **snowflake_account_connect.csv**: Defines Snowflake connection parameters (except credentials, [stored as GitHub Secrets](#inputparameters)).
     - **ACCOUNT**: The name of the account

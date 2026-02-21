@@ -15,7 +15,8 @@ SELECT
 	lt.TIMEZONE AS FORUM_TIMEZONE,
 	topic.TOPIC_NUMBER,
     topic.IS_FOR_PREDICT,
-    topic.IS_FOR_RESULT 
+    topic.IS_FOR_RESULT,
+    topic.MESSAGE_NUMBER_TO_EDIT
 FROM
     {{ref('consumpted_topic')}} topic
 JOIN

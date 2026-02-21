@@ -7,6 +7,7 @@ from unittest.mock import patch, MagicMock
 import pandas as pd
 import sys
 import os
+import time
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -101,7 +102,31 @@ def test_post_message_bi_login_fail():
         mock_sess_instance.get.return_value.text = "Login failed"
         mock_sess_instance.post.return_value.text = "Login failed"
 
-        assertExit(lambda: message_actions.post_message(topic_row, message_content))
+        assertExit(lambda: message_actions.post_message_bi(topic_row, message_content,is_to_edit = 0))
+
+def test_post_message_bi_times_out():
+    
+    # this test the function edit_message_bi with faiure to post. Must exit program after 3 tries    
+    topic_row = pd.read_csv("materials/qTopics_Calculate.csv").iloc[0]
+    fake_login_html = """
+        <input name="sid" value="1"/>
+        <input name="form_token" value="2"/>
+        <input name="creation_time" value="3"/>
+    """
+
+    mock_session = MagicMock()
+    mock_session.get.return_value.text = fake_login_html
+    mock_session.post.return_value.text = "login failed"
+
+    session_ctx = MagicMock()
+    session_ctx.__enter__.return_value = mock_session
+    session_ctx.__exit__.return_value = None
+
+    with patch("requests.Session", return_value=session_ctx), \
+         patch("os.getenv", return_value="http://fake-forum"):
+
+        assertExit(lambda: message_actions.post_message_bi(topic_row, "timeout test",is_to_edit = 1))
+
 
 if __name__ == '__main__':
     test_suite = unittest.TestSuite()
@@ -110,5 +135,6 @@ if __name__ == '__main__':
     test_suite.addTest(unittest.FunctionTestCase(test_extract_messages_min_ge_max))
     test_suite.addTest(unittest.FunctionTestCase(test_get_extraction_time_range_invalid_date))
     test_suite.addTest(unittest.FunctionTestCase(test_post_message_bi_login_fail))
+    test_suite.addTest(unittest.FunctionTestCase(test_post_message_bi_times_out))
     runner = unittest.TextTestRunner()
     runner.run(test_suite)

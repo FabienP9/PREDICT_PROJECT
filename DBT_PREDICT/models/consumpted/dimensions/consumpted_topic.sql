@@ -32,7 +32,8 @@ SELECT
     topic.FORUM_SOURCE,
     topic.TOPIC_NUMBER,
     topic.IS_FOR_PREDICT,
-    topic.IS_FOR_RESULT   
+    topic.IS_FOR_RESULT,
+    topic.MESSAGE_NUMBER_TO_EDIT   
 FROM
     {{ref('curated_topic')}} topic
     {% if is_incremental() and max_updated_at is not none %}
@@ -47,6 +48,7 @@ SELECT
     final_topic.TOPIC_NUMBER,
     final_topic.IS_FOR_PREDICT,
     final_topic.IS_FOR_RESULT,
+    final_topic.MESSAGE_NUMBER_TO_EDIT,
     {{updated_at_fields()}}
 FROM
     final_topic

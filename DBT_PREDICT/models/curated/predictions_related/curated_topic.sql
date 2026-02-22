@@ -30,7 +30,8 @@ with final_topic as (
         topic.FORUM_SOURCE,
         topic.TOPIC_NUMBER,
         topic.IS_FOR_PREDICT,
-        topic.IS_FOR_RESULT
+        topic.IS_FOR_RESULT,
+        topic.MESSAGE_NUMBER_TO_EDIT
     FROM {{source("LAND","TOPIC")}} topic
     LEFT JOIN {{ref('curated_season')}} season
         ON topic.SEASON_ID = season.SEASON_ID
@@ -45,6 +46,7 @@ SELECT
     final_topic.TOPIC_NUMBER,
     final_topic.IS_FOR_PREDICT,
     final_topic.IS_FOR_RESULT,
+    final_topic.MESSAGE_NUMBER_TO_EDIT,
     {{updated_at_fields()}}
 FROM 
     final_topic

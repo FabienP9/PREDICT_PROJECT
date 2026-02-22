@@ -46,3 +46,6 @@ sources:
             tests:
               - accepted_values: 
                   values: [0, 1]
+
+          - name: MESSAGE_NUMBER_TO_EDIT
+            description: The number of the message to edit with output message (optional)

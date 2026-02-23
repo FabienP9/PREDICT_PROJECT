@@ -11,6 +11,8 @@ with gameday as (
         gameday1.NB_GAME+2 AS NB_PREDICTION, /* one bonus game per gameday = 3 prediction */
         gameday1.BEGIN_DATE_LOCAL,
         gameday1.BEGIN_TIME_LOCAL,
+        gameday1.END_DATE_LOCAL,
+        gameday1.END_TIME_LOCAL,
         gameday1.END_DATE_UTC,
         gameday1.END_TIME_UTC,
         gameday1.GAMEDAY_MESSAGE,
@@ -40,6 +42,8 @@ SELECT
     gameday.NB_PREDICTION,
     gameday.BEGIN_DATE_LOCAL,
     gameday.BEGIN_TIME_LOCAL,
+    gameday.END_DATE_LOCAL,
+    gameday.END_TIME_LOCAL,
     gameday.END_DATE_UTC,
     gameday.END_TIME_UTC,
     gameday.GAMEDAY_MESSAGE,

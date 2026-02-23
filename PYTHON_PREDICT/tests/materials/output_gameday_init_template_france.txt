@@ -48,3 +48,8 @@
 |0|__F__underlinebegin__F__Calendrier de(s) journée(s) encore partiellement ouverte(s) (à date)__F__underlineend__F__|1|
 |0|#CALENDAR_GAMES_OPENED#|0|
 #REMAINING_GAMES_END#
+
+#NEXT_OPENING_BEGIN#
+|2|__F__underlinebegin__F__Calendrier des prochaines ouvertures de journées (à date dans la base de données)__F__underlineend__F__|1|
+|0|#CALENDAR_NEXT_OPENING#|0|
+#NEXT_OPENING_END#

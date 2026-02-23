@@ -102,6 +102,29 @@ qGame_Remaining_AtDate = f'''
             GAME_MESSAGE;
     '''
 
+#Query to get the calendar of next opening gamedays
+qNextGamedaysOpening = '''
+    SELECT 
+        cal.GAMEDAY, 
+        cal.TS_TASK_LOCAL, 
+        gameday.BEGIN_DATE_LOCAL, 
+        gameday.BEGIN_TIME_LOCAL, 
+        gameday.END_DATE_LOCAL,
+        gameday.END_TIME_LOCAL
+    FROM 
+        PREDICT_PROD.CONSUMPTED.VW_CALENDAR cal
+    JOIN 
+        PREDICT_PROD.CONSUMPTED.VW_GAMEDAY gameday
+        ON gameday.SEASON_ID = cal.SEASON_ID
+        AND gameday.GAMEDAY = cal.GAMEDAY
+    WHERE 
+        cal.TASK_RUN = 'INIT'
+        AND cal.TS_TASK_UTC >= TO_DATE(%s,'YYYY-MM-DD')
+        AND cal.SEASON_ID = %s
+    ORDER BY
+        TS_TASK_LOCAL;
+'''
+
 #Query to get prediction and result per game and user
 qPredictGame = f'''
     SELECT

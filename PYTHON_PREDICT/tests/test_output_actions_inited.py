@@ -36,6 +36,22 @@ def test_transform_inited_games_to_calendar():
     assert calendar_games == expected_str
     assert firstgametimedict == {'1ere journee': '01/01 15h'}
 
+def test_get_inited_next_opening_gamedays_calendar():
+
+    # this test the function get_inited_next_opening_gamedays_calendar
+    sr_snowflake_account = pd.read_csv("materials/snowflake_account_connect.csv").iloc[0]
+    sr_gameday_output_init = pd.read_csv("materials/sr_gameday_output_init.csv").iloc[0]
+    mocK_df_next_gamedays = pd.read_csv("materials/qNextGamedaysOpening.csv")
+    mocK_df_next_gamedays["BEGIN_TIME_LOCAL"] = pd.to_datetime(mocK_df_next_gamedays["BEGIN_TIME_LOCAL"],format="%H:%M:%S").dt.time
+    mocK_df_next_gamedays["END_TIME_LOCAL"] = pd.to_datetime(mocK_df_next_gamedays["END_TIME_LOCAL"],format="%H:%M:%S").dt.time
+    expected_result = read_txt("materials/output_actions_inited_next_opening_gamedays_calendar.txt")
+    
+    with patch('output_actions_inited.snowflake_execute', return_value=mocK_df_next_gamedays):
+
+        result, nbgamedays = output_actions_inited.get_inited_next_opening_gamedays_calendar(sr_snowflake_account, sr_gameday_output_init)
+        assert result == expected_result
+        assert nbgamedays == 2
+
 def test_get_inited_parameters():
     
     # this test the function get_inited_parameters
@@ -45,6 +61,7 @@ def test_get_inited_parameters():
     mock_df_games_opening["TIME_GAME_LOCAL"] = pd.to_datetime(mock_df_games_opening["TIME_GAME_LOCAL"],format="%H:%M:%S").dt.time
     mock_df_games_opened = pd.read_csv("materials/qGame_Remaining_AtDate.csv")
     mock_df_games_opened["TIME_GAME_LOCAL"] = pd.to_datetime(mock_df_games_opened["TIME_GAME_LOCAL"],format="%H:%M:%S").dt.time
+    mock_calendar_next_opening = read_txt("materials/output_actions_inited_next_opening_gamedays_calendar.txt")
     expected_param_dict = {
         'GAMEDAY_OPENING': '1ere journee', 
         'NB_GAMES_OPENING': 2, 
@@ -55,9 +72,12 @@ def test_get_inited_parameters():
         'LIST_GAMEDAYS_OPENED': '3eme journee , 4eme journee', 
         'CALENDAR_GAMES_OPENED': read_txt("materials/output_actions_inited_calendar_games_opened.txt"), 
         'LIST_GAMES_OPENED': read_txt("materials/output_actions_inited_list_games_opened.txt"),
+        'CALENDAR_NEXT_OPENING': read_txt("materials/output_actions_inited_next_opening_gamedays_calendar.txt"),
+        'NB_NEXT_OPENING' : 2,
         'USER_CAN_CHOOSE_TEAM_FOR_PREDICTCHAMP': 1}
     
-    with patch('output_actions_inited.snowflake_execute', side_effect=[mock_df_games_opening,mock_df_games_opened]):
+    with patch('output_actions_inited.snowflake_execute', side_effect=[mock_df_games_opening,mock_df_games_opened]), \
+        patch('output_actions_inited.get_inited_next_opening_gamedays_calendar', return_value=(mock_calendar_next_opening,2)):
         param_dict = output_actions_inited.get_inited_parameters(sr_snowflake_account, sr_gameday_output_init)
         assert expected_param_dict == param_dict
 
@@ -74,6 +94,8 @@ def test_create_inited_message():
         'LIST_GAMEDAYS_OPENED': '3eme journee , 4eme journee', 
         'CALENDAR_GAMES_OPENED': read_txt("materials/output_actions_inited_calendar_games_opened.txt"), 
         'LIST_GAMES_OPENED': read_txt("materials/output_actions_inited_list_games_opened.txt"),
+        'CALENDAR_NEXT_OPENING': read_txt("materials/output_actions_inited_next_opening_gamedays_calendar.txt"),
+        'NB_NEXT_OPENING' : 2,
         'USER_CAN_CHOOSE_TEAM_FOR_PREDICTCHAMP':1}
     
     template = read_txt("materials/output_gameday_init_template_france.txt")
@@ -87,7 +109,6 @@ def test_create_inited_message():
          patch("output_actions_inited.fileA.create_txt") as mock_create_txt:
         
         content, country, forum = output_actions_inited.create_inited_message(param_dict, template, country, forum, sr_gameday_output_init)
-        
         assert content.split() == expected_result.split()
         assert country == "FRANCE"
         assert forum == 'BI'
@@ -116,6 +137,7 @@ if __name__ == '__main__':
     test_suite = unittest.TestSuite()
     test_suite.addTest(unittest.FunctionTestCase(test_transform_inited_games_to_list))
     test_suite.addTest(unittest.FunctionTestCase(test_transform_inited_games_to_calendar))
+    test_suite.addTest(unittest.FunctionTestCase(test_get_inited_next_opening_gamedays_calendar))
     test_suite.addTest(unittest.FunctionTestCase(test_get_inited_parameters))
     test_suite.addTest(unittest.FunctionTestCase(test_create_inited_message))
     test_suite.addTest(unittest.FunctionTestCase(test_process_output_message_inited))

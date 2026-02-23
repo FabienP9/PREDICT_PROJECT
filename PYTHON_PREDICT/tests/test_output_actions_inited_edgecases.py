@@ -43,9 +43,42 @@ def test_transform_inited_games_to_calendar_bad_type():
     df_games = pd.read_csv("materials/edgecases/qGame_badtype.csv")
     assertExit(lambda: output_actions_inited.transform_inited_games_to_calendar(df_games))
 
+def test_get_inited_next_opening_gamedays_calendar_empty():
+
+    # this test the function get_inited_next_opening_gamedays_calendar with an empty dataframe. Must return an empty string
+    sr_snowflake_account = pd.read_csv("materials/snowflake_account_connect.csv").iloc[0]
+    sr_gameday_output_init = pd.read_csv("materials/sr_gameday_output_init.csv").iloc[0]
+    mocK_df_next_gamedays = pd.read_csv("materials/edgecases/qNextGamedaysOpening_empty.csv")
+    mocK_df_next_gamedays = mocK_df_next_gamedays.astype({
+        "TS_TASK_LOCAL": "datetime64[ns]",
+        "BEGIN_DATE_LOCAL": "datetime64[ns]",
+        "END_DATE_LOCAL": "datetime64[ns]",
+    })
+    mocK_df_next_gamedays["BEGIN_TIME_LOCAL"] = pd.to_datetime(mocK_df_next_gamedays["BEGIN_TIME_LOCAL"],format="%H:%M:%S").dt.time
+    mocK_df_next_gamedays["END_TIME_LOCAL"] = pd.to_datetime(mocK_df_next_gamedays["END_TIME_LOCAL"],format="%H:%M:%S").dt.time
+    expected_result = ""
+    
+    with patch('output_actions_inited.snowflake_execute', return_value=mocK_df_next_gamedays):
+
+        result, nbgamedays = output_actions_inited.get_inited_next_opening_gamedays_calendar(sr_snowflake_account, sr_gameday_output_init)
+        assert result == expected_result
+        assert nbgamedays == 0
+
+def test_get_inited_next_opening_gamedays_calendar_badtype():
+
+    # this test the function get_inited_next_opening_gamedays_calendar with badtype. Must exit the program
+    sr_snowflake_account = pd.read_csv("materials/snowflake_account_connect.csv").iloc[0]
+    sr_gameday_output_init = pd.read_csv("materials/sr_gameday_output_init.csv").iloc[0]
+    mocK_df_next_gamedays = pd.read_csv("materials/edgecases/qNextGamedaysOpening_badtype.csv")
+    
+    with patch('output_actions_inited.snowflake_execute', return_value=mocK_df_next_gamedays):
+
+        assertExit(lambda: output_actions_inited.get_inited_next_opening_gamedays_calendar(sr_snowflake_account, sr_gameday_output_init))
+
+
 def test_create_inited_message_no_remaining_games():
     
-    # this test the function create_inited_message with NB_GAMES_OPENED = 0. Must not change #REMAINING_GAMEDAYS#
+    # this test the function create_inited_message with NB_GAMES_OPENED = 0 and NB_NEXT_OPENING=0. Must not wrtie the two last paragraphs
     param_dict = {
         'GAMEDAY_OPENING': '1ere journee', 
         'NB_GAMES_OPENING': 2, 
@@ -55,7 +88,9 @@ def test_create_inited_message_no_remaining_games():
         'NB_GAMES_OPENED': 0, 
         'LIST_GAMEDAYS_OPENED': '', 
         'CALENDAR_GAMES_OPENED': '', 
-        'LIST_GAMES_OPENED': '',
+        'LIST_GAMES_OPENED': '',        
+        'CALENDAR_NEXT_OPENING': '',
+        'NB_NEXT_OPENING' : 0,
         'USER_CAN_CHOOSE_TEAM_FOR_PREDICTCHAMP':1
     }
     
@@ -68,6 +103,7 @@ def test_create_inited_message_no_remaining_games():
 
     with patch("output_actions_inited.outputA.define_filename", return_value=mock_filename) as mock_filename, \
          patch("output_actions_inited.fileA.create_txt") as mock_create_txt:
+        
         
         content, country, forum = output_actions_inited.create_inited_message(param_dict, template, country, forum, sr_gameday_output_init)
         assert content.split() == expected_result.split()
@@ -117,6 +153,8 @@ if __name__ == '__main__':
     test_suite.addTest(unittest.FunctionTestCase(test_transform_inited_games_to_list_missing_column))
     test_suite.addTest(unittest.FunctionTestCase(test_transform_inited_games_to_calendar_empty))
     test_suite.addTest(unittest.FunctionTestCase(test_transform_inited_games_to_calendar_bad_type))
+    test_suite.addTest(unittest.FunctionTestCase(test_get_inited_next_opening_gamedays_calendar_empty))
+    test_suite.addTest(unittest.FunctionTestCase(test_get_inited_next_opening_gamedays_calendar_badtype))
     test_suite.addTest(unittest.FunctionTestCase(test_create_inited_message_no_remaining_games))
     test_suite.addTest(unittest.FunctionTestCase(test_create_inited_message_none_param))
     test_suite.addTest(unittest.FunctionTestCase(test_process_output_message_inited_with_no_topics))

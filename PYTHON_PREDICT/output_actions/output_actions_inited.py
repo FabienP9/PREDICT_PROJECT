@@ -9,11 +9,10 @@ import logging
 logging.basicConfig(level=logging.INFO)
 import os
 
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta, date
 import pandas as pd
 from typing import Tuple
 import numpy as np
-from datetime import datetime, date
 
 from snowflake_actions import snowflake_execute
 import config
@@ -70,12 +69,13 @@ def transform_inited_games_to_calendar(df_games: pd.DataFrame) -> Tuple[str,dict
     df_games_copy["DATETIME"] = pd.to_datetime(df_games_copy["DATE_GAME_LOCAL"].astype(str) + " " + df_games_copy["TIME_GAME_LOCAL"].astype(str)).dt.tz_localize(None)
     df_games_copy["IS_RESULT"] = 0
     
+    # We get the last game and add 2h30, to have the prediction result time
     lastgametime = (
         df_games_copy.sort_values("DATETIME")
         .groupby("GAMEDAY", as_index=False)
         .last()
     )
-    lastgametime["DATETIME_RESULTS"] = lastgametime["DATETIME"].dt.tz_localize(None) + pd.Timedelta(hours=2, minutes=15)
+    lastgametime["DATETIME_RESULTS"] = lastgametime["DATETIME"].dt.tz_localize(None) + pd.Timedelta(hours=2, minutes=30)
 
     result_rows = pd.DataFrame({
         "GAMEDAY": lastgametime["GAMEDAY"],
@@ -107,7 +107,7 @@ def transform_inited_games_to_calendar(df_games: pd.DataFrame) -> Tuple[str,dict
             calendar_lines.append(f"{date_string}: {line}")
     else: #format for results
         for _, row in group.iterrows():
-            calendar_lines.append(f"{date_string} ~{row.TIME_HhM_STRING}: __L__PLANNED RESULTS OF YOUR PREDICTIONS OF GAMEDAY__L__ {row.GAMEDAY}")
+            calendar_lines.append(f"{date_string} ~{row.TIME_HhM_STRING}: __L__RESULTS OF PREDICTIONS OF__L__ {row.GAMEDAY}")
 
     CALENDAR_GAMES = "\n".join(calendar_lines)
 
@@ -118,6 +118,65 @@ def transform_inited_games_to_calendar(df_games: pd.DataFrame) -> Tuple[str,dict
         .to_dict())
     
     return CALENDAR_GAMES, FIRSTGAMETIME_DICT
+
+@config.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_init',) })
+def get_inited_next_opening_gamedays_calendar(sr_snowflake_account: pd.Series, sr_gameday_output_init: pd.Series) -> Tuple[str,int]:
+
+    '''
+        Gets the calendar of next opening gamedays, with their opening datetime, first game time, and results time
+        Inputs:
+            sr_snowflake_account (series - one row) containing snowflake credentials used in subfunction to run query
+            sr_gameday_output_init (series - one row) containing parameters
+        Returns:
+            a multiline string with a one gameday per line
+            The number of gamedays concerned
+        Raises:
+            Exits the program if error running the function (using decorator)
+    '''
+
+    # we get next gameday from the tomorrow and format columns
+    defined_date = (datetime.now(timezone.utc) + timedelta(days=1)).strftime('%Y-%m-%d')
+    df_next_gamedays = snowflake_execute(sr_snowflake_account,sqlQ.qNextGamedaysOpening,(defined_date,sr_gameday_output_init['SEASON_ID']))
+    datecols_to_datetime = ["TS_TASK_LOCAL", "BEGIN_DATE_LOCAL", "END_DATE_LOCAL"]
+    df_next_gamedays[datecols_to_datetime] = df_next_gamedays[datecols_to_datetime].apply(pd.to_datetime)
+    
+    timecols_to_datetime = ["BEGIN_TIME_LOCAL", "END_TIME_LOCAL"]
+    df_next_gamedays[timecols_to_datetime] = (df_next_gamedays[timecols_to_datetime].apply(lambda s: pd.to_datetime(date.today().isoformat() + " " + s.astype(str))))
+    
+    df_next_gamedays["BEGIN_DATETIME_LOCAL"] = pd.to_datetime(df_next_gamedays["BEGIN_DATE_LOCAL"].astype(str) + " " + df_next_gamedays["BEGIN_TIME_LOCAL"].astype(str)).dt.tz_localize(None)
+    df_next_gamedays["END_DATETIME_LOCAL"] = pd.to_datetime(df_next_gamedays["END_DATE_LOCAL"].astype(str) + " " + df_next_gamedays["END_TIME_LOCAL"].astype(str)).dt.tz_localize(None)
+    
+    # we calculate the opening time 30 minutes after the planned time - and the result time 2h30 after the last game time
+    df_next_gamedays["TS_TASK_LOCAL_30"] = df_next_gamedays["TS_TASK_LOCAL"].dt.tz_localize(None) + pd.Timedelta(hours=0, minutes=30)
+    df_next_gamedays["END_DATETIME_LOCAL_150"] = df_next_gamedays["END_DATETIME_LOCAL"].dt.tz_localize(None) + pd.Timedelta(hours=2, minutes=30)
+    
+    df_next_gamedays['TS_TASK_DATE_DDMM_STRING'] = df_next_gamedays['TS_TASK_LOCAL_30'].dt.strftime('%d/%m')
+    df_next_gamedays['BEGIN_DATE_DDMM_STRING'] = df_next_gamedays['BEGIN_DATETIME_LOCAL'].dt.strftime('%d/%m')
+    df_next_gamedays['END_DATE_DDMM_STRING'] = df_next_gamedays['END_DATETIME_LOCAL_150'].dt.strftime('%d/%m')
+
+    def hhmm_to_hhm(series):
+        return (
+            series.dt.strftime("%H") + "h" +
+            np.where(series.dt.minute.ne(0), series.dt.strftime("%M"), "")
+        )
+
+    pairs = {
+        "TS_TASK_LOCAL_30": "TS_TASK_TIME_Hhm_STRING",
+        "BEGIN_DATETIME_LOCAL": "BEGIN_TIME_Hhm_STRING",
+        "END_DATETIME_LOCAL_150": "END_TIME_Hhm_STRING",
+    }
+
+    for src, dst in pairs.items():
+        df_next_gamedays[dst] = hhmm_to_hhm(df_next_gamedays[src])
+
+    # we finally calculate the multiline string
+    df_next_gamedays['STRING'] = df_next_gamedays['GAMEDAY'] + ": " + \
+                                "__L__OPENING__L__ " + df_next_gamedays['TS_TASK_DATE_DDMM_STRING'] + " ~ "+ df_next_gamedays['TS_TASK_TIME_Hhm_STRING'] + " / " +\
+                                 "__L__FIRST_GAME__L__ " + df_next_gamedays['BEGIN_DATE_DDMM_STRING'] + " "+ df_next_gamedays['BEGIN_TIME_Hhm_STRING'] + " / " +\
+                                 "__L__PREDICTIONS_RESULTS__L__ " + df_next_gamedays['END_DATE_DDMM_STRING'] + " ~ "+ df_next_gamedays['END_TIME_Hhm_STRING']
+
+    CALENDAR_NEXT_OPENING = "\n".join(df_next_gamedays['STRING'])
+    return CALENDAR_NEXT_OPENING, len(df_next_gamedays)
 
 @config.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_init',) })
 def get_inited_parameters(sr_snowflake_account: pd.Series, sr_gameday_output_init: pd.Series) -> dict:
@@ -158,6 +217,9 @@ def get_inited_parameters(sr_snowflake_account: pd.Series, sr_gameday_output_ini
         gameday_args = [(df_gameday_opened,) for _, df_gameday_opened in df_gamedays_opened]
         results_string = config.multithreading_run(transform_inited_games_to_list, gameday_args)
         param_dict['LIST_GAMES_OPENED'] = "\n".join(results_string)
+
+    #parameters for next opening gamedays
+    param_dict['CALENDAR_NEXT_OPENING'],param_dict['NB_NEXT_OPENING'] = get_inited_next_opening_gamedays_calendar(sr_snowflake_account, sr_gameday_output_init)
 
     param_dict['USER_CAN_CHOOSE_TEAM_FOR_PREDICTCHAMP'] = sr_gameday_output_init['USER_CAN_CHOOSE_TEAM_FOR_PREDICTCHAMP']
     return param_dict
@@ -201,11 +263,19 @@ def create_inited_message(param_dict: dict, template: str, country: str, forum:s
                                                 "#REMAINING_GAMES_BEGIN#", 
                                                 "#REMAINING_GAMES_END#", 
                                                 param_dict['NB_GAMES_OPENED'] > 0)   
+
+    content = outputA.replace_conditionally_message(content, 
+                                                "#NEXT_OPENING_BEGIN#", 
+                                                "#NEXT_OPENING_END#", 
+                                                param_dict['NB_NEXT_OPENING'] > 0) 
     
     if param_dict['NB_GAMES_OPENED'] > 0: 
         content = content.replace("#LIST_GAMEDAYS_OPENED#",param_dict['LIST_GAMEDAYS_OPENED'])
         content = content.replace("#LIST_GAMES_OPENED#",param_dict['LIST_GAMES_OPENED'])
         content = content.replace("#CALENDAR_GAMES_OPENED#",param_dict['CALENDAR_GAMES_OPENED'])
+
+    if param_dict['NB_NEXT_OPENING'] > 0: 
+        content = content.replace("#CALENDAR_NEXT_OPENING#",param_dict['CALENDAR_NEXT_OPENING'])
 
     #We then translate the content for the country and the forum
     content = outputA.translate_string(content,country,forum)

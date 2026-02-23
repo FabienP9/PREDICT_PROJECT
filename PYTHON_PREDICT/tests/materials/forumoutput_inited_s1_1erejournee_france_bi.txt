@@ -20,7 +20,7 @@ Pour que votre choix soit lu automatiquement et ainsi gagner un léger bonus (cf
 
 [u]Calendrier de la journée (à date)[/u]
 01/01: 1EJ.01 (15h) / 1EJ.02 (16h05)
-01/01 ~18h20: Prévision des résultats de vos pronostics de la journée 1ere journee
+01/01 ~18h35: Résultats des pronos de 1ere journee
 
 [u]Choix d'une équipe pour le championnat de pronostics[/u]
 Vous pouvez choisir / changer votre équipe préférée pour le championnat de pronostics jusqu'au début de la phase retour en (ré)indiquant la ligne avec votre (nouvelle) équipe. Elle sera prise en compte pour toutes les journées jusqu'à la fin de saison. \:D/
@@ -42,5 +42,9 @@ Vous pouvez encore réaliser ou modifier vos pronos sur les matchs que vous souh
 
 [u]Calendrier de(s) journée(s) encore partiellement ouverte(s) (à date)[/u]
 01/01: 3EJ.02 (18h) / 4EJ.02 (19h)
-01/01 ~20h15: Prévision des résultats de vos pronostics de la journée 3eme journee
-01/01 ~21h15: Prévision des résultats de vos pronostics de la journée 4eme journee
+01/01 ~20h30: Résultats des pronos de 3eme journee
+01/01 ~21h30: Résultats des pronos de 4eme journee
+
+[u]Calendrier des prochaines ouvertures de journées (à date dans la base de données)[/u]
+1ere journee: Ouverture 01/01 ~ 20h45 / 1er Match 03/01 18h / Résultats des pronos 03/01 ~ 20h30
+3eme journee: Ouverture 03/01 ~ 21h / 1er Match 06/01 20h30 / Résultats des pronos 09/01 ~ 23h

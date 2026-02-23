@@ -20,7 +20,7 @@ Pour que votre choix soit lu automatiquement et ainsi gagner un léger bonus (cf
 
 [u]Calendrier de la journée (à date)[/u]
 01/01: 1EJ.01 (15h) / 1EJ.02 (16h05)
-01/01 ~18h20: Prévision des résultats de vos pronostics de la journée 1ere journee
+01/01 ~18h35: Résultats des pronos de 1ere journee
 
 [u]Choix d'une équipe pour le championnat de pronostics[/u]
 Vous pouvez choisir / changer votre équipe préférée pour le championnat de pronostics jusqu'au début de la phase retour en (ré)indiquant la ligne avec votre (nouvelle) équipe. Elle sera prise en compte pour toutes les journées jusqu'à la fin de saison. \:D/

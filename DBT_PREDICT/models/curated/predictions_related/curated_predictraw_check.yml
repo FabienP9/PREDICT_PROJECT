@@ -1,0 +1,85 @@
+models:
+
+- name: curated_predictraw_check
+  description: Get all predictions from curated_message with their correction from landing_correction_prediction, without refinement
+  columns:
+  - name: PREDICT_KEY
+    description: Primary key based on FORUM_SOURCE, MESSAGE_FORUM_ID, EDITION_TIME_UTC and PREDICT_ID
+    tests:
+      - unique
+      - not_null
+
+  - name: MESSAGE_EDITION_KEY
+    description: Foreign key to match a prediction with a message and its edition time
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_message_check')
+          to_column: MESSAGE_EDITION_KEY
+
+  - name: SEASON_KEY
+    description: Foreign key to match a prediction with a season
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_season')
+          to_column: SEASON_KEY
+
+  - name: USER_KEY
+    description: Foreign key to match a prediction with a user
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_user')
+          to_column: USER_KEY 
+
+  - name: FORUM_KEY
+    description: Foreign key to match a prediction with a forum
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_forum')
+          to_column: FORUM_KEY 
+
+  - name: EDITION_TIME_LOCAL
+    description: The time of edition (or creation if not edited) of the message in the timezone of the forum. 
+    tests:
+      - not_null
+
+  - name: EDITION_TIME_UTC
+    description: The time of edition  (or creation if not edited) of the message in utc time. 
+    tests:
+      - not_null
+
+  - name: MESSAGE_TRANSFORMED
+    description: The content of the message transformed by possibly removing quotes messages
+
+  - name: ARRAY_PREDICTIONS
+    description: Variant containing all predictions of the message in an array
+
+  - name: PREDICTION
+    description: The prediction as written by the user
+
+  - name: PREDICT_ID
+    description: The id part of the prediction
+
+  - name: PREDICT_RAW
+    description: The raw prediction part of the prediction
+
+  - name: IS_PREDICTION_FROM_MESSAGE
+    description: Boolean to know if a prediction is directly from the user (1) or from correction (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: IS_PROGRAM_REFINEMENT
+    description: Boolean to know if a prediction corrected is because of the program refinement (1) or because of an error from the user (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: UPDATED_AT_UTC
+    description: The datetime of update in utc timezone
+    tests:
+      - not_null
+
+  - name: UPDATED_AT_LOCAL
+    description: The datetime of update in local forum country timezone
+    tests:
+      - not_null

@@ -1,0 +1,122 @@
+models:
+
+- name: consumpted_gameday
+  tags: ['init_compet']
+  description: Get all distinct gamedays  used for init or calculate from curated layer
+  columns:
+  - name: GAMEDAY_KEY
+    description: Primary key from curated
+    tests:
+      - unique
+      - not_null
+
+  - name: SEASON_KEY
+    description: Foreign key to match a gameday with a season
+    tests:
+      - is_foreign_key:
+          to_model: ref('consumpted_season')
+          to_column: SEASON_KEY
+
+  - name: COMPETITION_KEY
+    description: Foreign key to match a gameday with a competition
+    tests:
+      - is_foreign_key:
+          to_model: ref('consumpted_competition')
+          to_column: COMPETITION_KEY
+
+  - name: GAMEDAY
+    description: The gameday string from the source, possibly modified, used in reportings
+    tests:
+      - not_null    
+
+  - name: GAMEDAY_MESSAGE
+    description: The gameday string formatted for message display
+    tests:
+      - not_null
+
+  - name: NB_GAME
+    description: The number of games in the gameday
+    tests:
+      - is_integer
+
+  - name: IS_PLAYED
+    description: Boolean to know if a gameday is completely played (1) or not (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: IS_PARTIALLY_PLAYED
+    description: Boolean to know if a gameday is patially played (ie at least one game played) (1) or not (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: BEGIN_DATE_LOCAL
+    description: The local date for the beginning of the first game of the gameday
+
+  - name: BEGIN_TIME_LOCAL
+    description: The local time for the beginning of the first game of the gameday
+
+  - name: END_DATE_LOCAL
+    description: The local date for the beginning of the last game of the gameday
+
+  - name: END_TIME_LOCAL
+    description: The local time for the beginning of the last game of the gameday
+
+  - name: BEGIN_DATE_UTC
+    description: The utc date for the beginning of the first game of the gameday
+
+  - name: BEGIN_TIME_UTC
+    description: The utc time for the beginning of the first game of the gameday
+
+  - name: END_DATE_UTC
+    description: The utc date for the beginning of the last game of the gameday
+
+  - name: END_TIME_UTC
+    description: The utc time for the beginning of the last game of the gameday
+
+  - name: IS_TO_CALCULATE
+    description: Boolean to know if a gameday is calculated in this run (1) or not (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: IS_TO_DELETE
+    description: Boolean to know if calculations related to the gameday are deleted in this run (1) or not (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: IS_CALCULATED
+    description: Boolean to know if a gameday is calculated before or during this run (1) or not (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: IS_OUTPUT_INIT
+    description: Boolean to know if a gameday will be outputed for initialization in forums (1) or not (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: IS_OUTPUT_CALCULATION
+    description: Boolean to know if a gameday will be outputed for calculation in forums (1) or not (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: UPDATED_AT_UTC
+    description: The datetime of update in utc timezone
+    tests:
+      - not_null
+
+  - name: UPDATED_AT_LOCAL
+    description: The datetime of update in local season country timezone
+    tests:
+      - not_null
+
+  tests:
+  - gameday_with_action:
+      fields: 
+        - name: IS_TO_CALCULATE
+        - name: IS_TO_DELETE

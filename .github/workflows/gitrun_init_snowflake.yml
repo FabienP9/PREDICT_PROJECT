@@ -1,0 +1,91 @@
+# This GitHub actions workflow is intended to run exe_init_snowflake in test and production environment
+# It gets secrets variables, install rclone to interact with dropbox, install dependencies, run python program
+# and send an email to report success or failure
+name: Init snowflake
+
+concurrency:
+  group: predict-run
+  cancel-in-progress: false
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-python:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        is_testrun: [0, 1]
+    env:
+      IS_TESTRUN: ${{ matrix.is_testrun }}
+      SNOWFLAKE_USERNAME: ${{ secrets.SNOWFLAKE_USERNAME }}
+      SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+      RCLONE_CONFIG_BASE64: ${{ secrets.RCLONE_CONFIG_BASE64 }}
+      GMAIL_USER: ${{ secrets.GMAIL_USER }}
+      RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+      GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install rclone for DropBox 
+        run: | 
+          curl https://rclone.org/install.sh | sudo bash
+          
+      - name: Configure rclone 
+        run: | 
+          mkdir -p ~/.config/rclone 
+          echo "$RCLONE_CONFIG_BASE64" | base64 --decode > ~/.config/rclone/rclone.conf
+          chmod 600 ~/.config/rclone/rclone.conf
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Cache pip packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Python script
+        run: |
+          set -e
+          cd PYTHON_PREDICT
+          python exe_init_snowflake.py
+
+      - name: Send Email (Success or Failure)
+        if: always()
+        run: |
+          python - <<EOF
+          import os, smtplib
+          from email.message import EmailMessage
+
+          status = "${{ job.status }}"
+          is_test = os.environ["IS_TESTRUN"]
+          run_url = f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}"
+
+          msg = EmailMessage()
+          if status == "success":
+              msg['Subject'] = f'GitHub Action SUCCEEDED - Snowflake IS_TESTRUN={is_test}'
+              msg.set_content(f"Succeeded to init snowflake with IS_TESTRUN={is_test}.")
+          else:
+              msg['Subject'] = f'GitHub Action FAILED - Snowflake IS_TESTRUN={is_test}'
+              msg.set_content(f"Failed to init snowflake with IS_TESTRUN={is_test}.\n\nRun logs: {run_url}")
+
+          msg['From'] = os.environ["GMAIL_USER"]
+          msg['To'] = os.environ["RECIPIENT_EMAIL"]
+
+          with smtplib.SMTP("smtp.gmail.com", 587) as server:
+              server.starttls()
+              server.login(os.environ["GMAIL_USER"],os.environ["GMAIL_APP_PASSWORD"])
+              server.send_message(msg)
+          EOF

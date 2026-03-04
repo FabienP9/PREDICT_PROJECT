@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: LAND
+    schema: LANDING
+    tables:
+      - name: MESSAGE
+        description: Copied from landing_message_check when messages are checked
+        identifier: LANDING_MESSAGE

@@ -1,0 +1,24 @@
+version: 2
+
+sources:
+  - name: LAND
+    schema: LANDING
+    tables:
+      - name: MESSAGE_QUOTE_TO_KEEP
+        description: This table displays all messages which need for which quote must be taken into account
+        identifier: LANDING_MESSAGE_QUOTE_TO_KEEP
+        columns:
+
+          - name: FORUM_SOURCE
+            description: The forum source of the message
+            tests:
+              - is_foreign_key:
+                  to_model: ref('curated_topic')
+                  to_column: FORUM_SOURCE
+
+          - name: MESSAGE_FORUM_ID
+            description: The identification of the message on the forum source
+            tests:
+              - is_foreign_key:
+                  to_model: source('LAND','MESSAGE_CHECK')
+                  to_column: MESSAGE_FORUM_ID

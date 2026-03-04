@@ -1,0 +1,8 @@
+predict_env/
+.env/
+PYTHON_PREDICT/__pycache__/
+PYTHON_PREDICT/tests/__pycache__/
+PYTHON_PREDICT/output_actions/__pycache__/
+*.pyc
+DBT_PREDICT/logs/
+DBT_PREDICT/target/

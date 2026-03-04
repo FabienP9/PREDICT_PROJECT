@@ -1,0 +1,53 @@
+models:
+
+- name: consumpted_user
+  tags: ['main']
+  description: Get users from curated with their calculated scores
+  columns:
+  - name: USER_KEY
+    description: Primary key from curated
+    tests:
+      - unique
+      - not_null
+
+  - name: USER_NAME
+    description: The name of the user
+    tests:
+      - not_null
+
+  - name: SEASON_KEY
+    description: Foreign key to match a user with a season
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_season')
+          to_column: SEASON_KEY
+
+  - name: NB_PREDICTION
+    description: The number of prediction of the user in the season
+    tests:
+      - is_integer
+
+  - name: TOTAL_POINTS
+    description: The calculated total number of points of the user on the season
+    tests:
+      - is_integer
+
+  - name: NB_GAMEDAY_PREDICT
+    description: The number of gameday predicted by the user in the season
+    tests:
+      - is_integer
+
+  - name: NB_GAMEDAY_FIRST
+    description: The number of time the user came first in a gameday in the season
+    tests:
+      - is_integer
+
+  - name: UPDATED_AT_UTC
+    description: The datetime of update in utc timezone
+    tests:
+      - not_null
+
+  - name: UPDATED_AT_LOCAL
+    description: The datetime of update in local season country timezone
+    tests:
+      - not_null

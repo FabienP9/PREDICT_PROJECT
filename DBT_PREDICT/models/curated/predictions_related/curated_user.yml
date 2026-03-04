@@ -1,0 +1,34 @@
+models:
+
+- name: curated_user
+  tags: ['main']
+  description: Get all distinct user from message landing who are processed, ie users which posted messages
+  columns:
+  - name: USER_KEY
+    description: Primary key based on USER and SEASON
+    tests:
+      - unique
+      - not_null
+
+  - name: USER_NAME
+    description: The name of the user
+    tests:
+      - not_null
+
+  - name: SEASON_KEY
+    description: Foreign key to match a user with a season, if they posted in one of topics season
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_season')
+          to_column: SEASON_KEY
+
+
+  - name: UPDATED_AT_UTC
+    description: The datetime of update in utc timezone
+    tests:
+      - not_null
+
+  - name: UPDATED_AT_LOCAL
+    description: The datetime of update in local season country timezone
+    tests:
+      - not_null

@@ -1,0 +1,100 @@
+models:
+
+- name: consumpted_predict_game
+  description: Calculate scores on game predictions
+  columns:
+  - name: PREDICT_GAME_KEY
+    description: Primary key based on FORUM_SOURCE , MESSAGE_FORUM_ID and PREDICT_ID
+    tests:
+      - unique
+      - not_null
+
+  - name: SEASON_KEY
+    description: Foreign key to match a game prediction with a season
+    tests:
+      - is_foreign_key:
+          to_model: ref('consumpted_season')
+          to_column: SEASON_KEY
+
+  - name: USER_KEY
+    description: Foreign key to match a game prediction with a user
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_user')
+          to_column: USER_KEY
+
+  - name: GAMEDAY_KEY
+    description: Foreign key to match a game prediction with a gameday
+    tests:
+      - is_foreign_key:
+          to_model: ref('consumpted_gameday')
+          to_column: GAMEDAY_KEY
+
+  - name: GAME_KEY
+    description: Foreign key to match a game prediction with a game
+    tests:
+      - is_foreign_key:
+          to_model: ref('consumpted_game')
+          to_column: GAME_KEY
+
+  - name: GAME_RESULT
+    description: The result of the game related with the prediction, should be a strict integer
+    tests:
+      - is_integer
+
+  - name: PREDICT_ID
+    description: The id of the prediction
+    tests:
+      - not_null
+
+  - name: PREDICT
+    description: The result of the game predicted, should be a strict integer
+    tests:
+      - is_integer
+
+  - name: IS_BONUS_GAME
+    description: Boolean to check if the game is the one chosen as a bonus (1) or not (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: IS_PREDICTION_IN_DEFECT
+    description: Boolean to check if the prediction is necessited a correction not because of program refinement (1) or not (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: SCORE_WIN
+    description: The score gained by the user if they found the right winner in the prediction or not
+    tests:
+      - is_integer
+
+  - name: SCORE_SHIFT
+    description: The score gained by the user according to the difference between its prediction and the game result
+    tests:
+      - is_integer
+
+  - name: AUTOMATIC_SCORE
+    description: The automatic score gained by the user if it respects the template
+    tests:
+      - is_integer
+
+  - name: SCORE
+    description: The total score gained by the user based on their prediction (SCORE_WIN + SCORE_SHIFT+ AUTOMATIC_SCORE)
+    tests:
+      - is_integer
+
+  - name: NB_PREDICTION
+    description: The number of predictions (3 for a bonus prediction, 1 otherwise)
+    tests:
+      - is_integer
+
+  - name: UPDATED_AT_UTC
+    description: The datetime of update in utc timezone
+    tests:
+      - not_null
+
+  - name: UPDATED_AT_LOCAL
+    description: The datetime of update in local forum country timezone
+    tests:
+      - not_null

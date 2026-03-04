@@ -1,0 +1,89 @@
+models:
+
+- name: consumpted_user_gameday
+  description: Calculate points per user for each gameday and retrieve the chosen team for predict championship
+  columns:
+  - name: USER_GAMEDAY_KEY
+    description: Primary key based on SEASON_ID, GAMEDAY (original) and USER_NAME
+    tests:
+      - unique
+      - not_null
+
+  - name: USER_KEY
+    description: Foreign key to match a user_gameday key with a user
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_user')
+          to_column: USER_KEY
+
+  - name: GAMEDAY_KEY
+    description: Foreign key to match a user_gameday key with a gameday
+    tests:
+      - is_foreign_key:
+          to_model: ref('consumpted_gameday')
+          to_column: GAMEDAY_KEY
+
+  - name: SEASON_KEY
+    description: Foreign key to match a user_gameday key with a season
+    tests:
+      - is_foreign_key:
+          to_model: ref('consumpted_season')
+          to_column: SEASON_KEY
+
+  - name: NB_GAME
+    description: The number of games in the gameday
+    tests:
+      - is_integer
+
+  - name: ARE_PREDICTIONS_IN_DEFECT
+    description: Boolean to know if a at least one of the prediction of the user on this gameday is incorrectly written
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: CALCULATED_SCORE
+    description: The sum of score calculated for each prediction of the gameday for a user
+    tests:
+      - is_integer
+
+  - name: AUTOMATIC_SCORE
+    description: The score for automation - if ARE_PREDICTIONS_IN_DEFECT = 1 then it will be 0
+    tests:
+      - is_integer
+
+  - name: PARTICIPATION_SCORE
+    description: The score for participating - if the user predicted at least one game they will have a score depending of NB_GAME value 
+    tests:
+      - is_integer
+
+  - name: TOTAL_SCORE
+    description: The total score of all previous defined score
+    tests:
+      - is_integer
+
+  - name: POINTS
+    description: The number of points directly calculated from the TOTAL_SCORE
+    tests:
+      - is_integer
+
+  - name: NB_PREDICTION
+    description: The number of predictions total in the gameday
+    tests:
+      - is_integer     
+
+  - name: TEAM_CHOICE_KEY
+    description: Foreign key to match a user/gameday with a team choice (can be null if the user didn't define a team) - can be null
+    tests:
+      - relationships:
+          to: ref('curated_team')
+          field: TEAM_KEY
+
+  - name: UPDATED_AT_UTC
+    description: The datetime of update in utc timezone
+    tests:
+      - not_null
+
+  - name: UPDATED_AT_LOCAL
+    description: The datetime of update in local season country timezone
+    tests:
+      - not_null

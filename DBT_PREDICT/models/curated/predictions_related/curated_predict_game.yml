@@ -1,0 +1,7 @@
+version: 2
+
+models:
+
+- name: curated_predict_game
+  tags: ['main']
+  description: Copied from curated_predict_game_check

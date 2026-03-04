@@ -1,0 +1,28 @@
+unit_tests:
+  - name: test_consumpted_season
+    model: consumpted_season
+    overrides:
+      macros:
+        is_incremental: false
+    given:
+      - input: ref('curated_season')
+        format: csv
+        rows: |
+          SEASON_KEY,SEASON_ID,SEASON_SPORT,SEASON_COUNTRY,SEASON_NAME,SEASON_DIVISION,SEASON_TEAMCHOICE_DEADLINE
+          ab79b12cfeaf0cc39dc7676a91fa737a,S1,BASKETBALL,FRANCE,2024-2025,PROB,2025-05-09
+          b1758314d62ca5e4ef9bde412bcd45c7,S2,BASKETBALL,FRANCE,2025-2026,ELITE2,2026-01-23
+          d78e5a45bcb2cf88e7b7224707701aa3,S3,BASKETBALL,FRANCE,2025-2026,BETCLICELITE,2026-01-18
+
+      - input: ref('local_time')
+        format: csv
+        rows: |
+          COUNTRY,TIMEZONE
+          FRANCE,Europe/Paris
+
+    expect:
+      format: csv
+      rows: |
+        SEASON_KEY,SEASON_ID,SEASON_SPORT,SEASON_COUNTRY,SEASON_NAME,SEASON_DIVISION,SEASON_TEAMCHOICE_DEADLINE
+        ab79b12cfeaf0cc39dc7676a91fa737a,S1,BASKETBALL,FRANCE,2024-2025,PROB,2025-05-09
+        b1758314d62ca5e4ef9bde412bcd45c7,S2,BASKETBALL,FRANCE,2025-2026,ELITE2,2026-01-23
+        d78e5a45bcb2cf88e7b7224707701aa3,S3,BASKETBALL,FRANCE,2025-2026,BETCLICELITE,2026-01-18

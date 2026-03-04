@@ -1,0 +1,119 @@
+|0|#MESSAGE_PREFIX_PROGRAM_STRING#|2|
+
+
+|0|__F__centerbegin__F____F__resultsmiley__F____F__sizeverybigbegin__F____F__boldbegin__F__ Résultats - #GAMEDAY# __F__boldend__F____F__sizeverybigend__F____F__resultsmiley__F____F__centerend__F__|3|
+
+
+|0|__F__sizebigbegin__F____F__boldbegin__F__Résultats #SEASON_DIVISION#__F__boldend__F____F__sizebigend__F__|1|
+|0|__F__quote1begin__F__#RESULT_GAMES#__F__quote1end__F__|2|
+
+
+|0|__F__sizebigbegin__F____F__boldbegin__F__Concours individuel __F__boldend__F____F__sizebigend__F__|2|
+
+
+|0|__F__boldbegin__F____F__underlinebegin__F__Résultats et classement individuel de journée __F__boldend__F____F__underlineend__F__|1|
+#WITH_PREDICTORS_GAMEDAY_BEGIN#
+|0|__F__italicbegin__F__-> “Score du bon vainqueur”: 15 pts sì vainqueur trouvé __F__enjoyment__F__|1|
+|0|-> “Score du bon écart”: 30 pts si résultat trouvé __F__glasssmile__F__ Sinon, 15 pts - l’écart entre pronostic et résultat. __F__tonguesmile__F__ |1|
+|0|-> “Score de l’automatisation”: 1 pt si les 2 points importants de la trame sont respectés __F__computer__F__|1|
+|0|-> Le match bonus compte comme 3 pronostics et triple les scores __F__explode__F__ |1| 
+|0|-> Nombre de points de journée: somme des scores pour tous les matchs pronostiqués (#NB_MAX_PREDICT# pronos pour cette journée) __F__italicend__F__|2|
+
+
+|0|__F__picbegin__F__#IMGGAMEDAY#__F__picend__F__|2|
+
+
+|0|__F__boldbegin__F____F__underlinebegin__F__ Détail des scores :__F__underlineend__F____F__boldend__F__|1|
+|0|__F__italicbegin__F__['PT' = "Nombre de points de journée" ; 'G..' = "Numéro du match" ; 
+'BO' = "Match choisi comme bonus (*3)" ; 'RE' = "Résultat du match" ; 'PR' = "Pronostic du match" ; 
+'SW' = "Score du bon vainqueur" ; 'SD' = "Score du bon écart" ; 'SA' = "Score de l'automatisation" ]__F__italicend__F__|1|
+|0|__F__picbegin__F__#IMGDETAIL#__F__picend__F__|1|
+|0| (Si vous ne parvenez pas à lire l’image (trop petite), cliquez ici pour l’afficher en grand: __F__urlbegin__F__ #IMGDETAIL#__F__urlend__F__)|2|
+
+
+#SCOREAUTO0_BEGIN#
+|0|__F__italicbegin__F__Score de l'automatisation=0 (problème de format - action manuelle exécutée ) pour:|1|
+|0|#LIST_USER_SCOREAUTO0#__F__italicend__F__|2|
+#SCOREAUTO0_END#
+#WITH_PREDICTORS_GAMEDAY_END#
+
+
+#WITHOUT_PREDICTORS_GAMEDAY_BEGIN#
+|1|__F__italicbegin__F__Pas de pronostiqueurs sur cette journée__F__italicend__F__|2|
+#WITHOUT_PREDICTORS_GAMEDAY_END#
+
+
+|0|__F__boldbegin__F____F__underlinebegin__F__ Classement individuel global (sur toute la saison):__F__underlineend__F____F__boldend__F__|1|
+#WITH_PREDICTORS_GLOBAL_BEGIN#
+|0|__F__picbegin__F__#IMGSEASON#__F__picend__F__|2|
+#WITH_PREDICTORS_GLOBAL_END#
+
+
+#WITHOUT_PREDICTORS_GLOBAL_BEGIN#
+|1|__F__italicbegin__F__Pas de pronostiqueurs sur cette saison__F__italicend__F__|2|
+#WITHOUT_PREDICTORS_GLOBAL_END#
+
+
+|0|__F__boldbegin__F____F__underlinebegin__F__ Classement moyen par pronostic (sur toute la saison) :__F__underlineend__F____F__boldend__F__|1|
+|0|__F__italicbegin__F__-> Pour les pronostiqueurs avec au moins > #NB_MIN_PREDICTION# prono (> 50% des journées terminées ) __F__thumbup__F____F__italicend__F__  |1|
+#WITH_PREDICTORS_AVERAGE_BEGIN#
+|0|__F__italicbegin__F__-> Calcul: TOTAL_POINTS / NB_TOTAL_PRONO __F__italicend__F__|1|
+|0|__F__quote1begin__F__#SCORES_AVERAGE#__F__quote1end__F__|2|
+#WITH_PREDICTORS_AVERAGE_END#
+
+
+#WITHOUT_PREDICTORS_AVERAGE_BEGIN#
+|1|__F__italicbegin__F__Pas de pronostiqueurs ayant suffisamment pronostiqué__F__italicend__F__|2|
+#WITHOUT_PREDICTORS_AVERAGE_END#
+
+
+|0|__F__sizebigbegin__F____F__boldbegin__F__Championnat de pronostics__F__boldend__F____F__sizebigend__F__|2|
+
+
+|0|__F__boldbegin__F____F__underlinebegin__F__Résultats du championnat de pronostics __F__underlineend__F____F__boldend__F__|1|
+
+#WITH_PREDICTCHAMP_BEGIN#
+#WITH_HOME_ADV_BEGIN#
+|0|__F__italicbegin__F__-> Nombre de points d’une équipe: Nombre de points de journée de son meilleur pronostiqueur __F__hatsmile__F__ |1|
+|0|-> Les équipes à domicile reçoivent un bonus de 20% __F__fansmiley__F__|1|
+|0|-> En cas d'égalité, le vainqueur est l'équipe à domicile__F__italicend__F__|2|
+#WITH_HOME_ADV_END#
+
+#WITHOUT_HOME_ADV_BEGIN#
+|0|__F__italicbegin__F__-> Nombre de points d’une équipe: Nombre de points de journée de son meilleur pronostiqueur __F__hatsmile__F__: |1|
+|0|-> Pas d'avantage domicile sur cette journée (comme en #SEASON_DIVISION#)|1|
+|0|-> En cas d'égalité, le vainqueur est l'équipe la mieux classée du championnat de pronostics. :wink: __F__italicend__F__|1|
+#WITHOUT_HOME_ADV_END#
+|0|__F__quote1begin__F__#RESULTS_PREDICTCHAMP#__F__quote1end__F__|2|
+
+#WITH_PREDICTCHAMPRANKING_BEGIN#
+|0|__F__boldbegin__F____F__underlinebegin__F__ Classement __F__boldend__F____F__underlineend__F__|1|
+|0|__F__italicbegin__F__-> Les équipes classées entre 1 & 10 seront qualifiés pour les plays-offs/ plays-in du championnat de pronostics.__F__italicend__F__|1|
+|0|__F__picbegin__F__#RANK_PREDICTCHAMP_IMG#__F__picend__F__|2|
+#WITH_PREDICTCHAMPRANKING_END#
+#WITH_PREDICTCHAMP_END#
+
+#WITHOUT_PREDICTCHAMP_BEGIN#
+|1|__F__italicbegin__F__Pas de matchs de championnat de pronostics sur cette journée__F__italicend__F__|2|
+#WITHOUT_PREDICTCHAMP_END#
+
+|0|__F__sizebigbegin__F____F__boldbegin__F__Périmètre des journées terminées __F__boldend__F____F__sizebigend__F__|2|
+
+|0|#NB_GAMEDAY_CALCULATED# journées terminées (#NB_TOTAL_PREDICT# pronos):|1|
+|0|#LIST_GAMEDAY_CALCULATED# |0|
+
+#WITH_MONTH_MVP_BEGIN#
+|2|__F__sizebigbegin__F____F__boldbegin__F__Trophée de MVP - Most Valuable Predictor__F__boldend__F____F__sizebigend__F__ |1|
+|0|__F__underlinebegin__F____F__boldbegin__F__Election du MVP du mois de #GAMEDAY_MONTH# __F__boldend__F____F__underlineend__F__|1|
+|0|-> Résultats des pronostiqueurs des journees terminées* au cours du mois de #GAMEDAY_MONTH#|1|
+|0|__F__italicbegin__F__* #LIST_GAMEDAY_MONTH#__F__italicend__F__|2|
+|0|__F__quote1begin__F__#LIST_USER_MONTH# __F__quote1end__F__|0|
+#WITH_MONTH_MVP_END#
+
+#WITH_COMPETITION_MVP_BEGIN#
+|2|__F__sizebigbegin__F____F__boldbegin__F__Trophée de MVP - Most Valuable Predictor__F__boldend__F____F__sizebigend__F__ |1|
+|0|__F__underlinebegin__F____F__boldbegin__F__Election du MVP de #GAMEDAY_COMPETITION# __F__boldend__F____F__underlineend__F__|1|
+|0|-> Résultats des pronostiqueurs des journées* sur l'ensemble de la compétition|1|
+|0|__F__italicbegin__F__* #LIST_GAMEDAY_COMPETITION#__F__italicend__F__|2|
+|0|__F__quote1begin__F__#LIST_USER_COMPETITION# __F__quote1end__F__|0|
+#WITH_COMPETITION_MVP_END#

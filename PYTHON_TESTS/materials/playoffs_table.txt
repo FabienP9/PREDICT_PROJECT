@@ -1,0 +1,63 @@
+s = 12* ' '
+
+playoffs_title = "Saison 2024-2025 ProB - Playoffs Championnat de Pronostics"
+playoffs_round=[
+    "PlaysIn 1er tour",
+    "PlaysIn 2eme tour",
+    "Quarts de finale",
+    "Demi-finales",
+    "Finale",
+    "Champion"]
+
+playoffs_matchups = [
+    #PI1:9e vs 10e / 7e vs 8e
+    ["TeamI (9)","TeamJ (10)"], 
+    ["TeamG (7)","TeamH (8)"],
+    #PI2
+    ["TeamH (8)","TeamI (9)"],
+    #QDF:1e vs PI2 / 4e vs 5e / 2e vs PI1 / 3e vs 6e
+    ["TeamA (1)", "TeamH (8)"], 
+    ["TeamD (4)", "TeamE (5)"], 
+    ["TeamB (2)", "TeamG (7)"], 
+    ["TeamC (3)", "TeamF (6)"],
+    #SF
+    ["TeamA (1)","TeamD (4)"],
+    ["TeamB (2)","TeamC (3)"],
+    #F
+    ["TeamA (1)","TeamC (3)"],
+    #Champion
+    [s]
+]
+
+playoffs_results = [
+    #PI1
+    ['1','0'],
+    ['1','0'],
+    #PI2
+    ['1','0'],
+    #QF
+    ['2','0'],
+    ['1*','1'],
+    ['1*','1'],
+    ['1*','1'],
+    #SF
+    ['2','0'],
+    ['1','2'],
+    #F
+    ['2','0'],
+    #C
+    ['0']
+]
+playoffs_passvalues = [
+    #PI1:9e vs 10e / 7e vs 8e
+    'V*1', 'D*1', 'V*1',
+    #PI2
+    'V*1',
+    #QDF:1e vs PI2 / 4e vs 5e / 2e vs PI1 / 3e vs 6e
+    'V*2', 'V*2', 'V*2', 'V*2',
+    #SF
+    'V*2', 'V*2',
+    #F
+    'V*2'
+]
+playoffs_message = '* comment'

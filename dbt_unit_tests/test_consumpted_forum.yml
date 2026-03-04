@@ -1,0 +1,24 @@
+unit_tests:
+  - name: test_consumpted_forum
+    model: consumpted_forum    
+    overrides:
+      macros:
+        is_incremental: false
+    given:
+      - input: ref('curated_forum')
+        format: csv
+        rows: |
+          FORUM_KEY,FORUM_SOURCE,FORUM_COUNTRY
+          b4d2197189f192c4e623999bc6167df1,BI,FRANCE
+
+      - input: ref('local_time')
+        format: csv
+        rows: |
+          COUNTRY,TIMEZONE
+          FRANCE,Europe/Paris
+
+    expect:
+      format: csv
+      rows: |
+        FORUM_KEY,FORUM_SOURCE,FORUM_COUNTRY
+        b4d2197189f192c4e623999bc6167df1,BI,FRANCE

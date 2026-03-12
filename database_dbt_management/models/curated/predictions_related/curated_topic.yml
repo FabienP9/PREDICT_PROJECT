@@ -1,0 +1,60 @@
+models:
+
+- name: curated_topic
+  tags: ['init_compet']
+  description: Get all distinct topic from topic landing table
+  columns:
+  - name: TOPIC_KEY
+    description: Primary key based on FORUM_SOURCE and TOPIC_NUMBER
+    tests:
+      - unique
+      - not_null
+
+  - name: FORUM_KEY
+    description: Foreign key to match a topic with a forum
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_forum')
+          to_column: FORUM_KEY
+
+  - name: SEASON_KEY
+    description: Foreign key to match a topic with a season
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_season')
+          to_column: SEASON_KEY
+
+  - name: FORUM_SOURCE
+    description: The website source of forum
+    tests:
+      - not_null
+
+  - name: TOPIC_NUMBER
+    description: The id of the topic on the website
+    tests:
+      - not_null
+
+  - name: IS_FOR_PREDICT
+    description: Boolean to know if a topic will be used for predictions posts (1) or not (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: IS_FOR_RESULT
+    description: Boolean to know if a topic will be used for result posts (1) or not (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: MESSAGE_NUMBER_TO_EDIT
+    description: The number of the message to edit with output message (optional)
+
+  - name: UPDATED_AT_UTC
+    description: The datetime of update in utc timezone
+    tests:
+      - not_null
+
+  - name: UPDATED_AT_LOCAL
+    description: The datetime of update in local forum country timezone
+    tests:
+      - not_null

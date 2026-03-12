@@ -1,0 +1,54 @@
+models:
+- name: consumpted_competition
+  tags: ['init_compet']
+  description: Get all needed competition from curated dataset
+  columns:
+  - name: COMPETITION_KEY
+    description: Primary key from curated
+    tests:
+      - unique
+      - not_null
+
+  - name: SEASON_KEY
+    description: Foreign key to match a competition with a season
+    tests:
+      - is_foreign_key:
+          to_model: ref('consumpted_season')
+          to_column: SEASON_KEY
+
+  - name: COMPETITION_ID
+    description: The business id
+    tests:
+      - not_null
+
+  - name: COMPETITION_SOURCE
+    description: The website source of the competition
+    tests:
+      - not_null
+
+  - name: COMPETITION_LABEL
+    description: The long label of the competition
+    tests:
+      - not_null
+
+  - name: IS_SAME_FOR_PREDICTCHAMP
+    description: Boolean to know if games from a competition are used directly (1) or not (0) for the prediction championship
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: IS_FOR_RANK
+    description: Boolean to know if games from a competition are used for season ranking (1) or not (0) for the prediction championship
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: UPDATED_AT_UTC
+    description: The datetime of update in utc timezone
+    tests:
+      - not_null
+
+  - name: UPDATED_AT_LOCAL
+    description: The datetime of update in local season country timezone
+    tests:
+      - not_null

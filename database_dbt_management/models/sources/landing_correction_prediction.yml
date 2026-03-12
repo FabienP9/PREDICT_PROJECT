@@ -1,0 +1,40 @@
+version: 2
+
+sources:
+  - name: LAND
+    schema: LANDING
+    tables:
+      - name: PREDICT_CORRECTION
+        description: This table displays all manual corrections brought on predictions
+        identifier: LANDING_CORRECTION_PREDICTION
+        columns:
+
+          - name: FORUM_SOURCE
+            description: The forum source of the message
+            tests:
+              - is_foreign_key:
+                  to_model: source('LAND','MESSAGE_CHECK')
+                  to_column: FORUM_SOURCE
+          
+          - name: MESSAGE_FORUM_ID
+            description: The identification of the message on the forum source
+            tests:
+              - is_foreign_key:
+                  to_model: source('LAND','MESSAGE_CHECK')
+                  to_column: MESSAGE_FORUM_ID
+
+          - name: PREDICT_ID
+            description: The prediction id corrected
+            tests:
+              - not_null
+
+          - name: PREDICT
+            description: The prediction value corrected
+            tests:
+              - not_null
+
+          - name: IS_PROGRAM_REFINEMENT
+            description: Boolean to know if a prediction corrected is because of the program refinement (1) or because of an error from the user (0)
+            tests:
+            - accepted_values: 
+                values: [0, 1]

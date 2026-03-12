@@ -1,0 +1,11 @@
+{
+    "schemas": {
+        "read_csv.csv": {
+            "columns": {
+                "col1": "int64", 
+                "col2": "object",
+                "fakecol": "object"
+            }
+        }
+    }
+}

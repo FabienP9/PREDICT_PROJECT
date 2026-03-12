@@ -1,0 +1,47 @@
+version: 2
+
+sources:
+  - name: LAND
+    schema: LANDING
+    tables:
+      - name: SEASON
+        description: Indicates which season the program should focuses on
+        identifier: LANDING_SEASON
+        columns:
+
+          - name: SEASON_ID
+            description: Identifier of the season
+            tests:
+              - unique
+              - not_null   
+
+          - name: SEASON_SPORT
+            description: The sport related with the season
+            tests:
+              - not_null
+
+          - name: SEASON_COUNTRY
+            description: |
+              The country in which the season is played. 
+              We get local and utc time based on it, via local_time seed
+            tests:
+              - is_foreign_key:
+                  to_model: ref('local_time')
+                  to_column: COUNTRY 
+
+          - name: SEASON_NAME
+            description: The name of the season (typically year range of the season ex 2025-2026)
+            tests:
+              - not_null
+
+          - name: SEASON_DIVISION
+            description: The division of the season
+            tests:
+              - not_null
+
+          - name: SEASON_TEAMCHOICE_DEADLINE
+            description: |
+              The deadline for team choice. The team chosen by a user will have its point for the prediction championship
+              Any changes made after the deadline will not be considered.
+            tests:
+              - not_null 

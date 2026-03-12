@@ -1,0 +1,16 @@
+version: 2
+
+seeds:
+  - name: local_time
+    description: This table displays the manual input file which let us map the good timezone according to countries
+    columns:
+    
+      - name: COUNTRY
+        description: Identifier of the country
+        tests:
+          - not_null
+
+      - name: TIMEZONE
+        description: The timezone of the country
+        tests:
+          - not_null

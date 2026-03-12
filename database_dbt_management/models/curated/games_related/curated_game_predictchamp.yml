@@ -1,0 +1,86 @@
+models:
+
+- name: curated_game_predictchamp
+  tags: ['init_compet']
+  description: Get all game relevant for the prediction championship
+  columns:
+  - name: GAME_KEY
+    description: |
+      Primary key
+      CURATED_GAME.GAME_KEY or LANDING_PREDICTCHAMP_GAME_TO_ADD.PREDICTCHAMP_GAME_ID depending on source
+    tests:
+      - unique
+      - not_null
+
+  - name: SEASON_KEY
+    description: Foreign key to match a game with a season
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_season')
+          to_column: SEASON_KEY
+
+  - name: COMPETITION_KEY
+    description: Foreign key to match a game with a competition
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_competition')
+          to_column: COMPETITION_KEY
+
+  - name: GAMEDAY_KEY
+    description: Foreign key to match a game with a gameday
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_gameday')
+          to_column: GAMEDAY_KEY
+
+  - name: GAME_MESSAGE_SHORT
+    description: The short identification of the game for message display (without the gameday message id)
+    tests:
+      - is_integer
+
+  - name: GAME_MESSAGE
+    description: The  identification of the game for message display (with the gameday message id)
+    tests:
+      - not_null
+
+  - name: GAME_SOURCE_ID
+    description: The unique identification of the game on the website, if coming from there
+
+  - name: GAME_PC_ID
+    description: The unique identification of the game on the manual file, if coming from there
+
+  - name: TEAM_HOME_KEY
+    description: Foreign key to match a game with a home team
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_team')
+          to_column: TEAM_KEY
+
+  - name: TEAM_AWAY_KEY
+    description: Foreign key to match a game with an away team
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_team')
+          to_column: TEAM_KEY
+
+  - name: HAS_HOME_ADV
+    description: Boolean to know if the game for the prediction championship has a home advantage for calculation (1) or not (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: IS_FOR_RANK
+    description: Boolean to know if a game for the prediction championship is used for teams ranking (1) or not (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: UPDATED_AT_UTC
+    description: The datetime of update in utc timezone
+    tests:
+      - not_null
+
+  - name: UPDATED_AT_LOCAL
+    description: The datetime of update in local season country timezone
+    tests:
+      - not_null

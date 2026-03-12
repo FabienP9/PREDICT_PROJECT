@@ -1,0 +1,98 @@
+version: 2
+
+snapshots:
+
+- name: curated_message_check
+  tags: ['main']
+  description: Snapshot storing messages from forum and their edition history
+  columns:
+  - name: MESSAGE_KEY
+    description: The key of the message - form with DBT_VALID_FROM a unique key
+    tests:
+      - not_null
+
+  - name: MESSAGE_EDITION_KEY
+    description: The primary key of the table. Uses the MESSAGE_KEY with the EDITION_TIME_UTC
+    tests:
+      - unique
+      - not_null
+
+  - name: FORUM_KEY
+    description: Foreign key to match a message with a forum
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_forum')
+          to_column: FORUM_KEY
+
+  - name: TOPIC_KEY
+    description: Foreign key to match a message with a topic
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_topic')
+          to_column: TOPIC_KEY
+
+  - name: SEASON_KEY
+    description: Foreign key to match a message with a season
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_season')
+          to_column: SEASON_KEY
+
+  - name: USER_KEY
+    description: Foreign key to match a message with a user
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_user')
+          to_column: USER_KEY
+
+  - name: MESSAGE_FORUM_ID
+    description: The functional unique id of a message on a forum
+    tests:
+      - is_integer
+
+  - name: CREATION_TIME_LOCAL
+    description: The time of creation of the message in the timezone of the forum
+    tests:
+      - not_null
+
+  - name: EDITION_TIME_LOCAL
+    description: The time of edition of the message in the timezone of the forum. If not edited, then CREATION_TIME_LOCAL is used
+    tests:
+      - not_null
+
+  - name: CREATION_TIME_UTC
+    description: The time of creation of the message in utc time
+    tests:
+      - not_null
+
+  - name: EDITION_TIME_UTC
+    description: The time of edition of the message in utc time. If not edited, then CREATION_TIME_UTC is used
+    tests:
+      - not_null
+
+  - name: MESSAGE_CONTENT
+    description: The content of the message
+
+  - name: IS_PROGRAM_INIT_MESSAGE
+    description: Boolean to know if a message is a result-program generated message for init a gameday (1) or not (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: IS_PROGRAM_CALCUL_MESSAGE
+    description: Boolean to know if a message is a result-program generated message for displaying result calculation of a gameday (1) or not (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: IS_MESSAGE_TO_AVOID
+    description: Boolean to know if a message is to avoid (1) or not (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: IS_MESSAGE_TO_PROCESS
+    description: Boolean to know if a message is to process for calculation (1) or not (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]

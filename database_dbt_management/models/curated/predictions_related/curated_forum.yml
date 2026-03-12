@@ -1,0 +1,35 @@
+models:
+
+- name: curated_forum
+  tags: ['init_compet']
+  description: Get all distinct forum from topic table
+  columns:
+  - name: FORUM_KEY
+    description: Primary key based on FORUM_SOURCE
+    tests:
+      - unique
+      - not_null
+
+  - name: FORUM_SOURCE
+    description: The website source of forum. FORUM_KEY is based on it
+    tests:
+      - not_null
+
+  - name: FORUM_COUNTRY
+    description: |
+      The country of the forum 
+      We get local and utc time of messages, via local_time seed
+    tests:
+      - is_foreign_key:
+          to_model: ref('local_time')
+          to_column: COUNTRY 
+
+  - name: UPDATED_AT_UTC
+    description: The datetime of update in utc timezone
+    tests:
+      - not_null
+
+  - name: UPDATED_AT_LOCAL
+    description: The datetime of update in local forum country timezone
+    tests:
+      - not_null

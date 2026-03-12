@@ -1,0 +1,95 @@
+version: 2
+
+sources:
+  - name: LAND
+    schema: LANDING
+    tables:
+      
+      - name: NEED
+        description: This table displays what we want to output and run
+        identifier: LANDING_OUTPUT_NEED
+        columns:
+
+          - name: TASK_RUN
+            description: The type of task which is run (UPDATEGAMES,CALCULATE,INIT,CHECK)
+            tests:
+            - accepted_values: 
+                values: ['CHECK','INIT','CALCULATE','UPDATEGAMES']
+
+          - name: SEASON_ID
+            description: The ID of the season
+            tests:
+              - is_foreign_key:
+                  to_model: ref('curated_season')
+                  to_column: SEASON_ID 
+
+          - name: SEASON_SPORT
+            description: The sport related with the season
+
+          - name: SEASON_COUNTRY
+            description: |
+              The country in which the season is played. 
+              We get local and utc time based on it, via local_time seed
+
+          - name: SEASON_NAME
+            description: The name of the season (typically year range of the season ex 2025-2026)
+
+          - name: SEASON_DIVISION
+            description: The division of the season
+
+          - name: COMPETITION_ID
+            description: Identifier of the competition
+            tests:
+              - is_foreign_key:
+                  to_model: ref('curated_competition')
+                  to_column: COMPETITION_ID 
+
+          - name: GAMEDAY
+            description: The gameday we need to process
+            tests:
+              - not_null
+
+          - name: TS_TASK_UTC
+            description: The utc datetime of the task
+
+          - name: TS_TASK_LOCAL
+            description: The local datetime of the task
+
+          - name: IS_TO_INIT
+            description: Boolean to know if a gameday will be initiated in this run (1) or not (0)
+            tests:
+              - accepted_values: 
+                  values: [0, 1]
+
+          - name: IS_TO_CALCULATE
+            description: Boolean to know if a gameday will be calculated in this run (1) or not (0)
+            tests:
+              - accepted_values: 
+                  values: [0, 1]
+
+          - name: IS_TO_DELETE
+            description: Boolean to know if a gameday calculation will be deleted in this run (1) or not (0)
+            tests:
+              - accepted_values: 
+                  values: [0, 1]
+
+          - name: IS_TO_RECALCULATE
+            description: Boolean to know if a gameday needs to be recalculated in this run (1) or not (0)
+            tests:
+              - accepted_values: 
+                  values: [0, 1]
+
+          - name: MESSAGE_ACTION
+            description: Boolean to know which action should applied the run on messages
+            tests:
+              - accepted_values: 
+                  values: ['AVOID', 'CHECK','RUN']
+
+          - name: GAME_ACTION
+            description: Boolean to know which action should applied the run on games
+            tests:
+              - accepted_values: 
+                  values: ['AVOID','RUN']
+
+          - name: LASTCHECK_MESSAGE_TS_UTC
+            description: The last time utc messages have been check

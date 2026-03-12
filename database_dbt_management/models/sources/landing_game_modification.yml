@@ -1,0 +1,27 @@
+version: 2
+
+sources:
+  - name: LAND
+    schema: LANDING
+    tables:
+      - name: GAME_MODIF
+        description: This table displays the manual input file which let us change number of games for forum display
+        identifier: LANDING_GAME_MODIFICATION
+        columns:
+        
+          - name: SEASON_ID
+            description: Identifier of the season
+            tests:
+              - is_foreign_key:
+                  to_model: ref('curated_season')
+                  to_column: SEASON_ID 
+
+          - name: GAME_SOURCE_ID
+            description: The id of the game on the source
+            tests:
+              - not_null
+
+          - name: GAME_FORUM_ID
+            description: The id we want to write on the forum
+            tests:
+              - is_integer

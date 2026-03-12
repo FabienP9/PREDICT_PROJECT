@@ -1,0 +1,4 @@
+#3EJ.02# teamA vs teamB ==> +1 
+#3EJ.BN# __L__Bonus game ID__L__ ==> 3EJ.02 
+#4EJ.02# teamC vs teamD ==> +1 
+#4EJ.BN# __L__Bonus game ID__L__ ==> 4EJ.02 

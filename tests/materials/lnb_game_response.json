@@ -1,0 +1,227 @@
+{
+  "status": true,
+  "message": "Calendar fetched successfully",
+  "data": [
+    {
+      "date": "2025-11-02",
+      "data": [
+        {
+          "id": 101,
+          "match_time_utc": "2024-01-01T18:00:00.000Z",
+          "match_id": "ID1",
+          "ticket_url": "https://tickets.example.com/match/101",
+          "match_date": "2025-11-02",
+          "match_status": "COMPLETE",
+          "moment_image": null,
+          "timezone": "Europe/Paris",
+          "external_id": 90001,
+          "phase_name": "Aller",
+          "points": "86 : 72",
+          "round_description": "1ere journee",
+          "display_address_mobile": "Palais des Sports (Lyon)",
+          "score_description": "Aller | 7ème journée",
+          "venue_name": "Palais des Sports (Lyon)",
+          "latitude": "45.748460",
+          "longitude": "4.846710",
+          "sponser_title": "Powered by",
+          "sponser_logo": "uploads/content-library/fake-sponsor-logo.png",
+          "sponser_url": "https://www.example-sponsor.com/",
+          "watch_now_url": "https://www.lnb.tv/match/101",
+          "highlight_url": "https://highlights.example.com/match/101",
+          "competition_logo_black": {
+            "lg": "https://assets.example.com/images/Competition/999/logoBlack/lg.png",
+            "md": "https://assets.example.com/images/Competition/999/logoBlack/md.png",
+            "or": "https://assets.example.com/images/Competition/999/logoBlack/or.png",
+            "sm": "https://assets.example.com/images/Competition/999/logoBlack/sm.png"
+          },
+          "division_external_id": 3,
+          "competition_abbrev": "PROA",
+          "address1": "10 Rue du Sport, Lyon",
+          "broadcast_provider_external_id": 20,
+          "broadcast_provider_url": "https://www.lnb.tv/",
+          "broadcast_type": "VIDEO_STREAM",
+          "broadcast_logo": {
+            "lg": "https://assets.example.com/images/BroadcastProvider/20/logoWhite/lg.png",
+            "md": "https://assets.example.com/images/BroadcastProvider/20/logoWhite/md.png",
+            "or": "https://assets.example.com/images/BroadcastProvider/20/logoWhite/or.png",
+            "sm": "https://assets.example.com/images/BroadcastProvider/20/logoWhite/sm.png"
+          },
+          "broadcast": [
+            {
+              "id": 501,
+              "broadcast_id": null,
+              "external_id": 7001,
+              "broadcast_provider_external_id": 20,
+              "broadcast_type": "VIDEO_STREAM",
+              "content_id": null,
+              "content_url": null,
+              "replay_id": "2003701",
+              "replay_url": "https://replay.example.com/match/101",
+              "broadcast_time_zone": "Europe/Paris",
+              "broadcast_time": "2025-11-02 18:00:00",
+              "broadcast_provider": {
+                "id": 201,
+                "external_id": 20,
+                "broadcast_provider_url": "https://www.lnb.tv/",
+                "logo": {
+                  "lg": "https://assets.example.com/images/BroadcastProvider/20/logoWhite/lg.png",
+                  "md": "https://assets.example.com/images/BroadcastProvider/20/logoWhite/md.png",
+                  "or": "https://assets.example.com/images/BroadcastProvider/20/logoWhite/or.png",
+                  "sm": "https://assets.example.com/images/BroadcastProvider/20/logoWhite/sm.png"
+                }
+              }
+            }
+          ],
+          "teams": [
+            {
+              "id": 3001,
+              "external_id": 3101,
+              "logo_white": {
+                "lg": "https://assets.example.com/images/Team/3101/logoWhite/lg.png",
+                "md": "https://assets.example.com/images/Team/3101/logoWhite/md.png",
+                "or": "https://assets.example.com/images/Team/3101/logoWhite/or.png",
+                "sm": "https://assets.example.com/images/Team/3101/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.example.com/images/Team/3101/logoBlack/lg.png",
+                "md": "https://assets.example.com/images/Team/3101/logoBlack/md.png",
+                "or": "https://assets.example.com/images/Team/3101/logoBlack/or.png",
+                "sm": "https://assets.example.com/images/Team/3101/logoBlack/sm.png"
+              },
+              "team_name": "TEAM1",
+              "team_code": "LYO",
+              "score_string": "85"
+            },
+            {
+              "id": 3002,
+              "external_id": 3102,
+              "logo_white": {
+                "lg": "https://assets.example.com/images/Team/3102/logoWhite/lg.png",
+                "md": "https://assets.example.com/images/Team/3102/logoWhite/md.png",
+                "or": "https://assets.example.com/images/Team/3102/logoWhite/or.png",
+                "sm": "https://assets.example.com/images/Team/3102/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.example.com/images/Team/3102/logoBlack/lg.png",
+                "md": "https://assets.example.com/images/Team/3102/logoBlack/md.png",
+                "or": "https://assets.example.com/images/Team/3102/logoBlack/or.png",
+                "sm": "https://assets.example.com/images/Team/3102/logoBlack/sm.png"
+              },
+              "team_name": "TEAM2",
+              "team_code": "PAR",
+              "score_string": "81"
+            }
+          ]
+        },
+        {
+          "id": 102,
+          "match_time_utc": "2025-11-21T19:00:00.000Z",
+          "match_id": "ID2",
+          "ticket_url": "https://tickets.example.com/match/102",
+          "match_date": "2025-11-02",
+          "match_status": "SCHEDULED",
+          "moment_image": null,
+          "timezone": "Europe/Paris",
+          "external_id": 90002,
+          "phase_name": "Aller",
+          "points": "– : –",
+          "round_description": "1ere journee",
+          "display_address_mobile": "Arena Sud (Marseille)",
+          "score_description": "Aller | 7ème journée",
+          "venue_name": "Arena Sud (Marseille)",
+          "latitude": "43.296482",
+          "longitude": "5.369780",
+          "sponser_title": "Presented by",
+          "sponser_logo": "uploads/content-library/fake-sponsor-logo2.png",
+          "sponser_url": "https://www.example-partner.com/",
+          "watch_now_url": "",
+          "highlight_url": "",
+          "competition_logo_black": {
+            "lg": "https://assets.example.com/images/Competition/999/logoBlack/lg.png",
+            "md": "https://assets.example.com/images/Competition/999/logoBlack/md.png",
+            "or": "https://assets.example.com/images/Competition/999/logoBlack/or.png",
+            "sm": "https://assets.example.com/images/Competition/999/logoBlack/sm.png"
+          },
+          "division_external_id": 3,
+          "competition_abbrev": "PROA",
+          "address1": "5 Avenue du Basket, Marseille",
+          "broadcast_provider_external_id": 20,
+          "broadcast_provider_url": "https://www.lnb.tv/",
+          "broadcast_type": "VIDEO_STREAM",
+          "broadcast_logo": {
+            "lg": "https://assets.example.com/images/BroadcastProvider/20/logoWhite/lg.png",
+            "md": "https://assets.example.com/images/BroadcastProvider/20/logoWhite/md.png",
+            "or": "https://assets.example.com/images/BroadcastProvider/20/logoWhite/or.png",
+            "sm": "https://assets.example.com/images/BroadcastProvider/20/logoWhite/sm.png"
+          },
+          "broadcast": [
+            {
+              "id": 502,
+              "broadcast_id": null,
+              "external_id": 7002,
+              "broadcast_provider_external_id": 20,
+              "broadcast_type": "VIDEO_STREAM",
+              "content_id": null,
+              "content_url": null,
+              "replay_id": null,
+              "replay_url": null,
+              "broadcast_time_zone": "Europe/Paris",
+              "broadcast_time": "2025-11-02 20:30:00",
+              "broadcast_provider": {
+                "id": 201,
+                "external_id": 20,
+                "broadcast_provider_url": "https://www.lnb.tv/",
+                "logo": {
+                  "lg": "https://assets.example.com/images/BroadcastProvider/20/logoWhite/lg.png",
+                  "md": "https://assets.example.com/images/BroadcastProvider/20/logoWhite/md.png",
+                  "or": "https://assets.example.com/images/BroadcastProvider/20/logoWhite/or.png",
+                  "sm": "https://assets.example.com/images/BroadcastProvider/20/logoWhite/sm.png"
+                }
+              }
+            }
+          ],
+          "teams": [
+            {
+              "id": 3003,
+              "external_id": 3103,
+              "logo_white": {
+                "lg": "https://assets.example.com/images/Team/3103/logoWhite/lg.png",
+                "md": "https://assets.example.com/images/Team/3103/logoWhite/md.png",
+                "or": "https://assets.example.com/images/Team/3103/logoWhite/or.png",
+                "sm": "https://assets.example.com/images/Team/3103/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.example.com/images/Team/3103/logoBlack/lg.png",
+                "md": "https://assets.example.com/images/Team/3103/logoBlack/md.png",
+                "or": "https://assets.example.com/images/Team/3103/logoBlack/or.png",
+                "sm": "https://assets.example.com/images/Team/3103/logoBlack/sm.png"
+              },
+              "team_name": "TEAM3",
+              "team_code": "MAR",
+              "score_string": "71"
+            },
+            {
+              "id": 3004,
+              "external_id": 3104,
+              "logo_white": {
+                "lg": "https://assets.example.com/images/Team/3104/logoWhite/lg.png",
+                "md": "https://assets.example.com/images/Team/3104/logoWhite/md.png",
+                "or": "https://assets.example.com/images/Team/3104/logoWhite/or.png",
+                "sm": "https://assets.example.com/images/Team/3104/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.example.com/images/Team/3104/logoBlack/lg.png",
+                "md": "https://assets.example.com/images/Team/3104/logoBlack/md.png",
+                "or": "https://assets.example.com/images/Team/3104/logoBlack/or.png",
+                "sm": "https://assets.example.com/images/Team/3104/logoBlack/sm.png"
+              },
+              "team_name": "TEAM4",
+              "team_code": "NIC",
+              "score_string": "72"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

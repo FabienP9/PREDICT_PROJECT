@@ -1,0 +1,103 @@
+models:
+
+- name: consumpted_game_predictchamp
+  description: Calculate game results for the prediction championship
+  columns:
+  - name: SEASON_KEY
+    description: Foreign key to match a game with a season
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_season')
+          to_column: SEASON_KEY
+
+  - name: COMPETITION_KEY
+    description: Foreign key to match a game with a competition
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_competition')
+          to_column: COMPETITION_KEY
+
+  - name: GAMEDAY_KEY
+    description: Foreign key to match a game with a gameday
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_gameday')
+          to_column: GAMEDAY_KEY
+
+  - name: GAME_KEY
+    description: Primary key from curated
+    tests:
+      - unique
+      - not_null
+
+  - name: GAME_MESSAGE_SHORT
+    description: The number of the game for message display
+    tests:
+      - is_integer
+
+  - name: GAME_MESSAGE
+    description: The number of the game concatenated with GAMEDAY_MESSAGE for message display
+    tests:
+      - not_null
+
+  - name: GAME_SOURCE_ID
+    description: The unique identification of the game on the website, if coming from there
+
+  - name: GAME_PC_ID
+    description: The unique identification of the game on the manual file, if coming from there
+
+  - name: TEAM_HOME_KEY
+    description: Foreign key to match a game with a home team
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_team')
+          to_column: TEAM_KEY
+
+  - name: TEAM_AWAY_KEY
+    description: Foreign key to match a game with an away team
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_team')
+          to_column: TEAM_KEY
+
+  - name: HAS_HOME_ADV
+    description: Boolean to know if the game for the prediction championship has a home advantage for calculation (1) or not (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: POINTS_BASE
+    description: The number of points scored by the home team as a base
+    tests:
+      - is_integer
+
+  - name: POINTS_BONUS
+    description: The number of points scored by the home team as a bonus (for being home)
+    tests:
+      - is_integer
+
+  - name: POINTS_HOME
+    description: The total number of points scored by the home team (POINTS_BASE + POINTS_BONUS)
+    tests:
+      - is_integer
+
+  - name: POINTS_AWAY
+    description: The number of points scored by the away team
+    tests:
+      - is_integer
+
+  - name: WINNER
+    description: The winner is either the home team (1), away team(2) or none if not calculated yet or deleted (0)
+    tests:
+      - accepted_values: 
+          values: [0,1,2]
+
+  - name: UPDATED_AT_UTC
+    description: The datetime of update in utc timezone
+    tests:
+      - not_null
+
+  - name: UPDATED_AT_LOCAL
+    description: The datetime of update in local season country timezone
+    tests:
+      - not_null

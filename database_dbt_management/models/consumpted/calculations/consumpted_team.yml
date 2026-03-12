@@ -1,0 +1,59 @@
+models:
+
+- name: consumpted_team
+  tags: ['init_compet']
+  description: Get teams from seasons with run action
+  columns:
+  - name: TEAM_KEY
+    description: Primary key, per season, based on TEAM_NAME and SEASON_KEY
+    tests:
+      - unique
+      - not_null
+
+  - name: SEASON_KEY
+    description: Foreign key to match a team with a season
+    tests:
+      - is_foreign_key:
+          to_model: ref('consumpted_season')
+          to_column: SEASON_KEY
+
+  - name: TEAM_NAME
+    description: Name of the team
+
+  - name: WIN
+    description: Number of wins of the team
+    tests:
+      - is_integer
+
+  - name: LOSS
+    description: Number of loss of the team
+    tests:
+      - is_integer
+
+  - name: PERC_WIN
+    description: The percentage of wins of the team
+
+  - name: POINTS_PRO
+    description: Number of points scored by the team
+    tests:
+      - is_integer
+
+  - name: POINTS_AGAINST
+    description: Number of points opponent scored against the team
+    tests:
+      - is_integer
+
+  - name: POINTS_DIFF
+    description: Difference between POINTS_PRO and POINTS_AGAINST
+    tests:
+      - is_integer
+
+  - name: UPDATED_AT_UTC
+    description: The datetime of update in utc timezone
+    tests:
+      - not_null
+
+  - name: UPDATED_AT_LOCAL
+    description: The datetime of update in local season country timezone
+    tests:
+      - not_null

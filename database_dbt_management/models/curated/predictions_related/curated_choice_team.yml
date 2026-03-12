@@ -1,0 +1,7 @@
+version: 2
+
+models:
+
+- name: curated_choice_team
+  tags: ['main']
+  description: Copied from curated_choice_team_check

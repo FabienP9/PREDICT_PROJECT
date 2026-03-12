@@ -1,0 +1,57 @@
+version: 2
+
+sources:
+  - name: LAND
+    schema: LANDING
+    tables:
+      - name: COMPET
+        description: Store the type of competition the program focuses on for seasons
+        identifier: LANDING_COMPETITION
+        columns:
+
+          - name: SEASON_ID
+            description: Identifier of the season
+            tests:
+              - is_foreign_key:
+                  to_model: source('LAND','SEASON')
+                  to_column: SEASON_ID 
+
+          - name: COMPETITION_ID
+            description: Identifier of the competition
+            tests:
+              - not_null
+
+          - name: COMPETITION_LABEL
+            description: The long label of the competition
+            tests:
+              - not_null
+
+          - name: COMPETITION_SOURCE
+            description: The website source of the competition.
+            tests:
+              - not_null
+
+          - name: COMPETITION_SOURCE_ID
+            description: The website source of the competition.
+            tests:
+              - not_null
+
+          - name: IS_SAME_FOR_PREDICTCHAMP
+            description: Boolean to know if games from a competition are used directly (1) or not (0) for the prediction championship
+            tests:
+              - accepted_values: 
+                  values: [0, 1]
+
+          - name: IS_FOR_RANK
+            description: Boolean to know if games from a competition are used for season ranking (1) or not (0) for the prediction championship
+            tests:
+              - accepted_values: 
+                  values: [0, 1]
+
+          - name: IS_TO_LOAD
+            description: Boolean to know if competition is to be loaded in the database or not (already there and completed)
+            tests:
+              - accepted_values: 
+                  values: [0, 1]
+
+          

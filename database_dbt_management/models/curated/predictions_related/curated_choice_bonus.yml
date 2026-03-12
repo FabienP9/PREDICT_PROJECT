@@ -1,0 +1,7 @@
+version: 2
+
+models:
+
+- name: curated_choice_bonus
+  tags: ['main']
+  description: Copied from curated_choice_bonus_check

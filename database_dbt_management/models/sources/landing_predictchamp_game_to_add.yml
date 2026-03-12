@@ -1,0 +1,38 @@
+version: 2
+
+sources:
+  - name: LAND
+    schema: LANDING
+    tables:
+      - name: GAME_PREDICTCHAMP
+        description: This table displays the game we need to add to the prediction championship
+        identifier: LANDING_PREDICTCHAMP_GAME_TO_ADD
+        columns:
+
+          - name: PREDICTCHAMP_GAME_ID
+            description: Identifier of the predictchamp game
+            tests:
+              - unique
+              - is_integer
+
+          - name: SEASON_ID
+            description: Identifier of the season
+            tests:
+              - not_null
+
+          - name: GAMEDAY
+            description: The gameday related to the game
+            tests:
+              - not_null
+
+          - name: TEAM_HOME
+            description: The name of the home team
+
+          - name: TEAM_AWAY
+            description: The name of the away team
+
+          - name: HAS_HOME_ADV
+            description: Boolean to know if the game for the prediction championship has a home advantage for calculation (1) or not (0)
+            tests:
+              - accepted_values: 
+                  values: [0, 1]

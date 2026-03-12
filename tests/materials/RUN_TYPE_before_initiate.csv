@@ -1,0 +1,916 @@
+RUN_TIME_UTC,EVENT,RUN_TYPE,RUN_METHOD,OUTPUT_AUTO,PLANNED_RUN_TIME_UTC
+2025-10-21 08:46:40,terminate,main,schedule,1,2025-10-21 08:05:00.000
+2025-10-21 08:20:06,terminate,main,schedule,1.0,2025-10-21 08:03:00.000
+2025-10-18 20:13:09,terminate,main,schedule,1.0,2025-10-18 20:00:00.000
+2025-10-18 18:16:11,terminate,main,schedule,1.0,2025-10-18 18:00:00.000
+2025-10-18 08:37:26,terminate,main,schedule,1.0,2025-10-18 08:05:00.000
+2025-10-18 08:15:44,terminate,main,schedule,1.0,2025-10-18 08:01:00.000
+2025-10-17 18:53:16,terminate,main,schedule,1.0,2025-10-17 18:30:00.000
+2025-10-17 18:42:15,terminate,main,schedule,1.0,2025-10-17 18:15:00.000
+2025-10-17 18:16:30,terminate,main,schedule,1.0,2025-10-17 18:00:00.000
+2025-10-17 08:18:10,terminate,main,schedule,1.0,2025-10-17 08:04:00.000
+2025-10-14 08:41:19,terminate,main,schedule,1.0,2025-10-14 08:05:00.000
+2025-10-14 08:18:39,terminate,main,schedule,1.0,2025-10-14 08:01:00.000
+2025-10-13 08:46:53,terminate,main,schedule,1.0,2025-10-13 08:05:00.000
+2025-10-13 08:19:37,terminate,main,schedule,1.0,2025-10-13 08:03:00.000
+2025-10-11 20:08:03,terminate,main,workflow_dispatch,1.0,2025-10-11 20:00:00.000
+2025-10-11 18:15:20,terminate,main,schedule,1.0,2025-10-11 18:00:00.000
+2025-10-10 18:55:56,terminate,main,schedule,1.0,2025-10-10 18:30:00.000
+2025-10-10 18:43:55,terminate,main,schedule,1.0,2025-10-10 18:15:00.000
+2025-10-10 18:18:10,terminate,main,schedule,1.0,2025-10-10 18:00:00.000
+2025-10-10 09:34:44,terminate,main,schedule,1.0,2025-10-10 08:04:00.000
+2025-10-10 09:15:24,terminate,main,schedule,1.0,2025-10-10 08:02:00.000
+2025-10-10 08:54:06,terminate,main,schedule,1.0,2025-10-07 08:01:00.000
+2025-10-10 08:43:33,terminate,main,schedule,1.0,2025-10-10 08:01:00.000
+2025-10-09 20:21:37,terminate,main,,1.0,2025-10-07 08:05:00.000
+2025-10-09 19:58:38,terminate,main,,1.0,2025-10-07 08:04:00.000
+2025-10-09 19:46:54,terminate,main,,1.0,2025-10-07 08:03:00.000
+2025-10-09 16:55:45,terminate,main,,1.0,2025-10-04 20:30:00.000
+2025-10-09 16:36:43,terminate,main,,1.0,2025-10-04 18:30:00.000
+2025-10-09 16:22:31,terminate,main,,1.0,2025-10-04 18:00:00.000
+2025-10-09 16:07:18,terminate,main,,1.0,2025-10-03 18:30:00.000
+2025-10-09 16:00:07,terminate,main,,1.0,2025-10-03 18:15:00.000
+2025-10-09 15:51:00,initiate,main,,1.0,2025-10-03 18:15:00.000
+2025-10-09 15:46:06,initiate,main,,1.0,2025-10-03 18:15:00.000
+2025-10-09 15:36:36,initiate,main,,1.0,2025-10-03 18:15:00.000
+2025-10-09 15:26:13,initiate,main,,1.0,2025-10-03 18:15:00.000
+2025-10-09 15:23:52,initiate,main,,1.0,2025-10-03 18:15:00.000
+2025-10-09 15:20:10,initiate,main,,1.0,2025-10-03 18:15:00.000
+2025-10-09 15:17:51,initiate,init_compet,,1.0,
+2025-10-09 15:15:50,initiate,main,,1.0,2025-10-03 18:15:00.000
+2025-10-09 15:08:50,initiate,main,,1.0,2025-10-03 18:15:00.000
+2025-10-09 15:05:16,initiate,main,,1.0,2025-10-03 18:15:00.000
+2025-10-09 15:03:42,initiate,init_compet,,1.0,
+2025-10-09 15:00:44,initiate,main,,1.0,2025-10-03 18:15:00.000
+2025-10-09 14:56:11,initiate,main,,1.0,2025-10-03 18:15:00.000
+2025-10-09 14:54:38,initiate,init_compet,,1.0,
+2025-10-09 14:52:10,initiate,init_compet,,1.0,
+2025-10-09 14:48:02,initiate,main,,1.0,2025-10-03 18:15:00.000
+2025-10-09 14:45:33,initiate,main,,1.0,2025-10-03 18:15:00.000
+2025-10-09 14:42:55,initiate,main,,1.0,2025-10-03 18:15:00.000
+2025-10-09 14:37:44,initiate,main,,1.0,2025-10-03 18:15:00.000
+2025-10-09 14:33:11,initiate,main,,1.0,2025-10-03 18:15:00.000
+2025-10-09 14:28:34,initiate,main,,1.0,2025-10-03 18:15:00.000
+2025-10-09 14:23:25,initiate,main,,1.0,2025-10-03 18:15:00.000
+2025-10-09 14:21:11,initiate,main,,1.0,2025-10-03 18:15:00.000
+2025-10-09 13:42:10,initiate,main,,1.0,2025-10-03 18:15:00.000
+2025-10-09 13:25:42,initiate,main,,1.0,2025-10-03 18:15:00.000
+2025-10-09 10:11:13,initiate,init_compet,,1.0,
+2025-10-09 10:09:22,initiate,init_compet,,1.0,
+2025-10-09 10:04:52,initiate,init_compet,,1.0,
+2025-10-09 10:02:35,initiate,init_compet,,1.0,
+2025-10-09 10:00:48,initiate,init_compet,,1.0,
+2025-10-09 09:54:44,initiate,init_compet,,1.0,
+2025-10-09 08:50:38,initiate,init_compet,,1.0,
+2025-10-09 08:48:24,initiate,init_compet,,1.0,
+2025-10-09 08:34:38,initiate,init_compet,,1.0,
+2025-10-09 08:27:35,initiate,init_compet,,1.0,
+2025-10-09 08:24:32,initiate,init_compet,,1.0,
+2025-10-09 08:19:50,initiate,init_compet,,1.0,
+2025-10-09 08:15:48,terminate,init_snowflake,,1.0,
+2025-10-08 15:44:33,initiate,init_compet,,1.0,
+2025-10-08 15:41:35,terminate,init_snowflake,,1.0,
+2025-10-08 15:06:33,initiate,init_compet,,1.0,
+2025-10-08 15:03:25,terminate,init_snowflake,,1.0,
+2025-10-08 14:46:07,initiate,init_compet,,1.0,
+2025-10-08 14:41:49,terminate,init_snowflake,,1.0,
+2025-10-08 12:04:07,initiate,init_compet,,1.0,
+2025-10-08 12:01:18,terminate,init_snowflake,,1.0,
+2025-10-08 11:26:32,initiate,init_compet,,1.0,
+2025-10-08 11:22:04,initiate,init_compet,,1.0,
+2025-10-08 11:12:10,initiate,init_compet,,1.0,
+2025-10-08 10:49:52,initiate,init_compet,,1.0,
+2025-10-08 10:46:21,terminate,init_snowflake,,1.0,
+2025-10-08 10:37:14,initiate,init_compet,,1.0,
+2025-10-08 10:31:55,initiate,init_compet,,1.0,
+2025-10-08 10:14:25,initiate,init_compet,,1.0,
+2025-10-08 08:37:49,initiate,init_compet,,1.0,
+2025-10-08 08:30:30,initiate,init_compet,,1.0,
+2025-10-08 08:21:10,initiate,init_compet,,1.0,
+2025-10-08 08:18:41,initiate,init_compet,,1.0,
+2025-10-08 08:15:45,initiate,init_compet,,1.0,
+2025-10-08 08:08:58,initiate,init_compet,,1.0,
+2025-10-08 08:04:36,initiate,init_compet,,1.0,
+2025-10-08 08:00:54,initiate,init_compet,,1.0,
+2025-10-08 07:57:02,initiate,init_compet,,1.0,
+2025-10-08 07:55:35,initiate,init_compet,,1.0,
+2025-10-07 17:08:24,initiate,init_compet,,1.0,
+2025-10-07 17:07:01,initiate,init_compet,,1.0,
+2025-10-07 17:02:07,initiate,init_compet,,1.0,
+2025-10-07 16:59:19,initiate,init_compet,,1.0,
+2025-10-07 16:56:19,initiate,init_compet,,1.0,
+2025-10-07 16:40:44,initiate,init_compet,,1.0,
+2025-10-07 15:49:55,initiate,init_compet,,1.0,
+2025-10-07 15:41:01,initiate,init_compet,,1.0,
+2025-10-07 15:09:22,initiate,init_compet,,1.0,
+2025-10-07 14:11:12,terminate,init_snowflake,,1.0,
+2025-10-07 14:06:56,terminate,init_snowflake,,1.0,
+2025-10-07 14:00:32,terminate,init_snowflake,,1.0,
+2025-10-07 11:39:57,initiate,init_compet,,1.0,
+2025-10-07 11:24:26,initiate,main,schedule,1.0,2025-10-03 18:15:00.000
+2025-10-07 11:10:18,initiate,main,schedule,1.0,2025-10-03 18:15:00.000
+2025-10-07 10:53:28,initiate,main,schedule,1.0,2025-10-03 18:15:00.000
+2025-10-07 10:46:39,initiate,main,schedule,1.0,2025-10-03 18:15:00.000
+2025-10-07 10:36:03,initiate,main,schedule,1.0,2025-10-03 18:15:00.000
+2025-10-07 10:26:47,terminate,init_snowflake,workflow_dispatch,,
+2025-10-03 21:09:27,initiate,main,schedule,1.0,2025-10-03 18:15:00.000
+2025-10-03 20:57:28,terminate,main,workflow_dispatch,0.0,2025-10-03 18:15:00.000
+2025-10-03 20:52:59,initiate,main,schedule,1.0,2025-10-03 18:15:00.000
+2025-10-03 20:47:12,initiate,main,schedule,1.0,2025-10-03 18:15:00.000
+2025-10-03 20:45:58,initiate,main,workflow_dispatch,0.0,2025-10-03 18:15:00.000
+2025-10-03 20:34:49,initiate,main,workflow_dispatch,0.0,2025-10-03 18:15:00.000
+2025-10-03 20:32:21,initiate,main,schedule,1.0,2025-10-03 18:15:00.000
+2025-10-03 20:12:06,initiate,main,schedule,1.0,2025-10-03 18:15:00.000
+2025-10-03 20:04:58,initiate,main,workflow_dispatch,0.0,2025-10-03 18:15:00.000
+2025-10-03 20:00:32,initiate,main,workflow_dispatch,0.0,2025-10-03 18:15:00.000
+2025-10-03 19:53:10,initiate,main,schedule,1.0,2025-10-03 18:15:00.000
+2025-10-03 19:44:49,initiate,main,schedule,1.0,2025-10-03 18:15:00.000
+2025-10-03 19:35:52,initiate,main,schedule,1.0,2025-10-03 18:15:00.000
+2025-10-03 19:27:32,initiate,main,schedule,1.0,2025-10-03 18:15:00.000
+2025-10-03 19:21:03,initiate,main,schedule,1.0,2025-10-03 18:15:00.000
+2025-10-03 19:13:13,initiate,main,workflow_dispatch,0.0,2025-10-03 18:15:00.000
+2025-10-03 19:09:30,initiate,main,schedule,1.0,2025-10-03 18:15:00.000
+2025-10-03 18:55:24,initiate,main,schedule,1.0,2025-10-03 18:15:00.000
+2025-10-03 18:42:53,initiate,main,schedule,1.0,2025-10-03 18:15:00.000
+2025-10-03 18:17:46,terminate,main,schedule,1.0,2025-10-03 18:00:00.000
+2025-10-03 08:51:14,terminate,main,schedule,1.0,2025-10-02 08:04:00.000
+2025-10-03 08:38:36,terminate,main,schedule,1.0,2025-10-03 08:04:00.000
+2025-10-03 08:16:36,terminate,main,schedule,1.0,2025-10-03 08:01:00.000
+2025-10-02 08:17:09,terminate,main,schedule,1.0,2025-10-02 08:02:00.000
+2025-09-30 18:43:05,terminate,main,schedule,1.0,2025-09-30 18:30:00.000
+2025-09-30 18:17:40,terminate,main,schedule,1.0,2025-09-30 18:00:00.000
+2025-09-30 08:44:26,terminate,main,schedule,1.0,2025-09-30 08:05:00.000
+2025-09-30 08:17:44,terminate,main,schedule,1.0,2025-09-30 08:03:00.000
+2025-09-28 08:15:57,terminate,main,schedule,1.0,2025-09-28 08:03:00.000
+2025-09-27 09:27:35,terminate,main,workflow_dispatch,0.0,2025-09-28 08:03:00.000
+2025-09-27 09:07:16,terminate,main,workflow_dispatch,0.0,2025-09-28 08:03:00.000
+2025-09-27 07:09:40,terminate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-27 06:54:21,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-27 06:47:33,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-27 06:38:09,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-27 06:14:54,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-27 05:52:20,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-27 05:43:09,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-27 05:31:20,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-27 05:11:38,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-27 04:52:30,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-27 04:45:42,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-27 04:34:28,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-27 04:13:14,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-27 03:54:06,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-27 03:47:27,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-27 03:34:43,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-27 03:01:48,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-27 02:09:38,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-27 00:47:28,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-26 23:52:40,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-26 23:42:57,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-26 23:33:33,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-26 23:25:53,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-26 23:11:06,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-26 22:53:06,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-26 22:45:08,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-26 22:38:27,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-26 22:29:04,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-26 22:10:58,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-26 21:52:33,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-26 21:43:02,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-26 21:33:43,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-26 21:24:26,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-26 21:09:57,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-26 20:53:06,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-26 20:45:22,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-26 20:33:48,initiate,main,schedule,1.0,2025-09-26 20:30:00.000
+2025-09-26 18:52:57,terminate,main,schedule,1.0,2025-09-26 18:30:00.000
+2025-09-26 18:41:58,terminate,main,schedule,1.0,2025-09-26 18:15:00.000
+2025-09-26 18:16:49,terminate,main,schedule,1.0,2025-09-26 18:00:00.000
+2025-09-26 08:54:54,terminate,main,schedule,1.0,2025-09-26 08:04:00.000
+2025-09-26 08:42:20,terminate,main,schedule,1.0,2025-09-26 08:02:00.000
+2025-09-26 08:17:33,terminate,main,schedule,1.0,2025-09-26 08:01:00.000
+2025-09-25 15:55:13,terminate,main,schedule,1.0,2025-09-24 08:03:00.000
+2025-09-25 15:47:38,terminate,main,schedule,1.0,2025-09-23 18:15:00.000
+2025-09-25 15:34:28,terminate,main,schedule,1.0,2025-09-23 18:00:00.000
+2025-09-25 15:12:28,terminate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 14:55:58,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 14:48:55,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 14:36:46,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 14:12:30,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 13:54:55,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 13:48:56,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 13:36:34,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 13:04:08,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 12:22:14,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 11:53:19,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 11:43:01,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 11:33:45,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 11:25:36,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 11:10:51,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 10:53:28,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 10:46:57,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 10:36:15,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 10:12:15,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 09:52:56,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 09:45:31,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 09:33:27,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 09:12:49,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 08:53:49,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 08:40:46,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 08:15:35,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 07:53:11,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 07:41:22,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 07:31:04,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 07:13:49,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 06:56:55,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 06:45:48,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 06:19:05,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 05:52:46,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 05:44:41,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 05:33:28,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 05:11:53,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 04:53:42,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 04:46:42,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 04:35:46,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 04:14:21,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 03:53:26,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 03:40:53,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 03:10:39,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-25 00:50:03,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 23:52:56,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 23:42:44,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 23:33:30,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 23:26:12,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 23:10:38,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 22:53:01,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 22:44:13,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 22:37:49,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 22:29:27,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 22:11:05,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 21:53:08,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 21:43:16,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 21:34:00,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 21:25:28,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 21:10:11,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 20:52:59,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 20:43:07,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 20:32:38,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 20:13:04,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 19:53:09,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 19:42:59,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 19:35:10,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 19:27:09,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 19:11:43,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 18:57:40,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 18:50:46,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 18:39:50,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 18:16:25,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 17:55:01,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 17:47:53,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 17:40:47,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 17:30:03,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 17:10:32,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 16:53:24,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 16:40:57,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 16:14:35,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 15:53:16,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 15:45:53,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 15:33:03,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 15:12:18,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 14:53:13,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 14:42:42,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 14:30:52,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 14:10:25,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 13:55:44,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 13:48:27,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 13:35:48,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 13:03:07,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 12:21:51,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 11:53:39,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 11:42:45,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 11:33:55,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 11:24:26,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 11:10:05,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 10:53:45,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 10:46:40,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 10:35:44,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 10:13:01,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 09:52:51,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 09:46:13,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 09:33:04,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 09:13:08,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 08:55:53,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 08:41:37,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 08:16:05,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 07:53:56,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 07:47:13,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 07:40:47,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 07:31:01,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 07:12:02,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 06:56:13,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 06:45:05,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 06:17:13,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 05:53:21,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 05:44:09,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 05:32:25,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 05:12:03,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 04:53:34,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 04:46:31,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 04:35:44,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 04:14:01,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 03:51:36,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 03:38:24,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 03:08:17,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 02:14:40,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-24 00:49:53,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 23:53:09,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 23:43:19,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 23:33:34,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 23:25:07,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 23:10:07,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 22:53:41,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 22:46:47,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 22:39:56,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 22:29:59,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 22:11:02,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 21:53:12,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 21:43:01,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 21:33:53,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 21:26:03,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 21:10:28,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 20:53:20,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 20:45:14,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 20:33:14,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 20:12:26,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 19:53:05,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 19:43:07,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 19:34:02,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 19:24:48,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 19:09:59,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 19:06:53,terminate,main,workflow_dispatch,0.0,2025-09-23 08:05:00.000
+2025-09-23 18:58:44,terminate,main,workflow_dispatch,0.0,2025-09-23 08:05:00.000
+2025-09-23 18:56:19,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 18:17:03,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 17:52:53,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 17:43:20,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 17:35:29,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 17:27:53,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 17:08:57,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 16:51:27,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 16:39:40,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 16:14:36,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 15:53:31,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 15:45:59,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 15:32:52,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 15:12:06,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 14:55:26,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 14:48:05,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 14:35:47,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 14:12:32,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 13:53:42,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 13:45:56,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 13:29:23,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 13:00:09,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 12:21:09,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 11:53:29,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 11:42:40,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 11:34:03,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 11:24:42,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 11:10:01,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 10:53:45,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 10:47:00,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 10:35:43,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 10:12:00,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 09:52:46,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 09:45:28,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 09:33:30,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 09:13:57,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 08:53:49,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 08:40:29,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-23 08:16:56,initiate,main,schedule,1.0,2025-09-23 08:05:00.000
+2025-09-19 21:37:14,terminate,main,schedule,1.0,2025-09-19 20:30:00.000
+2025-09-19 21:33:08,initiate,main,workflow_dispatch,1.0,2025-09-19 20:30:00.000
+2025-09-19 21:24:54,initiate,main,schedule,1.0,2025-09-19 20:30:00.000
+2025-09-19 21:09:59,initiate,main,schedule,1.0,2025-09-19 20:30:00.000
+2025-09-19 20:58:14,initiate,main,workflow_dispatch,1.0,2025-09-19 20:30:00.000
+2025-09-19 20:53:54,initiate,main,schedule,1.0,2025-09-19 20:30:00.000
+2025-09-19 20:43:59,initiate,main,schedule,1.0,2025-09-19 20:30:00.000
+2025-09-19 20:33:38,initiate,main,schedule,1.0,2025-09-19 20:30:00.000
+2025-09-19 18:42:29,terminate,main,schedule,1.0,2025-09-19 18:30:00.000
+2025-09-19 18:17:41,terminate,main,schedule,1.0,2025-09-19 18:00:00.000
+2025-09-19 08:40:41,terminate,main,schedule,1.0,2025-09-19 08:04:00.000
+2025-09-19 08:16:33,terminate,main,schedule,1.0,2025-09-19 08:02:00.000
+2025-09-18 19:23:58,terminate,main,schedule,1.0,2025-09-18 18:15:00.000
+2025-09-18 19:20:09,terminate,main,workflow_dispatch,1.0,2025-09-18 18:00:00.000
+2025-09-18 19:09:14,initiate,main,schedule,1.0,2025-09-18 18:00:00.000
+2025-09-18 18:55:32,initiate,main,schedule,1.0,2025-09-18 18:00:00.000
+2025-09-18 18:52:48,initiate,main,workflow_dispatch,1.0,2025-09-18 18:00:00.000
+2025-09-18 18:44:25,initiate,main,schedule,1.0,2025-09-18 18:00:00.000
+2025-09-18 18:18:28,initiate,main,schedule,1.0,2025-09-18 18:00:00.000
+2025-09-17 08:17:29,terminate,main,schedule,1.0,2025-09-17 08:03:00.000
+2025-09-16 08:42:53,terminate,main,schedule,1.0,2025-09-16 08:05:00.000
+2025-09-16 08:18:27,terminate,main,schedule,1.0,2025-09-16 08:02:00.000
+2025-09-13 08:15:02,terminate,main,schedule,1.0,2025-09-13 08:05:00.000
+2025-09-12 08:51:53,terminate,main,schedule,1.0,2025-09-12 08:04:00.000
+2025-09-12 08:38:28,terminate,main,schedule,1.0,2025-09-12 08:02:00.000
+2025-09-12 08:15:44,terminate,main,schedule,1.0,2025-09-12 08:01:00.000
+2025-09-11 19:37:08,terminate,main,workflow_dispatch,1.0,2025-09-11 18:00:00.000
+2025-09-11 19:33:34,initiate,main,schedule,1.0,2025-09-11 18:00:00.000
+2025-09-11 19:28:33,initiate,main,workflow_dispatch,1.0,2025-09-11 18:00:00.000
+2025-09-11 19:22:03,initiate,main,schedule,1.0,2025-09-11 18:00:00.000
+2025-09-11 19:17:27,initiate,main,workflow_dispatch,1.0,2025-09-11 18:00:00.000
+2025-09-11 18:38:30,initiate,main,schedule,1.0,2025-09-11 18:00:00.000
+2025-09-11 18:14:50,initiate,main,schedule,1.0,2025-09-11 18:00:00.000
+2025-09-10 09:59:12,initiate,main,,0.0,2025-09-11 18:00:00.000
+2025-09-10 08:17:23,terminate,main,schedule,1.0,2025-09-10 08:03:00.000
+2025-09-09 16:41:36,terminate,main,schedule,1.0,2025-09-08 08:05:00.000
+2025-09-09 16:15:54,terminate,main,schedule,1.0,2025-09-05 08:04:00.000
+2025-09-09 15:57:24,terminate,main,schedule,1.0,2025-09-05 08:02:00.000
+2025-09-09 15:50:20,terminate,main,schedule,1.0,2025-09-04 08:01:00.000
+2025-09-09 15:41:06,terminate,main,workflow_dispatch,1.0,2025-09-03 08:03:00.000
+2025-09-09 15:00:46,terminate,main,workflow_dispatch,1.0,2025-09-02 08:04:00.000
+2025-09-09 14:54:50,initiate,main,,1.0,2025-09-02 08:04:00.000
+2025-09-09 14:51:43,initiate,main,,1.0,2025-09-02 08:04:00.000
+2025-09-09 14:37:30,initiate,main,workflow_dispatch,1.0,2025-09-02 08:04:00.000
+2025-09-09 14:06:36,terminate,init_compet,workflow_dispatch,,
+2025-09-09 14:04:07,initiate,init_compet,workflow_dispatch,,
+2025-09-09 12:00:37,initiate,main,,0.0,NONE
+2025-09-09 11:57:41,initiate,main,,0.0,NONE
+2025-09-09 11:54:32,initiate,main,,0.0,NONE
+2025-09-09 11:47:53,initiate,main,,0.0,NONE
+2025-09-09 11:43:36,initiate,main,,0.0,NONE
+2025-09-09 11:38:18,initiate,main,,0.0,NONE
+2025-09-09 11:32:16,initiate,main,,0.0,NONE
+2025-09-09 11:28:38,initiate,main,,0.0,NONE
+2025-09-09 11:06:51,initiate,main,,0.0,NONE
+2025-09-09 11:00:00,initiate,main,,0.0,NONE
+2025-09-09 10:42:36,initiate,main,,0.0,NONE
+2025-09-09 10:08:15,initiate,main,,0.0,NONE
+2025-09-09 10:02:16,initiate,main,,0.0,NONE
+2025-09-09 09:57:51,initiate,main,,0.0,NONE
+2025-09-09 09:55:00,initiate,main,,0.0,NONE
+2025-09-09 08:47:28,initiate,main,,0.0,NONE
+2025-09-09 08:37:24,initiate,main,,0.0,NONE
+2025-09-08 16:23:11,initiate,main,,0.0,NONE
+2025-09-08 15:29:55,initiate,main,,0.0,NONE
+2025-09-08 15:25:12,initiate,main,,0.0,NONE
+2025-09-08 15:21:41,initiate,main,,0.0,NONE
+2025-09-08 15:18:52,initiate,main,,0.0,NONE
+2025-09-08 15:12:48,initiate,main,,0.0,NONE
+2025-09-08 15:09:43,initiate,main,,0.0,NONE
+2025-09-08 14:54:31,initiate,main,,0.0,NONE
+2025-09-08 14:47:25,initiate,main,,0.0,NONE
+2025-09-08 14:42:10,initiate,main,,0.0,NONE
+2025-09-08 13:56:58,initiate,main,,0.0,NONE
+2025-09-08 13:52:56,initiate,main,,0.0,NONE
+2025-09-08 13:46:27,initiate,main,,0.0,NONE
+2025-09-08 13:43:11,initiate,main,,0.0,NONE
+2025-09-08 13:38:54,initiate,main,,0.0,NONE
+2025-09-08 13:33:38,initiate,main,,0.0,NONE
+2025-09-08 13:26:37,initiate,main,,0.0,NONE
+2025-09-08 13:25:00,initiate,main,,0.0,NONE
+2025-09-08 13:18:34,initiate,main,,0.0,NONE
+2025-09-08 13:16:08,initiate,main,,0.0,NONE
+2025-09-08 13:14:17,initiate,main,,0.0,NONE
+2025-09-08 13:09:01,initiate,main,,0.0,NONE
+2025-09-08 13:05:09,initiate,main,,0.0,NONE
+2025-09-08 13:02:50,initiate,main,,0.0,NONE
+2025-09-08 12:57:25,initiate,main,,0.0,NONE
+2025-09-08 12:55:09,initiate,main,,0.0,NONE
+2025-09-08 12:52:01,initiate,main,,0.0,NONE
+2025-09-08 12:49:10,initiate,main,,0.0,NONE
+2025-09-08 12:47:10,initiate,main,,0.0,NONE
+2025-09-08 12:42:22,initiate,main,,0.0,NONE
+2025-09-08 12:38:24,initiate,main,,0.0,NONE
+2025-09-08 12:36:51,initiate,main,,0.0,NONE
+2025-09-08 12:34:44,initiate,main,,0.0,NONE
+2025-09-08 12:31:13,initiate,main,,0.0,NONE
+2025-09-08 12:27:57,initiate,main,,0.0,NONE
+2025-09-08 12:24:45,initiate,main,,0.0,NONE
+2025-09-08 11:44:55,initiate,main,,0.0,NONE
+2025-09-08 11:38:49,initiate,main,,0.0,NONE
+2025-09-08 11:36:33,initiate,main,,0.0,NONE
+2025-09-08 11:32:50,initiate,main,,0.0,NONE
+2025-09-08 10:35:17,initiate,main,,0.0,NONE
+2025-09-08 09:07:21,initiate,main,,0.0,NONE
+2025-09-08 08:48:35,initiate,main,,0.0,NONE
+2025-09-08 08:37:03,initiate,main,,0.0,NONE
+2025-09-08 08:34:59,initiate,main,,0.0,NONE
+2025-09-08 08:13:35,initiate,main,,0.0,NONE
+2025-09-08 08:10:38,initiate,main,,0.0,NONE
+2025-09-08 08:05:53,initiate,main,,0.0,NONE
+2025-09-08 07:55:05,initiate,main,,0.0,NONE
+2025-09-08 07:42:59,initiate,main,,0.0,NONE
+2025-09-07 15:05:43,initiate,main,,0.0,NONE
+2025-09-07 15:02:58,initiate,main,,0.0,NONE
+2025-09-07 14:37:12,initiate,main,,0.0,NONE
+2025-09-07 14:28:28,initiate,main,,0.0,NONE
+2025-09-07 14:17:11,initiate,main,,0.0,NONE
+2025-09-07 14:07:20,initiate,main,,0.0,NONE
+2025-09-07 14:02:57,initiate,main,,0.0,NONE
+2025-09-07 13:28:00,initiate,main,,0.0,NONE
+2025-09-07 13:25:10,initiate,main,,0.0,NONE
+2025-09-07 13:11:38,initiate,main,,0.0,NONE
+2025-09-05 15:03:13,initiate,main,,0.0,NONE
+2025-09-05 14:54:58,initiate,main,,0.0,NONE
+2025-09-05 14:30:51,initiate,main,,0.0,NONE
+2025-09-05 14:24:33,initiate,main,,0.0,NONE
+2025-09-05 14:12:36,initiate,main,,0.0,NONE
+2025-09-05 13:00:58,initiate,main,,0.0,NONE
+2025-09-05 12:50:30,initiate,main,,0.0,NONE
+2025-09-05 12:46:04,initiate,main,,0.0,NONE
+2025-09-05 12:44:03,initiate,main,,0.0,NONE
+2025-09-05 12:38:56,initiate,main,,0.0,NONE
+2025-09-05 10:10:44,terminate,init_snowflake,workflow_dispatch,,
+2025-09-05 10:07:47,initiate,init_snowflake,workflow_dispatch,,
+2025-09-05 09:54:34,initiate,init_snowflake,workflow_dispatch,,
+2025-09-05 09:38:27,initiate,init_snowflake,workflow_dispatch,,
+2025-09-05 09:31:59,initiate,init_snowflake,workflow_dispatch,,
+2025-09-05 09:22:22,initiate,init_snowflake,workflow_dispatch,,
+2025-09-05 09:13:41,initiate,init_snowflake,workflow_dispatch,,
+2025-09-05 08:58:11,initiate,init_snowflake,workflow_dispatch,,
+2025-09-05 08:51:06,initiate,init_snowflake,workflow_dispatch,,
+2025-09-05 07:44:59,initiate,init_snowflake,workflow_dispatch,,
+2025-09-04 16:35:33,terminate,main,workflow_dispatch,1.0,2025-06-14 17:00:00.000
+2025-09-04 16:27:00,terminate,main,workflow_dispatch,1.0,2025-06-14 15:00:00.000
+2025-09-04 16:20:40,terminate,main,workflow_dispatch,1.0,2025-06-11 19:05:00.000
+2025-09-04 16:13:06,terminate,main,workflow_dispatch,1.0,2025-06-04 08:05:00.000
+2025-09-04 16:07:08,terminate,main,workflow_dispatch,1.0,2025-05-24 08:04:00.000
+2025-09-04 15:59:56,terminate,main,workflow_dispatch,1.0,2025-05-14 08:03:00.000
+2025-09-04 15:52:58,terminate,main,workflow_dispatch,1.0,2025-05-03 08:02:00.000
+2025-09-04 15:46:57,terminate,main,workflow_dispatch,1.0,2025-04-05 08:01:00.000
+2025-09-04 15:34:56,terminate,init_compet,workflow_dispatch,,
+2025-09-04 14:57:56,terminate,main,workflow_dispatch,1.0,2025-06-11 20:50:00.000
+2025-09-04 14:46:45,terminate,main,workflow_dispatch,1.0,2025-06-11 18:50:00.000
+2025-09-04 14:33:14,terminate,main,workflow_dispatch,1.0,2025-06-08 19:00:00.000
+2025-09-04 14:20:40,terminate,main,workflow_dispatch,1.0,2025-06-08 19:00:00.000
+2025-09-04 13:59:49,terminate,main,workflow_dispatch,1.0,2025-06-08 17:15:00.000
+2025-09-04 13:52:39,terminate,main,workflow_dispatch,1.0,2025-06-08 17:00:00.000
+2025-09-04 13:42:14,terminate,main,workflow_dispatch,1.0,2025-06-05 18:45:00.000
+2025-09-04 13:32:07,terminate,main,workflow_dispatch,1.0,2025-06-01 08:05:00.000
+2025-09-04 13:21:30,terminate,main,workflow_dispatch,1.0,2025-05-29 08:05:00.000
+2025-09-04 13:16:10,terminate,main,workflow_dispatch,1.0,2025-05-21 08:04:00.000
+2025-09-04 13:10:58,terminate,main,workflow_dispatch,1.0,2025-05-18 08:04:00.000
+2025-09-04 13:05:50,terminate,main,workflow_dispatch,1.0,2025-05-11 08:03:00.000
+2025-09-04 13:00:56,terminate,main,workflow_dispatch,1.0,2025-05-08 08:03:00.000
+2025-09-04 12:53:19,terminate,main,workflow_dispatch,1.0,2025-04-30 08:02:00.000
+2025-09-04 12:48:09,terminate,main,workflow_dispatch,1.0,2025-04-27 08:02:00.000
+2025-09-04 12:41:15,terminate,main,workflow_dispatch,1.0,2025-04-02 08:01:00.000
+2025-09-04 12:36:42,terminate,main,workflow_dispatch,1.0,2025-03-30 08:01:00.000
+2025-09-04 12:23:42,terminate,init_compet,workflow_dispatch,,
+2025-09-04 12:09:16,initiate,init_compet,workflow_dispatch,,
+2025-09-04 10:58:26,terminate,main,workflow_dispatch,1.0,2025-06-05 20:30:00.000
+2025-09-04 10:50:03,terminate,main,workflow_dispatch,1.0,2025-06-05 20:30:00.000
+2025-09-04 10:33:13,terminate,main,workflow_dispatch,1.0,2025-06-05 18:30:00.000
+2025-09-04 10:14:23,terminate,main,workflow_dispatch,1.0,2025-06-02 18:15:00.000
+2025-09-04 10:06:55,terminate,main,workflow_dispatch,1.0,2025-05-26 08:05:00.000
+2025-09-04 10:00:05,terminate,main,workflow_dispatch,1.0,2025-05-15 08:04:00.000
+2025-09-04 09:55:29,terminate,main,workflow_dispatch,1.0,2025-05-05 08:03:00.000
+2025-09-04 09:46:55,terminate,main,workflow_dispatch,1.0,2025-04-24 08:02:00.000
+2025-09-04 09:42:16,terminate,main,workflow_dispatch,1.0,2025-03-27 08:01:00.000
+2025-09-04 09:31:51,terminate,init_compet,workflow_dispatch,,
+2025-09-04 08:43:12,terminate,main,workflow_dispatch,1.0,2025-06-02 20:30:00.000
+2025-09-04 08:27:11,terminate,main,workflow_dispatch,1.0,2025-06-02 20:30:00.000
+2025-09-04 08:10:04,terminate,main,workflow_dispatch,1.0,2025-06-02 20:30:00.000
+2025-09-04 07:51:22,terminate,main,workflow_dispatch,1.0,2025-06-02 20:30:00.000
+2025-09-04 07:30:37,terminate,main,workflow_dispatch,1.0,2025-06-02 20:30:00.000
+2025-09-03 21:22:52,terminate,main,workflow_dispatch,1.0,2025-06-02 18:30:00.000
+2025-09-03 20:47:41,terminate,main,workflow_dispatch,1.0,2025-06-02 18:00:00.000
+2025-09-03 20:11:24,terminate,main,workflow_dispatch,1.0,2025-05-30 20:30:00.000
+2025-09-03 20:00:18,terminate,main,workflow_dispatch,1.0,2025-05-30 20:30:00.000
+2025-09-03 19:13:18,terminate,main,workflow_dispatch,1.0,2025-05-30 18:30:00.000
+2025-09-03 19:06:25,terminate,main,workflow_dispatch,1.0,2025-05-30 18:15:00.000
+2025-09-03 18:57:50,terminate,main,workflow_dispatch,1.0,2025-05-30 18:00:00.000
+2025-09-03 18:48:04,terminate,main,workflow_dispatch,1.0,2025-05-23 17:15:00.000
+2025-09-03 18:39:12,terminate,main,workflow_dispatch,1.0,2025-05-23 08:05:00.000
+2025-09-03 18:29:08,terminate,main,workflow_dispatch,1.0,2025-05-20 08:05:00.000
+2025-09-03 18:21:53,terminate,main,workflow_dispatch,1.0,2025-05-12 08:04:00.000
+2025-09-03 18:00:32,terminate,main,workflow_dispatch,1.0,2025-05-09 08:04:00.000
+2025-09-03 17:53:28,terminate,main,workflow_dispatch,1.0,2025-05-02 08:03:00.000
+2025-09-03 17:44:45,terminate,main,workflow_dispatch,1.0,2025-04-30 08:03:00.000
+2025-09-03 17:39:51,terminate,main,workflow_dispatch,1.0,2025-04-21 08:02:00.000
+2025-09-03 17:29:47,terminate,main,workflow_dispatch,1.0,2025-04-18 08:02:00.000
+2025-09-03 17:24:39,terminate,main,workflow_dispatch,1.0,2025-03-24 08:01:00.000
+2025-09-03 17:11:22,terminate,main,workflow_dispatch,1.0,2025-03-21 08:01:00.000
+2025-09-03 16:43:26,terminate,init_compet,workflow_dispatch,,
+2025-09-03 16:00:50,terminate,main,workflow_dispatch,1.0,2025-05-25 16:00:00.000
+2025-09-03 15:51:27,terminate,main,workflow_dispatch,1.0,2025-05-25 14:00:00.000
+2025-09-03 15:28:09,terminate,main,workflow_dispatch,1.0,2025-05-23 17:30:00.000
+2025-09-03 14:44:43,terminate,main,workflow_dispatch,1.0,2025-05-23 17:00:00.000
+2025-09-03 14:10:43,terminate,main,workflow_dispatch,1.0,2025-05-22 19:00:00.000
+2025-09-03 10:40:55,terminate,main,workflow_dispatch,1.0,2025-05-22 17:00:00.000
+2025-09-03 10:24:59,terminate,main,workflow_dispatch,1.0,2025-05-20 17:30:00.000
+2025-09-03 10:01:36,terminate,main,workflow_dispatch,1.0,2025-05-20 17:15:00.000
+2025-09-03 08:50:34,terminate,main,workflow_dispatch,1.0,2025-05-20 17:00:00.000
+2025-09-03 08:42:17,terminate,main,workflow_dispatch,1.0,2025-05-19 17:15:00.000
+2025-09-03 08:32:51,terminate,main,workflow_dispatch,1.0,2025-05-13 08:05:00.000
+2025-09-03 08:27:02,terminate,main,workflow_dispatch,1.0,2025-05-10 08:05:00.000
+2025-09-03 08:21:40,terminate,main,workflow_dispatch,1.0,2025-05-02 08:04:00.000
+2025-09-03 08:15:09,terminate,main,workflow_dispatch,1.0,2025-04-29 08:04:00.000
+2025-09-03 07:53:50,terminate,main,workflow_dispatch,1.0,2025-04-23 08:03:00.000
+2025-09-03 07:11:57,terminate,main,workflow_dispatch,1.0,2025-04-11 08:02:00.000
+2025-09-03 07:02:52,terminate,main,workflow_dispatch,1.0,2025-03-14 08:01:00.000
+2025-09-03 06:52:18,terminate,init_compet,workflow_dispatch,,
+2025-09-02 21:15:22,terminate,main,workflow_dispatch,1.0,2025-04-20 08:03:00.000
+2025-09-02 21:08:56,terminate,main,workflow_dispatch,1.0,2025-04-08 08:02:00.000
+2025-09-02 20:58:44,terminate,main,workflow_dispatch,1.0,2025-03-11 08:01:00.000
+2025-09-02 20:52:40,terminate,init_compet,workflow_dispatch,,
+2025-09-02 20:29:50,terminate,init_compet,workflow_dispatch,,
+2025-09-02 15:09:39,terminate,init_compet,workflow_dispatch,,
+2025-09-02 13:28:56,terminate,main,workflow_dispatch,1.0,2025-05-19 19:00:00.000
+2025-09-02 11:37:52,terminate,main,workflow_dispatch,0.0,2025-05-19 17:00:00.000
+2025-09-02 11:31:21,initiate,main,workflow_dispatch,0.0,2025-05-19 17:00:00.000
+2025-09-02 11:12:46,terminate,main,workflow_dispatch,1.0,2025-05-16 17:15:00.000
+2025-09-02 11:01:51,terminate,main,workflow_dispatch,1.0,2025-05-09 08:05:00.000
+2025-09-02 10:53:43,terminate,main,workflow_dispatch,1.0,2025-04-28 08:04:00.000
+2025-09-02 08:35:41,terminate,main,workflow_dispatch,1.0,2025-04-19 08:03:00.000
+2025-09-02 08:29:18,terminate,main,workflow_dispatch,1.0,2025-04-07 08:02:00.000
+2025-09-02 08:20:31,terminate,main,workflow_dispatch,1.0,2025-03-10 08:01:00.000
+2025-09-02 08:05:18,terminate,init_compet,workflow_dispatch,,
+2025-09-02 07:21:09,initiate,init_compet,,,
+2025-09-02 07:15:18,initiate,init_compet,,,
+2025-09-01 16:25:27,initiate,init_compet,workflow_dispatch,,
+2025-09-01 16:00:33,terminate,main,workflow_dispatch,1.0,2025-05-16 19:30:00.000
+2025-09-01 15:49:59,terminate,main,workflow_dispatch,1.0,2025-05-16 17:30:00.000
+2025-09-01 15:38:33,initiate,main,workflow_dispatch,1.0,2025-05-16 17:30:00.000
+2025-09-01 15:13:17,terminate,main,workflow_dispatch,1.0,2025-05-16 17:00:00.000
+2025-09-01 14:57:38,terminate,main,workflow_dispatch,1.0,2025-05-13 18:15:00.000
+2025-09-01 12:56:45,terminate,main,workflow_dispatch,1.0,2025-05-06 08:05:00.000
+2025-09-01 12:51:21,terminate,main,workflow_dispatch,1.0,2025-04-25 08:04:00.000
+2025-09-01 12:46:03,terminate,main,workflow_dispatch,1.0,2025-04-16 08:03:00.000
+2025-09-01 12:33:54,terminate,main,workflow_dispatch,1.0,2025-04-04 08:02:00.000
+2025-09-01 12:27:24,terminate,main,workflow_dispatch,1.0,2025-03-07 08:01:00.000
+2025-08-31 14:15:57,terminate,init_compet,,,
+2025-08-30 06:42:00,terminate,init_compet,workflow_dispatch,,
+2025-08-30 06:30:54,terminate,init_compet,workflow_dispatch,,
+2025-08-29 11:34:11,terminate,main,workflow_dispatch,1.0,2025-05-13 20:00:00.000
+2025-08-29 10:19:56,terminate,main,workflow_dispatch,1.0,2025-05-13 18:00:00.000
+2025-08-29 09:25:33,terminate,main,workflow_dispatch,1.0,2025-05-10 20:10:00.000
+2025-08-29 09:18:21,terminate,main,workflow_dispatch,1.0,2025-05-10 20:10:00.000
+2025-08-29 09:11:51,terminate,main,workflow_dispatch,1.0,2025-05-10 20:10:00.000
+2025-08-29 08:59:17,terminate,main,workflow_dispatch,1.0,2025-05-10 18:10:00.000
+2025-08-29 08:53:34,terminate,main,workflow_dispatch,1.0,2025-05-09 18:50:00.000
+2025-08-29 08:46:30,terminate,main,workflow_dispatch,1.0,2025-05-09 18:30:00.000
+2025-08-29 08:39:27,terminate,main,workflow_dispatch,1.0,2025-05-09 18:00:00.000
+2025-08-29 07:46:30,terminate,main,workflow_dispatch,1.0,2025-05-07 18:45:00.000
+2025-08-29 07:05:42,terminate,main,workflow_dispatch,1.0,2025-05-07 18:30:00.000
+2025-08-29 06:50:39,terminate,main,workflow_dispatch,1.0,2025-05-03 20:00:00.000
+2025-08-29 06:36:49,terminate,main,workflow_dispatch,1.0,2025-05-03 20:00:00.000
+2025-08-28 13:47:02,terminate,main,workflow_dispatch,1.0,2025-05-03 18:00:00.000
+2025-08-28 13:39:10,terminate,main,workflow_dispatch,1.0,2025-05-03 08:05:00.000
+2025-08-28 13:33:51,terminate,main,workflow_dispatch,1.0,2025-05-02 18:30:00.000
+2025-08-28 13:25:01,terminate,main,workflow_dispatch,1.0,2025-05-02 18:15:00.000
+2025-08-28 13:18:32,terminate,main,workflow_dispatch,1.0,2025-05-02 18:00:00.000
+2025-08-28 13:05:37,terminate,main,workflow_dispatch,1.0,2025-04-29 20:50:00.000
+2025-08-28 12:50:29,terminate,main,workflow_dispatch,1.0,2025-04-29 18:50:00.000
+2025-08-28 12:44:49,terminate,main,workflow_dispatch,1.0,2025-04-29 18:00:00.000
+2025-08-28 08:09:02,terminate,main,workflow_dispatch,1.0,2025-04-28 20:00:00.000
+2025-08-28 07:21:55,initiate,main,workflow_dispatch,1.0,2025-04-28 20:00:00.000
+2025-08-28 07:11:07,initiate,main,workflow_dispatch,1.0,2025-04-28 20:00:00.000
+2025-08-27 21:06:36,terminate,main,workflow_dispatch,1.0,2025-04-28 18:00:00.000
+2025-08-27 20:20:51,terminate,main,workflow_dispatch,1.0,2025-04-27 17:00:00.000
+2025-08-27 20:14:34,terminate,main,workflow_dispatch,1.0,2025-04-27 15:00:00.000
+2025-08-27 20:06:14,terminate,main,workflow_dispatch,1.0,2025-04-27 08:05:00.000
+2025-08-27 20:00:51,terminate,main,workflow_dispatch,1.0,2025-04-25 18:30:00.000
+2025-08-27 19:56:20,terminate,main,workflow_dispatch,1.0,2025-04-25 18:00:00.000
+2025-08-27 19:43:31,terminate,main,workflow_dispatch,1.0,2025-04-24 18:15:00.000
+2025-08-27 19:33:36,terminate,main,workflow_dispatch,1.0,2025-04-24 18:00:00.000
+2025-08-27 19:26:28,terminate,main,workflow_dispatch,1.0,2025-04-22 08:05:00.000
+2025-08-27 19:19:49,terminate,main,workflow_dispatch,1.0,2025-04-22 08:04:00.000
+2025-08-27 11:47:48,terminate,main,workflow_dispatch,1.0,2025-04-19 20:00:00.000
+2025-08-27 10:57:45,terminate,main,workflow_dispatch,1.0,2025-04-19 20:00:00.000
+2025-08-27 10:42:36,terminate,main,workflow_dispatch,1.0,2025-04-19 18:00:00.000
+2025-08-27 10:33:50,initiate,main,workflow_dispatch,1.0,2025-04-19 18:00:00.000
+2025-08-27 09:30:35,terminate,main,workflow_dispatch,1.0,2025-04-19 17:00:00.000
+2025-08-27 09:17:55,terminate,main,workflow_dispatch,1.0,2025-04-18 18:30:00.000
+2025-08-27 08:45:47,terminate,main,workflow_dispatch,1.0,2025-04-18 18:00:00.000
+2025-08-27 08:36:04,terminate,main,workflow_dispatch,1.0,2025-04-16 08:04:00.000
+2025-08-23 21:57:34,terminate,main,workflow_dispatch,1.0,2025-04-15 18:15:00.000
+2025-08-23 19:45:17,terminate,main,workflow_dispatch,1.0,2025-04-15 18:00:00.000
+2025-08-23 19:19:42,terminate,main,workflow_dispatch,1.0,2025-04-14 08:05:00.000
+2025-08-23 17:43:48,terminate,main,workflow_dispatch,1.0,2025-04-13 08:03:00.000
+2025-08-23 12:54:41,terminate,main,workflow_dispatch,1.0,2025-04-12 20:00:00.000
+2025-08-23 12:31:30,terminate,main,workflow_dispatch,1.0,2025-04-12 18:00:00.000
+2025-08-23 12:23:53,terminate,main,workflow_dispatch,1.0,2025-04-11 18:30:00.000
+2025-08-23 12:16:38,terminate,main,workflow_dispatch,1.0,2025-04-11 18:15:00.000
+2025-08-23 12:09:09,terminate,main,workflow_dispatch,1.0,2025-04-11 18:00:00.000
+2025-08-23 09:24:07,terminate,main,workflow_dispatch,1.0,2025-04-11 08:04:00.000
+2025-08-23 09:16:18,terminate,main,workflow_dispatch,1.0,2025-04-08 18:30:00.000
+2025-08-23 07:59:21,terminate,main,workflow_dispatch,1.0,2025-04-08 18:15:00.000
+2025-08-23 07:01:11,terminate,main,workflow_dispatch,1.0,2025-04-08 18:00:00.000
+2025-08-22 22:13:35,terminate,main,workflow_dispatch,1.0,2025-04-07 08:03:00.000
+2025-08-22 21:52:42,terminate,main,workflow_dispatch,1.0,2025-04-05 20:30:00.000
+2025-08-22 21:44:47,terminate,main,workflow_dispatch,1.0,2025-04-05 20:30:00.000
+2025-08-22 21:28:20,initiate,main,workflow_dispatch,1.0,2025-04-05 20:30:00.000
+2025-08-22 19:10:14,terminate,main,workflow_dispatch,1.0,2025-04-05 18:30:00.000
+2025-08-22 18:58:55,terminate,main,workflow_dispatch,1.0,2025-04-05 18:00:00.000
+2025-08-22 16:01:12,terminate,main,workflow_dispatch,1.0,2025-04-05 08:05:00.000
+2025-08-22 15:54:37,terminate,main,workflow_dispatch,1.0,2025-04-04 18:30:00.000
+2025-08-22 15:47:44,terminate,main,workflow_dispatch,1.0,2025-04-04 18:15:00.000
+2025-08-22 15:38:20,terminate,main,workflow_dispatch,1.0,2025-04-04 18:00:00.000
+2025-08-22 15:30:28,terminate,main,workflow_dispatch,1.0,2025-04-03 08:04:00.000
+2025-08-22 15:22:38,terminate,main,workflow_dispatch,1.0,2025-04-02 08:03:00.000
+2025-08-22 15:14:12,terminate,main,workflow_dispatch,1.0,2025-04-01 08:05:00.000
+2025-08-22 13:18:55,terminate,main,workflow_dispatch,1.0,2025-04-01 08:02:00.000
+2025-08-22 13:03:38,terminate,main,workflow_dispatch,1.0,2025-03-29 21:00:00.000
+2025-08-22 12:51:25,terminate,main,workflow_dispatch,1.0,2025-03-29 19:00:00.000
+2025-08-22 11:58:23,terminate,main,workflow_dispatch,1.0,2025-03-29 08:05:00.000
+2025-08-22 10:12:03,terminate,main,workflow_dispatch,1.0,2025-03-28 19:30:00.000
+2025-08-22 10:02:29,terminate,main,workflow_dispatch,1.0,2025-03-28 19:15:00.000
+2025-08-22 09:31:28,terminate,main,workflow_dispatch,1.0,2025-03-28 19:00:00.000
+2025-08-22 09:23:19,terminate,main,workflow_dispatch,1.0,2025-03-26 08:02:00.000
+2025-08-22 09:17:42,terminate,main,workflow_dispatch,1.0,2025-03-25 08:05:00.000
+2025-08-22 09:11:06,terminate,main,workflow_dispatch,1.0,2025-03-25 08:04:00.000
+2025-08-22 09:05:19,terminate,main,workflow_dispatch,1.0,2025-03-24 08:03:00.000
+2025-08-22 08:45:15,terminate,main,workflow_dispatch,1.0,2025-03-23 16:30:00.000
+2025-08-22 07:44:08,initiate,main,,1.0,2025-03-23 16:30:00.000
+2025-08-22 07:31:27,initiate,main,,1.0,2025-03-23 16:30:00.000
+2025-08-22 07:12:06,initiate,main,,1.0,2025-03-23 16:30:00.000
+2025-08-22 06:56:47,initiate,main,,1.0,2025-03-23 16:30:00.000
+2025-08-21 19:24:19,initiate,main,workflow_dispatch,1.0,2025-03-23 16:30:00.000
+2025-08-21 19:07:07,initiate,main,workflow_dispatch,1.0,2025-03-23 16:30:00.000
+2025-08-21 18:47:14,initiate,main,workflow_dispatch,1.0,2025-03-23 16:30:00.000
+2025-08-21 18:35:56,terminate,main,workflow_dispatch,1.0,2025-03-23 16:30:00.000
+2025-08-21 18:00:06,terminate,main,workflow_dispatch,1.0,2025-03-23 14:30:00.000
+2025-08-21 17:41:27,terminate,main,workflow_dispatch,1.0,2025-03-22 19:00:00.000
+2025-08-21 16:44:19,terminate,main,workflow_dispatch,1.0,2025-03-22 18:00:00.000
+2025-08-21 15:42:59,terminate,main,workflow_dispatch,1.0,2025-03-21 19:30:00.000
+2025-08-21 15:27:06,terminate,main,workflow_dispatch,1.0,2025-03-21 19:15:00.000
+2025-08-21 15:20:07,terminate,main,workflow_dispatch,1.0,2025-03-21 19:00:00.000
+2025-08-21 15:04:54,terminate,main,workflow_dispatch,1.0,2025-03-21 08:04:00.000
+2025-08-21 14:56:02,terminate,main,workflow_dispatch,1.0,2025-03-21 08:02:00.000
+2025-08-21 13:10:34,terminate,main,workflow_dispatch,1.0,2025-03-18 21:30:00.000
+2025-08-21 13:03:55,initiate,main,workflow_dispatch,1.0,2025-03-18 21:30:00.000
+2025-08-21 12:49:19,terminate,main,workflow_dispatch,1.0,2025-03-18 21:30:00.000
+2025-08-21 11:59:33,terminate,main,workflow_dispatch,1.0,2025-03-18 19:30:00.000
+2025-08-21 11:51:20,terminate,main,workflow_dispatch,1.0,2025-03-18 19:00:00.000
+2025-08-21 11:42:17,terminate,main,workflow_dispatch,1.0,2025-03-18 08:05:00.000
+2025-08-21 11:32:13,terminate,main,,1.0,2025-03-18 08:04:00.000
+2025-08-21 08:13:06,terminate,main,,0.0,2025-03-18 08:04:00.000
+2025-08-21 07:56:39,terminate,main,,0.0,2025-03-18 08:04:00.000
+2025-08-21 07:45:44,initiate,main,,0.0,2025-03-18 08:04:00.000
+2025-08-21 07:40:30,initiate,main,,0.0,2025-03-18 08:04:00.000
+2025-08-20 20:43:55,initiate,main,workflow_dispatch,0.0,2025-03-18 08:04:00.000
+2025-08-20 20:32:11,initiate,main,workflow_dispatch,0.0,2025-03-18 08:04:00.000
+2025-08-20 18:42:33,terminate,main,workflow_dispatch,1.0,2025-03-15 21:00:00.000
+2025-08-20 17:52:42,terminate,main,,1.0,2025-03-15 21:00:00.000
+2025-08-20 17:41:10,initiate,main,,1.0,2025-03-15 21:00:00.000
+2025-08-20 17:31:35,terminate,main,,1.0,2025-03-15 21:00:00.000
+2025-08-20 17:09:22,terminate,main,,1.0,2025-03-15 21:00:00.000
+2025-08-20 16:54:03,initiate,main,,1.0,2025-03-15 21:00:00.000
+2025-08-20 16:37:13,initiate,main,,1.0,2025-03-15 21:00:00.000
+2025-08-20 16:30:02,initiate,main,,1.0,2025-03-15 21:00:00.000
+2025-08-20 16:26:42,initiate,main,,1.0,2025-03-15 21:00:00.000
+2025-08-20 16:14:22,initiate,main,,1.0,2025-03-15 21:00:00.000
+2025-08-20 16:06:26,initiate,main,,1.0,2025-03-15 21:00:00.000
+2025-08-20 15:04:08,initiate,main,,1.0,2025-03-15 21:00:00.000
+2025-08-20 14:58:16,initiate,main,,1.0,2025-03-15 21:00:00.000
+2025-08-20 14:51:57,initiate,main,,1.0,2025-03-15 21:00:00.000
+2025-08-20 14:16:08,initiate,main,workflow_dispatch,1.0,2025-03-15 21:00:00.000
+2025-08-20 14:02:37,initiate,main,workflow_dispatch,1.0,2025-03-15 21:00:00.000
+2025-08-20 10:22:13,terminate,main,workflow_dispatch,1.0,2025-03-15 19:00:00.000
+2025-08-20 10:17:28,terminate,main,workflow_dispatch,1.0,2025-03-15 08:03:00.000
+2025-08-20 10:08:02,terminate,main,workflow_dispatch,1.0,2025-03-14 19:30:00.000
+2025-08-20 09:55:31,initiate,main,workflow_dispatch,1.0,2025-03-14 19:30:00.000
+2025-08-20 09:50:16,initiate,main,workflow_dispatch,1.0,2025-03-14 19:30:00.000
+2025-08-20 09:22:13,terminate,main,workflow_dispatch,1.0,2025-03-14 19:15:00.000
+2025-08-20 08:56:27,terminate,main,workflow_dispatch,1.0,2025-03-14 19:00:00.000
+2025-08-20 08:50:31,terminate,main,workflow_dispatch,1.0,2025-03-14 08:04:00.000
+2025-08-20 08:44:26,terminate,main,workflow_dispatch,1.0,2025-03-13 08:02:00.000
+2025-08-20 07:57:00,terminate,main,workflow_dispatch,1.0,2025-03-11 19:30:00.000
+2025-08-20 07:50:18,terminate,main,workflow_dispatch,1.0,2025-03-11 19:15:00.000
+2025-08-19 20:33:06,terminate,main,workflow_dispatch,1.0,2025-03-11 19:00:00.000
+2025-08-19 19:08:44,terminate,main,workflow_dispatch,1.0,2025-03-11 08:05:00.000
+2025-08-19 19:03:33,terminate,main,workflow_dispatch,1.0,2025-03-11 08:03:00.000
+2025-08-19 18:56:35,terminate,main,workflow_dispatch,1.0,2025-03-08 19:00:00.000
+2025-08-19 18:50:13,terminate,main,workflow_dispatch,1.0,2025-03-08 08:03:00.000
+2025-08-19 18:44:05,terminate,main,workflow_dispatch,1.0,2025-03-07 19:30:00.000
+2025-08-19 18:38:34,terminate,main,workflow_dispatch,1.0,2025-03-07 19:15:00.000
+2025-08-19 16:27:52,terminate,main,workflow_dispatch,1.0,2025-03-07 19:00:00.000
+2025-08-19 16:21:24,terminate,main,workflow_dispatch,1.0,2025-03-07 08:04:00.000
+2025-08-19 16:04:54,terminate,main,workflow_dispatch,1.0,2025-03-06 19:15:00.000
+2025-08-19 15:19:14,terminate,main,workflow_dispatch,1.0,2025-03-06 19:00:00.000
+2025-08-19 15:14:50,initiate,main,workflow_dispatch,1.0,2025-03-06 19:00:00.000
+2025-08-19 15:07:29,terminate,main,workflow_dispatch,1.0,2025-03-04 08:05:00.000
+2025-08-19 14:59:38,terminate,main,,1.0,2025-03-04 08:03:00.000
+2025-08-19 14:48:52,terminate,main,,1.0,2025-03-04 08:02:00.000
+2025-08-19 14:44:07,initiate,main,,1.0,2025-03-04 08:02:00.000
+2025-08-19 13:57:54,terminate,main,workflow_dispatch,1.0,2025-03-04 08:01:00.000
+2025-08-19 13:40:51,terminate,main,workflow_dispatch,1.0,2025-03-01 21:50:00.000
+2025-08-19 13:07:22,terminate,main,workflow_dispatch,1.0,2025-03-01 21:50:00.000
+2025-08-19 12:51:30,terminate,main,workflow_dispatch,1.0,2025-03-01 21:50:00.000
+2025-08-19 12:21:21,terminate,main,workflow_dispatch,1.0,2025-03-01 21:50:00.000
+2025-08-19 10:16:50,terminate,main,workflow_dispatch,1.0,2025-03-01 21:50:00.000
+2025-08-19 09:10:29,terminate,main,workflow_dispatch,1.0,2025-03-01 19:50:00.000
+2025-08-19 09:01:53,terminate,main,workflow_dispatch,1.0,2025-03-01 19:00:00.000
+2025-08-19 08:47:01,terminate,main,workflow_dispatch,1.0,2025-03-01 08:05:00.000
+2025-08-19 08:00:20,terminate,main,workflow_dispatch,1.0,2025-02-28 19:30:00.000
+2025-08-19 07:52:59,terminate,main,workflow_dispatch,1.0,2025-02-28 19:15:00.000
+2025-08-19 07:45:59,terminate,main,workflow_dispatch,1.0,2025-02-28 19:00:00.000
+2025-08-19 07:06:24,terminate,main,workflow_dispatch,1.0,2025-02-28 08:04:00.000
+2025-08-19 06:12:40,terminate,main,workflow_dispatch,1.0,2025-02-28 08:03:00.000
+2025-08-18 21:06:32,terminate,main,workflow_dispatch,1.0,2025-02-28 08:02:00.000
+2025-08-18 20:49:04,terminate,main,workflow_dispatch,1.0,2025-02-26 08:01:00.000
+2025-08-18 20:43:11,terminate,main,workflow_dispatch,1.0,2025-02-25 08:02:00.000
+2025-08-18 20:36:38,terminate,main,workflow_dispatch,1.0,2025-02-24 08:05:00.000
+2025-08-18 20:31:17,terminate,main,workflow_dispatch,1.0,2025-02-21 08:04:00.000
+2025-08-18 20:24:42,terminate,main,workflow_dispatch,1.0,2025-02-21 08:03:00.000
+2025-08-18 20:15:54,terminate,main,workflow_dispatch,1.0,2025-02-21 08:02:00.000
+2025-08-18 19:58:33,terminate,main,workflow_dispatch,1.0,2025-02-21 08:01:00.000
+2025-08-18 19:39:43,terminate,main,workflow_dispatch,1.0,2025-02-18 08:05:00.000
+2025-08-18 19:33:18,terminate,main,workflow_dispatch,1.0,2025-02-18 08:04:00.000
+2025-08-18 17:53:17,terminate,main,workflow_dispatch,1.0,2025-02-14 08:03:00.000
+2025-08-18 17:44:25,terminate,main,workflow_dispatch,1.0,2025-02-14 08:02:00.000
+2025-08-18 17:35:39,terminate,main,workflow_dispatch,1.0,2025-02-13 08:04:00.000
+2025-08-18 17:22:36,terminate,main,workflow_dispatch,1.0,2025-02-13 08:01:00.000
+2025-08-18 17:15:48,terminate,main,workflow_dispatch,1.0,2025-02-11 08:03:00.000
+2025-08-18 16:57:09,terminate,main,workflow_dispatch,1.0,2025-02-09 18:00:00.000
+2025-08-18 16:48:51,terminate,main,workflow_dispatch,1.0,2025-02-09 18:00:00.000
+2025-08-18 15:51:03,terminate,main,workflow_dispatch,1.0,2025-02-09 16:00:00.000
+2025-08-18 15:44:21,terminate,main,workflow_dispatch,1.0,2025-02-08 19:00:00.000
+2025-08-18 15:13:50,terminate,main,workflow_dispatch,1.0,2025-02-07 19:30:00.000
+2025-08-18 15:06:34,terminate,main,workflow_dispatch,1.0,2025-02-07 19:15:00.000
+2025-08-18 14:46:59,terminate,main,workflow_dispatch,1.0,2025-02-07 19:00:00.000
+2025-08-18 14:41:05,terminate,main,workflow_dispatch,1.0,2025-02-07 08:04:00.000
+2025-08-18 14:35:06,terminate,main,workflow_dispatch,1.0,2025-02-07 08:02:00.000
+2025-08-18 14:04:33,terminate,main,workflow_dispatch,1.0,2025-02-06 08:03:00.000
+2025-08-18 13:54:50,terminate,main,,1.0,2025-02-04 21:30:00.000
+2025-08-18 13:49:27,initiate,main,,1.0,2025-02-04 21:30:00.000
+2025-08-18 12:14:44,initiate,main,,1.0,2025-02-04 21:30:00.000
+2025-08-18 11:57:42,terminate,main,workflow_dispatch,1.0,2025-02-04 21:30:00.000
+2025-08-18 11:42:41,terminate,main,workflow_dispatch,1.0,2025-02-04 21:30:00.000
+2025-08-18 11:18:37,terminate,main,,1.0,2025-02-04 21:30:00.000
+2025-08-18 11:04:20,terminate,main,,1.0,2025-02-04 21:30:00.000
+2025-08-18 10:27:58,terminate,main,workflow_dispatch,1.0,2025-02-04 21:30:00.000
+2025-08-18 10:05:20,initiate,main,workflow_dispatch,1.0,2025-02-04 21:30:00.000
+2025-08-18 09:42:50,terminate,main,workflow_dispatch,1.0,2025-02-04 19:30:00.000
+2025-08-18 08:53:50,terminate,main,workflow_dispatch,1.0,2025-02-04 19:15:00.000
+2025-08-16 20:36:09,terminate,main,workflow_dispatch,1.0,2025-02-04 19:00:00.000
+2025-08-16 20:09:53,terminate,main,workflow_dispatch,1.0,2025-02-04 08:01:00.000
+2025-08-16 19:46:53,terminate,main,workflow_dispatch,1.0,2025-02-01 21:00:00.000
+2025-08-16 19:26:44,terminate,main,workflow_dispatch,1.0,2025-02-01 21:00:00.000
+2025-08-16 17:23:28,terminate,main,workflow_dispatch,1.0,2025-02-01 19:00:00.000
+2025-08-16 17:02:44,terminate,main,workflow_dispatch,1.0,2025-01-31 19:30:00.000
+2025-08-16 16:53:44,terminate,main,workflow_dispatch,1.0,2025-01-31 19:00:00.000
+2025-08-16 12:17:04,terminate,main,workflow_dispatch,1.0,2025-01-31 08:02:00.000
+2025-08-16 11:54:18,terminate,main,workflow_dispatch,1.0,2025-01-31 08:01:00.000
+2025-08-16 11:43:11,terminate,main,workflow_dispatch,1.0,2025-01-29 19:15:00.000
+2025-08-16 07:39:44,terminate,main,workflow_dispatch,1.0,2025-01-29 19:00:00.000
+2025-08-16 07:33:12,terminate,main,workflow_dispatch,1.0,2025-01-28 08:05:00.000
+2025-08-15 21:19:20,terminate,main,workflow_dispatch,1.0,2025-01-28 08:03:00.000
+2025-08-15 21:08:02,terminate,main,workflow_dispatch,1.0,2025-01-28 08:02:00.000
+2025-08-15 20:07:45,terminate,main,workflow_dispatch,1.0,2025-01-28 08:01:00.000
+2025-08-15 16:23:24,terminate,main,workflow_dispatch,1.0,2025-01-25 21:00:00.000
+2025-08-15 15:46:15,terminate,main,workflow_dispatch,1.0,2025-01-25 19:00:00.000
+2025-08-15 15:40:49,terminate,main,workflow_dispatch,1.0,2025-01-25 08:05:00.000
+2025-08-15 14:22:25,terminate,main,workflow_dispatch,1.0,2025-01-24 19:30:00.000
+2025-08-15 14:14:53,terminate,main,workflow_dispatch,1.0,2025-01-24 19:15:00.000
+2025-08-15 11:51:01,terminate,main,workflow_dispatch,1.0,2025-01-24 19:00:00.000
+2025-08-15 11:00:07,terminate,main,workflow_dispatch,1.0,2025-01-24 08:01:00.000
+2025-08-15 10:52:23,terminate,main,workflow_dispatch,1.0,2025-01-23 08:02:00.000
+2025-08-14 20:36:09,terminate,main,workflow_dispatch,1.0,2025-01-19 18:00:00.000
+2025-08-14 19:37:47,terminate,main,workflow_dispatch,1.0,2025-01-19 16:00:00.000
+2025-08-14 17:56:33,terminate,main,workflow_dispatch,1.0,2025-01-19 08:05:00.000
+2025-08-14 16:07:09,terminate,main,workflow_dispatch,1.0,2025-01-18 19:00:00.000
+2025-08-14 15:57:34,terminate,main,workflow_dispatch,1.0,2025-01-17 19:30:00.000
+2025-08-14 15:51:20,terminate,main,workflow_dispatch,1.0,2025-01-17 19:00:00.000
+2025-08-14 15:46:03,initiate,main,workflow_dispatch,1.0,2025-01-17 19:00:00.000
+2025-08-14 15:39:57,initiate,main,workflow_dispatch,1.0,2025-01-17 19:00:00.000
+2025-08-14 14:30:41,terminate,main,workflow_dispatch,1.0,2025-01-17 08:04:00.000
+2025-08-14 14:25:39,terminate,main,workflow_dispatch,1.0,2025-01-17 08:02:00.000
+2025-08-14 14:19:06,terminate,main,workflow_dispatch,1.0,2025-01-17 08:01:00.000
+2025-08-14 13:48:33,terminate,main,workflow_dispatch,1.0,2025-01-14 19:15:00.000
+2025-08-14 13:42:07,terminate,main,workflow_dispatch,1.0,2025-01-14 19:00:00.000
+2025-08-14 13:35:47,terminate,main,workflow_dispatch,1.0,2025-01-14 08:05:00.000
+2025-08-14 11:58:33,terminate,main,workflow_dispatch,1.0,2025-01-14 08:04:00.000
+2025-08-14 11:50:44,terminate,main,workflow_dispatch,1.0,2025-01-10 08:01:00.000
+2025-08-14 11:44:10,terminate,main,workflow_dispatch,1.0,2025-01-08 08:04:00.000
+2025-08-13 17:47:09,terminate,main,workflow_dispatch,1.0,2025-01-07 19:00:00.000
+2025-08-13 17:38:14,terminate,main,workflow_dispatch,1.0,2025-01-07 19:00:00.000
+2025-08-13 17:29:18,terminate,main,workflow_dispatch,1.0,2025-01-07 19:00:00
+2025-08-13 17:20:49,terminate,main,workflow_dispatch,1.0,2025-01-07 19:00:00
+2025-08-13 16:46:45,terminate,main,workflow_dispatch,1.0,2025-01-07 19:00:00.000
+2025-08-13 15:39:23,terminate,main,workflow_dispatch,1.0,2025-01-07 08:03:00.000
+2025-08-13 15:33:56,terminate,main,workflow_dispatch,1.0,2025-01-04 08:05:00.000
+2025-08-13 15:28:39,terminate,main,workflow_dispatch,1.0,2025-01-04 08:03:00.000
+2025-08-13 15:13:32,terminate,main,workflow_dispatch,1.0,2025-01-03 08:04:00.000
+2025-08-13 15:08:41,terminate,main,workflow_dispatch,1.0,2025-01-03 08:01:00.000
+2025-08-13 15:03:48,terminate,main,workflow_dispatch,1.0,2024-12-31 08:01:00.000
+2025-08-13 14:14:57,terminate,main,workflow_dispatch,1.0,2024-12-29 08:03:00.000
+2025-08-13 14:08:06,terminate,main,workflow_dispatch,1.0,2024-12-27 08:02:00.000
+2025-08-13 13:58:55,terminate,main,workflow_dispatch,1.0,2024-12-26 08:01:00.000
+2025-08-13 13:50:01,terminate,main,workflow_dispatch,1.0,2024-12-24 08:04:00.000
+2025-08-13 10:00:14,terminate,main,workflow_dispatch,1.0,2024-12-24 08:03:00.000
+2025-08-13 09:54:47,terminate,main,workflow_dispatch,1.0,2024-12-24 08:02:00.000
+2025-08-13 09:49:30,terminate,main,workflow_dispatch,1.0,2024-12-20 08:01:00.000
+2025-08-13 09:40:53,terminate,main,workflow_dispatch,1.0,2024-12-18 08:02:00.000
+2025-08-13 09:26:16,terminate,main,workflow_dispatch,1.0,2024-12-14 08:03:00.000
+2025-08-13 08:59:54,terminate,main,workflow_dispatch,1.0,2024-12-13 08:02:00.000
+2025-08-13 08:43:52,terminate,main,workflow_dispatch,1.0,2024-12-03 08:02:00.000
+2025-08-12 17:14:41,terminate,main,workflow_dispatch,1.0,2024-11-29 08:01:00.000
+2025-08-12 17:06:07,terminate,main,workflow_dispatch,1.0,2024-11-26 08:01:00.000
+2025-08-12 16:56:00,terminate,main,workflow_dispatch,1.0,2024-11-20 08:01:00.000
+2025-08-12 16:31:21,terminate,main,workflow_dispatch,1.0,2024-11-15 08:01:00.000
+2025-08-12 16:19:51,terminate,main,workflow_dispatch,1.0,2024-11-05 08:01:00.000
+2025-08-07 14:12:10,terminate,init_compet,workflow_dispatch,,
+2025-08-07 14:06:32,initiate,init_compet,,1.0,
+2025-08-07 13:57:41,terminate,init_snowflake,workflow_dispatch,,
+2025-08-07 10:26:35,terminate,init_snowflake,workflow_dispatch,,

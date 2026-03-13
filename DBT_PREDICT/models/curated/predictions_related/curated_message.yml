@@ -1,0 +1,7 @@
+version: 2
+
+models:
+
+- name: curated_message
+  tags: ['main']
+  description: Copied from curated_message_check

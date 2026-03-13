@@ -1,0 +1,45 @@
+version: 2
+
+sources:
+  - name: LAND
+    schema: LANDING
+    tables:
+      - name: MESSAGE_CHECK
+        description: This table displays all messages which have yet to be check
+        identifier: LANDING_MESSAGE_CHECK
+        columns:
+
+          - name: FORUM_SOURCE
+            description: The forum source of the message
+            tests:
+              - is_foreign_key:
+                  to_model: ref('curated_forum')
+                  to_column: FORUM_SOURCE
+
+          - name: TOPIC_NUMBER
+            description: The number of the topic on the forum source
+            tests:
+              - is_foreign_key:
+                  to_model: ref('curated_topic')
+                  to_column: TOPIC_NUMBER
+
+          - name: USER
+            description: The user who posted the message
+            tests:
+              - not_null
+
+          - name: MESSAGE_FORUM_ID
+            description: The identification of the message on the forum source
+            tests:
+              - is_integer
+
+          - name: CREATION_TIME_LOCAL
+            description: The time of creation of the message, in the local time of the forum
+            tests:
+              - not_null
+
+          - name: EDITION_TIME_LOCAL
+            description: The time of edition of the message (if edited), in the local time of the forum
+
+          - name: MESSAGE_CONTENT
+            description: The content of the message

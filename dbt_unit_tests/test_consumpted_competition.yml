@@ -1,0 +1,34 @@
+unit_tests:
+  - name: test_consumpted_competition
+    model: consumpted_competition
+    overrides:
+      macros:
+        is_incremental: false
+    given:
+
+      - input: curated_competition
+        format: csv
+        rows: |
+          COMPETITION_KEY,SEASON_KEY,COMPETITION_ID,COMPETITION_SOURCE,COMPETITION_LABEL,IS_SAME_FOR_PREDICTCHAMP
+          b4f9f4a906d6d0ea7888986295e7daae,b1758314d62ca5e4ef9bde412bcd45c7,RS,LNB,REGULAR SEASON,1
+          6fe7b754e810208ceef10d4d8a4e6a07,ab79b12cfeaf0cc39dc7676a91fa737a,PO,LNB,PLAY OFFS,0
+
+      - input: curated_season
+        format: csv
+        rows: |
+          SEASON_KEY,SEASON_ID,SEASON_SPORT,SEASON_COUNTRY,SEASON_NAME,SEASON_DIVISION,SEASON_TEAMCHOICE_DEADLINE
+          ab79b12cfeaf0cc39dc7676a91fa737a,S1,BASKETBALL,FRANCE,2024-2025,PROB,2025-05-09
+          b1758314d62ca5e4ef9bde412bcd45c7,S2,BASKETBALL,FRANCE,2025-2026,ELITE2,2026-01-23
+
+      - input: local_time
+        format: csv
+        rows: |
+          COUNTRY,TIMEZONE
+          FRANCE,Europe/Paris
+
+    expect:
+      format: csv
+      rows: |
+        COMPETITION_KEY,SEASON_KEY,COMPETITION_ID,COMPETITION_SOURCE,COMPETITION_LABEL,IS_SAME_FOR_PREDICTCHAMP
+        b4f9f4a906d6d0ea7888986295e7daae,b1758314d62ca5e4ef9bde412bcd45c7,RS,LNB,REGULAR SEASON,1
+        6fe7b754e810208ceef10d4d8a4e6a07,ab79b12cfeaf0cc39dc7676a91fa737a,PO,LNB,PLAY OFFS,0

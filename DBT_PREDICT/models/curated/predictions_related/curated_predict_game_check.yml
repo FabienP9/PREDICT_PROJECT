@@ -1,0 +1,98 @@
+models:
+
+- name: curated_predict_game_check
+  description: Relates predictions to games and refines potential typographical errors
+  columns:
+  - name: PREDICT_GAME_KEY
+    description: Primary key based on FORUM_SOURCE , MESSAGE_FORUM_ID and PREDICT_ID
+    tests:
+      - unique
+      - not_null
+
+  - name: MESSAGE_EDITION_KEY
+    description: Foreign key to match a prediction with a message and its edition time
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_message_check')
+          to_column: MESSAGE_EDITION_KEY
+
+  - name: SEASON_KEY
+    description: Foreign key to match a game prediction with a season
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_season')
+          to_column: SEASON_KEY
+
+  - name: USER_KEY
+    description: Foreign key to match a game prediction with a user
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_user')
+          to_column: USER_KEY
+
+  - name: FORUM_KEY
+    description: Foreign key to match a game prediction with a forum
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_forum')
+          to_column: FORUM_KEY
+
+  - name: EDITION_TIME_LOCAL
+    description: The time of edition (or creation if not edited) of the message in the timezone of the forum. 
+    tests:
+      - not_null
+
+  - name: EDITION_TIME_UTC
+    description: The time of edition  (or creation if not edited) of the message in utc time. 
+    tests:
+      - not_null
+
+  - name: GAME_KEY
+    description: Foreign key to match a game prediction with a game
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_game')
+          to_column: GAME_KEY
+
+  - name: PREDICT_ID
+    description: The id of the game prediction
+    tests:
+      - not_null
+
+  - name: PREDICT_RAW
+    description: The raw value of the game prediction
+    tests:
+      - not_null
+
+  - name: PREDICT
+    description: The prediction value refined, should be a strict integer
+    tests:
+      - is_integer
+
+  - name: IS_PREDICTION_FROM_MESSAGE
+    description: Boolean to know if a game prediction is from prediction directly (1) or from correction (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: IS_PROGRAM_REFINEMENT
+    description: Boolean to know if a corrected prediction is because of the program refinement (1) or because of an error from the user (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: IS_LAST_ONTIME
+    description: Boolean to know if a game prediction is the last ontime before the beginning of the game (1) or not (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
+  - name: UPDATED_AT_UTC
+    description: The datetime of update in utc timezone
+    tests:
+      - not_null
+
+  - name: UPDATED_AT_LOCAL
+    description: The datetime of update in local forum country timezone
+    tests:
+      - not_null

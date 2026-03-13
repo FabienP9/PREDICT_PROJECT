@@ -1,0 +1,57 @@
+models:
+- name: curated_season
+  tags: ['init_compet']
+  description: The curated_season store all seasons we focus on
+  columns:
+
+  - name: SEASON_KEY
+    description: Primary key based on SEASON_ID
+    tests:
+      - unique
+      - not_null
+
+  - name: SEASON_ID
+    description: The business id, coming from input files. SEASON_KEY is based on it
+    tests:
+      - not_null
+
+  - name: SEASON_SPORT
+    description: The sport related with the season
+    tests:
+      - not_null
+
+  - name: SEASON_COUNTRY
+    description: |
+      The country in which the season is played. 
+      We get local and utc time based on it, via local_time seed
+    tests:
+      - is_foreign_key:
+          to_model: ref('local_time')
+          to_column: COUNTRY 
+
+  - name: SEASON_NAME
+    description: The name of the season (typically year range of the season ex 2025-2026)
+    tests:
+      - not_null
+
+  - name: SEASON_DIVISION
+    description: The division of the season
+    tests:
+      - not_null
+
+  - name: SEASON_TEAMCHOICE_DEADLINE
+    description: |
+      The deadline for team choice. The team chosen by a user will have its point for the prediction championship
+      Any changes made after the deadline will not be considered.
+    tests:
+      - not_null
+
+  - name: UPDATED_AT_UTC
+    description: The datetime of update in utc timezone
+    tests:
+      - not_null
+
+  - name: UPDATED_AT_LOCAL
+    description: The datetime of update in local season country timezone
+    tests:
+      - not_null

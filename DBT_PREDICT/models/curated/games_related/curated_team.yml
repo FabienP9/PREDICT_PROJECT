@@ -1,0 +1,31 @@
+models:
+
+- name: curated_team
+  tags: ['init_compet']
+  description: Get all distinct teams  per season from game landing table
+  columns:
+  - name: TEAM_KEY
+    description: Primary key, per season, based on TEAM_NAME and SEASON_ID
+    tests:
+      - unique
+      - not_null
+
+  - name: SEASON_KEY
+    description: Foreign key to match a team with a season
+    tests:
+      - is_foreign_key:
+          to_model: ref('curated_season')
+          to_column: SEASON_KEY
+
+  - name: TEAM_NAME
+    description: The name of the team
+
+  - name: UPDATED_AT_UTC
+    description: The datetime of update in utc timezone
+    tests:
+      - not_null
+
+  - name: UPDATED_AT_LOCAL
+    description: The datetime of update in local season country timezone
+    tests:
+      - not_null

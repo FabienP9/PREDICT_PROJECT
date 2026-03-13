@@ -1,0 +1,1290 @@
+
+<!DOCTYPE html>
+<html dir="ltr" lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title></title>
+
+
+	<link rel="canonical" href="">
+
+<!--
+	phpBB style name: prosilver
+	Based on style:   prosilver (this is the default phpBB3 style)
+	Original author:  Tom Beddard ( http://www.subBlue.com/ )
+	Modified by:
+-->
+
+<link href="./assets/css/font-awesome.min.css?assets_version=79" rel="stylesheet">
+<link href="./styles/prosilver/theme/stylesheet.css?assets_version=79" rel="stylesheet">
+<link href="./styles/prosilver/theme/fr/stylesheet.css?assets_version=79" rel="stylesheet">
+
+
+
+
+<!--[if lte IE 9]>
+	<link href="./styles/prosilver/theme/tweaks.css?assets_version=79" rel="stylesheet">
+<![endif]-->
+
+
+
+
+
+</head>
+<body id="phpbb" class="nojs notouch section-viewtopic ltr ">
+
+
+<div id="wrap" class="wrap">
+	<a id="top" class="top-anchor" accesskey="t"></a>
+	<div id="page-header">
+		<div class="headerbar" role="banner">
+					<div class="inner">
+
+			<div id="site-description" class="site-description">
+		<a id="logo" class="logo" href="./index.php" title="Forum">
+					<span class="site_logo"></span>
+				</a>
+				<h1></h1>
+				<p></p>
+				<p class="skiplink"><a href="#start_here">Vers le contenu</a></p>
+			</div>
+
+									
+			</div>
+					</div>
+				<div class="navbar" role="navigation">
+	<div class="inner">
+
+	<ul id="nav-main" class="nav-main linklist" role="menubar">
+
+		<li id="quick-links" class="quick-links dropdown-container responsive-menu hidden" data-skip-responsive="true">
+			<a href="#" class="dropdown-trigger">
+				<i class="icon fa-bars fa-fw" aria-hidden="true"></i><span>Accès rapide</span>
+			</a>
+			<div class="dropdown">
+				<div class="pointer"><div class="pointer-inner"></div></div>
+				<ul class="dropdown-contents" role="menu">
+					
+					
+										<li class="separator"></li>
+
+									</ul>
+			</div>
+		</li>
+
+				<li data-skip-responsive="true">
+			<a href="/app.php/help/faq" rel="help" title="Foire aux questions (Questions posées fréquemment)" role="menuitem">
+				<i class="icon fa-question-circle fa-fw" aria-hidden="true"></i><span>FAQ</span>
+			</a>
+		</li>
+						
+			<li class="rightside"  data-skip-responsive="true">
+			<a href="./ucp.php?mode=login&amp;redirect=viewtopic.php%3Ft%3D108506" title="Connexion" accesskey="x" role="menuitem">
+				<i class="icon fa-power-off fa-fw" aria-hidden="true"></i><span>Connexion</span>
+			</a>
+		</li>
+					<li class="rightside" data-skip-responsive="true">
+				<a href="./ucp.php?mode=register" role="menuitem">
+					<i class="icon fa-pencil-square-o  fa-fw" aria-hidden="true"></i><span>S’enregistrer</span>
+				</a>
+			</li>
+						</ul>
+
+	<ul id="nav-breadcrumbs" class="nav-breadcrumbs linklist navlinks" role="menubar">
+				
+		
+		<li class="breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
+
+			
+							<span class="crumb" itemtype="https://schema.org/ListItem" itemprop="itemListElement" itemscope><a itemprop="item" href="./index.php" accesskey="h" data-navbar-reference="index"><i class="icon fa-home fa-fw"></i><span itemprop="name"></span></a><meta itemprop="position" content="1" /></span>
+
+											
+								<span class="crumb" itemtype="https://schema.org/ListItem" itemprop="itemListElement" itemscope data-forum-id="20"><a itemprop="item" href="./viewforum.php?f=20"><span itemprop="name">France - LNB</span></a><meta itemprop="position" content="2" /></span>
+															
+								<span class="crumb" itemtype="https://schema.org/ListItem" itemprop="itemListElement" itemscope data-forum-id="2"><a itemprop="item" href="./viewforum.php?f=2"><span itemprop="name">Pro B</span></a><meta itemprop="position" content="3" /></span>
+							
+					</li>
+
+		
+			</ul>
+
+	</div>
+</div>
+	</div>
+
+	
+	<a id="start_here" class="anchor"></a>
+	<div id="page-body" class="page-body" role="main">
+		
+		
+<h2 class="topic-title"><a href="./viewtopic.php?t=108506"></a></h2>
+<!-- NOTE: remove the style="display: none" when you want to have the forum description on the topic body -->
+
+
+
+<div class="action-bar bar-top">
+	
+			<a href="./posting.php?mode=reply&amp;t=108506" class="button" title="Répondre">
+							<span>Répondre</span> <i class="icon fa-reply fa-fw" aria-hidden="true"></i>
+					</a>
+	
+			<div class="dropdown-container dropdown-button-control topic-tools">
+		<span title="Outils de sujet" class="button button-secondary dropdown-trigger dropdown-select">
+			<i class="icon fa-wrench fa-fw" aria-hidden="true"></i>
+			<span class="caret"><i class="icon fa-sort-down fa-fw" aria-hidden="true"></i></span>
+		</span>
+		<div class="dropdown">
+			<div class="pointer"><div class="pointer-inner"></div></div>
+			<ul class="dropdown-contents">
+																												<li>
+					<a href="./viewtopic.php?t=108506&amp;view=print" title="Imprimer le sujet" accesskey="p">
+						<i class="icon fa-print fa-fw" aria-hidden="true"></i><span>Imprimer le sujet</span>
+					</a>
+				</li>
+											</ul>
+		</div>
+	</div>
+	
+	
+			<div class="pagination">
+			285 messages
+							<ul>
+	<li class="dropdown-container dropdown-button-control dropdown-page-jump page-jump">
+		<a class="button button-icon-only dropdown-trigger" href="#" title="Cliquer pour aller à la page…" role="button"><i class="icon fa-level-down fa-rotate-270" aria-hidden="true"></i><span class="sr-only">Page <strong>1</strong> sur <strong>19</strong></span></a>
+		<div class="dropdown">
+			<div class="pointer"><div class="pointer-inner"></div></div>
+			<ul class="dropdown-contents">
+				<li>Aller à la page :</li>
+				<li class="page-jump-form">
+					<input type="number" name="page-number" min="1" max="999999" title="Saisissez le numéro de page où vous souhaitez aller." class="inputbox tiny" data-per-page="15" data-base-url=".&#x2F;viewtopic.php&#x3F;t&#x3D;108506" data-start-name="start" />
+					<input class="button2" value="Aller" type="button" />
+				</li>
+			</ul>
+		</div>
+	</li>
+		<li class="active"><span>1</span></li>
+				<li><a class="button" href="./viewtopic.php?t=108506&amp;start=15" role="button">2</a></li>
+				<li><a class="button" href="./viewtopic.php?t=108506&amp;start=30" role="button">3</a></li>
+				<li><a class="button" href="./viewtopic.php?t=108506&amp;start=45" role="button">4</a></li>
+				<li><a class="button" href="./viewtopic.php?t=108506&amp;start=60" role="button">5</a></li>
+			<li class="ellipsis" role="separator"><span>…</span></li>
+				<li><a class="button" href="./viewtopic.php?t=108506&amp;start=270" role="button">19</a></li>
+				<li class="arrow next"><a class="button button-icon-only" href="./viewtopic.php?t=108506&amp;start=15" rel="next" role="button"><i class="icon fa-chevron-right fa-fw" aria-hidden="true"></i><span class="sr-only">Suivante</span></a></li>
+	</ul>
+					</div>
+		</div>
+
+
+
+
+			<div id="p1" class="post has-profile bg2">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile1">
+			<dt class="has-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=25574" class="username">USER1</a>							</dt>
+
+						<dd class="profile-rank">All Star</dd>			
+		<dd class="profile-posts"><strong>Messages :</strong> 1653</dd>		<dd class="profile-joined"><strong>Enregistré le :</strong> lun. 21 sept. 2009 17:11</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content1">
+
+					<h3 class="first">
+						<a href="./viewtopic.php?p=1#p1">[PRONO 24/25 - PRONOS] Saison terminée - Bel été à tous</a>
+		</h3>
+
+													<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;p=1" title="Répondre en citant le message" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Citer</span>
+							</a>
+						</li>
+														</ul>
+							
+						<p class="author">
+									<a class="unread" href="./viewtopic.php?p=1#p1" title="Message">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Message</span>
+					</a>
+								<span class="responsive-hide">par <strong><a href="./memberlist.php?mode=viewprofile&amp;u=25574" class="username">USER1</a></strong> &raquo; </span><time datetime="2025-01-07T08:54:46+00:00">mar. 07 janv. 2025 9:54</time>
+			</p>
+			
+			
+			
+			
+			<div class="content">*****blabla1</div>
+
+			
+			
+													
+			
+						
+										
+						</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Haut">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Haut</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+				<div id="p2" class="post has-profile bg1">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile2">
+			<dt class="has-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=25574" class="username">USER1</a>							</dt>
+
+						<dd class="profile-rank">All Star</dd>			
+		<dd class="profile-posts"><strong>Messages :</strong> 1653</dd>		<dd class="profile-joined"><strong>Enregistré le :</strong> lun. 21 sept. 2009 17:11</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content2">
+
+					<h3 >
+						<a href="./viewtopic.php?p=2#p2">Re: [PRONO 24/25] Prono J20 a faire avant le 14/01 20h</a>
+		</h3>
+
+													<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;p=2" title="Répondre en citant le message" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Citer</span>
+							</a>
+						</li>
+														</ul>
+							
+						<p class="author">
+									<a class="unread" href="./viewtopic.php?p=2#p2" title="Message">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Message</span>
+					</a>
+								<span class="responsive-hide">par <strong><a href="./memberlist.php?mode=viewprofile&amp;u=25574" class="username">USER1</a></strong> &raquo; </span><time datetime="2025-01-07T08:55:59+00:00">mar. 07 janv. 2025 9:55</time>
+			</p>
+			
+			
+			
+			
+			<div class="content">+++++blabla2</div>
+
+			
+			
+													
+			
+						
+										
+						</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Haut">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Haut</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+				<div id="p3" class="post has-profile bg2">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile3">
+			<dt class="has-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=25574" class="username">USER1</a>							</dt>
+
+						<dd class="profile-rank">All Star</dd>			
+		<dd class="profile-posts"><strong>Messages :</strong> 1653</dd>		<dd class="profile-joined"><strong>Enregistré le :</strong> lun. 21 sept. 2009 17:11</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content3">
+
+					<h3 >
+						<a href="./viewtopic.php?p=3#p3">Re: [PRONO 24/25] Prono J20 a faire avant le 14/01 20h</a>
+		</h3>
+
+													<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;p=3" title="Répondre en citant le message" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Citer</span>
+							</a>
+						</li>
+														</ul>
+							
+						<p class="author">
+									<a class="unread" href="./viewtopic.php?p=3#p3" title="Message">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Message</span>
+					</a>
+								<span class="responsive-hide">par <strong><a href="./memberlist.php?mode=viewprofile&amp;u=25574" class="username">USER1</a></strong> &raquo; </span><time datetime="2025-01-07T08:56:33+00:00">mar. 07 janv. 2025 9:56</time>
+			</p>
+			
+			
+			
+			
+			<div class="content">blabla3
+			
+			</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Haut">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Haut</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+				<div id="p4" class="post has-profile bg1">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile4">
+			<dt class="has-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=57540" class="username">USER2</a>							</dt>
+
+						<dd class="profile-rank">Sophomore</dd>			
+		<dd class="profile-posts"><strong>Messages :</strong> 225</dd>		<dd class="profile-joined"><strong>Enregistré le :</strong> lun. 01 nov. 2021 21:32</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content4">
+
+					<h3 >
+						<a href="./viewtopic.php?p=4#p4">Re: [PRONO 24/25] Prono J20 a faire avant le 14/01 20h</a>
+		</h3>
+
+													<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;p=4" title="Répondre en citant le message" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Citer</span>
+							</a>
+						</li>
+														</ul>
+							
+						<p class="author">
+									<a class="unread" href="./viewtopic.php?p=4#p4" title="Message">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Message</span>
+					</a>
+								<span class="responsive-hide">par <strong><a href="./memberlist.php?mode=viewprofile&amp;u=57540" class="username">USER2</a></strong> &raquo; </span><time datetime="2025-01-07T09:53:42+00:00">mar. 07 janv. 2025 10:53</time>
+			</p>
+			
+			
+			
+			
+			<div class="content">blabla4</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Haut">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Haut</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+				<div id="p5" class="post has-profile bg2">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile5">
+			<dt class="has-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=11171" class="username">USER3</a>							</dt>
+
+						<dd class="profile-rank">All Star</dd>			
+		<dd class="profile-posts"><strong>Messages :</strong> 1718</dd>		<dd class="profile-joined"><strong>Enregistré le :</strong> mer. 27 sept. 2006 18:31</dd>		
+		
+											<dd class="profile-custom-field profile-phpbb_location"><strong>Localisation :</strong> BLOIS</dd>
+							
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content5">
+
+					<h3 >
+						<a href="./viewtopic.php?p=5#p5">Re: [PRONO 24/25] Prono J20 a faire avant le 14/01 20h</a>
+		</h3>
+
+													<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;p=5" title="Répondre en citant le message" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Citer</span>
+							</a>
+						</li>
+														</ul>
+							
+						<p class="author">
+									<a class="unread" href="./viewtopic.php?p=5#p5" title="Message">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Message</span>
+					</a>
+								<span class="responsive-hide">par <strong><a href="./memberlist.php?mode=viewprofile&amp;u=11171" class="username">USER3</a></strong> &raquo; </span><time datetime="2025-01-08T10:35:58+00:00">mer. 08 janv. 2025 11:35</time>
+			</p>
+			
+			
+			
+			
+			<div class="content">blabla5</div>
+
+			
+			
+													
+			
+						
+							<div id="sig5" class="signature">ada.ada ada <img class="smilies" src="./images/smilies/eusa_clap.gif" width="19" height="16" alt="=D&gt;" title="Applause"></div>			
+						</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Haut">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Haut</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+				<div id="p6" class="post has-profile bg1">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile6">
+			<dt class="has-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=25574" class="username">USER1</a>							</dt>
+
+						<dd class="profile-rank">All Star</dd>			
+		<dd class="profile-posts"><strong>Messages :</strong> 1653</dd>		<dd class="profile-joined"><strong>Enregistré le :</strong> lun. 21 sept. 2009 17:11</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content6">
+
+					<h3 >
+						<a href="./viewtopic.php?p=6#p6">Re: [PRONO 24/25] Prono J20 a faire avant le 14/01 20h</a>
+		</h3>
+
+													<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;p=6" title="Répondre en citant le message" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Citer</span>
+							</a>
+						</li>
+														</ul>
+							
+						<p class="author">
+									<a class="unread" href="./viewtopic.php?p=6#p6" title="Message">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Message</span>
+					</a>
+								<span class="responsive-hide">par <strong><a href="./memberlist.php?mode=viewprofile&amp;u=25574" class="username">USER1</a></strong> &raquo; </span><time datetime="2025-01-08T11:17:39+00:00">mer. 08 janv. 2025 12:17</time>
+			</p>
+			
+			
+			
+			
+			<div class="content">*****blabla6
+
+<blockquote class="uncited"><div>blabla6 quoted
+</div></blockquote>
+
+blabla6bis</div>
+
+			
+			
+													
+			
+						
+										
+						</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Haut">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Haut</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+				<div id="p7" class="post has-profile bg2">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile7">
+			<dt class="has-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=48675" class="username">USER4</a>							</dt>
+
+						<dd class="profile-rank">Hall Of Famer</dd>			
+		<dd class="profile-posts"><strong>Messages :</strong> 6580</dd>		<dd class="profile-joined"><strong>Enregistré le :</strong> lun. 05 sept. 2016 20:20</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content7">
+
+					<h3 >
+						<a href="./viewtopic.php?p=7#p7">Re: [PRONO 24/25] Prono J20 a faire avant le 14/01 20h</a>
+		</h3>
+
+													<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;p=7" title="Répondre en citant le message" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Citer</span>
+							</a>
+						</li>
+														</ul>
+							
+						<p class="author">
+									<a class="unread" href="./viewtopic.php?p=7#p7" title="Message">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Message</span>
+					</a>
+								<span class="responsive-hide">par <strong><a href="./memberlist.php?mode=viewprofile&amp;u=48675" class="username">USER4</a></strong> &raquo; </span><time datetime="2025-01-08T21:59:00+00:00">mer. 08 janv. 2025 22:59</time>
+			</p>
+			
+			
+			
+			
+			<div class="content">blabla7</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Haut">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Haut</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+				<div id="p8" class="post has-profile bg1">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile8">
+			<dt class="has-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=22027" class="username">USER5</a>							</dt>
+
+						<dd class="profile-rank">All Star</dd>			
+		<dd class="profile-posts"><strong>Messages :</strong> 1665</dd>		<dd class="profile-joined"><strong>Enregistré le :</strong> mer. 27 août 2008 13:09</dd>		
+		
+											<dd class="profile-custom-field profile-phpbb_location"><strong>Localisation :</strong> Saint-memmie</dd>
+							
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content8">
+
+					<h3 >
+						<a href="./viewtopic.php?p=8#p8">Re: [PRONO 24/25] Prono J20 a faire avant le 14/01 20h</a>
+		</h3>
+
+													<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;p=8" title="Répondre en citant le message" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Citer</span>
+							</a>
+						</li>
+														</ul>
+							
+						<p class="author">
+									<a class="unread" href="./viewtopic.php?p=8#p8" title="Message">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Message</span>
+					</a>
+								<span class="responsive-hide">par <strong><a href="./memberlist.php?mode=viewprofile&amp;u=22027" class="username">USER5</a></strong> &raquo; </span><time datetime="2025-01-09T18:43:27+00:00">jeu. 09 janv. 2025 19:43</time>
+			</p>
+			
+			
+			
+			
+			<div class="content">blabla8</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Haut">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Haut</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+				<div id="p9" class="post has-profile bg2">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile9">
+			<dt class="has-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=24219" class="username">USER6</a>							</dt>
+
+						<dd class="profile-rank">Hall Of Famer</dd>			
+		<dd class="profile-posts"><strong>Messages :</strong> 12829</dd>		<dd class="profile-joined"><strong>Enregistré le :</strong> ven. 10 avr. 2009 22:27</dd>		
+		
+											<dd class="profile-custom-field profile-phpbb_location"><strong>Localisation :</strong> CBC</dd>
+							
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content9">
+
+					<h3 >
+						<a href="./viewtopic.php?p=9#p9">Re: [PRONO 24/25] Prono J20 a faire avant le 14/01 20h</a>
+		</h3>
+
+													<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;p=9" title="Répondre en citant le message" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Citer</span>
+							</a>
+						</li>
+														</ul>
+							
+						<p class="author">
+									<a class="unread" href="./viewtopic.php?p=9#p9" title="Message">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Message</span>
+					</a>
+								<span class="responsive-hide">par <strong><a href="./memberlist.php?mode=viewprofile&amp;u=24219" class="username">USER6</a></strong> &raquo; </span><time datetime="2025-01-09T20:06:17+00:00">jeu. 09 janv. 2025 21:06</time>
+			</p>
+			
+			
+			
+			
+			<div class="content">blabla9</div>
+
+			
+			
+									
+						
+							<div id="sig9" class="signature">Goelands GOOOOOOO !!!!</div>			
+						</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Haut">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Haut</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+				<div id="p10" class="post has-profile bg1">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile10">
+			<dt class="has-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=25574" class="username">USER1</a>							</dt>
+
+						<dd class="profile-rank">All Star</dd>			
+		<dd class="profile-posts"><strong>Messages :</strong> 1653</dd>		<dd class="profile-joined"><strong>Enregistré le :</strong> lun. 21 sept. 2009 17:11</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content10">
+
+					<h3 >
+						<a href="./viewtopic.php?p=10#p10">Re: [PRONO 24/25] Prono J20 a faire avant le 14/01 20h</a>
+		</h3>
+
+													<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;p=10" title="Répondre en citant le message" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Citer</span>
+							</a>
+						</li>
+														</ul>
+							
+						<p class="author">
+									<a class="unread" href="./viewtopic.php?p=10#p10" title="Message">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Message</span>
+					</a>
+								<span class="responsive-hide">par <strong><a href="./memberlist.php?mode=viewprofile&amp;u=25574" class="username">USER1</a></strong> &raquo; </span><time datetime="2025-01-13T17:47:43+00:00">lun. 13 janv. 2025 18:47</time>
+			</p>
+			
+			
+			
+			
+			<div class="content">blabla10</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Haut">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Haut</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+				<div id="p11" class="post has-profile bg2">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile11">
+			<dt class="has-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=55132" class="username">USER7</a>							</dt>
+
+						<dd class="profile-rank">Sophomore</dd>			
+		<dd class="profile-posts"><strong>Messages :</strong> 461</dd>		<dd class="profile-joined"><strong>Enregistré le :</strong> jeu. 13 févr. 2020 19:56</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content11">
+
+					<h3 >
+						<a href="./viewtopic.php?p=11#p11">Re: [PRONO 24/25] Prono J20 a faire avant le 14/01 20h</a>
+		</h3>
+
+													<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;p=11" title="Répondre en citant le message" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Citer</span>
+							</a>
+						</li>
+														</ul>
+							
+						<p class="author">
+									<a class="unread" href="./viewtopic.php?p=11#p11" title="Message">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Message</span>
+					</a>
+								<span class="responsive-hide">par <strong><a href="./memberlist.php?mode=viewprofile&amp;u=55132" class="username">USER7</a></strong> &raquo; </span><time datetime="2025-01-14T11:59:15+00:00">mar. 14 janv. 2025 12:59</time>
+			</p>
+			
+			
+			
+			
+			<div class="content">blabla11</div>
+
+			
+			
+									
+						
+										
+						</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Haut">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Haut</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+				<div id="p12" class="post has-profile bg1">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile12">
+			<dt class="has-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=25574" class="username">USER1</a>							</dt>
+
+						<dd class="profile-rank">All Star</dd>			
+		<dd class="profile-posts"><strong>Messages :</strong> 1653</dd>		<dd class="profile-joined"><strong>Enregistré le :</strong> lun. 21 sept. 2009 17:11</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content12">
+
+					<h3 >
+						<a href="./viewtopic.php?p=12#p12">Re: [PRONO 24/25] Prono J20 a faire avant le 14/01 20h</a>
+		</h3>
+
+													<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;p=12" title="Répondre en citant le message" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Citer</span>
+							</a>
+						</li>
+														</ul>
+							
+						<p class="author">
+									<a class="unread" href="./viewtopic.php?p=12#p12" title="Message">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Message</span>
+					</a>
+								<span class="responsive-hide">par <strong><a href="./memberlist.php?mode=viewprofile&amp;u=25574" class="username">USER1</a></strong> &raquo; </span><time datetime="2025-01-15T13:33:02+00:00">mer. 15 janv. 2025 14:33</time>
+			</p>
+			
+			
+			
+			
+			<div class="content">+++++blabla12 
+			</div>
+
+			
+			
+									
+						
+										
+						</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Haut">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Haut</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+				<div id="p13" class="post has-profile bg2">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile13">
+			<dt class="has-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=22027" class="username">USER5</a>							</dt>
+
+						<dd class="profile-rank">All Star</dd>			
+		<dd class="profile-posts"><strong>Messages :</strong> 1665</dd>		<dd class="profile-joined"><strong>Enregistré le :</strong> mer. 27 août 2008 13:09</dd>		
+		
+											<dd class="profile-custom-field profile-phpbb_location"><strong>Localisation :</strong> Saint-memmie</dd>
+							
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content13">
+
+					<h3 >
+						<a href="./viewtopic.php?p=13#p13">Re: [PRONO 24/25] Prono J21 a faire avant le 24/01 20h</a>
+		</h3>
+
+													<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;p=13" title="Répondre en citant le message" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Citer</span>
+							</a>
+						</li>
+														</ul>
+							
+						<p class="author">
+									<a class="unread" href="./viewtopic.php?p=13#p13" title="Message">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Message</span>
+					</a>
+								<span class="responsive-hide">par <strong><a href="./memberlist.php?mode=viewprofile&amp;u=22027" class="username">USER5</a></strong> &raquo; </span><time datetime="2025-01-15T20:55:14+00:00">mer. 15 janv. 2025 21:55</time>
+			</p>
+			
+			
+			
+			
+			<div class="content">blabla13</div>
+
+			
+			
+									
+						
+							<div id="sig13" class="signature"></div>			
+						</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Haut">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Haut</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+				<div id="p14" class="post has-profile bg1">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile14">
+			<dt class="has-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=25574" class="username">USER1</a>							</dt>
+
+						<dd class="profile-rank">All Star</dd>			
+		<dd class="profile-posts"><strong>Messages :</strong> 1653</dd>		<dd class="profile-joined"><strong>Enregistré le :</strong> lun. 21 sept. 2009 17:11</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content14">
+
+					<h3 >
+						<a href="./viewtopic.php?p=14#p14">Re: [PRONO 24/25] Prono J21 a faire avant le 24/01 20h</a>
+		</h3>
+
+													<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;p=14" title="Répondre en citant le message" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Citer</span>
+							</a>
+						</li>
+														</ul>
+							
+						<p class="author">
+									<a class="unread" href="./viewtopic.php?p=14#p14" title="Message">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Message</span>
+					</a>
+								<span class="responsive-hide">par <strong><a href="./memberlist.php?mode=viewprofile&amp;u=25574" class="username">USER1</a></strong> &raquo; </span><time datetime="2025-01-20T08:42:11+00:00">lun. 20 janv. 2025 9:42</time>
+			</p>
+			
+			
+			
+			
+			<div class="content">blabla14</div>
+
+			
+			
+									
+						
+										
+						</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Haut">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Haut</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+				<div id="p15" class="post has-profile bg2">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile15">
+			<dt class="has-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=11171" class="username">USER3</a>							</dt>
+
+						<dd class="profile-rank">All Star</dd>			
+		<dd class="profile-posts"><strong>Messages :</strong> 1718</dd>		<dd class="profile-joined"><strong>Enregistré le :</strong> mer. 27 sept. 2006 18:31</dd>		
+		
+											<dd class="profile-custom-field profile-phpbb_location"><strong>Localisation :</strong> BLOIS</dd>
+							
+						
+		</dl>
+
+		<div class="postbody">
+						<div id="post_content15">
+
+					<h3 >
+						<a href="./viewtopic.php?p=15#p15">Re: [PRONO 24/25] Prono J21 a faire avant le 24/01 20h</a>
+		</h3>
+
+													<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;p=15" title="Répondre en citant le message" class="button button-icon-only">
+								<i class="icon fa-quote-left fa-fw" aria-hidden="true"></i><span class="sr-only">Citer</span>
+							</a>
+						</li>
+														</ul>
+							
+						<p class="author">
+									<a class="unread" href="./viewtopic.php?p=15#p15" title="Message">
+						<i class="icon fa-file fa-fw icon-lightgray icon-md" aria-hidden="true"></i><span class="sr-only">Message</span>
+					</a>
+								<span class="responsive-hide">par <strong><a href="./memberlist.php?mode=viewprofile&amp;u=11171" class="username">USER3</a></strong> &raquo; </span><time datetime="2025-01-20T11:39:09+00:00">lun. 20 janv. 2025 12:39</time>
+			</p>
+			
+			
+			
+			
+			<div class="content">blabla15</div>
+
+			
+			
+									
+						
+							<div id="sig15" class="signature">ada.ada ada <img class="smilies" src="./images/smilies/eusa_clap.gif" width="19" height="16" alt="=D&gt;" title="Applause"></div>			
+						</div>
+
+		</div>
+
+				<div class="back2top">
+						<a href="#top" class="top" title="Haut">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+				<span class="sr-only">Haut</span>
+			</a>
+					</div>
+		
+		</div>
+	</div>
+
+	
+
+	<div class="action-bar bar-bottom">
+	
+			<a href="./posting.php?mode=reply&amp;t=108506" class="button" title="Répondre">
+							<span>Répondre</span> <i class="icon fa-reply fa-fw" aria-hidden="true"></i>
+					</a>
+		
+		<div class="dropdown-container dropdown-button-control topic-tools">
+		<span title="Outils de sujet" class="button button-secondary dropdown-trigger dropdown-select">
+			<i class="icon fa-wrench fa-fw" aria-hidden="true"></i>
+			<span class="caret"><i class="icon fa-sort-down fa-fw" aria-hidden="true"></i></span>
+		</span>
+		<div class="dropdown">
+			<div class="pointer"><div class="pointer-inner"></div></div>
+			<ul class="dropdown-contents">
+																												<li>
+					<a href="./viewtopic.php?t=108506&amp;view=print" title="Imprimer le sujet" accesskey="p">
+						<i class="icon fa-print fa-fw" aria-hidden="true"></i><span>Imprimer le sujet</span>
+					</a>
+				</li>
+											</ul>
+		</div>
+	</div>
+
+			<form method="post" action="./viewtopic.php?t=108506">
+		<div class="dropdown-container dropdown-container-left dropdown-button-control sort-tools">
+	<span title="Options d’affichage et de tri" class="button button-secondary dropdown-trigger dropdown-select">
+		<i class="icon fa-sort-amount-asc fa-fw" aria-hidden="true"></i>
+		<span class="caret"><i class="icon fa-sort-down fa-fw" aria-hidden="true"></i></span>
+	</span>
+	<div class="dropdown hidden">
+		<div class="pointer"><div class="pointer-inner"></div></div>
+		<div class="dropdown-contents">
+			<fieldset class="display-options">
+							<label>Afficher : <select name="st" id="st"><option value="0" selected="selected">Tous</option><option value="1">1 jour</option><option value="7">7 jours</option><option value="14">2 semaines</option><option value="30">1 mois</option><option value="90">3 mois</option><option value="180">6 mois</option><option value="365">1 an</option></select></label>
+								<label>Trier par : <select name="sk" id="sk"><option value="a">Auteur</option><option value="t" selected="selected">Date</option><option value="s">Sujet</option></select></label>
+				<label>Ordre : <select name="sd" id="sd"><option value="a" selected="selected">Croissant</option><option value="d">Décroissant</option></select></label>
+								<hr class="dashed" />
+				<input type="submit" class="button2" name="sort" value="Aller" />
+						</fieldset>
+		</div>
+	</div>
+</div>
+		</form>
+	
+	
+	
+			<div class="pagination">
+			285 messages
+							<ul>
+	<li class="dropdown-container dropdown-button-control dropdown-page-jump page-jump">
+		<a class="button button-icon-only dropdown-trigger" href="#" title="Cliquer pour aller à la page…" role="button"><i class="icon fa-level-down fa-rotate-270" aria-hidden="true"></i><span class="sr-only">Page <strong>1</strong> sur <strong>19</strong></span></a>
+		<div class="dropdown">
+			<div class="pointer"><div class="pointer-inner"></div></div>
+			<ul class="dropdown-contents">
+				<li>Aller à la page :</li>
+				<li class="page-jump-form">
+					<input type="number" name="page-number" min="1" max="999999" title="Saisissez le numéro de page où vous souhaitez aller." class="inputbox tiny" data-per-page="15" data-base-url=".&#x2F;viewtopic.php&#x3F;t&#x3D;108506" data-start-name="start" />
+					<input class="button2" value="Aller" type="button" />
+				</li>
+			</ul>
+		</div>
+	</li>
+		<li class="active"><span>1</span></li>
+				<li><a class="button" href="./viewtopic.php?t=108506&amp;start=15" role="button">2</a></li>
+				<li><a class="button" href="./viewtopic.php?t=108506&amp;start=30" role="button">3</a></li>
+				<li><a class="button" href="./viewtopic.php?t=108506&amp;start=45" role="button">4</a></li>
+				<li><a class="button" href="./viewtopic.php?t=108506&amp;start=60" role="button">5</a></li>
+			<li class="ellipsis" role="separator"><span>…</span></li>
+				<li><a class="button" href="./viewtopic.php?t=108506&amp;start=270" role="button">19</a></li>
+				<li class="arrow next"><a class="button button-icon-only" href="./viewtopic.php?t=108506&amp;start=15" rel="next" role="button"><i class="icon fa-chevron-right fa-fw" aria-hidden="true"></i><span class="sr-only">Suivante</span></a></li>
+	</ul>
+					</div>
+	</div>
+
+
+<div class="action-bar actions-jump">
+		<p class="jumpbox-return">
+		<a href="./viewforum.php?f=2" class="left-box arrow-left" accesskey="r">
+			<i class="icon fa-angle-left fa-fw icon-black" aria-hidden="true"></i><span>Retourner vers « Pro B »</span>
+		</a>
+	</p>
+	
+		<div class="jumpbox dropdown-container dropdown-container-right dropdown-up dropdown-left dropdown-button-control" id="jumpbox">
+			<span title="Aller à" class="button button-secondary dropdown-trigger dropdown-select">
+				<span>Aller à</span>
+				<span class="caret"><i class="icon fa-sort-down fa-fw" aria-hidden="true"></i></span>
+			</span>
+		<div class="dropdown">
+			<div class="pointer"><div class="pointer-inner"></div></div>
+			<ul class="dropdown-contents">
+																				<li><a href="./viewforum.php?f=20" class="jumpbox-cat-link"> <span></span></a></li>
+																<li><a href="./viewforum.php?f=1" class="jumpbox-sub-link"><span class="spacer"></span> <span></span></a></li>
+																<li><a href="./viewforum.php?f=2" class="jumpbox-sub-link"><span class="spacer"></span> <span></span></a></li>
+																<li><a href="./viewforum.php?f=21" class="jumpbox-cat-link"> <span></span></a></li>
+																<li><a href="./viewforum.php?f=3" class="jumpbox-sub-link"><span class="spacer"></span> <span></span></a></li>
+																<li><a href="./viewforum.php?f=4" class="jumpbox-sub-link"><span class="spacer"></span> <span></span></a></li>
+																<li><a href="./viewforum.php?f=5" class="jumpbox-sub-link"><span class="spacer"></span> <span></span></a></li>
+																<li><a href="./viewforum.php?f=10" class="jumpbox-sub-link"><span class="spacer"></span> <span></span></a></li>
+																<li><a href="./viewforum.php?f=22" class="jumpbox-cat-link"> <span></span></a></li>
+																<li><a href="./viewforum.php?f=6" class="jumpbox-sub-link"><span class="spacer"></span> <span></span></a></li>
+																<li><a href="./viewforum.php?f=30" class="jumpbox-sub-link"><span class="spacer"></span><span class="spacer"></span> <span></span></a></li>
+																<li><a href="./viewforum.php?f=31" class="jumpbox-sub-link"><span class="spacer"></span><span class="spacer"></span> <span></span></a></li>
+																<li><a href="./viewforum.php?f=32" class="jumpbox-sub-link"><span class="spacer"></span><span class="spacer"></span> <span></span></a></li>
+																<li><a href="./viewforum.php?f=33" class="jumpbox-sub-link"><span class="spacer"></span><span class="spacer"></span> <span></span></a></li>
+																<li><a href="./viewforum.php?f=34" class="jumpbox-sub-link"><span class="spacer"></span><span class="spacer"></span> <span></span></a></li>
+																<li><a href="./viewforum.php?f=35" class="jumpbox-sub-link"><span class="spacer"></span><span class="spacer"></span> <span></span></a></li>
+																<li><a href="./viewforum.php?f=36" class="jumpbox-sub-link"><span class="spacer"></span><span class="spacer"></span> <span></span></a></li>
+																<li><a href="./viewforum.php?f=37" class="jumpbox-sub-link"><span class="spacer"></span><span class="spacer"></span> <span></span></a></li>
+																<li><a href="./viewforum.php?f=23" class="jumpbox-cat-link"> <span> Emploi</span></a></li>
+																<li><a href="./viewforum.php?f=7" class="jumpbox-sub-link"><span class="spacer"></span> <span>&#8627; &nbsp; Emploi</span></a></li>
+																<li><a href="./viewforum.php?f=24" class="jumpbox-cat-link"> <span></span></a></li>
+											</ul>
+		</div>
+	</div>
+
+	</div>
+
+
+
+			</div>
+
+
+<div id="page-footer" class="page-footer" role="contentinfo">
+	<div class="navbar" role="navigation">
+	<div class="inner">
+
+	<ul id="nav-footer" class="nav-footer linklist" role="menubar">
+		<li class="breadcrumbs">
+									<span class="crumb"><a href="./index.php" data-navbar-reference="index"><i class="icon fa-home fa-fw" aria-hidden="true"></i><span></span></a></span>					</li>
+		
+				<li class="rightside">Heures au format <span title="Europe/Paris">UTC+02:00</span></li>
+							<li class="rightside">
+				<a href="./ucp.php?mode=delete_cookies" data-ajax="true" data-refresh="true" role="menuitem">
+					<i class="icon fa-trash fa-fw" aria-hidden="true"></i><span>Supprimer les cookies</span>
+				</a>
+			</li>
+														</ul>
+
+	</div>
+</div>
+
+	<div class="copyright">
+				<p class="footer-row">
+			<span class="footer-copyright">Développé par <a href="https://www.phpbb.com/">phpBB</a>&reg; Forum Software &copy; phpBB Limited</span>
+		</p>
+				<p class="footer-row">
+			<span class="footer-copyright">Traduit par <a href="https://www.phpbb-fr.com">phpBB-fr.com</a></span>
+		</p>
+						<p class="footer-row" role="menu">
+			<a class="footer-link" href="./ucp.php?mode=privacy" title="Confidentialité" role="menuitem">
+				<span class="footer-link-text">Confidentialité</span>
+			</a>
+			|
+			<a class="footer-link" href="./ucp.php?mode=terms" title="Conditions" role="menuitem">
+				<span class="footer-link-text">Conditions</span>
+			</a>
+		</p>
+					</div>
+
+	<div id="darkenwrapper" class="darkenwrapper" data-ajax-error-title="Erreur AJAX" data-ajax-error-text="Quelque chose s’est mal passé lors du traitement de votre demande." data-ajax-error-text-abort="Requête annulée par l’utilisateur." data-ajax-error-text-timeout="Votre demande a expiré. Essayez à nouveau." data-ajax-error-text-parsererror="Quelque chose s’est mal passé lors du traitement de votre demande et le serveur a renvoyé une réponse invalide.">
+		<div id="darken" class="darken">&nbsp;</div>
+	</div>
+
+	<div id="phpbb_alert" class="phpbb_alert" data-l-err="Erreur" data-l-timeout-processing-req="Délai d’attente de la demande dépassé.">
+		<a href="#" class="alert_close">
+			<i class="icon fa-times-circle fa-fw" aria-hidden="true"></i>
+		</a>
+		<h3 class="alert_title">&nbsp;</h3><p class="alert_text"></p>
+	</div>
+	<div id="phpbb_confirm" class="phpbb_alert">
+		<a href="#" class="alert_close">
+			<i class="icon fa-times-circle fa-fw" aria-hidden="true"></i>
+		</a>
+		<div class="alert_text"></div>
+	</div>
+</div>
+
+</div>
+
+<div>
+	<a id="bottom" class="anchor" accesskey="z"></a>
+	<img class="sr-only" aria-hidden="true" src="&#x2F;app.php&#x2F;cron&#x2F;cron.task.core.tidy_warnings" width="1" height="1" alt="">
+</div>
+
+<script src="./assets/javascript/jquery-3.6.0.min.js?assets_version=79"></script>
+<script src="./assets/javascript/core.js?assets_version=79"></script>
+
+
+
+<script src="./styles/prosilver/template/forum_fn.js?assets_version=79"></script>
+<script src="./styles/prosilver/template/ajax.js?assets_version=79"></script>
+
+
+
+</body>
+</html>

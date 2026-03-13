@@ -1,0 +1,130 @@
+# This GitHub actions workflow is intended to run exe_main in test production environment
+# It gets secrets variables, install rclone to interact with dropbox, install dependencies, run python program
+# and send an email to report success or failure with output_need dataframe, check string and next run timestamp values
+name: Run main [Prod - manual output_need]
+
+concurrency:
+  group: predict-run
+  cancel-in-progress: false
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-python:
+    runs-on: ubuntu-latest
+    env:
+      IS_TESTRUN: 0 
+      IS_OUTPUT_AUTO: 0
+      OVERWRITE_GAMES_STATUS: 0
+      BI_URL: ${{ secrets.BI_URL }}
+      BI_USERNAME: ${{ secrets.BI_USERNAME }}
+      BI_PASSWORD: ${{ secrets.BI_PASSWORD }}
+      SNOWFLAKE_USERNAME: ${{ secrets.SNOWFLAKE_USERNAME }}
+      SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+      LNB_URL: ${{ secrets.LNB_URL }}
+      IMGBB_API_KEY: ${{ secrets.IMGBB_API_KEY }}
+      RCLONE_CONFIG_BASE64: ${{ secrets.RCLONE_CONFIG_BASE64 }}
+      GMAIL_USER: ${{ secrets.GMAIL_USER }}
+      RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+      GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install rclone for DropBox 
+        run: | 
+          curl https://rclone.org/install.sh | sudo bash
+          
+      - name: Configure rclone 
+        run: | 
+          mkdir -p ~/.config/rclone 
+          echo "$RCLONE_CONFIG_BASE64" | base64 --decode > ~/.config/rclone/rclone.conf
+          chmod 600 ~/.config/rclone/rclone.conf
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Cache pip packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Send Email if setup or pre-run steps fail
+        if: ${{ failure() }}
+        run: |
+          python - <<EOF
+          import os, smtplib
+          from email.message import EmailMessage
+
+          run_url = f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}"
+          
+          msg = EmailMessage()
+          msg['Subject'] = f'GitHub Action PRE-RUN FAILED - Main Prod / manual'
+          msg.set_content(f"An error occurred before running exe_main.\n\nCheck logs: {run_url}")
+          msg['From'] = os.environ["GMAIL_USER"]
+          msg['To'] = os.environ["RECIPIENT_EMAIL"]
+
+          with smtplib.SMTP("smtp.gmail.com", 587) as server:
+              server.starttls()
+              server.login(os.environ["GMAIL_USER"],os.environ["GMAIL_APP_PASSWORD"])
+              server.send_message(msg)
+          EOF
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Python script
+        run: |
+          set -e
+          cd PYTHON_PREDICT
+          python exe_main.py
+          cd ..
+          echo "output=$(cat PYTHON_PREDICT/exe_output.json | base64 -w0)" >> $GITHUB_ENV
+
+      - name: Send Email (Success or Failure)
+        if: always()
+        run: |
+          python - <<EOF
+          import os, smtplib, json, base64
+          from email.message import EmailMessage
+
+          status = "${{ job.status }}"
+          run_url = f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}"
+          
+          msg = EmailMessage()
+          if status == "success":
+              output_data = json.loads(base64.b64decode(os.environ["output"]).decode())
+              msg['Subject'] = f'GitHub Action SUCCEEDED - Main Prod / manual'
+              msg.add_alternative(f"""
+                <html>
+                  <body>
+                    <p>Succeeded to exe main</p>
+                    <p><u>Output need string:</u><br>
+                      {output_data.get('str_output_need', 'N/A').replace('\n', '<br>')}</p>
+                    <p><u>Next run (UTC):</u> {output_data.get('next_run', 'N/A')}</p>
+                    <p><u>Check string</u>: {output_data.get('check_string', 'N/A')}</p>
+                  </body>
+                </html>
+                """, subtype='html')
+              
+          else:
+              msg['Subject'] = f'GitHub Action FAILED - Main Prod / manual'
+              msg.set_content(f"Failed to exe main \n\nRun logs: {run_url}")
+
+          msg['From'] = os.environ["GMAIL_USER"]
+          msg['To'] = os.environ["RECIPIENT_EMAIL"]
+
+          with smtplib.SMTP("smtp.gmail.com", 587) as server:
+              server.starttls()
+              server.login(os.environ["GMAIL_USER"],os.environ["GMAIL_APP_PASSWORD"])
+              server.send_message(msg)
+          EOF

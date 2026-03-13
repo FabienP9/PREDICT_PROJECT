@@ -1,0 +1,53 @@
++++++
+
+[center][b][size=200]:angel8: Ouverture - 25ème journée[/size][/b] :angel8:
+[b][size=150]1er match : Vendredi 06/03 20h[/size][/b][/center]
+
+
+[u]Trame pour pronostics[/u]
+ Vous pouvez copier-coller les matchs que vous voulez pronostiquer et les remplacer par vos choix :wink:
+
+"[b]
+#25ÈJ.01# Team1 vs Team2 ==> [i] +1 [/i]
+#25ÈJ.02# Team3 vs Team4 ==> [i] +1 [/i]
+#25ÈJ.03# Team5 vs Team6 ==> [i] +1 [/i]
+#25ÈJ.BN# Identifiant du match bonus ==> [i] 25ÈJ.01 [/i]
+[/b]"
+
+Pour que votre choix soit valide il doit être publié avant le début du match qu'il concerne (voir le calendrier de la journée ci-dessous) :jerk: 
+Pour que votre choix soit lu automatiquement et ainsi gagner un léger bonus (cf « score de l’automatisation ») merci de :
+1/ [b] conserver l'identifiant associé (entre "#")[/b]
+2/ indiquer votre choix [b]après la flèche "==>" [/b]
+
+[u]Calendrier de la journée (à date)[/u]
+06/03: 25ÈJ.01 (20h30)
+07/03: 25ÈJ.02 (19h30) / 25ÈJ.03 (20h)
+07/03 ~23h: Résultats des pronos de 25ème journée
+
+
+[u]Choix d'une équipe pour le championnat de pronostics[/u]
+Vous pouvez choisir / changer votre équipe préférée pour le championnat de pronostics jusqu'au début de la phase retour en (ré)indiquant la ligne avec votre (nouvelle) équipe. Elle sera prise en compte pour toutes les journées jusqu'à la fin de saison. \:D/
+Voici la ligne à indiquer:
+"[b]
+#SEASON.TM# Equipe - Championnat de pronostics ==> [i]votre équipe[/i]
+[/b]"
+
+
+[u]Journée(s) encore partiellement ouverte(s)[/u]
+A date, la/les journée(s) [b] 24ème journée [/b] reste(nt) partiellement ouverte(s): les matchs suivants n'ont pas été joués.
+Vous pouvez encore réaliser ou modifier vos pronos sur les matchs que vous souhaitez parmi cette liste, jusqu'à leur début (voir le calendrier des matchs ci-dessous). :)
+
+"[b]
+#24ÈJ.08# Team15 vs Team16 ==> [i] +1 [/i]
+#24ÈJ.BN# Identifiant du match bonus ==> [i] 24ÈJ.08 [/i]
+[/b]"
+
+[u]Calendrier de(s) journée(s) encore partiellement ouverte(s) (à date)[/u]
+24/03: 24ÈJ.08 (20h)
+24/03 ~22h30: Résultats des pronos de 24ème journée
+
+[u]Calendrier des prochaines ouvertures de journées (à date dans la base de données)[/u]
+26ème journée: Ouverture 06/03 ~ 20h45 / 1er Match 13/03 20h / Résultats des pronos 05/05 ~ 22h30
+27ème journée: Ouverture 13/03 ~ 20h45 / 1er Match 17/03 20h / Résultats des pronos 17/03 ~ 23h
+28ème journée: Ouverture 17/03 ~ 20h45 / 1er Match 20/03 20h / Résultats des pronos 21/03 ~ 23h
+29ème journée: Ouverture 20/03 ~ 20h45 / 1er Match 24/03 20h30 / Résultats des pronos 28/03 ~ 22h30

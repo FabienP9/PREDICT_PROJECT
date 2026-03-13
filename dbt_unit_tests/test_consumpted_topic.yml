@@ -1,0 +1,33 @@
+unit_tests:
+  - name: test_consumpted_topic
+    model: consumpted_topic
+    overrides:
+      macros:
+        is_incremental: false
+    given:
+
+      - input: ref('curated_topic')
+        format: csv
+        rows: |
+          TOPIC_KEY,FORUM_KEY,SEASON_KEY,FORUM_SOURCE,TOPIC_NUMBER,IS_FOR_PREDICT,IS_FOR_RESULT
+          44ee900ed19db8d1f9a75dbd7b187ca4,b4d2197189f192c4e623999bc6167df1,ab79b12cfeaf0cc39dc7676a91fa737a,BI,108506,1,0
+          79a1de01beddb1503307b5c7e62e661c,b4d2197189f192c4e623999bc6167df1,ab79b12cfeaf0cc39dc7676a91fa737a,BI,108504,0,1
+
+      - input: ref('curated_forum')
+        format: csv
+        rows: |
+          FORUM_KEY,FORUM_SOURCE,FORUM_COUNTRY
+          b4d2197189f192c4e623999bc6167df1,BI,FRANCE
+
+      - input: ref('local_time')
+        format: csv
+        rows: |
+          COUNTRY,TIMEZONE
+          FRANCE,Europe/Paris
+
+    expect:
+      format: csv
+      rows: |
+        TOPIC_KEY,FORUM_KEY,SEASON_KEY,FORUM_SOURCE,TOPIC_NUMBER,IS_FOR_PREDICT,IS_FOR_RESULT
+        44ee900ed19db8d1f9a75dbd7b187ca4,b4d2197189f192c4e623999bc6167df1,ab79b12cfeaf0cc39dc7676a91fa737a,BI,108506,1,0
+        79a1de01beddb1503307b5c7e62e661c,b4d2197189f192c4e623999bc6167df1,ab79b12cfeaf0cc39dc7676a91fa737a,BI,108504,0,1

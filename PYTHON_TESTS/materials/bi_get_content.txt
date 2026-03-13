@@ -1,0 +1,1 @@
+'*****blabla1', '+++++blabla2', 'blabla3 ;;;;; \t\t\t ;;;;; \t\t\t', 'blabla4', 'blabla5', '*****blabla6 ;;;;;  ;;;;; <blockquote>blabla6 quoted ;;;;; </blockquote> ;;;;;  ;;;;; blabla6bis', 'blabla7', 'blabla8', 'blabla9', 'blabla10', 'blabla11', '+++++blabla12  ;;;;; \t\t\t', 'blabla13', 'blabla14', 'blabla15'

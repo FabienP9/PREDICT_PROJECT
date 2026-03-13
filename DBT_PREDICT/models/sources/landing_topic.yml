@@ -1,0 +1,51 @@
+version: 2
+
+sources:
+  - name: LAND
+    schema: LANDING
+    tables:
+      - name: TOPIC
+        description: This table displays topics where messages are scraped
+        identifier: LANDING_TOPIC
+        columns:
+
+          - name: SEASON_ID
+            description: The ID of the season
+            tests:
+              - is_foreign_key:
+                  to_model: source('LAND','SEASON')
+                  to_column: SEASON_ID 
+
+          - name: FORUM_SOURCE
+            description: The forum source of the topic
+            tests:
+              - not_null
+
+          - name: FORUM_COUNTRY
+            description: |
+              The country in which the forum
+              We get local and utc time based on it, via local_time seed
+            tests:
+              - is_foreign_key:
+                  to_model: ref('local_time')
+                  to_column: COUNTRY 
+
+          - name: TOPIC_NUMBER
+            description: The number of the topic on the forum source
+            tests:
+              - is_integer
+
+          - name: IS_FOR_PREDICT
+            description: Boolean to know if a topic will be used for predictions posts (1) or not (0)
+            tests:
+              - accepted_values: 
+                  values: [0, 1]
+
+          - name: IS_FOR_RESULT
+            description: Boolean to know if a topic will be used for result posts (1) or not (0)
+            tests:
+              - accepted_values: 
+                  values: [0, 1]
+
+          - name: MESSAGE_NUMBER_TO_EDIT
+            description: The number of the message to edit with output message (optional)

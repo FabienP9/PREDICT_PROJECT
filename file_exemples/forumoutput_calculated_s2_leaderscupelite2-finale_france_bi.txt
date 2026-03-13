@@ -1,0 +1,104 @@
++++++
+
+[center]:cheers:[size=200][b] Résultats - Leaders Cup ÉLITE 2 - Finale [/b][/size]:cheers:[/center]
+
+
+[size=150][b]Résultats ELITE2[/b][/size]
+[quote]LCÉ2-F.01 (G01) - Roanne vs Orléans: [b]-7[/b] [ 73 - 80 ][/quote]
+
+[size=150][b]Concours individuel [/b][/size]
+
+[b][u]Résultats et classement individuel de journée [/b][/u]
+[i]-> “Score du bon vainqueur”: 15 pts sì vainqueur trouvé \:D/
+-> “Score du bon écart”: 30 pts si résultat trouvé 8) Sinon, 15 pts - l’écart entre pronostic et résultat. =P~ 
+-> “Score de l’automatisation”: 1 pt si les 2 points importants de la trame sont respectés :hiding:
+-> Le match bonus compte comme 3 pronostics et triple les scores :3some: 
+ -> Nombre de points de journée: somme des scores pour tous les matchs pronostiqués (3 pronos pour cette journée) [/i]
+
+[img]https://i.ibb.co/Q3sR2vyB/table-gameday-scores-s2-leaderscupelite2-finale-france-bi.jpg[/img]
+
+[b][u] Détail des scores :[/u][/b]
+[i]['PT' = "Nombre de points de journée" ; 'G..' = "Numéro du match" ; 'BO' = "Match choisi comme bonus (*3)" ; 'RE' = "Résultat du match" ; 'PR' = "Pronostic du match" ; 'SW' = "Score du bon vainqueur" ; 'SD' = "Score du bon écart" ; 'SA' = "Score de l'automatisation" ][/i]
+[img]https://i.ibb.co/d40ryrGc/table-score-details-s2-leaderscupelite2-finale-france-bi.jpg[/img]
+ (Si vous ne parvenez pas à lire l’image (trop petite), cliquez ici pour l’afficher en grand: [url] https://i.ibb.co/d40ryrGc/table-score-details-s2-leaderscupelite2-finale-france-bi.jpg[/url])
+
+[i]Score de l'automatisation=0 (problème de format - action manuelle exécutée ) pour:
+lampero : LCÉ2-F.01
+stephanois : LCÉ2-F.01[/i]
+
+[b][u] Classement individuel global (sur toute la saison):[/u][/b]
+[img]https://i.ibb.co/GvqdVVR8/table-global-scores-s2-leaderscupelite2-finale-france-bi.jpg[/img]
+
+[b][u] Classement moyen par pronostic (sur toute la saison) :[/u][/b]
+[i]-> Pour les pronostiqueurs avec au moins > 143 prono (> 50% des journées terminées ) :thumbright:[/i]  
+[i]-> Calcul: TOTAL_POINTS / NB_TOTAL_PRONO [/i]
+[quote]1. lampero - 18.02 pts/prono
+2. fanyoda - 17.99 pts/prono
+3. stephanois - 17.58 pts/prono
+4. Léo02 - 17.52 pts/prono
+5. do - 17.49 pts/prono
+6. Forrest Gump - 17.44 pts/prono
+7. Jaco11 - 17.36 pts/prono
+8. soli29 - 17.22 pts/prono
+9. chavanol - 16.9 pts/prono
+10. Flom27 - 16.67 pts/prono
+11. Clemgo20 - 16.37 pts/prono
+12. Mjc - 16.34 pts/prono
+13. fabdu92 - 16.29 pts/prono
+14. Gasparo27 - 15.51 pts/prono[/quote]
+
+[size=150][b]Championnat de pronostics[/b][/size]
+
+[b][u]Résultats du championnat de pronostics [/u][/b]
+[i]-> Nombre de points d’une équipe: Nombre de points de journée de son meilleur pronostiqueur :headbang:: 
+-> Pas d'avantage domicile sur cette journée (comme en ELITE2)
+-> En cas d'égalité, le vainqueur est l'équipe la mieux classée du championnat de pronostics. :wink: [/i]
+[quote]1/ Antibes vs [b]Châlons-Reims[/b] : 3 - 6
+[code]Pour Antibes:
+-> Mjc: 3 pts[/code]
+[code]Pour Châlons-Reims:
+-> fanyoda: 6 pts[/code][/quote]
+
+[size=150][b]Périmètre des journées terminées [/b][/size]
+
+26 journées terminées (287 pronos):
+1ère journée (12) / 3ème journée (12) / 2ème journée (12) / 4ème journée (12) / 5ème journée (12) / 6ème journée (12) / 7ème journée (12) / 8ème journée (12) / 9ème journée (12) / 10ème journée (12) / 11ème journée (12) / 12ème journée (12) / 13ème journée (12) / 14ème journée (12) / 15ème journée (12) / 16ème journée (12) / 17ème journée (12) / 18ème journée (12) / 19ème journée (12) / 20ème journée (12) / Leaders Cup ÉLITE 2 - Demi-finale Aller (4) / 21ème journée (12) / Leaders Cup ÉLITE 2 - Demi-finale Retour (4) / 22ème journée (12) / 23ème journée (12) / Leaders Cup ÉLITE 2 - Finale (3) 
+
+[size=150][b]Trophée de MVP - Most Valuable Predictor[/b][/size] 
+[u][b]Election du MVP du mois de Février [/b][/u]
+-> Résultats des pronostiqueurs des journees terminées* au cours du mois de Février
+[i]* Leaders Cup ÉLITE 2 - Demi-finale Retour (4 prono) / 22ème journée (12 prono) / 23ème journée (12 prono) / Leaders Cup ÉLITE 2 - Finale (3 prono)[/i]
+
+[quote]do - 523 pts / 2V-0D [avec Denain]
+chavanol - 512 pts / 3V-0D [avec Saint-Chamond-Andrezieux]
+Forrest Gump - 477 pts / 2V-0D [avec Denain]
+Mjc - 455 pts / 2V-2D [avec Antibes]
+Léo02 - 449 pts / 2V-0D [avec Denain]
+fabdu92 - 449 pts / 2V-0D [avec La Rochelle]
+Jaco11 - 446 pts / 2V-0D [avec Pau-Lacq-Orthez]
+fanyoda - 409 pts / 4V-0D [avec Châlons-Reims]
+Flom27 - 407 pts / 1V-2D [avec Evreux]
+soli29 - 361 pts / 1V-1D [avec Quimper]
+stephanois - 284 pts / 2V-0D [avec Saint-Chamond-Andrezieux]
+lampero - 228 pts / 1V-0D [avec Blois]
+Gasparo27 - 220 pts / 0V-2D [avec Evreux]
+Clemgo20 - 195 pts / 1V-0D [avec Quimper] [/quote]
+
+[size=150][b]Trophée de MVP - Most Valuable Predictor[/b][/size] 
+[u][b]Election du MVP de Leaders Cup [/b][/u]
+-> Résultats des pronostiqueurs des journées* sur l'ensemble de la compétition
+[i]* Leaders Cup ÉLITE 2 - Demi-finale Aller (4 prono) / Leaders Cup ÉLITE 2 - Demi-finale Retour (4 prono) / Leaders Cup ÉLITE 2 - Finale (3 prono)[/i]
+
+[quote]Mjc - 168 pts / 1V-2D [avec Antibes]
+fanyoda - 164 pts / 3V-0D [avec Châlons-Reims]
+lampero - 158 pts / 0V-0D [avec Blois]
+Forrest Gump - 148 pts / 0V-0D [avec Denain]
+Léo02 - 121 pts / 0V-0D [avec Denain]
+fabdu92 - 110 pts / 0V-0D [avec La Rochelle]
+Flom27 - 104 pts / 0V-2D [avec Evreux]
+do - 102 pts / 0V-0D [avec Denain]
+chavanol - 94 pts / 1V-1D [avec Saint-Chamond-Andrezieux]
+stephanois - 94 pts / 1V-1D [avec Saint-Chamond-Andrezieux]
+Gasparo27 - 76 pts / 0V-2D [avec Evreux]
+Jaco11 - 48 pts / 0V-0D [avec Pau-Lacq-Orthez]
+soli29 - 3 pts / 0V-0D [avec Quimper] [/quote]

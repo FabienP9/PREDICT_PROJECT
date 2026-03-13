@@ -1,0 +1,134 @@
+{
+  "schemas": {
+    "competition.csv": {
+      "columns": {
+        "SEASON_ID": "object",
+        "COMPETITION_ID": "object",
+        "COMPETITION_LABEL": "object",
+        "COMPETITION_SOURCE": "object",
+        "COMPETITION_SOURCE_ID": "int64",
+        "IS_SAME_FOR_PREDICTCHAMP": "int64",
+        "IS_FOR_RANK": "int64",
+        "IS_TO_LOAD": "int64"
+      }
+    },
+    "correction_prediction.csv": {
+      "columns": {
+        "FORUM_SOURCE": "object",
+        "MESSAGE_FORUM_ID": "int64",
+        "PREDICT_ID": "object",
+        "PREDICT": "object",
+        "IS_PROGRAM_REFINEMENT": "int64"
+      }
+    },
+    "game_modification.csv": {
+      "columns": {
+        "SEASON_ID": "object",
+        "GAME_SOURCE_ID": "object",
+        "GAME_FORUM_ID": "int64"
+      }
+    },
+    "gameday_modification.csv": {
+      "columns": {
+        "SEASON_ID": "object",
+        "COMPETITION_ID": "object",
+        "GAMEDAY": "object",
+        "GAMEDAY_MODIFIED": "object"
+      }
+    },
+    "message_check_ts.csv": {
+      "columns": {
+        "SEASON_ID": "object",
+        "LAST_CHECK_TS_UTC": "object"
+      }
+    },
+    "message_quote_to_keep.csv": {
+      "columns": {
+        "FORUM_SOURCE": "object",
+        "MESSAGE_FORUM_ID": "int64"
+      }
+    },
+    "output_need_manual.csv": {
+      "columns": {
+        "TASK_RUN": "object",
+        "SEASON_ID": "object",
+        "GAMEDAY": "object",
+        "TS_TASK_UTC": "object",
+        "IS_TO_INIT": "int64",
+        "IS_TO_CALCULATE": "int64",
+        "IS_TO_DELETE": "int64",
+        "IS_TO_RECALCULATE": "int64",
+        "MESSAGE_ACTION": "object",
+        "GAME_ACTION": "object"
+      }
+    },    
+    "paths.csv": {
+      "columns": {
+        "NAME": "object",
+        "PATH": "object",
+        "IS_ENCAPSULATED": "int64",
+        "IS_FOR_UPLOAD": "int64",
+        "FILTERING_CATEGORY": "object",
+        "FILTERING_COLUMN": "object",
+        "DOWNLOAD_CATEGORY": "object",
+        "PYTHON_CATEGORY": "object",
+        "DBT_CATEGORY": "object"
+      }
+    },
+    "predictchamp_game_to_add.csv": {
+      "columns": {
+        "PREDICTCHAMP_GAME_ID": "int64",
+        "SEASON_ID": "object",
+        "GAMEDAY": "object",
+        "TEAM_HOME": "object",
+        "TEAM_AWAY": "object",
+        "HAS_HOME_ADV": "int64"
+      }
+    },
+    "RUN_TYPE.csv": {
+      "columns": {
+        "RUN_TIME_UTC": "object",
+        "EVENT": "object",
+        "RUN_TYPE": "object",
+        "RUN_METHOD": "object",
+        "PLANNED_RUN_TIME_UTC": "object"
+      }
+    },
+    "season.csv":{
+      "columns": {
+        "SEASON_ID": "object",
+        "SEASON_SPORT": "object",
+        "SEASON_COUNTRY": "object",
+        "SEASON_NAME": "object",
+        "SEASON_DIVISION": "object",
+        "SEASON_TEAMCHOICE_DEADLINE": "object"
+      }      
+    },
+    "snowflake_account_connect.csv": {
+      "columns": {
+          "ACCOUNT": "object",
+          "WAREHOUSE": "object",
+          "DATABASE_PROD": "object",
+          "DATABASE_TEST": "object"
+      }
+    },
+    "task_done.csv": {
+      "columns": {
+          "TASK_RUN": "object",
+          "SEASON_ID": "object",
+          "GAMEDAY": "object",
+          "TS_TASK_UTC": "object"
+      }
+    },
+    "topic.csv": {
+      "columns": {
+          "SEASON_ID": "object",
+          "FORUM_SOURCE":"object",
+          "FORUM_COUNTRY":"object",
+          "TOPIC_NUMBER":"int64",
+          "IS_FOR_PREDICT":"int64",
+          "IS_FOR_RESULT":"int64"
+      }
+    }
+  }
+}

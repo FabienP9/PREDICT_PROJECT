@@ -25,12 +25,12 @@ with read_message as (
         game_readm.TIME_GAME_UTC IS NOT NULL
 ),
 -- we get the time when we should init the gameday G
--- if exists a previous gameday GP in the season, beginning less than 10 days before the beginning of G
---    we init G 15 mns after the beginning of gameday GP if this is less than 10 days before the first game of G
--- else we init 10 days before the first game of G
+-- if exists a previous gameday GP in the season, beginning is max 10 days before the beginning of G
+--    we init G 15 mns after the beginning of GP if this is less than 10 days before the first game of G
+--    else we init 10 days before the first game of G
 -- if several gameday G1 and G2 begin same day:
 --    we group them so that they share the same previous gameday GP
---    the init time of the following gameday GF will be based on the min time of the group
+--    the init time of the following gameday GF will be 15 mns after the min beginning between G1 and G2
 init_gameday_begin AS (
     SELECT
         gameday.GAMEDAY_KEY,
@@ -83,7 +83,7 @@ init_gameday as (
         0 AS IS_TO_DELETE,
         0 AS IS_TO_RECALCULATE,
         'AVOID' AS MESSAGE_ACTION,
-        'RUN' AS GAME_ACTION
+        'AVOID' AS GAME_ACTION
     FROM 
         init_gameday_begin
     JOIN 
@@ -111,20 +111,30 @@ calculate_gameday as (
             gameday_calculate.END_TIME_UTC IS NOT NULL
 ),
 -- the timetable of games can change, so we need to read them regularly to be sure we have the updated timetable
--- 10 weeks before / 6 weeks before / 1 month before / 3 weeks before / and 10 days before the expected beginning
+-- 10 weeks before / 6 weeks before / 1 month before / 3 weeks before / 10 days and 3 days before the expected beginning (first game)
+-- 10 weeks before / 6 weeks before / 1 month before / 3 weeks before / 10 days and 3 days before the expected end (last game)
 -- we read them around 8 AM UTC each time
-read_gameday as (
+read_gameday_beginning as (
     {{calendar_read_gameday('WEEK',-10,'08:01:00.000')}}
     UNION ALL {{calendar_read_gameday('WEEK',-6,'08:02:00.000')}}
     UNION ALL {{calendar_read_gameday('MONTH',-1,'08:03:00.000')}}
     UNION ALL {{calendar_read_gameday('WEEK',-3,'08:04:00.000')}}
     UNION ALL {{calendar_read_gameday('DAY',-10,'08:05:00.000')}}
+    UNION ALL {{calendar_read_gameday('DAY',-3,'08:06:00.000')}}
 ),
-read_gameday_info as (
+read_gameday_end as (
+    {{calendar_read_gameday('WEEK',-10,'08:01:30.000')}}
+    UNION ALL {{calendar_read_gameday('WEEK',-6,'08:02:30.000')}}
+    UNION ALL {{calendar_read_gameday('MONTH',-1,'08:03:30.000')}}
+    UNION ALL {{calendar_read_gameday('WEEK',-3,'08:04:30.000')}}
+    UNION ALL {{calendar_read_gameday('DAY',-10,'08:05:30.000')}}
+    UNION ALL {{calendar_read_gameday('DAY',-3,'08:06:30.000')}}
+),
+read_gameday_details as (
     SELECT
         'UPDATEGAMES' AS TASK_RUN,
-        gameday_readg.GAMEDAY_KEY,
-        gameday_readg.TS_TASK_UTC,
+        gameday_readg_beginning.GAMEDAY_KEY,
+        gameday_readg_beginning.TS_TASK_UTC,
         0 AS IS_TO_INIT,
         0 AS IS_TO_CALCULATE,
         0 AS IS_TO_DELETE,
@@ -132,7 +142,20 @@ read_gameday_info as (
         'AVOID' AS MESSAGE_ACTION,
         'RUN' AS GAME_ACTION
     FROM
-        read_gameday gameday_readg
+        read_gameday_beginning gameday_readg_beginning
+    UNION ALL
+        SELECT
+        'UPDATEGAMES' AS TASK_RUN,
+        gameday_readg_end.GAMEDAY_KEY,
+        gameday_readg_end.TS_TASK_UTC,
+        0 AS IS_TO_INIT,
+        0 AS IS_TO_CALCULATE,
+        0 AS IS_TO_DELETE,
+        0 AS IS_TO_RECALCULATE,
+        'AVOID' AS MESSAGE_ACTION,
+        'RUN' AS GAME_ACTION
+    FROM
+        read_gameday_end gameday_readg_end
 ),
 -- we union everything and filter on the time range
 cte_union as (
@@ -140,7 +163,7 @@ cte_union as (
         SELECT * FROM read_message
         UNION ALL SELECT * FROM init_gameday
         UNION ALL SELECT * FROM calculate_gameday
-        UNION ALL SELECT * FROM read_gameday_info
+        UNION ALL SELECT * FROM read_gameday_details
     )
     WHERE 
         DATEADD(WEEK,-1,current_date) <= TS_TASK_UTC

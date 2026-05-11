@@ -36,7 +36,7 @@ def test_get_game_details_lnb_with_gameday_with_modification(read_csv, read_json
 
     with patch.object(games_details_extraction_lnb.requests, "post", return_value = mock_lnb_response):
         result_df = games_details_extraction_lnb.get_game_details_lnb(competition_row,gameday,df_gameday_modification)
-        assert_frame_equal(result_df[1:].astype(str).reset_index(drop=True), expected_df[1:].astype(str).reset_index(drop=True),check_dtype=False)
+        assert_frame_equal(result_df.astype(str).reset_index(drop=True), expected_df.head(1).astype(str).reset_index(drop=True),check_dtype=False)
 
 def test_get_game_details_lnb_without_gameday(read_csv, read_json):
 

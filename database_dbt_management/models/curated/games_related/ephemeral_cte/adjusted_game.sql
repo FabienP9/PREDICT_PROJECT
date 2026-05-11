@@ -36,8 +36,7 @@ with adjusted_game as (
     LEFT JOIN
         {{source("LAND",'GAMEDAY_MODIF')}} modif
         ON game.SEASON_ID = modif.SEASON_ID
-        AND game.COMPETITION_ID = modif.COMPETITION_ID
-        AND LOWER(REPLACE(game.GAMEDAY, ' ', '')) = LOWER(REPLACE(modif.GAMEDAY, ' ', '')) 
+        AND game.GAME_SOURCE_ID = modif.GAME_SOURCE_ID
 ),
 -- we add keys
 game_with_key as (

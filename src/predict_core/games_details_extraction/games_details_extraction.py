@@ -64,15 +64,18 @@ def extract_games_from_need(sr_output_need: pd.Series,df_competition: pd.DataFra
     
     logging.info("GAME -> GETTING GAMES [START]")
     
-    compet_row = next(df_competition[
+    games = []
+    for compet_row in df_competition[
         (df_competition['SEASON_ID'] == sr_output_need['SEASON_ID']) &
         (df_competition['COMPETITION_ID'] == sr_output_need['COMPETITION_ID'])
-    ].itertuples(index=False))
+    ].itertuples(index=False):
     
-    source = compet_row.COMPETITION_SOURCE
-    get_game_details = game_info_functions.get(source)
-    df_game = get_game_details(compet_row,sr_output_need['GAMEDAY'],df_gameday_modification)
+        source = compet_row.COMPETITION_SOURCE
+        get_game_details = game_info_functions.get(source)
+        df_game_row = get_game_details(compet_row,sr_output_need['GAMEDAY'],df_gameday_modification)
+        games.append(df_game_row)
 
+    df_game = pd.concat(games, ignore_index=True)
     create_csv(os.path.join(var.TMPF,'game.csv'),df_game,var.GAME_ENCAPSULATED) 
     logging.info("GAME -> GETTING GAMES [END]")
     return df_game

@@ -31,8 +31,7 @@
     "gameday_modification.csv": {
       "columns": {
         "SEASON_ID": "object",
-        "COMPETITION_ID": "object",
-        "GAMEDAY": "object",
+        "GAME_SOURCE_ID": "object",
         "GAMEDAY_MODIFIED": "object"
       }
     },

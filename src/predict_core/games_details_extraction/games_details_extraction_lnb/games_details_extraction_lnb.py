@@ -49,15 +49,18 @@ def get_game_details_lnb(competition_row: tuple, gameday: str | None = None, df_
     response = requests.post(url, json=payload, headers=headers)
     data = response.json().get("data", [])
     df_game = pd.json_normalize(data, record_path="data", errors="ignore")
+
     if gameday is not None:
         # We filter on gameday. 
         # If there are values in gameday_modification corresponding to this gameday
         # we filter on the original gameday from the LNB source
         list_gamedays_modified = df_gameday_modification[
             (df_gameday_modification["SEASON_ID"] == competition_row.SEASON_ID) &
-            (df_gameday_modification["GAMEDAY_MODIFIED"] == gameday)][['GAMEDAY']]
+            (df_gameday_modification["GAMEDAY_MODIFIED"] == gameday)][['GAME_SOURCE_ID']]
+
         if len(list_gamedays_modified) > 0:
-            df_game = df_game[df_game["round_description"].astype(str).isin(list_gamedays_modified['GAMEDAY'])]
+            df_game = df_game[df_game["match_id"].isin(list_gamedays_modified['GAME_SOURCE_ID'])]
+
         else:
             df_game = df_game[df_game["round_description"].astype(str) == gameday]
     game_status = df_game["match_status"]
@@ -98,5 +101,6 @@ def get_game_details_lnb(competition_row: tuple, gameday: str | None = None, df_
     columns = ['COMPETITION_SOURCE', 'COMPETITION_ID', 'SEASON_ID', 'GAMEDAY',
             'DATE_GAME_UTC', 'TIME_GAME_UTC', 'DATE_GAME_LOCAL', 'TIME_GAME_LOCAL',
             'TEAM_HOME', 'SCORE_HOME', 'TEAM_AWAY', 'SCORE_AWAY', 'GAME_SOURCE_ID']
+    
     return df_game[columns].reset_index(drop=True)
     

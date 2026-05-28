@@ -59,21 +59,17 @@ with game as (
 pc_game as (
     SELECT
         gp.SEASON_ID,
-        COALESCE(modif.GAMEDAY_MODIFIED,gp.GAMEDAY) AS GAMEDAY,
+        gp.GAMEDAY,
         gp.TEAM_HOME,
         gp.TEAM_AWAY,
         ROW_NUMBER() OVER (
-            PARTITION BY COALESCE(modif.GAMEDAY_MODIFIED,gp.GAMEDAY) ORDER BY gp.PREDICTCHAMP_GAME_ID ASC) 
+            PARTITION BY gp.GAMEDAY ORDER BY gp.PREDICTCHAMP_GAME_ID ASC) 
         AS GAME_MESSAGE_SHORT,
         MD5('PREDICTCHAMP_GAME' || '^^' || gp.PREDICTCHAMP_GAME_ID) AS GAME_KEY,
         gp.PREDICTCHAMP_GAME_ID AS GAME_PC_ID,
         gp.HAS_HOME_ADV
     FROM
         {{source('LAND','GAME_PREDICTCHAMP')}} gp
-    LEFT JOIN
-        {{source('LAND','GAMEDAY_MODIF')}} modif
-        ON gp.SEASON_ID = modif.SEASON_ID
-        AND LOWER(REPLACE(gp.GAMEDAY, ' ', '')) = LOWER(REPLACE(modif.GAMEDAY, ' ', ''))
 ),
 -- we add keys to calculated games
 -- for that,we apply the JAROWINKLER function to get the closest team in the list of possible home and away teams

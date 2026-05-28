@@ -216,7 +216,8 @@ This ensures that:
     To run them:
     ```
         cd database_dbt_management
-        dbt test --select nameofthetest
+        dbt test # to run all tests
+        dbt test --select nameofthetest # to run one test
     ```
 
 ## Snowflake database architecture<a name="snowflakearchitecture"></a>

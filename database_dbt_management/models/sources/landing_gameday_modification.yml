@@ -17,19 +17,10 @@ sources:
                   to_model: ref('curated_season')
                   to_column: SEASON_ID 
 
-          - name: COMPETITION_ID
-            description: Identifier of the competition
+          - name: GAME_SOURCE_ID
+            description: The id of the game on the source
             tests:
-              - is_foreign_key:
-                  to_model: ref('curated_competition')
-                  to_column: COMPETITION_ID 
-
-          - name: GAMEDAY
-            description: The gameday we need to modified
-            tests:
-              - is_foreign_key:
-                  to_model: source('LAND','GAME')
-                  to_column: GAMEDAY
+              - not_null
 
           - name: GAMEDAY_MODIFIED
             description: The gameday modified

@@ -224,12 +224,12 @@ Example of each file is copied under *file_exemples/* folder
 
 - **Trophy.jpg**  
     Image used to generate the graphical playoff table picture for the prediction championship.  
-    (See [generate playoffs](#generateplayoffs) for details.)
+    (See [playoffs table generation](#generateplayoffs) for details.)
 
 - <a name="playoffstable"></a>**playoffs_table.txt**: 
     Contains Python arrays representing playoff table positions.  
     Used to generate the graphical playoff image posted on forums.
-    (See [generate playoffs](#generateplayoffs) for details.)
+    (See [playoffs table generation](#generateplayoffs) for details.)
     
 ### Manual files required (either in global_manual_inputs - if used both in Prod and Test-  or local_manual_inputs):
 They must be created and updated by the software administrator, according to the scope evolutions.
@@ -251,7 +251,7 @@ They must be created and updated by the software administrator, according to the
     - **IS_SAME_FOR_PREDICTCHAMP** (0/1): Boolean telling if the predition championship games will be the same as the one from the prediction league or not.  
     If not, the software administrator must add manual games to [predictchamp_game_to_add.csv](#predictchampgametoadd)
     - **IS_FOR_RANK** (0/1): Boolean telling if games related to the competition are used in the season prediction championship ranking, or not. For exemple, playoffs are post-regular season games and should not be included for the season ranking.
-    - **IS_TO_LOAD** (0/1): Boolean telling if the program needs to load the competition on the database while running ["Init compet"](#initcompet) or not
+    - **IS_TO_LOAD** (0/1): Boolean telling if the program needs to load the competition on the database while running ["competition integration"](#initcompet) or not
 
 - <a name="topic"></a>**topic.csv**: Defines forum topics used for reading predictions and posting results.
     - **SEASON_ID**: the id of season corresponding to the topic - same as on [season.csv](#season)/SEASON_ID
@@ -278,10 +278,10 @@ They must be created and updated by the software administrator, according to the
     - **IS_PROGRAM_REFINEMENT** (0/1): Boolean telling if it is a correction due to badly written message or program refinement.  
     If program refinement, players will have points for AUTOMATIC_SCORE, else they won't.
     
-- <a name="gamedaymodification"></a>**gameday_modification.csv**: Used by the software administrator to overwrite a source gameday name or group several gameday under the same name, for calculations. Must be written before running ["Init compet"](#initcompet).
+- <a name="gamedaymodification"></a>**gameday_modification.csv**: Used by the software administrator to overwrite a source gameday name or group several gameday under the same name, for calculations. Must be written before running ["competition integration"](#initcompet).
     - **SEASON_ID** : the id of the season - same as on [season.csv](#season)/SEASON_ID
     - **COMPETITION_ID**: the id of the competition - same as on [competition.csv](#competition)/COMPETITION_ID
-    - **GAMEDAY**: The source gameday name
+    - **GAME_SOURCE_ID**: The id on the game source for which we want to modify the gameday
     - **GAMEDAY_MODIFIED**: The name of the gameday after modification
 
 - **game_modification.csv**: The program creates a list of games from the source with an ID (from 1 to N, see the file *curated_game.sql* for more details).  
@@ -314,7 +314,7 @@ The game_modification file is used to overwrite the ForumGameID displayed to pla
 Defines manual prediction championship games when IS_SAME_FOR_PREDICTCHAMP = 0 from a competition in [competition.csv](#competition)  
     - **PREDICTCHAMP_GAME_ID**: A unique incremental id, through all seasons
     - **SEASON_ID**: The id of the season - same as on [season.csv](#season)/SEASON_ID
-    - **GAMEDAY**: The gameday name on which the prediction championship game is added, BEFORE the potential modification on [gameday_modification.csv](#gamedaymodification)
+    - **GAMEDAY**: The gameday name on which the prediction championship game is added, AFTER the potential modification on [gameday_modification.csv](#gamedaymodification)
     - **TEAM_HOME**: The name of the home team, or first team if not in a home-away format
     - **TEAM_AWAY**: The name of the away team, or second team if not in a home-away format
     - **HAS_HOME_ADV** (0/1): Boolean telling to add home bonus points when calculate results or not

@@ -168,9 +168,9 @@ def main():
         snowflake_etl_process.delete_tables_data_from_python(context_dict['sr_snowflake_account_connect'],"LANDING")
         snowflake_etl_process.update_snowflake(called_by,context_dict, var.TMPF)
     
-        # The new added games or just ran task may have change the calendar of run
-        context_dict['str_next_run_time_utc'] = tasks_calendar_management.update_calendar_related_files(called_by, context_dict['sr_snowflake_account_connect'], context_dict['df_task_done'], context_dict['sr_output_need'])
-    
+    # The new added games or just ran task may have change the calendar of run
+    context_dict['str_next_run_time_utc'] = tasks_calendar_management.update_calendar_related_files(called_by, context_dict['sr_snowflake_account_connect'], context_dict['df_task_done'], context_dict['sr_output_need'])
+
     if context_dict['sr_output_need']['TASK_RUN'] in (var.TASK_RUN_MAP["INIT"],var.TASK_RUN_MAP["CALCULATE"]):
         output_param_dict, df_topics = output_message_generation.generate_output_message(context_dict)
 

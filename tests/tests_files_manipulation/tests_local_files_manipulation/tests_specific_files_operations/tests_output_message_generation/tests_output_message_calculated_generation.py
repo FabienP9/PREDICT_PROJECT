@@ -8,30 +8,30 @@ import pandas as pd
 
 from src.predict_core.files_manipulation.local_files_manipulation.specific_files_operations.output_message_file_generation import output_message_calculated_generation
 
-def test_get_games_result(read_csv, read_txt):
+def test_get_games_result(read_yml_as_serie, read_csv, read_txt):
 
     # this test the function get_games_result   
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
     mock_df_games = read_csv("q_vw_game_query.csv")
 
     with patch.object(output_message_calculated_generation, 'snowflake_execute', return_value=mock_df_games):
-        s, count = output_message_calculated_generation.get_games_result(sr_snowflake_account, sr_gameday_output_calculate)
+        s, count = output_message_calculated_generation.get_games_result(sr_snowflake_account_connect, sr_gameday_output_calculate)
         s_expected = read_txt("output_message_calculated_games_result.txt")
         
         assert count == 2
         assert s == s_expected
 
-def test_get_scores_detailed(read_csv):
+def test_get_scores_detailed(read_yml_as_serie, read_csv):
 
     # this test the function get_scores_detailed
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
     mock_df_predict_games = read_csv("q_vw_predict_game_query.csv",keep_default_na=False,na_filter=False)
     df_predict_games_expected = read_csv("output_message_calculated_scores_details.csv", header=[0, 1],keep_default_na=False,na_filter=False)
     
     with patch.object(output_message_calculated_generation, "snowflake_execute", return_value=mock_df_predict_games):
-        df_result, n_users = output_message_calculated_generation.get_scores_detailed(sr_snowflake_account, sr_gameday_output_calculate)
+        df_result, n_users = output_message_calculated_generation.get_scores_detailed(sr_snowflake_account_connect, sr_gameday_output_calculate)
         
         # Make column names match
         top = df_predict_games_expected.columns.get_level_values(0)
@@ -58,10 +58,10 @@ def test_get_scores_global(read_csv):
     assert_frame_equal(df_result.reset_index(drop=True), df_expected.reset_index(drop=True))
     assert nb_result == 2
 
-def test_get_scores_gameday(read_csv):
+def test_get_scores_gameday(read_yml_as_serie, read_csv):
     
     # this test the function get_scores_gameday
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
     mock_df_userscores_gameday = read_csv("q_vw_user_scores_gameday_query.csv")
     mock_df_userscores_gameday_ranked = read_csv("q_vw_user_scores_gameday_query.csv")
@@ -69,7 +69,7 @@ def test_get_scores_gameday(read_csv):
     
     with patch.object(output_message_calculated_generation, "snowflake_execute", return_value=mock_df_userscores_gameday), \
         patch.object(output_message_calculated_generation.output, "display_rank", return_value=mock_df_userscores_gameday_ranked):
-            df_result, nb_result = output_message_calculated_generation.get_scores_gameday(sr_snowflake_account, sr_gameday_output_calculate)
+            df_result, nb_result = output_message_calculated_generation.get_scores_gameday(sr_snowflake_account_connect, sr_gameday_output_calculate)
             assert_frame_equal(df_result.reset_index(drop=True), df_expected.reset_index(drop=True))
             assert nb_result == 2
 
@@ -87,23 +87,23 @@ def test_get_scores_average(read_csv, read_txt):
         assert nb_min == 33
         assert count == 1
 
-def test_get_predictchamp_result(read_csv, read_txt):
+def test_get_predictchamp_result(read_yml_as_serie,read_csv, read_txt):
     
     # this test the function get_predictchamp_result
     df_gamepredictchamp = read_csv("q_vw_game_predictchamp_query.csv")
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
     mock_df_detail = read_csv("q_vw_game_predictchamp_details_query.csv")
     expected_str = read_txt("output_message_calculated_predictchamp_result.txt")
 
     with patch.object(output_message_calculated_generation, "snowflake_execute", return_value=mock_df_detail):
-        result = output_message_calculated_generation.get_predictchamp_result(df_gamepredictchamp, sr_snowflake_account, sr_gameday_output_calculate)
+        result = output_message_calculated_generation.get_predictchamp_result(df_gamepredictchamp, sr_snowflake_account_connect, sr_gameday_output_calculate)
         assert result == expected_str
 
-def test_get_predictchamp_ranking(read_csv):
+def test_get_predictchamp_ranking(read_yml_as_serie, read_csv):
     
     # this test the function get_predictchamp_ranking
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
     mock_df_teamscores = read_csv("q_vw_team_scores_query.csv")
     mock_df_rank = read_csv("q_vw_team_scores_query_ranked.csv")
@@ -111,21 +111,21 @@ def test_get_predictchamp_ranking(read_csv):
 
     with patch.object(output_message_calculated_generation, "snowflake_execute", return_value=mock_df_teamscores):
         with patch.object(output_message_calculated_generation.output, "display_rank", return_value=mock_df_rank) as mock_rank:
-            result_df = output_message_calculated_generation.get_predictchamp_ranking(sr_snowflake_account, sr_gameday_output_calculate)
+            result_df = output_message_calculated_generation.get_predictchamp_ranking(sr_snowflake_account_connect, sr_gameday_output_calculate)
 
             mock_rank.assert_called_once_with(mock_df_teamscores, 'RANK')
             pd.testing.assert_frame_equal(result_df, expected_result)
 
-def test_get_correction(read_csv, read_txt):
+def test_get_correction(read_yml_as_serie, read_csv, read_txt):
     
     # this test the function get_correction
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
     mock_df_correction = read_csv("q_vw_correction.csv")
     expected_str = read_txt("output_message_calculated_correction.txt")
 
     with patch.object(output_message_calculated_generation, "snowflake_execute", return_value=mock_df_correction):
-        result_str, result_count = output_message_calculated_generation.get_correction(sr_snowflake_account, sr_gameday_output_calculate)
+        result_str, result_count = output_message_calculated_generation.get_correction(sr_snowflake_account_connect, sr_gameday_output_calculate)
 
         assert result_str == expected_str
         assert result_count == 2
@@ -138,64 +138,64 @@ def test_get_list_gameday(read_csv, read_txt):
     str_list_gameday = output_message_calculated_generation.get_list_gameday(df_list_gameday)
     assert str_list_gameday == expected_str
 
-def test_get_mvp_month_race_figure(read_csv, read_txt):
+def test_get_mvp_month_race_figure(read_yml_as_serie, read_csv, read_txt):
     
     # this test the function get_predictchamp_ranking
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
     mock_df_month_mvp = read_csv("q_vw_user_scores_gameday_mvp_query.csv",quotechar='"',keep_default_na=False)
     expected_str = read_txt("output_message_calculated_mvp_race_figures.txt")
 
     # mock snowflake_execute to return df_teamscores
     with patch.object(output_message_calculated_generation, "snowflake_execute", return_value=mock_df_month_mvp):
-        gameday_month, list_user, count = output_message_calculated_generation.get_mvp_month_race_figure(sr_snowflake_account, sr_gameday_output_calculate)
+        gameday_month, list_user, count = output_message_calculated_generation.get_mvp_month_race_figure(sr_snowflake_account_connect, sr_gameday_output_calculate)
         assert gameday_month == "__L__MONTH_01__L__"
         assert count == 3
         assert list_user == expected_str
 
-def test_list_mvp_month_race_gameday(read_csv, read_txt):
+def test_list_mvp_month_race_gameday(read_yml_as_serie, read_csv, read_txt):
     
     # this test the function list_mvp_month_race_gameday
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
     
     mock_df_list_gameday = read_csv("q_vw_gameday_calculated_query.csv")
     expected_str = read_txt("output_message_calculated_list_gameday_with_predict.txt")
     with patch.object(output_message_calculated_generation, "snowflake_execute", return_value=mock_df_list_gameday):
-        str_list_gameday = output_message_calculated_generation.list_mvp_month_race_gameday(sr_snowflake_account,sr_gameday_output_calculate)
+        str_list_gameday = output_message_calculated_generation.list_mvp_month_race_gameday(sr_snowflake_account_connect,sr_gameday_output_calculate)
         assert str_list_gameday.split() == expected_str.split()
 
-def test_get_mvp_compet_race_figure(read_csv, read_txt):
+def test_get_mvp_compet_race_figure(read_yml_as_serie, read_csv, read_txt):
     
     # this test the function get_predictchamp_ranking
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
     mock_df_compet_mvp = read_csv("q_vw_user_scores_gameday_mvp_query.csv",quotechar='"',keep_default_na=False)
     expected_str = read_txt("output_message_calculated_mvp_race_figures.txt")
 
     # mock snowflake_execute to return df_teamscores
     with patch.object(output_message_calculated_generation, "snowflake_execute", return_value=mock_df_compet_mvp):
-        (list_user, count) = output_message_calculated_generation.get_mvp_compet_race_figure(sr_snowflake_account, sr_gameday_output_calculate)
+        (list_user, count) = output_message_calculated_generation.get_mvp_compet_race_figure(sr_snowflake_account_connect, sr_gameday_output_calculate)
         
         assert count == 3
         assert list_user == expected_str
 
-def test_list_mvp_compet_race_gameday(read_csv, read_txt):
+def test_list_mvp_compet_race_gameday(read_yml_as_serie,read_csv, read_txt):
     
     # this test the function list_mvp_compet_race_gameday
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
     
     mock_df_list_gameday = read_csv("q_vw_gameday_calculated_query.csv")
     expected_str = read_txt("output_message_calculated_list_gameday_with_predict.txt")
     with patch.object(output_message_calculated_generation, "snowflake_execute", return_value=mock_df_list_gameday):
-        str_list_gameday = output_message_calculated_generation.list_mvp_compet_race_gameday(sr_snowflake_account,sr_gameday_output_calculate)
+        str_list_gameday = output_message_calculated_generation.list_mvp_compet_race_gameday(sr_snowflake_account_connect,sr_gameday_output_calculate)
         assert str_list_gameday.split() == expected_str.split()
 
-def test_get_parameters(read_csv, read_txt):
+def test_get_parameters(read_yml_as_serie, read_csv, read_txt):
 
     # this test the function get_parameters mocking all functions
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
 
     mock_str_games_result = read_txt("output_message_calculated_games_result.txt")
@@ -230,7 +230,7 @@ def test_get_parameters(read_csv, read_txt):
          patch.object(output_message_calculated_generation,"get_mvp_compet_race_figure", return_value=(mock_str_mvp_compet, 2)), \
          patch.object(output_message_calculated_generation,"list_mvp_compet_race_gameday", return_value=(mock_str_mvp_compet_gameday)):
 
-        output_message_calculated_generation.get_parameters(sr_snowflake_account, sr_gameday_output_calculate)
+        output_message_calculated_generation.get_parameters(sr_snowflake_account_connect, sr_gameday_output_calculate)
 
 def test_get_parameters_df_management(read_csv, read_json):
     
@@ -311,11 +311,11 @@ def test_create_message(read_txt, read_json, read_csv):
         assert country == "FRANCE"
         assert forum == 'BI'
 
-def test_process_output_message_calculated(read_txt, read_json, read_csv):
+def test_process_output_message_calculated(read_yml_as_serie, read_txt, read_json, read_csv):
     
     # this test the function process_output_message_calculated
     context_dict = {
-        'sr_snowflake_account_connect': read_csv("snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
         'str_output_gameday_calculation_template_france': read_txt("output_gameday_calculation_template_france.txt"),
         'str_output_gameday_calculation_template_italia': read_txt("output_gameday_calculation_template_france.txt"),
         'lst_output_gameday_template_translations': read_json("output_gameday_template_translations.json")

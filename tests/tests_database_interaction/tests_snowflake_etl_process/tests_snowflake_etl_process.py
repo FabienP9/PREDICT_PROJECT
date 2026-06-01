@@ -21,23 +21,23 @@ def test_get_list_tables_to_update(read_csv):
     assert result[0] == ['landing_output_need']
     assert result[1] == []
 
-def test_delete_table_data(read_csv):
+def test_delete_table_data(read_yml_as_serie):
     
     # this test the function delete_table_data
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     schema = "landing"
     table_metadata = [None, "test_table"]
 
     with patch.object(snowflake_etl_process,'snowflake_execute') as mock_exec:
-        snowflake_etl_process.delete_table_data(sr_snowflake_account, schema, table_metadata)
+        snowflake_etl_process.delete_table_data(sr_snowflake_account_connect, schema, table_metadata)
         assert mock_exec.call_count == 2
         args1 = mock_exec.call_args_list[0][0][1]
         assert "TRUNCATE TABLE" in args1
 
-def test_delete_tables_data_from_python(read_csv):
+def test_delete_tables_data_from_python(read_yml_as_serie):
 
     # this test the function delete_tables_data_from_python
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     schema = "landing"
 
     mock_sql = MagicMock()
@@ -54,16 +54,16 @@ def test_delete_tables_data_from_python(read_csv):
             {"name": "table2"}
         ]
 
-        snowflake_etl_process.delete_tables_data_from_python(sr_snowflake_account, schema)
+        snowflake_etl_process.delete_tables_data_from_python(sr_snowflake_account_connect, schema)
 
         mock_snowflake_execute.assert_called_once_with(
-            sr_snowflake_account, "SELECT * FROM landing.tables", snowflake_etl_process.sql.DATABASE
+            sr_snowflake_account_connect, "SELECT * FROM landing.tables", snowflake_etl_process.sql.DATABASE
         )
 
-def test_create_table_file(read_csv):
+def test_create_table_file(read_yml_as_serie):
     
     # this test the function create_table_file
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     table = "landing_season"
     is_encapsulated = 1
     mock_df = pd.DataFrame({'col': [1]})
@@ -71,14 +71,14 @@ def test_create_table_file(read_csv):
     with patch.object(snowflake_etl_process,'snowflake_execute', return_value=mock_df), \
          patch.object(snowflake_etl_process,'create_csv') as mock_create_csv:
 
-        snowflake_etl_process.create_table_file(sr_snowflake_account, table, is_encapsulated)
+        snowflake_etl_process.create_table_file(sr_snowflake_account_connect, table, is_encapsulated)
         mock_create_csv.assert_called_once()
 
-def test_update_snowflake_from_python(read_csv):
+def test_update_snowflake_from_python(read_yml_as_serie, read_csv):
 
     # this test the function update_snowflake_from_python
     called_by = 'main'
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     table_name = "landing_season"
     df_paths = read_csv("paths.csv")
     local_folder = 'local'
@@ -89,7 +89,7 @@ def test_update_snowflake_from_python(read_csv):
     with patch.object(snowflake_etl_process,"snowflake_execute") as mock_snowflake_execute, \
          patch.object(snowflake_etl_process,"create_table_file") :
 
-        snowflake_etl_process.update_snowflake_from_python(called_by,sr_snowflake_account,table_name,df_paths,local_folder)
+        snowflake_etl_process.update_snowflake_from_python(called_by,sr_snowflake_account_connect,table_name,df_paths,local_folder)
 
         assert mock_snowflake_execute.call_count == 2
         q_put_call = mock_snowflake_execute.call_args_list[0][0][1]
@@ -97,11 +97,11 @@ def test_update_snowflake_from_python(read_csv):
         assert exp_schema in q_put_call
         assert table_name in q_put_call
 
-def test_update_snowflake_from_dbt(read_csv):
+def test_update_snowflake_from_dbt(read_csv,read_yml_as_serie):
     
     # this test the function update_snowflake_from_dbt
     called_by = "main"
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     df_paths = read_csv("paths.csv")
     lst_dbt_tables=["curated_season"]
 
@@ -113,18 +113,18 @@ def test_update_snowflake_from_dbt(read_csv):
         mock_run.return_value.stderr = ""
 
         snowflake_etl_process.update_snowflake_from_dbt(
-            called_by,sr_snowflake_account,df_paths,lst_dbt_tables
+            called_by,sr_snowflake_account_connect,df_paths,lst_dbt_tables
         )
 
         mock_run.assert_called_once()
 
-def test_update_snowflake_main(read_csv):
+def test_update_snowflake_main(read_csv,read_yml_as_serie):
 
     # this test the function update_snowflake_from_dbt called by main
     called_by = "main"
     context_dict = {
         'df_paths': read_csv("paths.csv"),
-        'sr_snowflake_account_connect': read_csv("snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
         'sr_output_need': read_csv("output_need_calculate.csv").iloc[0]
     }
     local_folder = "local"
@@ -144,13 +144,13 @@ def test_update_snowflake_main(read_csv):
             ["dbt_table_1"]
         )
 
-def test_update_snowflake_initsnowflake(read_csv):
+def test_update_snowflake_initsnowflake(read_csv,read_yml_as_serie):
 
     # this test the function update_snowflake_from_dbt called by init_snowflake
     called_by = "init_snowflake"
     context_dict = {
         'df_paths': read_csv("paths.csv"),
-        'sr_snowflake_account_connect': read_csv("snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
         'sr_output_need': read_csv("output_need_calculate.csv").iloc[0]
     }
     

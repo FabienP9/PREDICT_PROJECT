@@ -96,7 +96,7 @@ def personalize_yml_dbt_file(dbt_file_path: str , sr_snowflake_account: pd.Serie
             Exits the program if error running the function (using decorator)
     """
     
-    text = files_manipulation.read_yml(dbt_file_path)
+    text = files_manipulation.read_yml_as_txt(dbt_file_path)
 
     #We first check if it needs to be personalized
     is_personalized = "#DATABASE#" not in text
@@ -133,7 +133,7 @@ def parametrize_yml_dbt_file(dbt_file_path: str):
             Exits the program if error running the function (using decorator)
     """
 
-    text = files_manipulation.read_yml(dbt_file_path)
+    text = files_manipulation.read_yml_as_txt(dbt_file_path)
 
     #we parametrize
     text = re_sub(r'(account:\s*).+', r'\1#ACCOUNT#', text)

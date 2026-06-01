@@ -6,11 +6,11 @@ from unittest.mock import patch
 
 from src.predict_core.entry_point import snowflake_account_initialization
 
-def test_snowflake_account_initialization_happy_path(read_csv):
+def test_snowflake_account_initialization_happy_path(read_yml_as_serie, read_csv):
     
     # this test the function snowflake_account_initialization mocking all dependencies
     mock_initiate_local_dict = {
-        "sr_snowflake_account_connect": read_csv("snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
         "str_script_creating_database" : "", \
         "df_paths": read_csv("paths.csv"),
 

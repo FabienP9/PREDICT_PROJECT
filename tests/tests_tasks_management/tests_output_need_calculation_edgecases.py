@@ -9,10 +9,10 @@ import pandas as pd
 
 from src.predict_core.tasks_management import output_need_calculation
 
-def test_calculate_output_need_auto_empty_calendar(read_csv, assert_exit):
+def test_calculate_output_need_auto_empty_calendar(read_yml_as_serie, read_csv, assert_exit):
     
     # this test the function calculate_output_need_auto with an empty calendar. Must exit the program
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     df_task_done = read_csv("task_done.csv")
     str_current_run_time_utc = "2024-01-02 10:00:00.000"
     mock_df_calendar = read_csv("edgecases/calendar_empty.csv")
@@ -20,13 +20,13 @@ def test_calculate_output_need_auto_empty_calendar(read_csv, assert_exit):
     with patch.object(output_need_calculation.tasks_calendar_management,"get_calendar", return_value=mock_df_calendar), \
          patch.object(output_need_calculation.tasks_calendar_management,"get_notrun_task", return_value=mock_df_calendar):
 
-        assert_exit(lambda: output_need_calculation.calculate_output_need_auto(sr_snowflake_account, df_task_done, str_current_run_time_utc))
+        assert_exit(lambda: output_need_calculation.calculate_output_need_auto(sr_snowflake_account_connect, df_task_done, str_current_run_time_utc))
        
-def test_generate_output_need_manual_path(read_csv):
+def test_generate_output_need_manual_path(read_yml_as_serie, read_csv):
     
     # this test the function generate_output_need with a manual path
     context_dict = {
-        "sr_snowflake_account_connect": read_csv("snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
         "df_task_done": read_csv("task_done.csv"),
         "str_current_run_time_utc": "2024-01-02 10:00:00.000",
         "df_message_check_ts": read_csv("message_check_ts.csv"),

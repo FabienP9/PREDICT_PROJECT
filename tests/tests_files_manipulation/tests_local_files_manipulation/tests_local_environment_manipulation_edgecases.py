@@ -22,18 +22,18 @@ def test_create_local_folder_when_already_exists():
         assert os.path.exists(var.TMPF)
         assert os.path.exists(var.TMPD)
 
-def test_initiate_local_environment_missing_flag(read_csv, assert_exit):
+def test_initiate_local_environment_missing_flag(read_yml_as_serie, read_csv, assert_exit):
     
     # this test initial_local_environment with unknown caller. Must exit the program
     called_by = "unknown caller"
     mock_df_paths_dict = {
         "df_paths": read_csv("paths.csv")
     }
-    mock_df_snowflake_account_connect = read_csv("snowflake_account_connect.csv")
+    mock_sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     mock_str_next_run_time_utc = "2024-01-01 08:01:00.000"
     mock_df_run_type = read_csv("RUN_TYPE_after_initiate.csv")
     mock_data_dict = {
-        "df_snowflake_account_connect": mock_df_snowflake_account_connect,
+        "sr_snowflake_account_connect": mock_sr_snowflake_account_connect,
         "str_next_run_time_utc": mock_str_next_run_time_utc,
         "df_run_type": mock_df_run_type,
     }
@@ -47,18 +47,18 @@ def test_initiate_local_environment_missing_flag(read_csv, assert_exit):
         
         assert_exit(lambda: local_environment_manipulation.initiate_local_environment(called_by))
 
-def test_initiate_local_environment_empty_df_paths(read_csv, assert_exit):
+def test_initiate_local_environment_empty_df_paths(read_yml_as_serie, read_csv, assert_exit):
     
     # this test initial_local_environment with an empty df_paths. Must exit the program
     called_by = "main"
     mock_df_paths_dict = {
         "df_paths": read_csv("edgecases/paths_empty.csv")
     }
-    mock_df_snowflake_account_connect = read_csv("snowflake_account_connect.csv")
+    mock_sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     mock_str_next_run_time_utc = "2024-01-01 08:01:00.000"
     mock_df_run_type = read_csv("RUN_TYPE_after_initiate.csv")
     mock_data_dict = {
-        "df_snowflake_account_connect": mock_df_snowflake_account_connect,
+        "sr_snowflake_account_connect": mock_sr_snowflake_account_connect,
         "str_next_run_time_utc": mock_str_next_run_time_utc,
         "df_run_type": mock_df_run_type,
     }

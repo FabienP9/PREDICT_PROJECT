@@ -28,10 +28,10 @@ def test_extract_messages_from_topic(read_csv):
         result = messages_details_extraction.extract_messages_from_topic(topic_row,ts_message_extract_min_utc,ts_message_extract_max_utc)
         assert_frame_equal(result.reset_index(drop=True), mock_df.iloc[[1]].reset_index(drop=True))
 
-def test_extract_messages(read_csv):
+def test_extract_messages(read_yml_as_serie, read_csv):
 
     # this test the function extract_messages
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_output_need = read_csv("output_need_calculate.csv").iloc[0]
 
     mock_topics_scope_id = read_csv("q_topics_query.csv")
@@ -44,30 +44,30 @@ def test_extract_messages(read_csv):
          patch.object(messages_details_extraction,'multithread_run', return_value=[mock_results]), \
          patch.object(messages_details_extraction,'create_csv'):
 
-        df_messages, ts_message_extract_max_utc = messages_details_extraction.extract_messages(sr_snowflake_account, sr_output_need)
+        df_messages, ts_message_extract_max_utc = messages_details_extraction.extract_messages(sr_snowflake_account_connect, sr_output_need)
         assert_frame_equal(df_messages.reset_index(drop=True), mock_results.reset_index(drop=True))
         assert ts_message_extract_max_utc == mock_ts_message_extract_max_utc
 
-def test_get_list_topics_from_need(read_csv):
+def test_get_list_topics_from_need(read_yml_as_serie, read_csv):
     
     # this test the function get_list_topics_from_need
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_output_need = read_csv("output_need_calculate.csv").iloc[0]
     mock_topics_scope_list = read_csv("q_topics_query.csv")
     
     with patch.object(messages_details_extraction,'snowflake_execute', return_value=mock_topics_scope_list):
     
-        df_topics = messages_details_extraction.get_list_topics_from_need(sr_snowflake_account, sr_output_need)
+        df_topics = messages_details_extraction.get_list_topics_from_need(sr_snowflake_account_connect, sr_output_need)
         assert_frame_equal(df_topics.reset_index(drop=True), mock_topics_scope_list.reset_index(drop=True))
 
-def test_get_extraction_time_range(read_csv):
+def test_get_extraction_time_range(read_yml_as_serie, read_csv):
     
     # this test the function get_extraction_time_range
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_output_need = read_csv("output_need_check_with_message_check_ts.csv").iloc[0]
     mock_df_time_max = read_csv("q_gameday_end_details_query.csv")
     
     with patch.object(messages_details_extraction,'snowflake_execute', return_value = mock_df_time_max):
-        min_ts, max_ts = messages_details_extraction.get_extraction_time_range(sr_snowflake_account, sr_output_need)
+        min_ts, max_ts = messages_details_extraction.get_extraction_time_range(sr_snowflake_account_connect, sr_output_need)
         assert min_ts == pd.Timestamp('2025-06-14 15:00:00')
         assert max_ts == pd.Timestamp('2025-10-31 18:30:00')

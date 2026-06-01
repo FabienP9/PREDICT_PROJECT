@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 from typing import Literal
 import csv
+import yaml
 from matplotlib.figure import Figure
 import networkx as nx
 
@@ -79,7 +80,7 @@ def read_and_check_csv(local_file_path: str, is_encapsulated: Literal[0, 1] = 0)
     return df
     
 @config_decorators.exit_program(log_filter=lambda args: dict(args))
-def read_yml(local_file_path: str) -> str:
+def read_yml_as_txt(local_file_path: str) -> str:
     """
         Reads the text from a yml file and returns the content in str format
         Args:
@@ -93,6 +94,48 @@ def read_yml(local_file_path: str) -> str:
     with open(local_file_path, 'r', encoding='utf-8') as file:
         content = file.read() 
     return content
+
+@config_decorators.exit_program(log_filter=lambda args: dict(args))
+def read_and_check_yml_as_serie(local_file_path: str) -> pd.Series:
+    """
+        Reads the text from a yml file and returns the content in pandas series format
+        if all expected data is there
+        Args:
+            local_file_path (str): Local path to the YML file
+        Returns:
+            The content of the yaml file in a pandas series
+        Raises:
+            Exits the program if error running the function (using decorator)
+    """
+    with open(local_file_path, 'r', encoding='utf-8') as f:
+        content = yaml.safe_load(f)
+        series = pd.Series(content)
+
+    filename = Path(local_file_path).name
+    expected_columns = read_json(Path(__file__).resolve().parent / "file_check.json")["schemas"].get(filename, {}).get("columns", {}) # NOSONAR
+    actual_columns = series.index.tolist()
+    missing = [col for col in expected_columns if col not in actual_columns]
+    if missing:
+        raise ValueError(f"Columns missing in {filename}: {missing}")
+
+    type_mismatches = []
+    for col, expected_type in expected_columns.items():
+        actual_type = type(series[col]).__name__
+
+        normalized_actual = "object" if actual_type in ["object", "str"] else actual_type
+        normalized_expected = "object" if expected_type in ["object", "str"] else expected_type
+        
+        if pd.isna(series[col]) and normalized_expected == "object":
+            continue  
+
+        if normalized_actual != normalized_expected:
+            type_mismatches.append((col, expected_type, actual_type))
+
+    if type_mismatches:
+        mismatch_msgs = [f"{col}: expected {exp}, got {act}" for col, exp, act in type_mismatches]
+        raise ValueError(f"Type mismatches in {filename}: {mismatch_msgs}")
+    
+    return series
 
 @config_decorators.exit_program(log_filter=lambda args: dict(args))
 def read_txt(local_file_path: str) -> str:

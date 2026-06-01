@@ -103,7 +103,7 @@
         "SEASON_TEAMCHOICE_DEADLINE": "object"
       }      
     },
-    "snowflake_account_connect.csv": {
+    "snowflake_account_connect.yml": {
       "columns": {
           "ACCOUNT": "object",
           "WAREHOUSE": "object",

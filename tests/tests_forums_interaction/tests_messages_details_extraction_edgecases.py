@@ -44,10 +44,10 @@ def test_extract_messages_from_topic_with_unmatching_timestamp(read_csv):
         result = messages_details_extraction.extract_messages_from_topic(topic_row,ts_message_extract_min_utc,ts_message_extract_max_utc)
         assert result is None
 
-def test_extract_messages_min_ge_max(read_csv):
+def test_extract_messages_min_ge_max(read_yml_as_serie, read_csv):
     
     # this test the function extract_messages with a time range with min > max. The result must be an empty dataframe
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_output_need = read_csv("output_need_calculate.csv").iloc[0]
 
     mock_topics_scope_list = read_csv("q_topics_query.csv")
@@ -60,17 +60,17 @@ def test_extract_messages_min_ge_max(read_csv):
          patch.object(messages_details_extraction,'multithread_run', return_value=[mock_results]), \
          patch.object(messages_details_extraction,'create_csv'):
 
-        df_messages, _ = messages_details_extraction.extract_messages(sr_snowflake_account, sr_output_need)
+        df_messages, _ = messages_details_extraction.extract_messages(sr_snowflake_account_connect, sr_output_need)
         assert df_messages.empty
 
-def test_get_extraction_time_range_invalid_date(read_csv):
+def test_get_extraction_time_range_invalid_date(read_yml_as_serie, read_csv):
     
     # this test the function get_extraction_time_range with invalid date. The result must be NaT
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_output_need = read_csv("edgecases/output_need_check_with_invalid_message_check_ts.csv").iloc[0]
     mock_df_time_max = read_csv("q_gameday_end_details_query.csv")
     
     with patch.object(messages_details_extraction,'snowflake_execute', return_value = mock_df_time_max):
-        min_ts, max_ts = messages_details_extraction.get_extraction_time_range(sr_snowflake_account, sr_output_need)
+        min_ts, max_ts = messages_details_extraction.get_extraction_time_range(sr_snowflake_account_connect, sr_output_need)
         assert pd.isna(min_ts) 
         assert isinstance(max_ts, pd.Timestamp)

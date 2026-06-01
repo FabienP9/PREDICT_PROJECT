@@ -71,29 +71,29 @@ def test_transform_games_to_calendar_bad_type(read_csv, assert_exit):
     df_games = read_csv("edgecases/q_vw_game_query_badtype.csv")
     assert_exit(lambda: output_message_inited_generation.transform_games_to_calendar(df_games))
 
-def test_get_next_opening_gamedays_calendar_empty(read_csv):
+def test_get_next_opening_gamedays_calendar_empty(read_yml_as_serie, read_csv):
 
     # this test the function get_next_opening_gamedays_calendar with an empty dataframe. Must return an empty string
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_gameday_output_init = read_csv("sr_gameday_output_init.csv").iloc[0]
     mock_df_next_gamedays = read_csv("edgecases/q_vw_gameday_nextopening_query_empty.csv")
     
     with patch.object(output_message_inited_generation,'snowflake_execute', return_value=mock_df_next_gamedays):
 
-        result, nbgamedays = output_message_inited_generation.get_next_opening_gamedays_calendar(sr_snowflake_account, sr_gameday_output_init)
+        result, nbgamedays = output_message_inited_generation.get_next_opening_gamedays_calendar(sr_snowflake_account_connect, sr_gameday_output_init)
         assert result == ""
         assert nbgamedays == 0
 
-def test_get_next_opening_gamedays_calendar_badtype(read_csv, assert_exit):
+def test_get_next_opening_gamedays_calendar_badtype(read_yml_as_serie, read_csv, assert_exit):
 
     # this test the function get_next_opening_gamedays_calendar with badtype. Must exit the program
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_gameday_output_init = read_csv("sr_gameday_output_init.csv").iloc[0]
     mock_df_next_gamedays = read_csv("edgecases/q_vw_gameday_nextopening_query_badtype.csv")
     
     with patch.object(output_message_inited_generation,'snowflake_execute', return_value=mock_df_next_gamedays):
 
-        assert_exit(lambda: output_message_inited_generation.get_next_opening_gamedays_calendar(sr_snowflake_account, sr_gameday_output_init))
+        assert_exit(lambda: output_message_inited_generation.get_next_opening_gamedays_calendar(sr_snowflake_account_connect, sr_gameday_output_init))
 
 def test_create_message_no_remaining_games(read_csv, read_txt, read_json, assert_exit):
     
@@ -142,11 +142,11 @@ def test_create_message_none_param(read_csv, read_txt, read_json, assert_exit):
     
     assert_exit(lambda: output_message_inited_generation.create_message(param_dict, template, translations, country, forum, sr_gameday_output_init))
 
-def test_process_output_message_with_no_topics(read_csv, read_txt, read_json):
+def test_process_output_message_with_no_topics(read_yml_as_serie, read_csv, read_txt, read_json):
     
     # this test the function process_output_message_inited with no topics provided. multithreading_run for posting should be called with empty list
     context_dict = {
-        'sr_snowflake_account_connect': read_csv("snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
         'str_output_gameday_init_template_france': read_txt("output_gameday_init_template_france.txt"),
         'str_output_gameday_init_template_italia': read_txt("output_gameday_init_template_france.txt"),
         'lst_output_gameday_template_translations': read_json("output_gameday_template_translations.json")

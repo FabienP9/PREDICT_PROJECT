@@ -30,9 +30,9 @@ def read_txt(materials_dir):
             return file.read()
     return _reader
 
-#to read yml file
+#to read yml file as txt
 @pytest.fixture
-def read_yml(materials_dir):
+def read_yml_as_txt(materials_dir):
     
     def _reader(filename):
         file_path = materials_dir / filename
@@ -40,6 +40,20 @@ def read_yml(materials_dir):
             raise FileNotFoundError(f"Test material file not found: {file_path}")
         with open(file_path, 'r', encoding='utf-8') as file:
             return yaml.safe_load(file)
+    return _reader
+
+#to read yml file as pandas series
+@pytest.fixture
+def read_yml_as_serie(materials_dir):
+    
+    def _reader(filename, **kwargs):
+        file_path = materials_dir / filename
+        if not file_path.exists():
+            raise FileNotFoundError(f"Test material file not found: {file_path}")
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = yaml.safe_load(f)
+            series = pd.Series(content)
+            return series
     return _reader
 
 #to read json file

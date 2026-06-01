@@ -45,7 +45,7 @@ def test_modify_run_type_file(read_csv):
 def test_personalize_yml_dbt_file():
     
     # this test the function personalize_yml_dbt_file creating a temp folder
-    with patch.object(specific_files_operations.files_manipulation,'read_yml', return_value="#ACCOUNT# #DATABASE#"), \
+    with patch.object(specific_files_operations.files_manipulation,'read_yml_as_txt', return_value="#ACCOUNT# #DATABASE#"), \
          patch.object(specific_files_operations.files_manipulation,'create_yml') as mock_create_yml, \
          patch.dict(os.environ, {"SNOWFLAKE_USERNAME":"u","SNOWFLAKE_PASSWORD":"p","IS_TESTRUN":"0"}): # NOSONAR
         specific_files_operations.personalize_yml_dbt_file("dummy.yml", {"ACCOUNT":"acc","DATABASE_PROD":"db","DATABASE_TEST":"dbt","WAREHOUSE":"w"})
@@ -54,7 +54,7 @@ def test_personalize_yml_dbt_file():
 def test_parametrize_yml_dbt_file():
     
     # this test the function parametrize yml dbt file
-    with patch.object(specific_files_operations.files_manipulation,"read_yml", return_value="account: A\ndatabase: B\nuser: U\npassword: P"), \
+    with patch.object(specific_files_operations.files_manipulation,"read_yml_as_txt", return_value="account: A\ndatabase: B\nuser: U\npassword: P"), \
          patch.object(specific_files_operations.files_manipulation,"create_yml") as mock_create_yml:
         specific_files_operations.parametrize_yml_dbt_file("dummy.yml")
     assert mock_create_yml.called

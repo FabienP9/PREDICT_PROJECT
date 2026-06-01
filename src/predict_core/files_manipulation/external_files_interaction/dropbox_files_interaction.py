@@ -69,12 +69,10 @@ def download_file(dropbox_file_path: str, local_folder: str, is_encapsulated: Li
     
     if extension == ".csv":
         files_data_dict['df_'+filename_short.lower()] = files_manipulation.read_and_check_csv(local_file_path_abs,is_encapsulated)        
-    elif extension in [".yml", ".yaml"]:
-        files_data_dict['str_'+filename_short.lower()] = files_manipulation.read_yml(local_file_path_abs)
+    elif extension in [".yml", ".yaml"]: #only one level yaml file
+        files_data_dict['sr_'+filename_short.lower()] = files_manipulation.read_and_check_yml_as_serie(local_file_path_abs)
     elif extension == ".txt":
         files_data_dict['str_'+filename_short.lower()] = files_manipulation.read_txt(local_file_path_abs)
-    elif extension == ".json":
-        files_data_dict['lst_'+filename_short.lower()] = files_manipulation.read_json(local_file_path_abs)
     
     logging.info(f"DROPBOX {dropbox_file_path} -> DOWNLOADING [DONE]")
     return files_data_dict

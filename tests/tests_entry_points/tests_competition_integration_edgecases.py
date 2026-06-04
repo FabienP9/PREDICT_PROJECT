@@ -24,11 +24,11 @@ def test_initiate_local_environment_missing_key(assert_exit):
 
         assert_exit(lambda: competition_integration.competition_integration())
 
-def test_filter_data_failure(read_csv, assert_exit):
+def test_filter_data_failure(read_csv, read_yml_as_serie, assert_exit):
     
     # this test the function competition_integration with a failing filter_data. Must exit the program
     mock_initiate_local_dict = {
-        "sr_snowflake_account_connect": read_csv( "snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect": read_yml_as_serie( "snowflake_account_connect.yml"),
         "df_competition": read_csv( "competition.csv"),
         "df_paths": read_csv( "paths.csv"),
         "df_task_done": read_csv( "task_done.csv")
@@ -43,11 +43,11 @@ def test_filter_data_failure(read_csv, assert_exit):
 
         assert_exit(lambda: competition_integration.competition_integration())
 
-def test_snowflake_update_failure(read_csv, assert_exit):
+def test_snowflake_update_failure(read_csv, read_yml_as_serie,assert_exit):
     
     # this test the function competition_integration with a failing update_snowflake. Must exit the program
     mock_initiate_local_dict = {
-        "sr_snowflake_account_connect": read_csv( "snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect": read_yml_as_serie( "snowflake_account_connect.yml"),
         "df_competition": read_csv( "competition.csv"),
         "df_paths": read_csv( "paths.csv"),
         "df_task_done": read_csv( "task_done.csv")
@@ -64,11 +64,11 @@ def test_snowflake_update_failure(read_csv, assert_exit):
 
         assert_exit(lambda: competition_integration.competition_integration())
 
-def test_calendar_update_failure(read_csv, assert_exit):
+def test_calendar_update_failure(read_csv, read_yml_as_serie, assert_exit):
     
     # this test the function competition_integration with a failing update_calendar_related_files. Must exit the program
     mock_initiate_local_dict = {
-        "sr_snowflake_account_connect": read_csv( "snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect": read_yml_as_serie( "snowflake_account_connect.yml"),
         "df_competition": read_csv( "competition.csv"),
         "df_paths": read_csv( "paths.csv"),
         "df_task_done": read_csv( "task_done.csv")
@@ -86,11 +86,11 @@ def test_calendar_update_failure(read_csv, assert_exit):
     
         assert_exit(lambda: competition_integration.competition_integration())
 
-def test_terminate_local_environment_failure(read_csv, assert_exit):
+def test_terminate_local_environment_failure(read_csv, read_yml_as_serie, assert_exit):
     
     # this test the function competition_integration with a failing terminate_local_environment. Must exit the program
     mock_initiate_local_dict = {
-        "sr_snowflake_account_connect": read_csv( "snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect": read_yml_as_serie( "snowflake_account_connect.yml"),
         "df_competition": read_csv( "competition.csv"),
         "df_paths": read_csv( "paths.csv"),
         "df_task_done": read_csv( "task_done.csv")

@@ -7,11 +7,11 @@ from unittest.mock import patch
 
 from src.predict_core.entry_point import competition_integration
 
-def test_competition_integration(read_csv):
+def test_competition_integration(read_yml_as_serie, read_csv):
     
     # this test the function competition_integration mocking all dependencies
     mock_initiate_local_dict = {
-        "sr_snowflake_account_connect": read_csv("snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
         "df_competition": read_csv("competition.csv"),
         "df_paths": read_csv("paths.csv"),
         "df_task_done": read_csv("task_done.csv")

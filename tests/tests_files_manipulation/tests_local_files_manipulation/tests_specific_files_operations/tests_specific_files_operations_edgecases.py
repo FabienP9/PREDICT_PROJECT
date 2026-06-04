@@ -30,7 +30,7 @@ def test_modify_run_type_file_invalid_event(read_csv, assert_exit):
 def test_personalize_yml_missing_env_vars(assert_exit):
     
     # this test the function personalize_yml_dbt_file with the environment variables non provided. Must exit the program.
-    with patch.object(specific_files_operations.files_manipulation,"read_yml", return_value="#DATABASE# something"), \
+    with patch.object(specific_files_operations.files_manipulation,"read_yml_as_txt", return_value="#DATABASE# something"), \
          patch.dict("os.environ", {}, clear=True), \
          patch.object(specific_files_operations.files_manipulation,"create_yml"):
         
@@ -40,7 +40,7 @@ def test_personalize_yml_missing_env_vars(assert_exit):
 def test_parametrize_yml_dbt_file_bad_read(assert_exit):
     
     # this test the function parametrize_yml_dbt_file forcing an error reading it. Must exit the program.
-    with patch.object(specific_files_operations.files_manipulation,"read_yml", side_effect=OSError("cannot read")):
+    with patch.object(specific_files_operations.files_manipulation,"read_yml_as_txt", side_effect=OSError("cannot read")):
         assert_exit(lambda: specific_files_operations.parametrize_yml_dbt_file("profiles.yml"))
 
 def test_create_json_file_email_empty():

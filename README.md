@@ -69,7 +69,7 @@ The software uses the following external tools and accounts:
     → Copy the result into a GitHub Secret RCLONE_CONFIG_BASE64         
 
 - **Snowflake free account** (https://signup.snowflake.com/), to store predictions and calculations, with at least one user having DML privileges (The software uses its credentials).  
-    → The file *snowflake_account_connect.csv* - see [the manual](#documentation) for details - must store the account id  
+    → The file *snowflake_account_connect.yml* - see [the manual](#documentation) for details - must store the account id  
     → SNOWFLAKE_USERNAME and SNOWFLAKE_PASSWORD are GitHub secrets containing user credentials with DML privileges  
 
 - **DBT free account** (https://www.getdbt.com/signup), to run transformations and calculations in Snowflake using sql files.
@@ -222,7 +222,7 @@ This ensures that:
 
 ## Snowflake database architecture<a name="snowflakearchitecture"></a>
 
-The program creates two databases, one for production, one for testing (names can be defined in the file *snowflake_account_connect.csv* - see [the manual](#documentation) for details -)
+The program creates two databases, one for production, one for testing (names can be defined in the file *snowflake_account_connect.yml* - see [the manual](#documentation) for details -)
 
 There are three schemas (= layers):
 - landing (managed by Python): Stores raw data from manual files, forum messages, and game extractions, all of them prealably filtered on relevant data

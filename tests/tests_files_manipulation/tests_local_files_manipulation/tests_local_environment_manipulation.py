@@ -21,16 +21,16 @@ def test_create_and_destroy_local_folder():
     assert not os.path.exists(var.TMPF)
     assert not os.path.exists(var.TMPD)
 
-def test_initiate_local_environment(read_csv):
+def test_initiate_local_environment(read_csv,read_yml_as_serie):
     
     # this test the function initiate_local_environment
     called_by = "main"
     mock_df_paths_dict = {"df_paths" : read_csv("paths.csv")}
-    mock_df_snowflake_account_connect = read_csv("snowflake_account_connect.csv")
+    mock_sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     mock_str_next_run_time_utc = "2024-01-01 08:01:00.000"
     mock_df_run_type = read_csv("RUN_TYPE_after_initiate.csv")
     mock_data_dict = {
-        "df_snowflake_account_connect": mock_df_snowflake_account_connect,
+        "sr_snowflake_account_connect": mock_sr_snowflake_account_connect,
         "str_next_run_time_utc": mock_str_next_run_time_utc,
         "df_run_type": mock_df_run_type,
     }

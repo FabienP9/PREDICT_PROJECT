@@ -80,10 +80,9 @@ def initiate_local_environment(called_by: str) -> dict:
 
     # We parallelize the downloading of those files
     download_args = [(file_name, var.TMPF, df_paths) for file_name in files_to_download]
+
     results = multithread_run(dropbox.get_locally, download_args)
     context_dict.update({k: v for r in results for k, v in r.items()})
-    context_dict['sr_snowflake_account_connect'] = context_dict['df_snowflake_account_connect'].iloc[0]
-    
     # we copy next_run time to current_run time if called by main 
     # (the only "exe" function using the value):
     # it was the next one of the previous run

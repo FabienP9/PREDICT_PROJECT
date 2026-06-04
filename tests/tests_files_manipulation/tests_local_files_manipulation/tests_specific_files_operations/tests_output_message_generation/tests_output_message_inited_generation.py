@@ -57,24 +57,24 @@ def test_transform_games_to_calendar(read_csv,read_txt):
     assert calendar_games == expected_str
     assert firstgametimedict == {'1ere journee': '01/01 15h'}
 
-def test_get_next_opening_gamedays_calendar(read_csv,read_txt):
+def test_get_next_opening_gamedays_calendar(read_yml_as_serie, read_csv,read_txt):
 
     # this test the function get_next_opening_gamedays_calendar
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_gameday_output_init = read_csv("sr_gameday_output_init.csv").iloc[0]
     mock_df_next_gamedays = read_csv("q_vw_gameday_nextopening_query.csv")
     expected_result = read_txt("output_message_inited_next_opening_gamedays_calendar.txt")
     
     with patch.object(output_message_inited_generation,'snowflake_execute', return_value=mock_df_next_gamedays):
 
-        result, nbgamedays = output_message_inited_generation.get_next_opening_gamedays_calendar(sr_snowflake_account, sr_gameday_output_init)
+        result, nbgamedays = output_message_inited_generation.get_next_opening_gamedays_calendar(sr_snowflake_account_connect, sr_gameday_output_init)
         assert result == expected_result
         assert nbgamedays == 2
         
-def test_get_parameters(read_csv,read_txt):
+def test_get_parameters(read_yml_as_serie, read_csv,read_txt):
     
     # this test the function get_parameters
-    sr_snowflake_account = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_gameday_output_init = read_csv("sr_gameday_output_init.csv").iloc[0]
     mock_df_games_opening = read_csv("q_vw_game_query.csv")
     mock_df_games_opened = read_csv("q_vw_game_opened_atdate.csv")
@@ -97,7 +97,7 @@ def test_get_parameters(read_csv,read_txt):
     with patch.object(output_message_inited_generation,'snowflake_execute', side_effect=[mock_df_games_opening,mock_df_games_opened]), \
         patch.object(output_message_inited_generation,'get_next_opening_gamedays_calendar', return_value=(mock_calendar_next_opening,2)):
         
-        param_dict = output_message_inited_generation.get_parameters(sr_snowflake_account, sr_gameday_output_init)
+        param_dict = output_message_inited_generation.get_parameters(sr_snowflake_account_connect, sr_gameday_output_init)
         assert expected_param_dict == param_dict
 
 def test_create_message(read_csv,read_txt, read_json):
@@ -133,11 +133,11 @@ def test_create_message(read_csv,read_txt, read_json):
         assert country == "FRANCE"
         assert forum == 'BI'
 
-def test_process_output_message_inited(read_csv,read_txt, read_json):
+def test_process_output_message_inited(read_yml_as_serie, read_csv,read_txt, read_json):
     
     # this test the function process_output_message_inited
     context_dict = {
-        'sr_snowflake_account_connect': read_csv("snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
         'str_output_gameday_init_template_france': read_txt("output_gameday_init_template_france.txt"),
         'str_output_gameday_init_template_italia': read_txt("output_gameday_init_template_france.txt"),
         'lst_output_gameday_template_translations': read_json("output_gameday_template_translations.json")

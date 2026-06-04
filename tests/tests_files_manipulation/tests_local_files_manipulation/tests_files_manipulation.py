@@ -12,7 +12,6 @@ import pandas as pd
 
 from src.predict_core.files_manipulation.local_files_manipulation import files_manipulation
 
-
 def test_create_csv(read_csv):
     
     # this test the function create_csv

@@ -184,12 +184,12 @@ def test_manage_df(read_json, read_csv):
             expected_path = os.path.join(tmp, full_capture_name)
             mock_push.assert_called_once_with(expected_path)
 
-def test_generate_output_message_init(read_csv):
+def test_generate_output_message_init(read_csv, read_yml_as_serie):
     
     # this test the function generate_output_message - with INIT task
     context_dict = {
         "sr_output_need": read_csv("output_need_init.csv").iloc[0],
-        "sr_snowflake_account_connect": read_csv("snowflake_account_connect.csv").iloc[0]
+        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml")
     }
     mock_df_gameday = read_csv("sr_gameday_output_init.csv").iloc[0]
 
@@ -201,12 +201,12 @@ def test_generate_output_message_init(read_csv):
         mock_inited.assert_called_once()
         mock_calc.assert_not_called()
 
-def test_generate_output_message_calculate(read_csv):
+def test_generate_output_message_calculate(read_csv, read_yml_as_serie):
     
     # this test the function generate_output_message -  with CALCULATE task
     context_dict = {
         "sr_output_need": read_csv("output_need_calculate.csv").iloc[0],
-        "sr_snowflake_account_connect": read_csv("snowflake_account_connect.csv").iloc[0]
+        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml")
     }
     mock_df_gameday = read_csv("sr_gameday_output_calculate.csv").iloc[0]
 

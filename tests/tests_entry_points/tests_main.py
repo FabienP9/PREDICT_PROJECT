@@ -26,11 +26,11 @@ def test_process_games(read_csv):
         result = main.process_games(context)
         assert "df_game" in result
 
-def test_process_messages_autoprocess(read_csv):
+def test_process_messages_autoprocess(read_yml_as_serie, read_csv):
     
     # this test the process_messages function with an automatic process
     context = {
-        'sr_snowflake_account_connect': read_csv("snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
         'sr_output_need': read_csv("output_need_check_with_message_check_ts.csv").iloc[0],
         "df_paths" : read_csv("paths.csv"),
         "df_boolean_check_message_manually" : read_csv("boolean_check_message_manually_0.csv"),
@@ -51,11 +51,11 @@ def test_process_messages_autoprocess(read_csv):
             assert "df_message_check_ts" in result
             assert (result['df_message_check_ts'].loc[result['df_message_check_ts']['SEASON_ID'] == context['sr_output_need']['SEASON_ID'], 'LAST_CHECK_TS_UTC'] == extraction_time_utc).all()
 
-def test_process_messages_manualprocess(read_csv):
+def test_process_messages_manualprocess(read_yml_as_serie, read_csv):
     
     # this test the process_messages function with an manual process
     context = {
-        'sr_snowflake_account_connect': read_csv("snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
         'sr_output_need': read_csv("output_need_check_with_message_check_ts.csv").iloc[0],
         "df_paths" : read_csv("paths.csv"),
         "df_boolean_check_message_manually" : read_csv("boolean_check_message_manually_1.csv"),
@@ -76,12 +76,12 @@ def test_process_messages_manualprocess(read_csv):
             assert "df_message_check_ts" in result
             assert_frame_equal(result['df_message_check_ts'].reset_index(drop=True), context['df_message_check_ts'].reset_index(drop=True))
 
-def test_display_check_string_with_messages(read_csv):
+def test_display_check_string_with_messages(read_yml_as_serie, read_csv):
     
     # this test the display_check_string function with messages - manual processing
     context = {
         'sr_output_need': read_csv("output_need_calculate.csv").iloc[0],
-        'sr_snowflake_account_connect': read_csv("snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
         'extraction_time_utc':  "2000-01-02 01:00:00",
         'nb_new_messages': 3,
         "df_boolean_check_message_manually" : read_csv("boolean_check_message_manually_1.csv")
@@ -93,12 +93,12 @@ def test_display_check_string_with_messages(read_csv):
     assert check_string is not None
     assert check_string != "No need to check - no new messages"
 
-def test_display_check_string_without_messages(read_csv):
+def test_display_check_string_without_messages(read_csv, read_yml_as_serie):
     
     # this test the display_check_string function without messages - manual processing
     context = {
         'sr_output_need': read_csv("output_need_calculate.csv").iloc[0],
-        'sr_snowflake_account_connect': read_csv("snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
         'extraction_time_utc':  "2000-01-02 01:00:00",
         'nb_new_messages': 0,
         "df_boolean_check_message_manually" : read_csv("boolean_check_message_manually_1.csv")
@@ -108,12 +108,12 @@ def test_display_check_string_without_messages(read_csv):
     check_string = main.display_check_string(context)
     assert check_string == "No need to check - no new messages"
 
-def test_display_check_string_autoprocess(read_csv):
+def test_display_check_string_autoprocess(read_csv, read_yml_as_serie):
     
     # this test the display_check_string function with auto processing
     context = {
         'sr_output_need': read_csv("output_need_calculate.csv").iloc[0],
-        'sr_snowflake_account_connect': read_csv("snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
         'extraction_time_utc':  "2000-01-02 01:00:00",
         'nb_new_messages': 0,
         "df_boolean_check_message_manually" : read_csv("boolean_check_message_manually_0.csv")
@@ -122,13 +122,13 @@ def test_display_check_string_autoprocess(read_csv):
     check_string = main.display_check_string(context)
     assert check_string == "No need to check - messages processed automatically"
 
-def test_main(read_csv):
+def test_main(read_csv, read_yml_as_serie):
     
     # this test the main function with all inputs mocked
     mock_initiate_local_dict = {
          "df_paths": read_csv("paths.csv"),
          "sr_output_need" : read_csv("output_need_calculate.csv").iloc[0],
-         'sr_snowflake_account_connect': read_csv("snowflake_account_connect.csv").iloc[0],
+         "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
          'df_task_done' : read_csv("task_done.csv"),
          "df_boolean_check_message_manually" : read_csv("boolean_check_message_manually_0.csv")
     }

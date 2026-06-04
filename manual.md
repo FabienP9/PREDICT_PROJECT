@@ -264,7 +264,7 @@ They must be created and updated by the software administrator, according to the
     - **IS_FOR_RESULT** (0/1): Boolean to define if the topic is for posting result publication or not
     - **MESSAGE_NUMBER_TO_EDIT** (optional, int): If filled, the number of the message on the topic will be edited for publishing prograam message. If not filled, no message number will be edited, just posted.
 
-- **snowflake_account_connect.csv**: Defines Snowflake connection parameters (except credentials, [stored as GitHub Secrets](#inputparameters)).
+- **snowflake_account_connect.yml**: Defines Snowflake connection parameters (except credentials, [stored as GitHub Secrets](#inputparameters)).
     - **ACCOUNT**: The name of the account
     - **WAREHOUSE**: The name of the warehouse used to run DML
     - **DATABASE_PROD**: The name of the database for production

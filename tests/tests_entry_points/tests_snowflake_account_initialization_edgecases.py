@@ -23,11 +23,11 @@ def test_local_env_failure(assert_exit):
 
           assert_exit(lambda: snowflake_account_initialization.snowflake_account_initialization())
 
-def test_snowflake_script_failure(read_csv, assert_exit):
+def test_snowflake_script_failure(read_csv, read_yml_as_serie, assert_exit):
     
     # this test the function snowflake_account_initialization with a failing snowflake_execute_script. Must exit the program
     mock_initiate_local_dict = {
-        "sr_snowflake_account_connect": read_csv("snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
         "str_script_creating_database" : "",
         "df_paths": read_csv("paths.csv")
     }
@@ -39,11 +39,11 @@ def test_snowflake_script_failure(read_csv, assert_exit):
 
           assert_exit(lambda: snowflake_account_initialization.snowflake_account_initialization())
 
-def test_dropbox_download_failure(read_csv, assert_exit):
+def test_dropbox_download_failure(read_yml_as_serie, read_csv, assert_exit):
     
     # this test the function snowflake_account_initialization with a failing download_folder. Must exit the program
     mock_initiate_local_dict = {
-        "sr_snowflake_account_connect": read_csv("snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
         "str_script_creating_database" : "", \
         "df_paths": read_csv("paths.csv"),
         "df_competition": read_csv("competition.csv"),
@@ -58,11 +58,11 @@ def test_dropbox_download_failure(read_csv, assert_exit):
 
           assert_exit(lambda: snowflake_account_initialization.snowflake_account_initialization())
 
-def test_update_snowflake_failure(read_csv, assert_exit):
+def test_update_snowflake_failure(read_yml_as_serie, read_csv, assert_exit):
     
     # this test the function snowflake_account_initialization with a failing update_snowflake. Must exit the program
     mock_initiate_local_dict = {
-        "sr_snowflake_account_connect": read_csv("snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
         "str_script_creating_database" : "", \
         "df_paths": read_csv("paths.csv"),
         "df_competition": read_csv("competition.csv"),
@@ -78,11 +78,11 @@ def test_update_snowflake_failure(read_csv, assert_exit):
 
           assert_exit(lambda: snowflake_account_initialization.snowflake_account_initialization())
 
-def test_terminate_local_env_failure(read_csv, assert_exit):
+def test_terminate_local_env_failure(read_csv, read_yml_as_serie, assert_exit):
     
     # this test the function snowflake_account_initialization with a failing terminate_local_environment. Must exit the program
     mock_initiate_local_dict = {
-        "sr_snowflake_account_connect": read_csv("snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
         "str_script_creating_database" : "", \
         "df_paths": read_csv("paths.csv"),
         "df_competition": read_csv("competition.csv"),

@@ -8,10 +8,10 @@ import pandas as pd
 
 from src.predict_core.tasks_management import tasks_calendar_management
 
-def test_get_calendar(read_csv):
+def test_get_calendar(read_yml_as_serie, read_csv):
     
     # this test the function get_calendar
-    sr_snowflake_account_connect = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     mock_df_calendar = read_csv("calendar.csv")
 
     with patch.object(tasks_calendar_management,"snowflake_execute", return_value=mock_df_calendar):
@@ -59,11 +59,11 @@ def test_add_task_to_taskdone(read_csv):
         assert_frame_equal(result.reset_index(drop=True), expected_df.reset_index(drop=True))
         mock_create_csv.assert_called_once()
 
-def test_update_calendar_related_files_main(read_csv):
+def test_update_calendar_related_files_main(read_yml_as_serie, read_csv):
     
     # this test the function update_calendar_related_files from caller main
     called_by = "main"
-    sr_snowflake_account_connect = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     df_task_done = read_csv("task_done.csv")
     sr_output_need = read_csv("output_need_init.csv").iloc[0]
     mock_df_task_done = read_csv("task_done_after_add.csv")
@@ -77,11 +77,11 @@ def test_update_calendar_related_files_main(read_csv):
         result = tasks_calendar_management.update_calendar_related_files(called_by, sr_snowflake_account_connect, df_task_done, sr_output_need)
         assert result == "2024-01-02 10:00:00.000"
 
-def test_update_calendar_related_files_compet(read_csv):
+def test_update_calendar_related_files_compet(read_yml_as_serie, read_csv):
     
     # this test the function update_calendar_related_files when called by competition_integration
     called_by = "init_compet"
-    sr_snowflake_account_connect = read_csv("snowflake_account_connect.csv").iloc[0]
+    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     df_task_done = read_csv("task_done.csv")
     sr_output_need = read_csv("output_need_init.csv").iloc[0]
     mock_df_calendar = read_csv("calendar.csv")

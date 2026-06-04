@@ -28,11 +28,11 @@ def test_process_games_failure(read_csv,assert_exit):
 
         assert_exit(lambda: main.process_games(context))
 
-def test_process_messages_extract_messages_failure(read_csv, assert_exit):
+def test_process_messages_extract_messages_failure(read_csv, read_yml_as_serie, assert_exit):
     
     # this test the process_messages with extract_messages failing. Must exit the program.
     context = {
-        'sr_snowflake_account_connect': read_csv("snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
         'sr_output_need': read_csv("output_need_calculate.csv").iloc[0],
         "df_paths" : read_csv("paths.csv"),
         "df_boolean_check_message_manually" : read_csv("boolean_check_message_manually_0.csv"),
@@ -43,11 +43,11 @@ def test_process_messages_extract_messages_failure(read_csv, assert_exit):
 
             assert_exit(lambda: main.process_messages(context))
         
-def test_process_messages_invalid_message_dataframe(read_csv, assert_exit):
+def test_process_messages_invalid_message_dataframe(read_yml_as_serie, read_csv, assert_exit):
     
     # this test the process_messages with invalid message. Must exit the program.
     context = {
-        'sr_snowflake_account_connect': read_csv("snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
         'sr_output_need': read_csv("output_need_calculate.csv").iloc[0],
         "df_paths" : read_csv("paths.csv"),
         "df_boolean_check_message_manually" : read_csv("boolean_check_message_manually_0.csv"),
@@ -63,12 +63,12 @@ def test_process_messages_invalid_message_dataframe(read_csv, assert_exit):
 
             assert_exit(lambda: main.process_messages(context))
 
-def test_display_check_string_missing_key(read_csv,assert_exit):
+def test_display_check_string_missing_key(read_yml_as_serie, read_csv,assert_exit):
     
     # this test the display_check_string with missing columns in sr_output_need. Must exit the program.
     context = {
         'sr_output_need': {},
-        'sr_snowflake_account_connect': read_csv("snowflake_account_connect.csv").iloc[0],
+        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
         'extraction_time_utc':  "2000-01-02 01:00:00",
         'nb_new_messages': 3,
         "df_boolean_check_message_manually" : read_csv("boolean_check_message_manually_1.csv")
@@ -82,13 +82,13 @@ def test_main_dropbox_failure(assert_exit):
          patch.object(main.dropbox,"initiate_folder", side_effect=OSError("dropbox fail")):
         assert_exit(lambda: main.main())
     
-def test_main_generate_output_need_failure(read_csv, assert_exit):
+def test_main_generate_output_need_failure(read_csv, read_yml_as_serie, assert_exit):
     
     # this test the main with generate_output_need failing. Must exit the program.
     mock_initiate_local_dict = {
          "df_paths": read_csv("paths.csv"),
          "sr_output_need" : read_csv("output_need_calculate.csv").iloc[0],
-         'sr_snowflake_account_connect': read_csv("snowflake_account_connect.csv").iloc[0],
+         "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
          'df_task_done' : read_csv("task_done.csv")
     }
 

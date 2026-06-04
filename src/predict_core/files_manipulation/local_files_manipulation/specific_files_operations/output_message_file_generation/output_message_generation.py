@@ -227,7 +227,7 @@ def capture_df_oneheader(df: pd.DataFrame, capture_name: str):
     color1 = '#ccd9ff'
     color2 = '#ffffcc'
 
-    fig, ax = plt.subplots(figsize=(5, 0.25*len(df)))
+    fig, ax = plt.subplots(figsize=(5, 0.24*(1+len(df))))
     ax.axis('off')  # Turn off the axes
     table = ax.table(cellText=df.values, colLabels=df.columns, loc='center', cellLoc='center')
     

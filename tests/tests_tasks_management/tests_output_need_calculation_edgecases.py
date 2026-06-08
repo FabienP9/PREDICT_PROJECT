@@ -2,7 +2,6 @@
 This tests file concern all functions in the output_need_calculation module.
 It units test unhappy paths for each function
 '''
-import os
 from unittest.mock import patch
 from pandas.testing import assert_series_equal
 import pandas as pd

@@ -55,7 +55,7 @@ def get_game_details_lnb(competition_source_id: int, gameday: str | None= None, 
           df_game = df_game[df_game["round_description"].astype(str) == gameday]
     elif sr_games_to_extract is not None:
           df_game = df_game[df_game["match_id"].astype(str).isin(sr_games_to_extract.values.astype(str))]
-
+    
     game_status = df_game["match_status"]
     if not game_status.isin(['SCHEDULED','COMPLETE']).all() and os.getenv('OVERWRITE_GAMES_STATUS') == 0:
         raise ValueError("At least one game is in progress or unknow status- retry extraction later")
@@ -92,6 +92,8 @@ def get_game_details_lnb(competition_source_id: int, gameday: str | None= None, 
     columns = ['COMPETITION_SOURCE_ID', 'GAMEDAY',
             'DATE_GAME_UTC', 'TIME_GAME_UTC', 'DATE_GAME_LOCAL', 'TIME_GAME_LOCAL',
             'TEAM_HOME', 'SCORE_HOME', 'TEAM_AWAY', 'SCORE_AWAY', 'GAME_SOURCE_ID']
-    
-    return df_game[columns].reset_index(drop=True)
+    df_game = df_game[columns].reset_index(drop=True)
+    # We remove games with teams undefined
+    df_game = df_game[(df_game['TEAM_HOME'].notna()) & (df_game['TEAM_AWAY'].notna())]
+    return df_game
     

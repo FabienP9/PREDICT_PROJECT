@@ -37,7 +37,6 @@ def extract_games_from_competition(df_competition: pd.DataFrame) -> pd.DataFrame
                'TEAM_HOME', 'SCORE_HOME', 'TEAM_AWAY', 'SCORE_AWAY', 'GAME_SOURCE_ID'])
     
     for compet_row in df_competition.itertuples(index=False):
-        print(compet_row)
         source = compet_row.COMPETITION_SOURCE
         get_game_details = game_info_functions.get(source)
         df_game_details = get_game_details(competition_source_id = compet_row.COMPETITION_SOURCE_ID)

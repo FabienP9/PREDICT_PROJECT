@@ -291,18 +291,10 @@ The game_modification file is used to overwrite the ForumGameID displayed to pla
     - **GAME_SOURCE_ID**: The id on the game source
     - **GAME_FORUM_ID**: The id to overwrite for the forum  (The ForumGameID part on the display)
 
-- <a name="outputneedmanual"></a>**output_need_manual.csv**: If ran automatically (**IS_OUTPUT_AUTO = 1**), the program will calculate output need based on run [calendar planned](#calendar). 
-    If ran manually (**IS_OUTPUT_AUTO = 0**), the program will use this file as output need
+- <a name="outputneedmanual"></a>**output_need_manual.yml**: If ran automatically (**IS_OUTPUT_AUTO = 1**), the program will calculate output need based on run [calendar planned](#calendar), and current timestamp.
+    If ran manually (**IS_OUTPUT_AUTO = 0**), the program will use this file to generate output need. The task must exist in the calendar of run: the program will get details of the run wanted in the calendar.
     - **TASK_RUN**: The [type of the task](#taskrun) ran 
     - **SEASON_ID**: The id of the season - same as on [season.csv](#season)/SEASON_ID
-    - **SEASON_SPORT**: The name of the sport  - same as on [season.csv](#season)/SEASON_SPORT. Can be left empty
-    - **SEASON_COUNTRY**: The name of the season country - same as on [season.csv](#season)/SEASON_COUNTRY. Can be left empty
-    - **SEASON_NAME**: The name of the season - same as on [season.csv](#season)/SEASON_NAME. Can be left empty
-    - **SEASON_DIVISION**: The division of the season - same as on [season.csv](#season)/SEASON_DIVISION. Can be left empty
-    - **COMPETITION_ID**: The id of the competition ran - same as on [competition.csv](#competition)/COMPETITION_ID.
-    - **GAMEDAY**: The gameday name to run in the related competition, AFTER the potential modification on [gameday_modification.csv](#gamedaymodification)
-    - **TS_TASK_UTC**: The utc task timestamp as on run [calendar planned](#calendar).
-    - **TS_TASK_LOCAL**: The local season task timestamp as on run [calendar planned](#calendar). Can be left empty
     - **IS_TO_INIT**(0/1): Boolean telling to calculate and publish prediction gameday template
     - **IS_TO_CALCULATE**(0/1): Boolean telling to calculate and publish results message of the gameday (see [here](#istocalculate) for more details) 
     - **IS_TO_DELETE**(0/1): Boolean telling to delete the results of the gameday on database (see [here](#istodelete) for more details) 

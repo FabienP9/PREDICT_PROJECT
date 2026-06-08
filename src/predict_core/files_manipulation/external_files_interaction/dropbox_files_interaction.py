@@ -75,8 +75,6 @@ def download_file(dropbox_file_path: str, local_folder: str, is_encapsulated: Li
         files_data_dict['str_'+filename_short.lower()] = files_manipulation.read_txt(local_file_path_abs)
     elif extension == ".json":
         files_data_dict['lst_'+filename_short.lower()] = files_manipulation.read_json(local_file_path_abs)
-    else:
-        raise ValueError(f"the extension of {filename_short} is unknown to the program")
     
     logging.info(f"DROPBOX {dropbox_file_path} -> DOWNLOADING [DONE]")
     return files_data_dict

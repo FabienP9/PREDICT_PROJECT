@@ -15,6 +15,7 @@ CALENDAR_QUERY = f"""
         SEASON_NAME,
         SEASON_DIVISION,
         COMPETITION_ID,
+        COMPETITION_SOURCE_ID,
         GAMEDAY,
         TS_TASK_UTC, 
         TS_TASK_LOCAL,

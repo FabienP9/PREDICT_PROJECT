@@ -11,22 +11,23 @@ from ...config import config_decorators
 
 @config_decorators.exit_program(log_filter=lambda args: dict(args))
 @config_decorators.retry_function(log_filter=lambda args: dict(args))
-def get_game_details_lnb(competition_row: tuple, gameday: str | None = None, df_gameday_modification: pd.DataFrame | None = None) -> pd.DataFrame:
+def get_game_details_lnb(competition_source_id: int, gameday: str | None= None, sr_games_to_extract: pd.Series | None = None) -> pd.DataFrame:
 
     """
         Gets all games details from a competition coming from LNB website, managed in JSON, possibly filtered by gameday
         Args:
-            competition_row (tuple) : Basic details about the competition we want to extract from LNB website
-            gameday (str): Gameday to filter on if exists
+            competition_source_id (int) : get the id of the competition in source
+            gameday (str): if given, filter on this gameday
+            sr_games_to_extract (pandas dataframe): if given, filter on these games id
         Returns:
-            the dataframe corresponding to all games details extracted from this competition and possibly gameday
+            the dataframe corresponding to all games details extracted from this competition and possibly gamedays
         Raises:
             Retry 3 times and exits the program if error with extraction or parsing (using retry decorator)
     """
 
     url = "https://api-prod.lnb.fr/match/getCalendar"
     payload = {
-        "competition_external_id": int(competition_row.COMPETITION_SOURCE_ID),
+        "competition_external_id": int(competition_source_id),
         "start_date": "2000-01-01",
         "end_date": "2999-12-31"
     }
@@ -51,25 +52,15 @@ def get_game_details_lnb(competition_row: tuple, gameday: str | None = None, df_
     df_game = pd.json_normalize(data, record_path="data", errors="ignore")
 
     if gameday is not None:
-        # We filter on gameday. 
-        # If there are values in gameday_modification corresponding to this gameday
-        # we filter on the original gameday from the LNB source
-        list_gamedays_modified = df_gameday_modification[
-            (df_gameday_modification["SEASON_ID"] == competition_row.SEASON_ID) &
-            (df_gameday_modification["GAMEDAY_MODIFIED"] == gameday)][['GAME_SOURCE_ID']]
+          df_game = df_game[df_game["round_description"].astype(str) == gameday]
+    elif sr_games_to_extract is not None:
+          df_game = df_game[df_game["match_id"].astype(str).isin(sr_games_to_extract.values.astype(str))]
 
-        if len(list_gamedays_modified) > 0:
-            df_game = df_game[df_game["match_id"].isin(list_gamedays_modified['GAME_SOURCE_ID'])]
-
-        else:
-            df_game = df_game[df_game["round_description"].astype(str) == gameday]
     game_status = df_game["match_status"]
     if not game_status.isin(['SCHEDULED','COMPLETE']).all() and os.getenv('OVERWRITE_GAMES_STATUS') == 0:
         raise ValueError("At least one game is in progress or unknow status- retry extraction later")
     
-    df_game["COMPETITION_SOURCE"] = competition_row.COMPETITION_SOURCE
-    df_game["COMPETITION_ID"] = competition_row.COMPETITION_ID
-    df_game["SEASON_ID"] = competition_row.SEASON_ID
+    df_game['COMPETITION_SOURCE_ID'] = competition_source_id
     df_game["GAMEDAY"] = df_game["round_description"]
 
     # we get datetime of game
@@ -98,7 +89,7 @@ def get_game_details_lnb(competition_row: tuple, gameday: str | None = None, df_
     df_game["GAME_SOURCE_ID"] = df_game["match_id"]
 
     # Final selection
-    columns = ['COMPETITION_SOURCE', 'COMPETITION_ID', 'SEASON_ID', 'GAMEDAY',
+    columns = ['COMPETITION_SOURCE_ID', 'GAMEDAY',
             'DATE_GAME_UTC', 'TIME_GAME_UTC', 'DATE_GAME_LOCAL', 'TIME_GAME_LOCAL',
             'TEAM_HOME', 'SCORE_HOME', 'TEAM_AWAY', 'SCORE_AWAY', 'GAME_SOURCE_ID']
     

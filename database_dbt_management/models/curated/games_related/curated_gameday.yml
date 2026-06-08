@@ -24,6 +24,11 @@ models:
           to_model: ref('curated_competition')
           to_column: COMPETITION_KEY
 
+  - name: COMPETITION_SOURCE_ID
+    description: The website source id of the competition.
+    tests:
+      - not_null
+
   - name: GAMEDAY
     description: The gameday string from the source, possibly modified, used in reportings
     tests:

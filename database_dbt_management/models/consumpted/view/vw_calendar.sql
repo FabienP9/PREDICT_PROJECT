@@ -1,6 +1,6 @@
 /* 
     The purpose of this view is to display the calendar in real time, to get coming run actions
-    The chosen time window is current date - 1week (if action are delayed because of bugs) 
+    The chosen time window is current date - 1month (if action are delayed because of bugs) 
     -> current date + 1month
 */
 {{config(
@@ -180,6 +180,7 @@ calendar as (
         season.SEASON_NAME,
         season.SEASON_DIVISION,
         compet.COMPETITION_ID,
+        gameday.COMPETITION_SOURCE_ID,
         gameday.GAMEDAY,
         cte.TS_TASK_UTC, 
         convert_timezone('UTC', lt.TIMEZONE, cte.TS_TASK_UTC) as TS_TASK_LOCAL,
@@ -212,6 +213,7 @@ SELECT
     calendar.SEASON_NAME,
     calendar.SEASON_DIVISION,
     calendar.COMPETITION_ID,
+    calendar.COMPETITION_SOURCE_ID,
     calendar.GAMEDAY,
     calendar.TS_TASK_UTC, 
     calendar.TS_TASK_LOCAL,

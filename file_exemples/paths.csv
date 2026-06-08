@@ -4,7 +4,7 @@
 "RUN_TYPE","current/inputs/calculated/RUN_TYPE.csv","0","1",,,"[]","['INITIAL_MAIN', 'INITIAL_COMPET','INITIAL_SNOWFLAKE']","[]","[]"
 "message_check_ts","current/outputs/python/message_check_ts.csv","0","1",,,"[]","['INITIAL_MAIN']","[]","[]"
 "boolean_check_message_manually","current/inputs/manual/boolean_check_message_manually.csv","0","0",,,"[]","['INITIAL_MAIN']","[]","[]"
-"output_need_manual","current/inputs/manual/output_need_manual.csv","0","0",,,"[]","['INITIAL_MAIN']","[]","[]"
+"output_need_manual","current/inputs/manual/output_need_manual.yml","0","0",,,"[]","['INITIAL_MAIN']","[]","[]"
 "snowflake_account_connect","current/inputs/manual/snowflake_account_connect.yml","0","0",,,"[]","['INITIAL_MAIN', 'INITIAL_COMPET','INITIAL_SNOWFLAKE']","[]","[]"
 "next_run_time_utc","current/outputs/python/next_run_time_utc.txt","0","1",,,"[]","['INITIAL_MAIN','INITIAL_COMPET']","[]","[]"
 "task_done","current/outputs/python/task_done.csv","0","1",,,"[]","['INITIAL_MAIN','INITIAL_COMPET']","[]","[]"

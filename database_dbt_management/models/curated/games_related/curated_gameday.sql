@@ -29,6 +29,7 @@ with adjusted_game as (
     SELECT DISTINCT
         game.SEASON_KEY,
         game.COMPETITION_KEY,
+        game.COMPETITION_SOURCE_ID,
         game.GAMEDAY_KEY,
         game.GAMEDAY,
         game.GAMEDAY_MESSAGE,
@@ -47,6 +48,7 @@ adjusted_game_sorted as (
     SELECT
         game_adj.SEASON_KEY,
         game_adj.COMPETITION_KEY,
+        game_adj.COMPETITION_SOURCE_ID,
         game_adj.GAMEDAY_KEY,
         game_adj.GAMEDAY,
         game_adj.GAMEDAY_MESSAGE,
@@ -87,6 +89,7 @@ gameday as (
     SELECT
         ags_min_score.SEASON_KEY,
         ags_min_score.COMPETITION_KEY,
+        ags_min_score.COMPETITION_SOURCE_ID,
         ags_min_score.GAMEDAY_KEY, 
         ags_min_score.GAMEDAY,
         ags_min_score.GAMEDAY_MESSAGE,
@@ -157,6 +160,7 @@ gameday_with_need as (
     SELECT
         gameday.SEASON_KEY,
         gameday.COMPETITION_KEY,
+        gameday.COMPETITION_SOURCE_ID,
         gameday.GAMEDAY_KEY, 
         gameday.GAMEDAY,
         gameday.GAMEDAY_MESSAGE,
@@ -189,6 +193,7 @@ gameday_with_need as (
     SELECT
         this.SEASON_KEY,
         this.COMPETITION_KEY,
+        this.COMPETITION_SOURCE_ID,
         this.GAMEDAY_KEY, 
         this.GAMEDAY,
         this.GAMEDAY_MESSAGE,
@@ -221,6 +226,7 @@ gameday_with_this as (
     SELECT
         COALESCE(gameday2.SEASON_KEY,this.SEASON_KEY) AS SEASON_KEY,
         COALESCE(gameday2.COMPETITION_KEY,this.COMPETITION_KEY) AS COMPETITION_KEY,
+        COALESCE(gameday2.COMPETITION_SOURCE_ID,this.COMPETITION_SOURCE_ID) AS COMPETITION_SOURCE_ID,
         COALESCE(gameday2.GAMEDAY_KEY,this.GAMEDAY_KEY) AS GAMEDAY_KEY,
         COALESCE(gameday2.GAMEDAY,this.GAMEDAY) AS GAMEDAY,
         COALESCE(gameday2.GAMEDAY_MESSAGE,this.GAMEDAY_MESSAGE) AS GAMEDAY_MESSAGE,
@@ -251,6 +257,7 @@ SELECT
     final_gameday.GAMEDAY_KEY, 
     final_gameday.SEASON_KEY,
     final_gameday.COMPETITION_KEY,
+    final_gameday.COMPETITION_SOURCE_ID,
     final_gameday.GAMEDAY,
     final_gameday.GAMEDAY_MESSAGE,
     final_gameday.IS_PLAYED,

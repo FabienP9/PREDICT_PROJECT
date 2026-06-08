@@ -20,6 +20,7 @@ with adjusted_game as (
     SELECT
         game.COMPETITION_SOURCE,
         game.COMPETITION_ID,
+        game.COMPETITION_SOURCE_ID,
         game.SEASON_ID,
         game.GAME_SOURCE_ID,
         COALESCE(modif.GAMEDAY_MODIFIED,game.GAMEDAY) AS GAMEDAY,
@@ -44,6 +45,7 @@ game_with_key as (
         season.SEASON_KEY,
         season.SEASON_COUNTRY,
         compet.COMPETITION_KEY,
+        game_adj.COMPETITION_SOURCE_ID,
         teamhome.TEAM_KEY as TEAM_HOME_KEY,
         teamaway.TEAM_KEY as TEAM_AWAY_KEY,
         MD5('GAMEDAY' || '^^' || game_adj.SEASON_ID || '^^' || game_adj.GAMEDAY) AS GAMEDAY_KEY,
@@ -65,7 +67,7 @@ game_with_key as (
         {{ref('curated_competition')}} compet 
         ON season.SEASON_KEY = compet.SEASON_KEY
         AND game_adj.COMPETITION_ID = compet.COMPETITION_ID
-    LEFT JOIN
+    LEFT JOIN    
         {{ref('curated_team')}} teamhome
         ON season.SEASON_KEY = teamhome.SEASON_KEY
         AND game_adj.TEAM_HOME = teamhome.TEAM_NAME
@@ -108,6 +110,7 @@ game_with_message as (
         game_key.SEASON_KEY,
         game_key.SEASON_COUNTRY,
         game_key.COMPETITION_KEY,
+        game_key.COMPETITION_SOURCE_ID,
         game_key.TEAM_HOME_KEY,
         game_key.TEAM_AWAY_KEY,
         game_key.GAMEDAY_KEY,

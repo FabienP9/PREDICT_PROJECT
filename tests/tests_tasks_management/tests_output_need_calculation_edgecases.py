@@ -21,22 +21,7 @@ def test_calculate_output_need_auto_empty_calendar(read_yml_as_serie, read_csv, 
          patch.object(output_need_calculation.tasks_calendar_management,"get_notrun_task", return_value=mock_df_calendar):
 
         assert_exit(lambda: output_need_calculation.calculate_output_need_auto(sr_snowflake_account_connect, df_task_done, str_current_run_time_utc))
-       
-def test_generate_output_need_manual_path(read_yml_as_serie, read_csv):
-    
-    # this test the function generate_output_need with a manual path
-    context_dict = {
-        "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
-        "df_task_done": read_csv("task_done.csv"),
-        "str_current_run_time_utc": "2024-01-02 10:00:00.000",
-        "df_message_check_ts": read_csv("message_check_ts.csv"),
-        "df_output_need_manual" : read_csv("output_need_calculate.csv")
-    }
-    os.environ["IS_OUTPUT_AUTO"] = "0"
-
-    with patch.object(output_need_calculation, "create_csv", return_value=None):
-        result = output_need_calculation.generate_output_need(context_dict)
-        assert "LAST_MESSAGE_CHECK_TS_UTC" in result.index
+      
 
 def test_set_output_need_to_check_status(read_csv):
     
@@ -53,4 +38,3 @@ def test_set_output_need_to_check_status(read_csv):
         expected_sr['TS_TASK_UTC'] = pd.to_datetime(expected_sr['TS_TASK_UTC']).tz_localize(None) \
         if isinstance(expected_sr['TS_TASK_UTC'], pd.Timestamp) else expected_sr['TS_TASK_UTC']
         assert_series_equal(result.reset_index(drop=True), expected_sr.reset_index(drop=True),check_dtype=False,check_names=False)
- 

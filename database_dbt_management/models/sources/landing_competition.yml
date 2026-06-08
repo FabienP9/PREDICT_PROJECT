@@ -32,7 +32,7 @@ sources:
               - not_null
 
           - name: COMPETITION_SOURCE_ID
-            description: The website source of the competition.
+            description: The website source id of the competition.
             tests:
               - not_null
 

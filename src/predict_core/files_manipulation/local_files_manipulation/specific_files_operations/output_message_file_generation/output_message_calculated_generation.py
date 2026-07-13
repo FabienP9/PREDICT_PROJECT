@@ -116,7 +116,7 @@ def get_scores_global(df_userscores_global: pd.DataFrame) -> Tuple[pd.DataFrame,
 
     df_userscores_modified = df_userscores_global.copy()
     df_userscores_modified = output.display_rank(df_userscores_modified,'RANK')
-    df_userscores_modified = df_userscores_modified[['RANK','USER_NAME', 'TOTAL_POINTS', 'NB_GAMEDAY_PREDICT', 'NB_GAMEDAY_FIRST', 'NB_TOTAL_PREDICT']]
+    df_userscores_modified = df_userscores_modified[['RANK','USER_NAME', 'TOTAL_POINTS', 'NB_TOTAL_PREDICT','NB_GAMEDAY_PREDICT', 'NB_GAMEDAY_FIRST']]
     df_userscores_modified = df_userscores_modified.add_prefix("__D__").add_suffix("__D__")
     return df_userscores_modified, len(df_userscores_modified)
 
@@ -322,7 +322,7 @@ def get_list_gameday(df_gameday_calculated: pd.DataFrame, sr_gameday_output_calc
 
     #we transform the subsring of the calculated gameday to highlight it
     LIST_GAMEDAY_CALCULATED = LIST_GAMEDAY_CALCULATED.replace(" / " + sr_gameday_output_calculate['GAMEDAY'],
-                                                              "+ __F__boldbegin__F__" + sr_gameday_output_calculate['GAMEDAY'] + "__F__boldend__F__")
+                                                              " __F__boldbegin__F__ + " + sr_gameday_output_calculate['GAMEDAY'] + " __F__boldend__F__ ")
 
     return LIST_GAMEDAY_CALCULATED
 

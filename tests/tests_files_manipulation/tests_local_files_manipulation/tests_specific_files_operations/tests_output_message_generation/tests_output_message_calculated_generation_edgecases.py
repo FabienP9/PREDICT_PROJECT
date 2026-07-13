@@ -139,17 +139,19 @@ def test_get_correction_no_rows(read_yml_as_serie, read_csv):
         assert result_str == ""
         assert result_count == 0
  
-def test_get_list_gameday_missing_columns(assert_exit):
+def test_get_list_gameday_missing_columns(assert_exit,read_csv):
     
     # this test the function get_list_gameday with missing columns. Must exit the program
     df_list_gameday = pd.DataFrame({ "NB_PREDICTION": [3]})
-    assert_exit(lambda: output_message_calculated_generation.get_list_gameday(df_list_gameday))
+    sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
+    assert_exit(lambda: output_message_calculated_generation.get_list_gameday(df_list_gameday,sr_gameday_output_calculate))
 
 def test_get_list_gameday_empty_dataframe(read_csv):
     
     # this test the function get_list_gameday with empty df. Must return an empty string
     df_list_gameday = read_csv("edgecases/q_vw_gameday_calculated_query_empty.csv")
-    result = output_message_calculated_generation.get_list_gameday(df_list_gameday)
+    sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
+    result = output_message_calculated_generation.get_list_gameday(df_list_gameday,sr_gameday_output_calculate)
     assert result == ""
 
 def test_get_mvp_month_race_figure_empty_df(read_yml_as_serie, read_csv):

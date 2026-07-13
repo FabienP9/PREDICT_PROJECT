@@ -302,13 +302,14 @@ def get_correction(sr_snowflake_account: pd.Series, sr_gameday_output_calculate:
 
     return LIST_CORRECTION, grouped.shape[0]
 
-@config_decorators.exit_program(log_filter=lambda args: {'columns_df_gameday_calculated': args['df_gameday_calculated'].columns.tolist(),})
-def get_list_gameday(df_gameday_calculated: pd.DataFrame) -> str:
+@config_decorators.exit_program(log_filter=lambda args: {'columns_df_gameday_calculated': args['df_gameday_calculated'].columns.tolist(),'sr_gameday_output_calculate': args['sr_gameday_output_calculate'],})
+def get_list_gameday(df_gameday_calculated: pd.DataFrame, sr_gameday_output_calculate: pd.Series ) -> str:
 
     '''
         Gets the list of gameday calculated to display as a string on the output calculated message
         Inputs:
             df_gameday_calculated (dataframe) containing list of calculated gameday
+            sr_gameday_output_calculate (series - one row) containing the query filters
         Returns:
             A string displaying the list of gameday
         Raises:
@@ -318,6 +319,10 @@ def get_list_gameday(df_gameday_calculated: pd.DataFrame) -> str:
     df_gameday_modified = df_gameday_calculated.copy()
     df_gameday_modified['STRING'] = (df_gameday_calculated['GAMEDAY'] + " (" + df_gameday_calculated['NB_PREDICTION'].astype(str) + ")")
     LIST_GAMEDAY_CALCULATED = " / ".join(df_gameday_modified['STRING'])
+
+    #we transform the subsring of the calculated gameday to highlight it
+    LIST_GAMEDAY_CALCULATED = LIST_GAMEDAY_CALCULATED.replace(" / " + sr_gameday_output_calculate['GAMEDAY'],
+                                                              "+ __F__boldbegin__F__" + sr_gameday_output_calculate['GAMEDAY'] + "__F__boldend__F__")
 
     return LIST_GAMEDAY_CALCULATED
 
@@ -453,7 +458,7 @@ def get_parameters(sr_snowflake_account: pd.Series, sr_gameday_output_calculate:
     param_dict['SCORES_AVERAGE'] ,param_dict['NB_USER_AVERAGE'], param_dict['NB_MIN_PREDICTION'] = get_scores_average(param_dict['NB_TOTAL_PREDICT'],df_userscores_global)
 
     param_dict['SCORES_GAMEDAY_DF'],param_dict['NB_USER_GAMEDAY'] = get_scores_gameday(sr_snowflake_account,sr_gameday_output_calculate)
-    param_dict['LIST_GAMEDAY_CALCULATED'] =  get_list_gameday(df_gameday_calculated)
+    param_dict['LIST_GAMEDAY_CALCULATED'] =  get_list_gameday(df_gameday_calculated, sr_gameday_output_calculate)
 
     # we get the prediction championship results query
     df_gamepredictchamp = snowflake_execute(sr_snowflake_account,sql.VW_GAME_PREDICTCHAMP_QUERY,sql.DATABASE,(sr_gameday_output_calculate['SEASON_ID'],sr_gameday_output_calculate['GAMEDAY']))

@@ -134,8 +134,9 @@ def test_get_list_gameday(read_csv, read_txt):
     
     # this test the function get_list_gameday
     df_list_gameday = read_csv("q_vw_gameday_calculated_query.csv")
+    sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
     expected_str = read_txt("output_message_calculated_list_gameday.txt")
-    str_list_gameday = output_message_calculated_generation.get_list_gameday(df_list_gameday)
+    str_list_gameday = output_message_calculated_generation.get_list_gameday(df_list_gameday, sr_gameday_output_calculate)
     assert str_list_gameday == expected_str
 
 def test_get_mvp_month_race_figure(read_yml_as_serie, read_csv, read_txt):

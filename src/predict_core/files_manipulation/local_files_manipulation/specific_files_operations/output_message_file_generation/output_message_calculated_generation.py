@@ -163,7 +163,7 @@ def get_scores_average(nb_prediction: int, df_userscores_global: pd.DataFrame) -
 
     df_userscores_modified = df_userscores_global.copy()
     # we calculate the min number of gameday to be part of this ranking
-    NB_MIN_PREDICTION = int(nb_prediction/2)
+    NB_MIN_PREDICTION = int(3*nb_prediction/4)
     df_userscores_modified = df_userscores_modified[df_userscores_modified['NB_TOTAL_PREDICT'] > NB_MIN_PREDICTION]
     df_userscores_modified = output.calculate_and_display_rank(df_userscores_modified,['AVERAGE_POINTS'])
     df_userscores_modified['STRING'] = (df_userscores_modified['RANK'].astype(str) + ". " +

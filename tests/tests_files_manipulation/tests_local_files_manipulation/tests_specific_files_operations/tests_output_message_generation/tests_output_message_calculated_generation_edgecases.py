@@ -99,7 +99,7 @@ def test_get_scores_average_empty_df(read_csv):
     with patch.object(output_message_calculated_generation.output, 'calculate_and_display_rank', return_value= mock_df_rank):
         s, count, nb_min = output_message_calculated_generation.get_scores_average(nb_prediction, df_userscores_global)
         assert s == ""
-        assert nb_min == 2
+        assert nb_min == 3
         assert count == 0
 
 def test_get_scores_average_missing_column( assert_exit):

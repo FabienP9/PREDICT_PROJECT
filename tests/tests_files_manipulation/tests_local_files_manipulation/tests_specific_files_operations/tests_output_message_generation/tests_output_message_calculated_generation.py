@@ -84,7 +84,7 @@ def test_get_scores_average(read_csv, read_txt):
     with patch.object(output_message_calculated_generation.output, 'calculate_and_display_rank', return_value= mock_df_rank):
         s, count, nb_min = output_message_calculated_generation.get_scores_average(nb_prediction, df_userscores_global)
         assert s == expected_str
-        assert nb_min == 33
+        assert nb_min == 50
         assert count == 1
 
 def test_get_predictchamp_result(read_yml_as_serie,read_csv, read_txt):

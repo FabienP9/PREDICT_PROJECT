@@ -93,6 +93,31 @@ models:
       - accepted_values: 
           values: [0, 1]
 
+  - name: NB_PREDICTOR_WINNER_HOME
+    description: Number of predictor who chose the home team as winner
+    #tests:
+    #  - is_integer
+
+  - name: NB_PREDICTOR_WINNER_AWAY
+    description: Number of predictor who chose the away team as winner
+    #tests:
+    #  - is_integer
+
+  - name: PERC_PREDICTOR_WINNER_HOME
+    description: Percentage (cast as int) of predictor who chose the home team as winner. Used to calculate SCORE_WIN_VALUE
+    #tests:
+    #  - is_integer
+
+  - name: PERC_PREDICTOR_WINNER_AWAY
+    description: Percentage (cast as int) of predictor who chose the away team as winner. Used to calculate SCORE_WIN_VALUE
+    #tests:
+    #  - is_integer
+
+  - name: SCORE_WIN_VALUE
+    description: The value of SCORE_WIN, calculated with PERC_PREDICTOR_WINNER_HOME and PERC_PREDICTOR_WINNER_AWAY
+    #tests:
+    #  - is_integer
+
   - name: UPDATED_AT_UTC
     description: The datetime of update in utc timezone
     tests:

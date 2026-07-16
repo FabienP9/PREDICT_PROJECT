@@ -26,7 +26,12 @@ SELECT
     team_away.TEAM_NAME AS TEAM_AWAY_NAME,
     game.SCORE_HOME,
     game.SCORE_AWAY,
-    game.RESULT
+    game.RESULT,
+    game.NB_PREDICTOR_WINNER_HOME,
+    game.NB_PREDICTOR_WINNER_AWAY,
+    game.PERC_PREDICTOR_WINNER_HOME,
+    game.PERC_PREDICTOR_WINNER_AWAY,
+    game.SCORE_WIN_VALUE
 FROM
     {{ref('consumpted_game')}} game
 JOIN

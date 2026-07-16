@@ -10,11 +10,14 @@
 
 |0|__F__sizebigbegin__F____F__boldbegin__F__Concours individuel __F__boldend__F____F__sizebigend__F__|2|
 
+|0|__F__boldbegin__F____F__underlinebegin__F__Côtes des pronostiqueurs sur les vainqueurs & Score du bon vainqueur__F__underlineend__F____F__boldend__F__|1|
+|0|__F__italicbegin__F__-> Côte des pronostiqueurs sur le vainqueur: Pourcentage des pronostiqueurs ayant choisi le vainqueur (Nombre ÷ Nombre total de pronostiqueurs sur le match)|1|
+|0|-> “Score du bon vainqueur”: 15 pts + Si côte < 40%, bonification de (40 - côte) __F__italicend__F____F__enjoyment__F__|1|
+|0|__F__quote1begin__F__#GAMES_ODDS#__F__quote1end__F__|2|
 
 |0|__F__boldbegin__F____F__underlinebegin__F__Résultats et classement individuel de journée __F__boldend__F____F__underlineend__F__|1|
 #WITH_PREDICTORS_GAMEDAY_BEGIN#
-|0|__F__italicbegin__F__-> “Score du bon vainqueur”: 15 pts sì vainqueur trouvé __F__enjoyment__F__|1|
-|0|-> “Score du bon écart”: 30 pts si résultat trouvé __F__glasssmile__F__ Sinon, 15 pts - l’écart entre pronostic et résultat. __F__tonguesmile__F__ |1|
+|0|__F__italicbegin__F__-> “Score du bon écart”: 30 pts si résultat trouvé __F__glasssmile__F__ Sinon, 15 pts - l’écart entre pronostic et résultat. __F__tonguesmile__F__ |1|
 |0|-> “Score de l’automatisation”: 1 pt si les 2 points importants de la trame sont respectés __F__computer__F__|1|
 |0|-> Le match bonus compte comme 3 pronostics et triple les scores __F__explode__F__ |1| 
 |0|-> Nombre de points de journée: somme des scores pour tous les matchs pronostiqués (#NB_MAX_PREDICT# pronos pour cette journée) __F__italicend__F__|2|

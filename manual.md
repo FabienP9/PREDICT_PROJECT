@@ -70,8 +70,9 @@ Players compete individually based on the number of points earned.
 
 - "Good winner" score
 
-    If players found the good winner, they get 15 points. Else 0.  
-    Their score is multiplied by 3 if it is the bonus game, so 45 points.
+    If players found the good winner, they get 15 points. Else 0.
+    The predictions odds are calculated. If less than 40% of predictors chose the winner, a bonification of (40-odd) is added to the score   
+    Their score is multiplied by 3 if it is the bonus game.
 
 - "Good score difference" score
 
@@ -111,7 +112,7 @@ Players compete individually based on the number of points earned.
 - Average ranking
 
     The number of season point is divided by the number of prediction made.
-    Players which made strictly more tham 50% of predictions in the season are ranked by the descending result
+    Players which made strictly more tham 75% of predictions in the season are ranked by the descending result
 
 ### Prediction championship
 

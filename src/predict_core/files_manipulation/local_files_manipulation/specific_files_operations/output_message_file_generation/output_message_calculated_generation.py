@@ -23,38 +23,72 @@ from . import output_message_generation_sql_queries as sql
 logging.basicConfig(level=logging.INFO)
 
 @config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate',)})
-def get_games_result(sr_snowflake_account: pd.Series, sr_gameday_output_calculate: pd.Series) -> Tuple[str,int]:
+def get_games_result(df_games: pd.DataFrame, sr_gameday_output_calculate: pd.Series) -> str:
 
     '''
         Gets the list of games to display on the output calculated message
         Inputs:
-            sr_snowflake_account (series - one row) containing snowflake credentials to run the sql game query
+            df_games (DataFrame) containing list of games to display
             sr_gameday_output_calculate (series - one row) containing the query filters
         Returns:
             A multiple row string displaying the list of games
-            The number of games
         Raises:
             Exits the program if error running the function (using decorator)
     '''
 
     #We call the games query by first personalizing it
-    df_games = snowflake_execute(sr_snowflake_account,sql.VW_GAME_QUERY,sql.DATABASE,(sr_gameday_output_calculate['SEASON_ID'],sr_gameday_output_calculate['GAMEDAY']))
+    df_games_copy = df_games.copy()
     
     #we add a + before the result if it is positive
-    df_games['RESULT'] = df_games['RESULT'].map(lambda x: f"+{x}" if x > 0 else str(x))
+    df_games_copy['RESULT_STR'] = df_games_copy['RESULT'].map(lambda x: f"+{x}" if x > 0 else str(x))
 
     #we extract the list of games to display, concatenating fields into a string
-    df_games['STRING'] = df_games['GAME_MESSAGE'] + \
-        " (G" + df_games['GAME_MESSAGE_SHORT'].astype(str).str.zfill(2) + ") - " + \
-        df_games['TEAM_HOME_NAME'] + " vs " + \
-        df_games['TEAM_AWAY_NAME']+ ": __F__boldbegin__F__" + \
-        df_games['RESULT'].astype(str) + "__F__boldend__F__ [ " + \
-        df_games['SCORE_HOME'].astype(str) +" - " + df_games['SCORE_AWAY'].astype(str) + " ]"  
+    df_games_copy['STRING'] = df_games_copy['GAME_MESSAGE'] + \
+        " (G" + df_games_copy['GAME_MESSAGE_SHORT'].astype(str).str.zfill(2) + ") - " + \
+        np.where(df_games_copy['RESULT'] > 0, "__F__boldbegin__F__", "") + \
+        df_games_copy['TEAM_HOME_NAME'] + \
+        np.where(df_games_copy['RESULT'] > 0, "__F__boldend__F__", "") + " vs " + \
+        np.where(df_games_copy['RESULT'] < 0, "__F__boldbegin__F__", "") + \
+        df_games_copy['TEAM_AWAY_NAME'] + \
+        np.where(df_games_copy['RESULT'] < 0, "__F__boldend__F__", "") + ": __F__boldbegin__F__" + \
+        df_games_copy['RESULT_STR'] + "__F__boldend__F__ [ " + \
+        df_games_copy['SCORE_HOME'].astype(str) +" - " + df_games_copy['SCORE_AWAY'].astype(str) + " ]"  
     
     # we create the LIST_GAMES string by concatenating all games-strings on several lines
-    RESULT_GAMES = "\n".join(df_games['STRING'])
+    RESULT_GAMES = "\n".join(df_games_copy['STRING'])
+    return RESULT_GAMES
+
+@config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate',)})
+def get_games_odds(df_games: pd.DataFrame, sr_gameday_output_calculate: pd.Series) -> str:
+
+    '''
+        Gets the list of games odds and SCORE_WIN value to display on the output calculated message
+        Inputs:
+            sr_snowflake_account (series - one row) containing snowflake credentials to run the sql game query
+            sr_gameday_output_calculate (series - one row) containing the query filters
+        Returns:
+            A multiple row string displaying the list of games with odds and SCORE_WIN calculation
+        Raises:
+            Exits the program if error running the function (using decorator)
+    '''
+
+    #We call the games query by first personalizing it
+    df_games_copy = df_games
+
+    #we extract the list of games to display, concatenating fields into a string
+    df_games_copy['PERC'] = np.where(df_games_copy['RESULT'] > 0, df_games_copy['PERC_PREDICTOR_WINNER_HOME'] , df_games_copy['PERC_PREDICTOR_WINNER_AWAY'])
+    df_games_copy['STRING'] = df_games_copy['GAME_MESSAGE'] + \
+        " (G" + df_games_copy['GAME_MESSAGE_SHORT'].astype(str).str.zfill(2) + ") - __F__boldbegin__F__" + \
+        np.where(df_games_copy['RESULT'] > 0, df_games_copy['TEAM_HOME_NAME'] , df_games_copy['TEAM_AWAY_NAME']) + "__F__boldend__F__ - __F__boldbegin__F__ __L__odd__L__: " + \
+        df_games_copy['PERC'].astype(str) + "% __F__boldend__F__ ("+ \
+        np.where(df_games_copy['RESULT'] > 0, df_games_copy['NB_PREDICTOR_WINNER_HOME'] , df_games_copy['NB_PREDICTOR_WINNER_AWAY']).astype(str) + "÷" +\
+        (df_games_copy['NB_PREDICTOR_WINNER_HOME']+df_games_copy['NB_PREDICTOR_WINNER_AWAY']).astype(str) + ") ==> " + \
+        np.where(df_games_copy['PERC'] < 40, "15 + ( 40 - " + df_games_copy['PERC'].astype(str) + " ) ==> ", "") + \
+        "__F__boldbegin__F____L__Score__L__ = " + df_games_copy['SCORE_WIN_VALUE'].astype(str) + "__F__boldend__F__" 
     
-    return RESULT_GAMES, len(df_games)
+    # we create the LIST_GAMES string by concatenating all games-strings on several lines
+    GAMES_ODDS = "\n".join(df_games_copy['STRING'])    
+    return GAMES_ODDS
 
 @config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate',)})
 def get_scores_detailed(sr_snowflake_account: pd.Series, sr_gameday_output_calculate: pd.Series) -> Tuple[pd.DataFrame,int]:
@@ -443,7 +477,9 @@ def get_parameters(sr_snowflake_account: pd.Series, sr_gameday_output_calculate:
     param_dict['SEASON_DIVISION'] = sr_gameday_output_calculate['SEASON_DIVISION']
     param_dict['GAMEDAY_COMPETITION'] = "__L__" + sr_gameday_output_calculate['COMPETITION_LABEL'] + "__L__"
     param_dict['IS_SAME_FOR_PREDICTCHAMP'] = sr_gameday_output_calculate['IS_SAME_FOR_PREDICTCHAMP']
-    param_dict['RESULT_GAMES'],param_dict['NB_GAMES'] = get_games_result(sr_snowflake_account,sr_gameday_output_calculate)
+    df_games = snowflake_execute(sr_snowflake_account,sql.VW_GAME_QUERY,sql.DATABASE,(sr_gameday_output_calculate['SEASON_ID'],sr_gameday_output_calculate['GAMEDAY']))
+    param_dict['RESULT_GAMES'] = get_games_result(df_games,sr_gameday_output_calculate)
+    param_dict['GAMES_ODDS'] = get_games_odds(df_games,sr_gameday_output_calculate)
     param_dict['SCORES_DETAILED_DF'], param_dict['NB_USER_DETAIL'] = get_scores_detailed(sr_snowflake_account,sr_gameday_output_calculate) 
     
     # we get the scores per users query 
@@ -564,6 +600,7 @@ def create_message(param_dict: dict, template:str, translations_dict: dict, coun
         ("#GAMEDAY#",param_dict['GAMEDAY']),
         ("#SEASON_DIVISION#",param_dict['SEASON_DIVISION']),
         ("#RESULT_GAMES#",param_dict['RESULT_GAMES']),
+        ("#GAMES_ODDS#",param_dict['GAMES_ODDS']),
         ("#NB_GAMEDAY_CALCULATED#",str(param_dict['NB_GAMEDAY_CALCULATED'])),
         ("#NB_MAX_PREDICT#",str(param_dict['NB_MAX_PREDICT'])),
         ("#NB_TOTAL_PREDICT#",str(param_dict['NB_TOTAL_PREDICT'])),
@@ -574,8 +611,7 @@ def create_message(param_dict: dict, template:str, translations_dict: dict, coun
     if param_dict['NB_USER_DETAIL'] > 0:   
         replacement_substr.extend([
             ("#IMGGAMEDAY#",param_dict['SCORES_GAMEDAY_DF_URL_'+country+'_'+forum]),
-            ("#IMGDETAIL#",param_dict['SCORES_DETAILED_DF_URL_'+country+'_'+forum]),
-            ("#NB_GAMES#",str(param_dict['NB_GAMES']))
+            ("#IMGDETAIL#",param_dict['SCORES_DETAILED_DF_URL_'+country+'_'+forum])
         ])
 
     if param_dict['NB_CORRECTION'] > 0:

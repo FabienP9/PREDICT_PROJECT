@@ -7,31 +7,16 @@ from unittest.mock import patch
 
 from src.predict_core.files_manipulation.local_files_manipulation.specific_files_operations.output_message_file_generation import output_message_calculated_generation
 
-def test_get_games_result_empty_df(read_yml_as_serie, read_csv):
+def test_get_games_result_empty_df(read_csv):
     
     # this test the function get_games_result with an empty series. Must return an empty string.
-    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
-    mock_df_game = read_csv("edgecases/q_vw_game_query_empty.csv")
+    df_games = read_csv("edgecases/q_vw_game_query_empty.csv")
     
-    with patch.object(output_message_calculated_generation, 'snowflake_execute', return_value=mock_df_game):
-        s, count = output_message_calculated_generation.get_games_result(sr_snowflake_account_connect, sr_gameday_output_calculate)
-        assert count == 0
-        assert s == ""
+    s = output_message_calculated_generation.get_games_result(df_games, sr_gameday_output_calculate)
 
-def test_get_games_result_negative_result(read_yml_as_serie, read_csv,read_txt):
+    assert s == ""
 
-    # this test the function get_games_result with a negative result.
-    sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
-    sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
-    s_expected = read_txt("edgecases/output_message_calculated_games_result_negative.txt")
-    mock_df_game = read_csv("edgecases/q_vw_game_query_negative.csv")
-
-    with patch.object(output_message_calculated_generation, 'snowflake_execute', return_value=mock_df_game):
-        s, count = output_message_calculated_generation.get_games_result(sr_snowflake_account_connect, sr_gameday_output_calculate)
-        assert count == 2
-        assert s == s_expected
-    
 def test_get_scores_detailed_missing_split(read_yml_as_serie, read_csv,assert_exit):
     
     # this test the function get_scores_detailed with columns without underscore. Must exit the program.
@@ -228,7 +213,9 @@ def test_get_parameters_no_predictchamp(read_csv,read_txt, read_yml_as_serie):
     sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
 
+    mock_df_games = read_csv("q_vw_game_query.csv")
     mock_str_games_result = read_txt("output_message_calculated_games_result.txt")
+    mock_str_games_odds = read_txt("output_message_calculated_games_odds.txt")
     mock_df_predict_games = read_csv("output_message_calculated_scores_details.csv", header=[0, 1],keep_default_na=False,na_filter=False)
     mock_df_userscores_global = read_csv("q_vw_user_scores_global_query.csv")
     mock_df_scores_global = read_csv("output_message_calculated_scores_global.csv")
@@ -243,9 +230,10 @@ def test_get_parameters_no_predictchamp(read_csv,read_txt, read_yml_as_serie):
     mock_str_mvp_compet = read_txt("output_message_calculated_mvp_race_figures.txt")
     mock_str_mvp_compet_gameday = read_txt("output_message_calculated_list_gameday_with_predict.txt")
  
-    with patch.object(output_message_calculated_generation,"get_games_result", return_value=(mock_str_games_result, 2)), \
+    with patch.object(output_message_calculated_generation,"get_games_result", return_value=(mock_str_games_result)), \
+         patch.object(output_message_calculated_generation,"get_games_odds", return_value=(mock_str_games_odds)), \
          patch.object(output_message_calculated_generation,"get_scores_detailed", return_value=(mock_df_predict_games, 2)), \
-         patch.object(output_message_calculated_generation,"snowflake_execute", side_effect=[mock_df_userscores_global, mock_df_list_gameday, mock_df_gamepredictchamp]), \
+         patch.object(output_message_calculated_generation,"snowflake_execute", side_effect=[mock_df_games,mock_df_userscores_global, mock_df_list_gameday, mock_df_gamepredictchamp]), \
          patch.object(output_message_calculated_generation,"get_scores_global", return_value=(mock_df_scores_global, 2)), \
          patch.object(output_message_calculated_generation,"get_scores_average", return_value=(mock_str_scores_average, 1, 33)), \
          patch.object(output_message_calculated_generation,"get_scores_gameday", return_value=(mock_df_scores_gameday, 2)), \
@@ -268,7 +256,9 @@ def test_get_parameters_missing_key(read_yml_as_serie, read_csv,read_txt, assert
     sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_gameday_output_calculate = read_csv("edgecases/sr_gameday_output_calculate_noseasonid.csv").iloc[0]
 
+    mock_df_games = read_csv("q_vw_game_query.csv")
     mock_str_games_result = read_txt("output_message_calculated_games_result.txt")
+    mock_str_games_odds = read_txt("output_message_calculated_games_odds.txt")
     mock_df_predict_games = read_csv("output_message_calculated_scores_details.csv", header=[0, 1],keep_default_na=False,na_filter=False)
     mock_df_userscores_global = read_csv("q_vw_user_scores_global_query.csv")
     mock_df_scores_global = read_csv("output_message_calculated_scores_global.csv")
@@ -283,9 +273,10 @@ def test_get_parameters_missing_key(read_yml_as_serie, read_csv,read_txt, assert
     mock_str_mvp_compet = read_txt("output_message_calculated_mvp_race_figures.txt")
     mock_str_mvp_compet_gameday = read_txt("output_message_calculated_list_gameday_with_predict.txt")
  
-    with patch.object(output_message_calculated_generation,"get_games_result", return_value=(mock_str_games_result, 2)), \
+    with patch.object(output_message_calculated_generation,"get_games_result", return_value=(mock_str_games_result)), \
+         patch.object(output_message_calculated_generation,"get_games_odds", return_value=(mock_str_games_odds)), \
          patch.object(output_message_calculated_generation,"get_scores_detailed", return_value=(mock_df_predict_games, 2)), \
-         patch.object(output_message_calculated_generation,"snowflake_execute", side_effect=[mock_df_userscores_global, mock_df_list_gameday, mock_df_gamepredictchamp]), \
+         patch.object(output_message_calculated_generation,"snowflake_execute", side_effect=[mock_df_games,mock_df_userscores_global, mock_df_list_gameday, mock_df_gamepredictchamp]), \
          patch.object(output_message_calculated_generation,"get_scores_global", return_value=(mock_df_scores_global, 2)), \
          patch.object(output_message_calculated_generation,"get_scores_average", return_value=(mock_str_scores_average, 1, 33)), \
          patch.object(output_message_calculated_generation,"get_scores_gameday", return_value=(mock_df_scores_gameday, 2)), \
@@ -307,6 +298,7 @@ def test_create_message_conditional_blocks(read_csv,read_txt,read_json):
         "GAMEDAY": "1ere journee",
         "SEASON_DIVISION": "PROB",
         "RESULT_GAMES": read_txt("output_message_calculated_games_result.txt"),
+        "GAMES_ODDS": read_txt("output_message_calculated_games_odds.txt"),
         "NB_GAMEDAY_CALCULATED": 3,
         "NB_MAX_PREDICT": 8,
         "NB_TOTAL_PREDICT": 66,

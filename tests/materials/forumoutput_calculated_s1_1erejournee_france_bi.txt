@@ -4,14 +4,19 @@
 
 
 [size=150][b]Résultats PROB[/b][/size]
-[quote]1EJ.01 (G01) - TEAM1 vs TEAM2: [b]+4[/b] [ 85 - 81 ]
-1EJ.02 (G02) - TEAM3 vs TEAM4: [b]-1[/b] [ 71 - 72 ][/quote]
+[quote]1EJ.01 (G01) - [b]TEAM1[/b] vs TEAM2: [b]+4[/b] [ 85 - 81 ]
+1EJ.02 (G02) - TEAM3 vs [b]TEAM4[/b]: [b]-1[/b] [ 71 - 72 ][/quote]
 
 [size=150][b]Concours individuel [/b][/size]
 
+[b][u]Côtes des pronostiqueurs sur les vainqueurs & Score du bon vainqueur[/u][/b]
+[i]-> Côte des pronostiqueurs sur le vainqueur: Pourcentage des pronostiqueurs ayant choisi le vainqueur (Nombre ÷ Nombre total de pronostiqueurs sur le match)
+-> “Score du bon vainqueur”: 15 pts + Si côte < 40%, bonification de (40 - côte) [/i]\:D/
+[quote]1EJ.01 (G01) - [b]TEAM1[/b] - [b] côte: 25% [/b] (1÷4) ==> 15 + ( 40 - 25 ) ==> [b]score = 30[/b]
+1EJ.02 (G02) - [b]TEAM4[/b] - [b] côte: 75% [/b] (3÷4) ==> [b]score = 15[/b][/quote]
+
 [b][u]Résultats et classement individuel de journée [/b][/u]
-[i]-> “Score du bon vainqueur”: 15 pts sì vainqueur trouvé \:D/
--> “Score du bon écart”: 30 pts si résultat trouvé 8) Sinon, 15 pts - l’écart entre pronostic et résultat. =P~ 
+[i]-> “Score du bon écart”: 30 pts si résultat trouvé 8) Sinon, 15 pts - l’écart entre pronostic et résultat. =P~ 
 -> “Score de l’automatisation”: 1 pt si les 2 points importants de la trame sont respectés :hiding:
 -> Le match bonus compte comme 3 pronostics et triple les scores :3some: 
  -> Nombre de points de journée: somme des scores pour tous les matchs pronostiqués (8 pronos pour cette journée) [/i]

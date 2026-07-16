@@ -35,7 +35,6 @@ with prediction as (
         predict.FORUM_KEY,
         predict.GAME_KEY,
         game.RESULT AS GAME_RESULT,
-        game.SCORE_WIN_VALUE,
         predict.PREDICT_ID,
         predict.PREDICT,
         predict.IS_PREDICTION_FROM_MESSAGE AS IS_PREDICTION_FROM_MESSAGE_GAME,
@@ -90,8 +89,8 @@ calculation as (
             WHEN predict2.IS_TO_DELETE = 1 THEN 0
             -- if the game result and prediction are not same sign, the user didn't find the good winner and win 0 points
             WHEN predict2.GAME_RESULT * COALESCE(predict2.PREDICT,0) <= 0 THEN 0
-            -- if he found the good winner the score is the one calculated in consumpted_game (multiplied by 3 if bonus game)
-            WHEN predict2.GAME_RESULT * COALESCE(predict2.PREDICT,0) > 0 THEN (2*predict2.IS_BONUS_GAME +1)*predict2.SCORE_WIN_VALUE
+            -- if he found the good winner the score is 15 if IS_BONUS = 0 (not bonus game) else 45
+            WHEN predict2.GAME_RESULT * COALESCE(predict2.PREDICT,0) > 0 THEN (2*predict2.IS_BONUS_GAME +1)*15
         END AS SCORE_WIN,
         CASE
             -- for deletion we revert back score to 0

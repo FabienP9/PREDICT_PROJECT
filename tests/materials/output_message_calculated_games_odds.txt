@@ -1,2 +1,2 @@
-1EJ.01 (G01) - __F__boldbegin__F__TEAM1__F__boldend__F__ - __F__boldbegin__F__ __L__odd__L__: 25% __F__boldend__F__ (1÷4) ==> 15 + ( 40 - 25 ) ==> __F__boldbegin__F____L__Score__L__ = 30__F__boldend__F__
+1EJ.01 (G01) - __F__boldbegin__F__TEAM1__F__boldend__F__ - __F__boldbegin__F__ __L__odd__L__: 25% __F__boldend__F__ (1÷4) ==> __F__boldbegin__F____L__Score__L__ = 30__F__boldend__F__
 1EJ.02 (G02) - __F__boldbegin__F__TEAM4__F__boldend__F__ - __F__boldbegin__F__ __L__odd__L__: 75% __F__boldend__F__ (3÷4) ==> __F__boldbegin__F____L__Score__L__ = 15__F__boldend__F__

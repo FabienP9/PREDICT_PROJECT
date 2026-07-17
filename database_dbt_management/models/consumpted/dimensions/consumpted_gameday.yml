@@ -44,6 +44,11 @@ models:
     tests:
       - is_integer
 
+  - name: NB_PREDICTION
+    description: The number of prediction in the gameday (NB_GAMES+2 with the bonus game)
+    tests:
+      - is_integer
+
   - name: IS_PLAYED
     description: Boolean to know if a gameday is completely played (1) or not (0)
     tests:

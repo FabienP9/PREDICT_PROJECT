@@ -313,6 +313,7 @@ def test_create_message_conditional_blocks(read_csv,read_txt,read_json):
         "SCORES_GLOBAL_DF_URL_FRANCE_BI": "url_global",
         "NB_USER_AVERAGE": 1,
         "NB_MIN_PREDICTION": 33,
+        "NB_MIN_PREDICTION_PREDICTCHAMP": 10,
         "SCORES_AVERAGE": read_txt("output_message_calculated_scores_average.txt"),
         "NB_GAME_PREDICTCHAMP": 2,
         "RESULTS_PREDICTCHAMP": read_txt("output_message_calculated_predictchamp_result.txt"),   

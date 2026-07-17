@@ -244,7 +244,6 @@ def test_get_parameters(read_yml_as_serie, read_csv, read_txt):
 
         output_message_calculated_generation.get_parameters(sr_snowflake_account_connect, sr_gameday_output_calculate)
 
-
 def test_get_parameters_df_management(read_csv, read_json):
     
     # this test the function get_parameters_df_management
@@ -292,6 +291,7 @@ def test_create_message(read_txt, read_json, read_csv):
         "SCORES_GLOBAL_DF_URL_FRANCE_BI": "url_global",
         "NB_USER_AVERAGE": 1,
         "NB_MIN_PREDICTION": 33,
+        "NB_MIN_PREDICTION_PREDICTCHAMP": 10,
         "SCORES_AVERAGE": read_txt("output_message_calculated_scores_average.txt"),
         "NB_GAME_PREDICTCHAMP": 2,
         "RESULTS_PREDICTCHAMP": read_txt("output_message_calculated_predictchamp_result.txt"),   
@@ -321,8 +321,6 @@ def test_create_message(read_txt, read_json, read_csv):
 
           
         content, country, forum = output_message_calculated_generation.create_message(param_dict, template, translations, country, forum, sr_gameday_output_calculate)
-        with open("examaple.txt", "w") as f:
-            f.write(content)
         assert content.split() == expected_result.split()
         assert country == "FRANCE"
         assert forum == 'BI'

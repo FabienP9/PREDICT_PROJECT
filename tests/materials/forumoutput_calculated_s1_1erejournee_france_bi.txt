@@ -3,27 +3,30 @@
 [center]:cheers:[size=200][b] Résultats - 1ere journee [/b][/size]:cheers:[/center]
 
 
-[size=150][b]Résultats PROB[/b][/size]
+[size=150][b]Périmètre des journées terminées[/b][/size]
+
+[u][b]3 journées terminées - 66 pronos[/b][/u]:
+1ere journee (12) / 2eme journee (12) / 3eme journee (12) 
+
+[size=150][b]Résultats PROB - 1ere journee[/b][/size]
 [quote]1EJ.01 (G01) - [b]TEAM1[/b] vs TEAM2: [b]+4[/b] [ 85 - 81 ]
 1EJ.02 (G02) - TEAM3 vs [b]TEAM4[/b]: [b]-1[/b] [ 71 - 72 ][/quote]
 
-[size=150][b]Concours individuel [/b][/size]
+[size=150][b]Concours individuel[/b][/size]
 
-[b][u]Côtes des pronostiqueurs sur les vainqueurs & Score du bon vainqueur[/u][/b]
+[b][u]Côtes des pronostiqueurs sur les vainqueurs & Score du bon vainqueur - 1ere journee[/u][/b]
 [i]-> Côte des pronostiqueurs sur le vainqueur: Pourcentage des pronostiqueurs ayant choisi le vainqueur (Nombre ÷ Nombre total de pronostiqueurs sur le match)
--> “Score du bon vainqueur”: 15 pts + Si côte < 40%, bonification de (40 - côte) [/i]\:D/
-[quote]1EJ.01 (G01) - [b]TEAM1[/b] - [b] côte: 25% [/b] (1÷4) ==> 15 + ( 40 - 25 ) ==> [b]score = 30[/b]
+-> “Score du bon vainqueur”: Si côte < 40%, score = 55 - côte, sinon 15 pts[/i]\:D/
+[quote]1EJ.01 (G01) - [b]TEAM1[/b] - [b] côte: 25% [/b] (1÷4) ==> [b]score = 30[/b]
 1EJ.02 (G02) - [b]TEAM4[/b] - [b] côte: 75% [/b] (3÷4) ==> [b]score = 15[/b][/quote]
 
-[b][u]Résultats et classement individuel de journée [/b][/u]
-[i]-> “Score du bon écart”: 30 pts si résultat trouvé 8) Sinon, 15 pts - l’écart entre pronostic et résultat. =P~ 
+[b][u] Détail des scores - 1ere journee[/u][/b]
+[i] -> “Score du bon vainqueur”: si vainqueur trouvé, voir valeur sur la section précédente
+-> “Score du bon écart”: 30 pts si résultat trouvé 8) Sinon, 15 pts - l’écart entre pronostic et résultat. =P~ 
 -> “Score de l’automatisation”: 1 pt si les 2 points importants de la trame sont respectés :hiding:
 -> Le match bonus compte comme 3 pronostics et triple les scores :3some: 
- -> Nombre de points de journée: somme des scores pour tous les matchs pronostiqués (8 pronos pour cette journée) [/i]
+ -> Nombre de points de journée: somme des scores sur les matchs pronostiqués (8 pronos pour cette journée) [/i]
 
-[img]url_gameday[/img]
-
-[b][u] Détail des scores :[/u][/b]
 [i]['PT' = "Nombre de points de journée" ; 'G..' = "Numéro du match" ; 'BO' = "Match choisi comme bonus (*3)" ; 'RE' = "Résultat du match" ; 'PR' = "Pronostic du match" ; 'SW' = "Score du bon vainqueur" ; 'SD' = "Score du bon écart" ; 'SA' = "Score de l'automatisation" ][/i]
 [img]url_detail[/img]
  (Si vous ne parvenez pas à lire l’image (trop petite), cliquez ici pour l’afficher en grand: [url] url_detail[/url])
@@ -32,20 +35,24 @@
 USER1 : 1EJ.05 / 1EJ.08
 USER2 : 1EJ.09[/i]
 
-[b][u] Classement individuel global (sur toute la saison):[/u][/b]
+[b][u]Classement individuel de journée - 1ere journee[/b][/u]
+[img]url_gameday[/img]
+
+[b][u] Classement individuel global - sur toute la saison:[/u][/b]
 [img]url_global[/img]
 
-[b][u] Classement moyen par pronostic (sur toute la saison) :[/u][/b]
-[i]-> Pour les pronostiqueurs avec au moins > 33 prono (> 50% des journées terminées ) :thumbright:[/i]  
-[i]-> Calcul: TOTAL_POINTS / NB_TOTAL_PRONO [/i]
+[b][u] Classement moyen par pronostic - sur toute la saison :[/u][/b]
+[i]-> Calcul basé sur le classement individuel global: TOTAL_POINTS ÷ NB_TOTAL_PRONO 
+-> Pronostiqueurs éligibles: NB_TOTAL_PRONO > 33 prono (> 75% du périmètre des journées terminées) :thumbright:[/i]
 [quote]1. USER1 - 19.5 pts/prono[/quote]
 
 [size=150][b]Championnat de pronostics[/b][/size]
 
-[b][u]Résultats du championnat de pronostics [/u][/b]
+[b][u]Résultats [/u][/b]
 [i]-> En Saison reguliere, les matchs du championnat de pronostics sont les mêmes qu’en PROB
--> Nombre de points d’une équipe: Nombre de points de journée de son meilleur pronostiqueur :headbang: 
--> Les équipes à domicile reçoivent un bonus de 20% :director:
+-> Nombre de points d’une équipe: Nombre de points de journée de son meilleur pronostiqueur:headbang: 
+-> Pronostiqueurs éligibles: NB_TOTAL_PRONO (du classement individuel global) > 10 prono (> 25% du périmètre des journées terminées) :thumbright:
+-> Les équipes à domicile reçoivent un bonus de 10% :director:
 -> En cas d'égalité, le vainqueur est l'équipe à domicile[/i]
 
 [quote]1/ [b]TeamA[/b] vs TeamB : 240 - 0
@@ -57,13 +64,9 @@ USER2 : 1EJ.09[/i]
 -> USER3: 102 pts[/code][/quote]
 
 [b][u] Classement [/b][/u]
-[i]-> Les équipes classées entre 1 & 10 seront qualifiés pour les plays-offs/ plays-in du championnat de pronostics.[/i]
 [img]url_predictchamp[/img]
 
-[size=150][b]Périmètre des journées terminées [/b][/size]
 
-3 journées terminées (66 pronos):
-1ere journee (12) / 2eme journee (12) / 3eme journee (12) 
 
 [size=150][b]Trophée de MVP - Most Valuable Predictor[/b][/size] 
 [u][b]Election du MVP du mois de Janvier [/b][/u]

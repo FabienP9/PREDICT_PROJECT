@@ -83,7 +83,6 @@ def get_games_odds(df_games: pd.DataFrame, sr_gameday_output_calculate: pd.Serie
         df_games_copy['PERC'].astype(str) + "% __F__boldend__F__ ("+ \
         np.where(df_games_copy['RESULT'] > 0, df_games_copy['NB_PREDICTOR_WINNER_HOME'] , df_games_copy['NB_PREDICTOR_WINNER_AWAY']).astype(str) + "÷" +\
         (df_games_copy['NB_PREDICTOR_WINNER_HOME']+df_games_copy['NB_PREDICTOR_WINNER_AWAY']).astype(str) + ") ==> " + \
-        np.where(df_games_copy['PERC'] < 40, "15 + ( 40 - " + df_games_copy['PERC'].astype(str) + " ) ==> ", "") + \
         "__F__boldbegin__F____L__Score__L__ = " + df_games_copy['SCORE_WIN_VALUE'].astype(str) + "__F__boldend__F__" 
     
     # we create the LIST_GAMES string by concatenating all games-strings on several lines
@@ -198,7 +197,7 @@ def get_scores_average(nb_prediction: int, df_userscores_global: pd.DataFrame) -
     df_userscores_modified = df_userscores_global.copy()
     # we calculate the min number of gameday to be part of this ranking
     NB_MIN_PREDICTION = int(3*nb_prediction/4)
-    df_userscores_modified = df_userscores_modified[df_userscores_modified['NB_TOTAL_PREDICT'] > NB_MIN_PREDICTION]
+    df_userscores_modified = df_userscores_modified[df_userscores_modified['IS_ELIGIBLE_AVERAGE_RANKING'] == 1]
     df_userscores_modified = output.calculate_and_display_rank(df_userscores_modified,['AVERAGE_POINTS'])
     df_userscores_modified['STRING'] = (df_userscores_modified['RANK'].astype(str) + ". " +
                                         df_userscores_modified['USER_NAME'] + " - " +
@@ -505,10 +504,12 @@ def get_parameters(sr_snowflake_account: pd.Series, sr_gameday_output_calculate:
         param_dict['IS_FOR_RANK'] = 0
         param_dict['RESULTS_PREDICTCHAMP'] = None
         param_dict['HAS_HOME_ADV'] = 0
+        param_dict['NB_MIN_PREDICTION_PREDICTCHAMP'] = None
     else:
         param_dict['IS_FOR_RANK'] = df_gamepredictchamp.at[0,'IS_FOR_RANK']
         param_dict['RESULTS_PREDICTCHAMP'] = get_predictchamp_result(df_gamepredictchamp,sr_snowflake_account,sr_gameday_output_calculate)
         param_dict['HAS_HOME_ADV'] = df_gamepredictchamp.at[0,'HAS_HOME_ADV']
+        param_dict['NB_MIN_PREDICTION_PREDICTCHAMP'] = int(param_dict['NB_TOTAL_PREDICT']/4)
 
     # if the predictions games are not for rank, we don't display the predictions championship ranking
     if param_dict['IS_FOR_RANK'] == 0:
@@ -632,7 +633,8 @@ def create_message(param_dict: dict, template:str, translations_dict: dict, coun
 
     if param_dict['NB_GAME_PREDICTCHAMP'] > 0:
         replacement_substr.extend([
-            ("#RESULTS_PREDICTCHAMP#",param_dict['RESULTS_PREDICTCHAMP'])
+            ("#RESULTS_PREDICTCHAMP#",param_dict['RESULTS_PREDICTCHAMP']),
+            ("#NB_MIN_PREDICTION_PREDICTCHAMP#",str(param_dict['NB_MIN_PREDICTION_PREDICTCHAMP'])),
         ])  
 
     if param_dict['IS_FOR_RANK'] == 1:

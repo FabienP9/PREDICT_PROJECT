@@ -62,7 +62,7 @@ user_gameday as (
 ),
 -- we calculate the total points, the number of predicted gamedays and predictions, 
 -- and get the number of time the user came first
-figures as (
+final_user as (
     SELECT
         ug2.USER_KEY,
         ug2.USER_NAME,
@@ -79,41 +79,6 @@ figures as (
         ug2.USER_KEY,
         ug2.USER_NAME,
         ug2.SEASON_KEY
-),
--- we get the number of predictions total in the season
-nb_predictions_total as (
-    SELECT
-        gameday.SEASON_KEY,
-        SUM(gameday.NB_PREDICTION) AS NB_PREDICTION_TOTAL
-    FROM
-        {{ref('consumpted_gameday')}} gameday
-    WHERE
-        gameday.IS_CALCULATED = 1
-    GROUP BY
-        gameday.SEASON_KEY
-),
-final_user as (
-    SELECT
-        figures.USER_KEY,
-        figures.USER_NAME,
-        figures.SEASON_KEY,
-        figures.TOTAL_POINTS,
-        figures.NB_PREDICTION,
-        figures.NB_GAMEDAY_PREDICT,
-        figures.NB_GAMEDAY_FIRST,
-        CASE 
-            WHEN figures.NB_PREDICTION/nb_predictions_total.NB_PREDICTION_TOTAL > 0.75 THEN 1
-            ELSE 0
-        END AS IS_ELIGIBLE_AVERAGE_RANKING,
-        CASE 
-            WHEN figures.NB_PREDICTION/nb_predictions_total.NB_PREDICTION_TOTAL > 0.25 THEN 1
-            ELSE 0
-        END AS IS_ELIGIBLE_PREDICTCHAMP        
-    FROM
-        figures
-    JOIN
-        nb_predictions_total
-        ON nb_predictions_total.SEASON_KEY = figures.SEASON_KEY
 )
 SELECT
     final_user.USER_KEY,
@@ -123,9 +88,7 @@ SELECT
     final_user.NB_PREDICTION,
     final_user.NB_GAMEDAY_PREDICT,
     final_user.NB_GAMEDAY_FIRST,
-    final_user.IS_ELIGIBLE_AVERAGE_RANKING,
-    final_user.IS_ELIGIBLE_PREDICTCHAMP,
-    {{updated_at_fields()}}
+    {{updated_at_fields()}} 
 FROM 
     final_user
     {{updated_at_table_join_season('final_user')}}

@@ -51,6 +51,7 @@ JOIN
 JOIN
     {{ref('consumpted_user')}} user
     ON user.USER_KEY = ug.USER_KEY
+    AND user.IS_ELIGIBLE_PREDICTCHAMP = 1
 JOIN
     {{ref('consumpted_gameday')}} gameday
     ON team.GAMEDAY_KEY = gameday.GAMEDAY_KEY

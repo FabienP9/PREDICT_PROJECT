@@ -57,6 +57,10 @@ team_points as (
         {{ref('consumpted_gameday')}} gameday
         ON ug.GAMEDAY_KEY = gameday.GAMEDAY_KEY
         AND gameday.IS_TO_CALCULATE + gameday.IS_TO_DELETE > 0
+    JOIN
+        {{ref('consumpted_user')}} user
+        ON user.USER_KEY = ug.USER_KEY
+        AND user.IS_ELIGIBLE_PREDICTCHAMP = 1
     GROUP BY
         ug.TEAM_CHOICE_KEY,
         gameday.GAMEDAY_KEY
@@ -80,7 +84,7 @@ final as (
             WHEN game.IS_TO_DELETE = 1 THEN 0
             ELSE COALESCE(team_points_home.TEAM_POINTS,0)
         END AS POINTS_BASE,
-        CAST(game.HAS_HOME_ADV * 0.2 * POINTS_BASE AS INT) AS POINTS_BONUS,
+        CAST(game.HAS_HOME_ADV * 0.1 * POINTS_BASE AS INT) AS POINTS_BONUS,
         POINTS_BASE + POINTS_BONUS AS POINTS_HOME,
         CASE
             WHEN game.IS_TO_DELETE = 1 THEN 0

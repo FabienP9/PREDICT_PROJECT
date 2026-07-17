@@ -42,6 +42,16 @@ models:
     tests:
       - is_integer
 
+  - name: IS_ELIGIBLE_AVERAGE_RANKING
+    description: If 1 the user predicted enough to be part of the average points ranking
+    #tests:
+    #  - is_integer
+
+  - name: IS_ELIGIBLE_PREDICTCHAMP
+    description: If 1 the user predicted enough to be part of the prediction championship calculations
+    #tests:
+    #  - is_integer
+
   - name: UPDATED_AT_UTC
     description: The datetime of update in utc timezone
     tests:

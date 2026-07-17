@@ -167,6 +167,27 @@ VW_USER_SCORES_GLOBAL_QUERY = f'''
         SEASON_ID = %s
     '''
 
+#Query to get global (per season) result per user
+VW_USER_SCORES_GLOBAL_QUERY = f'''
+    SELECT
+        USER_NAME,
+        TOTAL_POINTS,
+        CAST(CASE
+            WHEN NB_GAMEDAY_PREDICT = 0 THEN 0
+            ELSE TOTAL_POINTS / NB_TOTAL_PREDICT
+        END AS DECIMAL(10,2)) AS AVERAGE_POINTS,
+        NB_GAMEDAY_PREDICT,
+        NB_GAMEDAY_FIRST,
+        NB_TOTAL_PREDICT,
+        RANK() OVER (ORDER BY TOTAL_POINTS DESC) AS RANK,
+        IS_ELIGIBLE_AVERAGE_RANKING,
+        IS_ELIGIBLE_PREDICTCHAMP
+    FROM
+        {DATABASE}.CONSUMPTED.VW_USER_SCORES_GLOBAL
+    WHERE
+        SEASON_ID = %s
+    '''
+
 #Query to get result per gameday per user
 VW_USER_SCORES_GAMEDAY_QUERY = f'''
     SELECT

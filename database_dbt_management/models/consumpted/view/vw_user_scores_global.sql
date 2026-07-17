@@ -12,6 +12,8 @@ SELECT
     user.NB_GAMEDAY_PREDICT,
     user.NB_GAMEDAY_FIRST,
     user.NB_PREDICTION AS NB_TOTAL_PREDICT,
+    user.IS_ELIGIBLE_AVERAGE_RANKING,
+    user.IS_ELIGIBLE_PREDICTCHAMP,
     season.SEASON_ID
 FROM
     {{ref('consumpted_user')}} user

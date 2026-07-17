@@ -146,7 +146,6 @@ SELECT
     final_gameday.GAMEDAY,
     final_gameday.GAMEDAY_MESSAGE,
     final_gameday.NB_GAME,
-    final_gameday.NB_GAME + 2 AS NB_PREDICTION,
     final_gameday.IS_PLAYED,
     final_gameday.IS_PARTIALLY_PLAYED,
     final_gameday.BEGIN_DATE_LOCAL,

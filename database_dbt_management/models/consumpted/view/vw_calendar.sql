@@ -113,22 +113,22 @@ calculate_gameday as (
 -- the timetable of games can change, so we need to read them regularly to be sure we have the updated timetable
 -- 10 weeks before / 6 weeks before / 1 month before / 3 weeks before / 10 days and 3 days before the expected beginning (first game)
 -- 10 weeks before / 6 weeks before / 1 month before / 3 weeks before / 10 days and 3 days before the expected end (last game)
--- we read them around 8 AM UTC each time
+-- we read them during UTC night each time
 read_gameday_beginning as (
-    {{calendar_read_gameday('WEEK',-10,'08:01:00.000')}}
-    UNION ALL {{calendar_read_gameday('WEEK',-6,'08:02:00.000')}}
-    UNION ALL {{calendar_read_gameday('MONTH',-1,'08:03:00.000')}}
-    UNION ALL {{calendar_read_gameday('WEEK',-3,'08:04:00.000')}}
-    UNION ALL {{calendar_read_gameday('DAY',-10,'08:05:00.000')}}
-    UNION ALL {{calendar_read_gameday('DAY',-3,'08:06:00.000')}}
+    {{calendar_read_gameday_beginning('WEEK',-10,'01:00:00.000')}}
+    UNION ALL {{calendar_read_gameday_beginning('WEEK',-6,'02:00:00.000')}}
+    UNION ALL {{calendar_read_gameday_beginning('MONTH',-1,'03:00:00.000')}}
+    UNION ALL {{calendar_read_gameday_beginning('WEEK',-3,'04:00:00.000')}}
+    UNION ALL {{calendar_read_gameday_beginning('DAY',-10,'05:00:00.000')}}
+    UNION ALL {{calendar_read_gameday_beginning('DAY',-3,'06:00:00.000')}}
 ),
-read_gameday_end as (
-    {{calendar_read_gameday('WEEK',-10,'08:01:30.000')}}
-    UNION ALL {{calendar_read_gameday('WEEK',-6,'08:02:30.000')}}
-    UNION ALL {{calendar_read_gameday('MONTH',-1,'08:03:30.000')}}
-    UNION ALL {{calendar_read_gameday('WEEK',-3,'08:04:30.000')}}
-    UNION ALL {{calendar_read_gameday('DAY',-10,'08:05:30.000')}}
-    UNION ALL {{calendar_read_gameday('DAY',-3,'08:06:30.000')}}
+read_gameday_ending as (
+    {{calendar_read_gameday_ending('WEEK',-10,'01:30:00.000')}}
+    UNION ALL {{calendar_read_gameday_ending('WEEK',-6,'02:30:00.000')}}
+    UNION ALL {{calendar_read_gameday_ending('MONTH',-1,'03:30:00.000')}}
+    UNION ALL {{calendar_read_gameday_ending('WEEK',-3,'04:30:00.000')}}
+    UNION ALL {{calendar_read_gameday_ending('DAY',-10,'05:30:00.000')}}
+    UNION ALL {{calendar_read_gameday_ending('DAY',-3,'06:30:00.000')}}
 ),
 read_gameday_details as (
     SELECT
@@ -155,7 +155,7 @@ read_gameday_details as (
         'AVOID' AS MESSAGE_ACTION,
         'RUN' AS GAME_ACTION
     FROM
-        read_gameday_end gameday_readg_end
+        read_gameday_ending gameday_readg_end
 ),
 -- we union everything and filter on the time range
 cte_union as (
@@ -166,7 +166,7 @@ cte_union as (
         UNION ALL SELECT * FROM read_gameday_details
     )
     WHERE 
-        DATEADD(WEEK,-1,current_date) <= TS_TASK_UTC
+        DATEADD(MONTH,-1,current_date) <= TS_TASK_UTC
         AND DATEADD(MONTH,1,current_date) >= TS_TASK_UTC
 ),
 

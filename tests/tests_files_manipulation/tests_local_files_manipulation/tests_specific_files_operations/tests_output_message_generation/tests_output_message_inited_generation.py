@@ -5,6 +5,8 @@ It units test the happy path for each function
 
 from unittest.mock import patch
 import pandas as pd
+from datetime import datetime
+import numpy as np
 
 from src.predict_core.files_manipulation.local_files_manipulation.specific_files_operations.output_message_file_generation import output_message_inited_generation
 
@@ -17,13 +19,22 @@ def test_transform_games_to_list(read_csv,read_txt):
     list_games = output_message_inited_generation.transform_games_to_list(df_games)
     assert list_games.split() == expected_str.split()
 
-def test_transform_databasetime_for_output():
+def test_transform_databasetime_for_output_hhm():
 
-    # this test the function transform_databasetime_for_output
+    # this test the function transform_databasetime_for_output with output hhm
     df_cols_time = pd.Series(["15:09:10", "09:00:00"])
     expected = pd.Series(["15h09","9h"])
 
-    result = output_message_inited_generation.transform_databasetime_for_output(df_cols_time)
+    result = output_message_inited_generation.transform_databasetime_for_output(df_cols_time, get_moment = 0)
+    pd.testing.assert_series_equal(result, expected, check_names=False)
+
+def test_transform_databasetime_for_output_moment():
+
+    # this test the function transform_databasetime_for_output with moment output
+    df_cols_time = pd.Series(["15:09:10", "09:00:00"])
+    expected = pd.Series(["__L__In_the_afternoon__L__","__L__In_the_morning__L__"])
+
+    result = output_message_inited_generation.transform_databasetime_for_output(df_cols_time, get_moment = 1)
     pd.testing.assert_series_equal(result, expected, check_names=False)
 
 def test_transform_databasedate_for_output():
@@ -49,13 +60,24 @@ def test_add_time_to_databasedatetime():
     pd.testing.assert_series_equal(exp_time, date_new_col_time)
 
 def test_transform_games_to_calendar(read_csv,read_txt):
-
+    
+    #this test the function transform_games_to_calendar
     df_games = read_csv("q_vw_game_query.csv")
     expected_str = read_txt("output_message_inited_calendar_games.txt")
 
     calendar_games, firstgametimedict = output_message_inited_generation.transform_games_to_calendar(df_games)
     assert calendar_games == expected_str
     assert firstgametimedict == {'1ere journee': '01/01 15h'}
+
+def test_get_opened_gameday_details(read_csv,read_txt):
+
+    #this test the function get_opened_gameday_details
+    gameday = "3eme journee"
+    df_games = read_csv("q_vw_game_opened_atdate.csv").head(1)
+    expected_str = read_txt("output_message_inited_opened_gameday_details.txt")
+
+    details_gameday = output_message_inited_generation.get_opened_gameday_details(gameday,df_games)
+    assert details_gameday == expected_str
 
 def test_get_next_opening_gamedays_calendar(read_yml_as_serie, read_csv,read_txt):
 
@@ -67,17 +89,18 @@ def test_get_next_opening_gamedays_calendar(read_yml_as_serie, read_csv,read_txt
     
     with patch.object(output_message_inited_generation,'snowflake_execute', return_value=mock_df_next_gamedays):
 
-        result, nbgamedays = output_message_inited_generation.get_next_opening_gamedays_calendar(sr_snowflake_account_connect, sr_gameday_output_init)
+        result, nbgamedays = output_message_inited_generation.get_next_opening_gamedays_calendar(sr_snowflake_account_connect, sr_gameday_output_init,'2026-03-06')
         assert result == expected_result
         assert nbgamedays == 2
-        
+      
 def test_get_parameters(read_yml_as_serie, read_csv,read_txt):
     
     # this test the function get_parameters
     sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_gameday_output_init = read_csv("sr_gameday_output_init.csv").iloc[0]
     mock_df_games_opening = read_csv("q_vw_game_query.csv")
-    mock_df_games_opened = read_csv("q_vw_game_opened_atdate.csv")
+    mock_df_games_opened = read_csv("q_vw_game_opened_atdate.csv").head(1)
+    mock_details_opened_games = read_txt("output_message_inited_opened_gameday_details.txt")
     mock_calendar_next_opening = read_txt("output_message_inited_next_opening_gamedays_calendar.txt")
     
     expected_param_dict = {
@@ -86,18 +109,21 @@ def test_get_parameters(read_yml_as_serie, read_csv,read_txt):
         'CALENDAR_GAMES_OPENING': read_txt("output_message_inited_calendar_games.txt"), 
         'FIRSTGAMETIME_OPENING': '__L__WEEKDAY_1__L__ 01/01 15h',
         'LIST_GAMES_OPENING': read_txt("output_message_inited_list_games.txt"), 
-        'NB_GAMES_OPENED': 2, 
-        'LIST_GAMEDAYS_OPENED': '3eme journee , 4eme journee', 
-        'CALENDAR_GAMES_OPENED': read_txt("output_message_inited_calendar_games_opened.txt"), 
+        'NB_GAMES_OPENED': 1, 
+        'LIST_GAMEDAYS_OPENED': '3eme journee', 
+        'DETAILS_OPENED_GAMES': read_txt("output_message_inited_opened_gameday_details.txt"), 
         'LIST_GAMES_OPENED': read_txt("output_message_inited_list_games_opened.txt"),
         'CALENDAR_NEXT_OPENING': read_txt("output_message_inited_next_opening_gamedays_calendar.txt"),
         'NB_NEXT_OPENING' : 2,
-        'USER_CAN_CHOOSE_TEAM_FOR_PREDICTCHAMP': 1}
+        'USER_CAN_CHOOSE_TEAM_FOR_PREDICTCHAMP': np.int64(1)}
     
     with patch.object(output_message_inited_generation,'snowflake_execute', side_effect=[mock_df_games_opening,mock_df_games_opened]), \
-        patch.object(output_message_inited_generation,'get_next_opening_gamedays_calendar', return_value=(mock_calendar_next_opening,2)):
+        patch.object(output_message_inited_generation,'get_next_opening_gamedays_calendar', return_value=(mock_calendar_next_opening,2)),\
+        patch.object(output_message_inited_generation,'get_opened_gameday_details', return_value=mock_details_opened_games):
         
         param_dict = output_message_inited_generation.get_parameters(sr_snowflake_account_connect, sr_gameday_output_init)
+        
+        
         assert expected_param_dict == param_dict
 
 def test_create_message(read_csv,read_txt, read_json):
@@ -109,13 +135,13 @@ def test_create_message(read_csv,read_txt, read_json):
         'CALENDAR_GAMES_OPENING': read_txt("output_message_inited_calendar_games.txt"), 
         'FIRSTGAMETIME_OPENING': '__L__WEEKDAY_1__L__ 01/01 15h',
         'LIST_GAMES_OPENING': read_txt("output_message_inited_list_games.txt"), 
-        'NB_GAMES_OPENED': 2, 
-        'LIST_GAMEDAYS_OPENED': '3eme journee , 4eme journee', 
-        'CALENDAR_GAMES_OPENED': read_txt("output_message_inited_calendar_games_opened.txt"), 
+        'NB_GAMES_OPENED': 1, 
+        'LIST_GAMEDAYS_OPENED': '3eme journee', 
+        'DETAILS_OPENED_GAMES': read_txt("output_message_inited_opened_gameday_details.txt"), 
         'LIST_GAMES_OPENED': read_txt("output_message_inited_list_games_opened.txt"),
         'CALENDAR_NEXT_OPENING': read_txt("output_message_inited_next_opening_gamedays_calendar.txt"),
         'NB_NEXT_OPENING' : 2,
-        'USER_CAN_CHOOSE_TEAM_FOR_PREDICTCHAMP':1}
+        'USER_CAN_CHOOSE_TEAM_FOR_PREDICTCHAMP': np.int64(1)}
     
     template = read_txt("output_gameday_init_template_france.txt")
     translations = read_json("output_gameday_template_translations.json")

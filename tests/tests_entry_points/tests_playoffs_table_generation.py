@@ -5,6 +5,7 @@ It units test the happy path for each function
 
 from unittest.mock import patch
 import matplotlib.pyplot as plt
+import os
 
 from src.predict_core.entry_point import playoffs_table_generation
 
@@ -81,11 +82,13 @@ def test_draw_playoffs_image(read_txt):
     # this test the draw_playoffs_image function
     mock_str_playoffs_table = read_txt("playoffs_table.txt")
 
+
     with patch.object(playoffs_table_generation.local_environment_manipulation,"create_local_folder"), \
          patch.object(playoffs_table_generation.dropbox,"download_file", return_value = {"str_playoffs_table": mock_str_playoffs_table}), \
          patch.object(playoffs_table_generation.files_manipulation,"create_jpg"), \
          patch.object(playoffs_table_generation.imgbb,"push_capture_online", return_value="https://fakeimage.url/test.jpg"), \
          patch.object(playoffs_table_generation,"create_json_file_email"), \
-         patch.object(playoffs_table_generation.local_environment_manipulation,"destroy_local_folder"):
+         patch.object(playoffs_table_generation.local_environment_manipulation,"destroy_local_folder"),\
+        patch.dict(os.environ, {"IMGBB_API_KEY": "fake_api_key"}):
 
         playoffs_table_generation.draw_playoffs_image()

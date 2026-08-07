@@ -3,6 +3,8 @@ This tests file concern all functions in the output_message_inited_generation mo
 It units test unexpected paths
 '''
 import pandas as pd
+from datetime import datetime
+import numpy as np
 from unittest.mock import patch
 
 from src.predict_core.files_manipulation.local_files_manipulation.specific_files_operations.output_message_file_generation import output_message_inited_generation
@@ -27,14 +29,14 @@ def test_transform_databasetime_for_output_invalid_format():
     df_cols_time = pd.Series(["15:30"])
     expected = pd.Series(["15h30"])
 
-    result = output_message_inited_generation.transform_databasetime_for_output(df_cols_time)
+    result = output_message_inited_generation.transform_databasetime_for_output(df_cols_time, get_moment = 0)
     pd.testing.assert_series_equal(result, expected, check_names=False)
 
 def test_transform_databasetime_for_output_none(assert_exit):
 
     # this test the function transform_databasetime_for_output with None. Must exit the program.
     df_cols_time = pd.Series([None])
-    assert_exit(lambda: output_message_inited_generation.transform_databasetime_for_output(df_cols_time))
+    assert_exit(lambda: output_message_inited_generation.transform_databasetime_for_output(df_cols_time, get_moment = 1))
 
 def test_transform_databasedate_for_output_invalid_format(assert_exit):
 
@@ -80,7 +82,7 @@ def test_get_next_opening_gamedays_calendar_empty(read_yml_as_serie, read_csv):
     
     with patch.object(output_message_inited_generation,'snowflake_execute', return_value=mock_df_next_gamedays):
 
-        result, nbgamedays = output_message_inited_generation.get_next_opening_gamedays_calendar(sr_snowflake_account_connect, sr_gameday_output_init)
+        result, nbgamedays = output_message_inited_generation.get_next_opening_gamedays_calendar(sr_snowflake_account_connect, sr_gameday_output_init,'2026-03-06')
         assert result == ""
         assert nbgamedays == 0
 
@@ -93,7 +95,7 @@ def test_get_next_opening_gamedays_calendar_badtype(read_yml_as_serie, read_csv,
     
     with patch.object(output_message_inited_generation,'snowflake_execute', return_value=mock_df_next_gamedays):
 
-        assert_exit(lambda: output_message_inited_generation.get_next_opening_gamedays_calendar(sr_snowflake_account_connect, sr_gameday_output_init))
+        assert_exit(lambda: output_message_inited_generation.get_next_opening_gamedays_calendar(sr_snowflake_account_connect, sr_gameday_output_init,'2026-03-06'))
 
 def test_create_message_no_remaining_games(read_csv, read_txt, read_json, assert_exit):
     
@@ -106,11 +108,11 @@ def test_create_message_no_remaining_games(read_csv, read_txt, read_json, assert
         'LIST_GAMES_OPENING': read_txt("output_message_inited_list_games.txt"), 
         'NB_GAMES_OPENED': 0, 
         'LIST_GAMEDAYS_OPENED': '', 
-        'CALENDAR_GAMES_OPENED': '', 
+        'DETAILS_OPENED_GAMES': '', 
         'LIST_GAMES_OPENED': '',        
         'CALENDAR_NEXT_OPENING': '',
         'NB_NEXT_OPENING' : 0,
-        'USER_CAN_CHOOSE_TEAM_FOR_PREDICTCHAMP':1
+        'USER_CAN_CHOOSE_TEAM_FOR_PREDICTCHAMP': np.int64(1)
     }
     
     template = read_txt("output_gameday_init_template_france.txt")
@@ -124,12 +126,11 @@ def test_create_message_no_remaining_games(read_csv, read_txt, read_json, assert
     with patch.object(output_message_inited_generation.output,"define_filename", return_value=mock_filename) as mock_filename, \
          patch.object(output_message_inited_generation.files_manipulation,"create_txt"):
         
-        
         content, country, forum = output_message_inited_generation.create_message(param_dict, template, translations, country, forum, sr_gameday_output_init)
         assert content.split() == expected_result.split()
         assert country == "FRANCE"
         assert forum == 'BI'
-        
+
 def test_create_message_none_param(read_csv, read_txt, read_json, assert_exit):
     
     # this test the function create_message with no parameters. Must exit the program
@@ -165,4 +166,3 @@ def test_process_output_message_with_no_topics(read_yml_as_serie, read_csv, read
         # posting step should have been called once with []
         called_args = mock_mt.call_args_list[-1][0][1]
         assert called_args == []
- 

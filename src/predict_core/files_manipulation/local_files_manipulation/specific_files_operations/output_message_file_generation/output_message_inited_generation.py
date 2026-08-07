@@ -7,7 +7,7 @@
 '''
 import logging
 import os
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta,timezone
 from typing import Tuple
 import pandas as pd
 
@@ -50,27 +50,45 @@ def transform_games_to_list(df_games: pd.DataFrame) -> str:
     return LIST_GAMES
 
 @config_decorators.exit_program(log_filter=lambda args: dict(args))
-def transform_databasetime_for_output(df_cols_time: pd.Series) -> pd.Series:
+def transform_databasetime_for_output(df_cols_time: pd.Series, get_moment: int ) -> pd.Series:
 
     '''
-        Transform a time HH:MM:SS to HhM for output
+        Depending on get_moment value, transform a time HH:MM:SS for output to 
+        - HhM
+        - moment in the day (morning, afternoon, evening)
         Inputs:
-            the time in format HH:MM:SS
+            df_cols_time (dataframe): the time in format HH:MM:SS in a dataframe column
+            get_moment (0/1): boolean defining if we return hhm or the moment
         Returns:
-            the time in format HhM
+            the time in format HhM or moment (str)
         Raises:
             Exits the program if error running the function (using decorator)
     '''
     if df_cols_time.empty:
         return df_cols_time
     
-    parts = df_cols_time.astype(str).str.split(":", expand=True)
-    h = parts[0].astype(int).astype(str)
-    m_str = parts[1]
-    m_int = parts[1].astype(int)
+    elif df_cols_time.isna().all():
+        raise ValueError("Input contains only None/NaN values")
 
-    result = h + "h"
-    result = result.where(m_int == 0, result + m_str.astype(str))
+    elif get_moment == 1:        
+        time_ranges = pd.cut(
+                pd.to_datetime(df_cols_time), 
+                bins=pd.to_datetime(["00:00", "02:00", "08:00", "12:00", "18:00", "22:30", "23:59"]),
+                labels=["night_beginning", "night", "morning", "afternoon", "evening", "evening_end"],
+                include_lowest=True,
+                ordered=False 
+        )
+        result = time_ranges.astype(str)
+        result = "__L__In_the_" + result + "__L__"
+
+    else:
+        parts = df_cols_time.astype(str).str.split(":", expand=True)
+        h = parts[0].astype(int).astype(str)
+        m_str = parts[1]
+        m_int = parts[1].astype(int)
+
+        result = h + "h"
+        result = result.where(m_int == 0, result + m_str.astype(str))
 
     return result
 
@@ -80,9 +98,9 @@ def transform_databasedate_for_output(df_cols_date: pd.Series) -> pd.Series:
     '''
         Transform a date YYYY-MM-DD to DD/MM for output
         Inputs:
-            the time in format YYYY-MM-DD
+            df_cols_time (dataframe): the time in format HH:MM:SS in a dataframe column
         Returns:
-            the time in format DD/MM
+            a series with date with good format
         Raises:
             Exits the program if error running the function (using decorator)
     '''
@@ -101,7 +119,9 @@ def add_time_to_databasedatetime(df_col_date: pd.Series, df_col_time: pd.Series,
     '''
         Add a defined amount of minute to a database date and time
         Inputs:
-            the date in format in format YYYY-MM-DD and time in format HH:MM.SS
+            the date in format in format YYYY-MM-DD and time in format HH:MM.SS into dataframe column
+            thw time in format HH:MM:SS into a dataframe column
+            minutes_to_add...the number of minutes to add to the date and time
         Returns:
             date and time modified
         Raises:
@@ -122,7 +142,7 @@ def add_time_to_databasedatetime(df_col_date: pd.Series, df_col_time: pd.Series,
     return dt.dt.strftime("%Y-%m-%d"), dt.dt.strftime("%H:%M:%S")
 
 @config_decorators.exit_program(log_filter=lambda args: dict(args))
-def transform_games_to_calendar(df_games: pd.DataFrame,) -> Tuple[str, dict]:
+def transform_games_to_calendar(df_games: pd.DataFrame) -> Tuple[str, dict]:
 
     '''
         Transform a dataframe of games of multiple gameday to a calendar, with game datetimes, and prediction result time
@@ -136,62 +156,92 @@ def transform_games_to_calendar(df_games: pd.DataFrame,) -> Tuple[str, dict]:
     '''
 
     df_games_copy = df_games.copy()[['GAMEDAY','GAME_MESSAGE','DATE_GAME_LOCAL','TIME_GAME_LOCAL']]
+    df_games_copy = df_games_copy.rename(columns={"DATE_GAME_LOCAL": "DATE_EVENT_LOCAL", 
+                                                  "TIME_GAME_LOCAL": "TIME_EVENT_LOCAL"})
     df_games_copy["IS_RESULT"] = 0
-    # We get the last game per gameday and add 2h30, to have the prediction result time then we add result time in the df calendar
-    resultframe = (df_games_copy.sort_values(["DATE_GAME_LOCAL","TIME_GAME_LOCAL"]).groupby("GAMEDAY", as_index=False).last())
     
-    resultframe["DATE_RESULT"], resultframe["TIME_RESULT"] = add_time_to_databasedatetime(resultframe["DATE_GAME_LOCAL"], resultframe["TIME_GAME_LOCAL"], minutes_to_add=150)
+    # We get the last game per gameday and add 3h00, to have the prediction result time then we add result time in the df calendar
+    resultframe = (df_games_copy.sort_values(["DATE_EVENT_LOCAL","TIME_EVENT_LOCAL"]).groupby("GAMEDAY", as_index=False).last())
+    resultframe["DATE_RESULT"], resultframe["TIME_RESULT"] = add_time_to_databasedatetime(resultframe["DATE_EVENT_LOCAL"], resultframe["TIME_EVENT_LOCAL"], minutes_to_add=180)
     resultrows = pd.DataFrame({
         "GAMEDAY": resultframe["GAMEDAY"],
         "GAME_MESSAGE": resultframe["GAMEDAY"],
-        "DATE_GAME_LOCAL": resultframe["DATE_RESULT"],
-        "TIME_GAME_LOCAL": resultframe["TIME_RESULT"],
+        "DATE_EVENT_LOCAL": resultframe["DATE_RESULT"],
+        "TIME_EVENT_LOCAL": resultframe["TIME_RESULT"],
         "IS_RESULT": 1
     })
     df_games_copy = pd.concat([df_games_copy, resultrows], ignore_index=True)
+
     # We transform date and time columns for output display
-    df_games_copy['DATE_GAME_DISPLAY'] = transform_databasedate_for_output(df_games_copy['DATE_GAME_LOCAL'])
-    df_games_copy['TIME_GAME_DISPLAY'] = transform_databasetime_for_output( df_games_copy['TIME_GAME_LOCAL'])
+    df_games_copy['DATE_EVENT_DISPLAY'] = transform_databasedate_for_output(df_games_copy['DATE_EVENT_LOCAL'])
+    df_games_copy['TIME_EVENT_DISPLAY'] = transform_databasetime_for_output(df_games_copy['TIME_EVENT_LOCAL'], get_moment = 0)
     
-    # We create the multiline string of the calendar, group and sort by DATE_GAME_LOCAL and IS_RESULT
+    # We create the multiline string of the calendar, group and sort by DATE_EVENT_LOCAL and IS_RESULT
     df_games_copy = df_games_copy.sort_values(
-        by=['DATE_GAME_LOCAL', 'IS_RESULT', 'TIME_GAME_LOCAL']
+        by=['DATE_EVENT_LOCAL', 'IS_RESULT', 'TIME_EVENT_LOCAL']
     )
     calendar_lines = []
-    for (date_string, is_result), group in df_games_copy.groupby(['DATE_GAME_DISPLAY', 'IS_RESULT'], sort=False):
+    for (date_string, is_result), group in df_games_copy.groupby(['DATE_EVENT_DISPLAY', 'IS_RESULT'], sort=False):
         if is_result == 0:
             lines = (
-                group['GAME_MESSAGE'] + " (" + group['TIME_GAME_DISPLAY'].astype(str) + ")"
+                group['GAME_MESSAGE'] + " (" + group['TIME_EVENT_DISPLAY'] + ")"
             )
             line = " / ".join(lines)
             calendar_lines.append(f"{date_string}: {line}")
         
         else:
+            #we transform the time with a moment
+            group['TIME_EVENT_DISPLAY'] = transform_databasetime_for_output(group['TIME_EVENT_LOCAL'], get_moment = 1)
+
             result_lines = (
-                f"{date_string} ~" + 
-                group['TIME_GAME_DISPLAY'].astype(str) + ": __L__RESULTS OF PREDICTIONS OF__L__ " + 
+                f"{date_string} - " + group['TIME_EVENT_DISPLAY'] + ": __L__RESULTS OF PREDICTIONS OF__L__ " + 
                 group['GAMEDAY']
             )
             calendar_lines.extend(result_lines.tolist())
 
     CALENDAR_GAMES = "\n".join(calendar_lines)
     # We finally extract the first game time per gameday
-    firstgameframe = (df_games_copy.sort_values(["DATE_GAME_LOCAL","TIME_GAME_LOCAL"]).groupby("GAMEDAY", as_index=False).first())
+    firstgameframe = (df_games_copy.sort_values(["DATE_EVENT_LOCAL","TIME_EVENT_LOCAL"]).groupby("GAMEDAY", as_index=False).first())
     FIRSTGAMETIME_DICT = (
-        firstgameframe.assign(todisplay=firstgameframe['DATE_GAME_DISPLAY'] + " " + firstgameframe['TIME_GAME_DISPLAY'])
+        firstgameframe.assign(todisplay=firstgameframe['DATE_EVENT_DISPLAY'] + " " + firstgameframe['TIME_EVENT_DISPLAY'])
                  .set_index('GAMEDAY')['todisplay']
                  .to_dict()
     )
     return CALENDAR_GAMES, FIRSTGAMETIME_DICT
-    
+
+@config_decorators.exit_program(log_filter=lambda args: dict(args))
+def get_opened_gameday_details(gameday:str, df_games_opened:pd.DataFrame) -> str:
+
+    '''
+        Creates both list of remaining games and calendar of remaining games of a gameday already opened in a multiline string
+        Inputs:
+            gameday (str) the gameday
+            df_games_opened (dataframe): list of games remaining
+        Returns:
+            A multiple row string displaying the list and calendar per day (str)
+        Raises:
+            Exits the program if error running the function (using decorator)
+    '''
+
+    df_games_opened_gameday = df_games_opened[df_games_opened["GAMEDAY"]== gameday]
+    LIST_GAMES = transform_games_to_list(df_games_opened_gameday)
+    CALENDAR_GAMES, _ = transform_games_to_calendar(df_games_opened_gameday)
+    DETAILS_OPENED_GAMES = f"\n\n__F__underlinebegin__F__{gameday} __F__underlineend__F__\
+                            \n__F__italicbegin__F__-> Trame pour pronostics - {gameday} __F__italicend__F__\
+                            __F__quote2begin__F__{LIST_GAMES}__F__quote2end__F__\
+                            __F__italicbegin__F__-> Calendrier de la journée (à date) - {gameday} __F__italicend__F__\
+                            __F__quote1begin__F__{CALENDAR_GAMES}__F__quote1end__F__"
+    return DETAILS_OPENED_GAMES
+
 @config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_init',) })
-def get_next_opening_gamedays_calendar(sr_snowflake_account: pd.Series, sr_gameday_output_init: pd.Series) -> Tuple[str,int]:
+def get_next_opening_gamedays_calendar(sr_snowflake_account: pd.Series, sr_gameday_output_init: pd.Series, defined_date: datetime) -> Tuple[str,int]:
 
     '''
         Gets the calendar of next opening gamedays, with their opening datetime, first game time, and results time
         Inputs:
             sr_snowflake_account (series - one row) containing snowflake credentials used in subfunction to run query
             sr_gameday_output_init (series - one row) containing parameters
+            defined_date (date YYYY-MM-DD): Used to parameter the query
         Returns:
             a multiline string with a one gameday per line
             The number of gamedays concerned
@@ -200,27 +250,28 @@ def get_next_opening_gamedays_calendar(sr_snowflake_account: pd.Series, sr_gamed
     '''
 
     # we get next gameday from tomorrow
-    defined_date = (datetime.now(timezone.utc) + timedelta(days=1)).strftime('%Y-%m-%d')
-    df_next_gamedays = snowflake_execute(sr_snowflake_account,sql.VW_GAMEDAY_NEXTOPENING_QUERY,sql.DATABASE,(defined_date,sr_gameday_output_init['SEASON_ID']))    
-    # we calculate the opening time 30 minutes after the init time - and the result time 2h30 after the last game time
-    df_next_gamedays["DATE_TASK_30"], df_next_gamedays["TIME_TASK_30"] = add_time_to_databasedatetime(df_next_gamedays["DATE_TASK_LOCAL"], df_next_gamedays["TIME_TASK_LOCAL"], minutes_to_add=30)
+    defined_date_str = (datetime.strptime(defined_date, '%Y-%m-%d') + timedelta(days=1)).strftime('%Y-%m-%d')
+    df_next_gamedays = snowflake_execute(sr_snowflake_account,sql.VW_GAMEDAY_NEXTOPENING_QUERY,sql.DATABASE,(defined_date_str,sr_gameday_output_init['SEASON_ID']))    
     
-    df_next_gamedays['DATE_TASK_30_DISPLAY'] = transform_databasedate_for_output(df_next_gamedays['DATE_TASK_30'])
-    df_next_gamedays['TIME_TASK_30_DISPLAY'] = transform_databasetime_for_output( df_next_gamedays['TIME_TASK_30'])
+    # we calculate the opening time 1h minutes after the init time
+    df_next_gamedays["DATE_OPENING"], df_next_gamedays["TIME_OPENING"] = add_time_to_databasedatetime(df_next_gamedays["DATE_TASK_LOCAL"], df_next_gamedays["TIME_TASK_LOCAL"], minutes_to_add=60)
+    df_next_gamedays['DATE_OPENING_DISPLAY'] = transform_databasedate_for_output(df_next_gamedays['DATE_OPENING'])
+    df_next_gamedays['TIME_OPENING_DISPLAY'] = transform_databasetime_for_output( df_next_gamedays['TIME_OPENING'], get_moment = 1)
     
+    #we add the first game time
     df_next_gamedays['BEGIN_DATE_DISPLAY'] = transform_databasedate_for_output(df_next_gamedays['BEGIN_DATE_LOCAL'])
-    df_next_gamedays['BEGIN_TIME_DISPLAY'] = transform_databasetime_for_output( df_next_gamedays['BEGIN_TIME_LOCAL'])
+    df_next_gamedays['BEGIN_TIME_DISPLAY'] = transform_databasetime_for_output(df_next_gamedays['BEGIN_TIME_LOCAL'], get_moment = 0)
     
-    # we calculate the result time 2:30 minutes after the end game time 
-    df_next_gamedays["END_DATE_150"], df_next_gamedays["END_TIME_150"] = add_time_to_databasedatetime(df_next_gamedays["END_DATE_LOCAL"], df_next_gamedays["END_TIME_LOCAL"], minutes_to_add=150)
-    df_next_gamedays['END_DATE_150_DISPLAY'] = transform_databasedate_for_output(df_next_gamedays['END_DATE_150'])
-    df_next_gamedays['END_TIME_150_DISPLAY'] = transform_databasetime_for_output( df_next_gamedays['END_TIME_150'])
+    # we calculate the result time 3:00 minutes after the end game time 
+    df_next_gamedays["DATE_RESULT"], df_next_gamedays["TIME_RESULT"] = add_time_to_databasedatetime(df_next_gamedays["END_DATE_LOCAL"], df_next_gamedays["END_TIME_LOCAL"], minutes_to_add=180)
+    df_next_gamedays['DATE_RESULT_DISPLAY'] = transform_databasedate_for_output(df_next_gamedays['DATE_RESULT'])
+    df_next_gamedays['TIME_RESULT_DISPLAY'] = transform_databasetime_for_output( df_next_gamedays['TIME_RESULT'],get_moment = 1)
 
     # we finally calculate the multiline string
     df_next_gamedays['STRING'] = df_next_gamedays['GAMEDAY'] + ": " + \
-                                "__L__OPENING__L__ " + df_next_gamedays['DATE_TASK_30_DISPLAY'] + " ~" + df_next_gamedays['TIME_TASK_30_DISPLAY'] + " / " +\
+                                "__L__OPENING__L__ " + df_next_gamedays['DATE_OPENING_DISPLAY'] + " - " + df_next_gamedays['TIME_OPENING_DISPLAY'] + " / " +\
                                  "__L__FIRST_GAME__L__ " + df_next_gamedays['BEGIN_DATE_DISPLAY'] + " "+ df_next_gamedays['BEGIN_TIME_DISPLAY'] + " / " +\
-                                 "__L__PREDICTIONS_RESULTS__L__ " + df_next_gamedays['END_DATE_150_DISPLAY'] + " ~" + df_next_gamedays['END_TIME_150_DISPLAY']
+                                 "__L__PREDICTIONS_RESULTS__L__ " + df_next_gamedays['DATE_RESULT_DISPLAY'] + " - " + df_next_gamedays['TIME_RESULT_DISPLAY']
 
     CALENDAR_NEXT_OPENING = "\n".join(df_next_gamedays['STRING'])
     return CALENDAR_NEXT_OPENING, len(df_next_gamedays)
@@ -258,15 +309,17 @@ def get_parameters(sr_snowflake_account: pd.Series, sr_gameday_output_init: pd.S
     param_dict['NB_GAMES_OPENED'] = len(df_games_opened)
     if param_dict['NB_GAMES_OPENED'] > 0:
         param_dict['LIST_GAMEDAYS_OPENED'] = " , ".join(df_games_opened['GAMEDAY'].unique())
-        param_dict['CALENDAR_GAMES_OPENED'], _ = transform_games_to_calendar(df_games_opened)
-        
+        DETAILS_OPENED_GAMES = ""
+        for gameday in df_games_opened['GAMEDAY'].unique():
+            DETAILS_OPENED_GAMES += get_opened_gameday_details(gameday, df_games_opened)
+        param_dict['DETAILS_OPENED_GAMES'] = DETAILS_OPENED_GAMES
         df_gamedays_opened = df_games_opened.groupby("GAMEDAY")
         gameday_args = [(df_gameday_opened,) for _, df_gameday_opened in df_gamedays_opened]
         results_string = multithread_run(transform_games_to_list, gameday_args)
         param_dict['LIST_GAMES_OPENED'] = "\n".join(results_string)
 
     #parameters for next opening gamedays
-    param_dict['CALENDAR_NEXT_OPENING'],param_dict['NB_NEXT_OPENING'] = get_next_opening_gamedays_calendar(sr_snowflake_account, sr_gameday_output_init)
+    param_dict['CALENDAR_NEXT_OPENING'],param_dict['NB_NEXT_OPENING'] = get_next_opening_gamedays_calendar(sr_snowflake_account, sr_gameday_output_init, defined_date)
 
     param_dict['USER_CAN_CHOOSE_TEAM_FOR_PREDICTCHAMP'] = sr_gameday_output_init['USER_CAN_CHOOSE_TEAM_FOR_PREDICTCHAMP']
     return param_dict
@@ -318,9 +371,8 @@ def create_message(param_dict: dict, template: str, translations_dict: dict, cou
     
     if param_dict['NB_GAMES_OPENED'] > 0: 
         content = content.replace("#LIST_GAMEDAYS_OPENED#",param_dict['LIST_GAMEDAYS_OPENED'])
-        content = content.replace("#LIST_GAMES_OPENED#",param_dict['LIST_GAMES_OPENED'])
-        content = content.replace("#CALENDAR_GAMES_OPENED#",param_dict['CALENDAR_GAMES_OPENED'])
-
+        content = content.replace("#DETAILS_OPENED_GAMES#",param_dict["DETAILS_OPENED_GAMES"])
+    
     if param_dict['NB_NEXT_OPENING'] > 0: 
         content = content.replace("#CALENDAR_NEXT_OPENING#",param_dict['CALENDAR_NEXT_OPENING'])
 

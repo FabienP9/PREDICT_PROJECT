@@ -1,0 +1,6 @@
+
+
+__F__underlinebegin__F__3eme journee __F__underlineend__F__                            
+__F__italicbegin__F__-> Trame pour pronostics - 3eme journee __F__italicend__F__                            __F__quote2begin__F__#3EJ.02# teamA vs teamB ==> +1 
+#3EJ.BN# __L__Bonus game ID__L__ ==> 3EJ.02 __F__quote2end__F__                            __F__italicbegin__F__-> Calendrier de la journée (à date) - 3eme journee __F__italicend__F__                            __F__quote1begin__F__01/01: 3EJ.02 (18h)
+01/01 - __L__In_the_evening__L__: __L__RESULTS OF PREDICTIONS OF__L__ 3eme journee__F__quote1end__F__

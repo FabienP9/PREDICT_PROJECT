@@ -130,7 +130,8 @@ Their individual points contribute to the chosen team, for the prediction champi
 
     For each game:
     - A team’s score is the maximum gameday individual score among all players who selected that team.
-    - The home team receives a 20% bonus.
+    - Players must have made strictly more than 25% of predictions in the season to be considered
+    - The home team receives a 10% bonus.
     - If the game is at a neutral venue, the administrator may disable the home team advantage using HAS_HOME_ADV in  
     [predictchamp_game_to_add.csv](#predictchampgametoadd).
 

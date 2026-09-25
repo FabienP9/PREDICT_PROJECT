@@ -160,7 +160,7 @@ jobs:
                     <p>Succeeded to exe main</p>
                     <p><u>Output need string:</u><br>
                       {output_data.get('str_output_need', 'N/A').replace('\n', '<br>')}</p>
-                    <p><u>Next run (UTC):</u> {output_data.get('next_run', 'N/A')}</p>
+                    <p><u>Next run (UTC):</u> {output_data.get('str_next_run_time_utc', 'N/A')}</p>
                     <p><u>Check string</u>: {output_data.get('check_string', 'N/A')}</p>
                   </body>
                 </html>

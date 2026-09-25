@@ -78,7 +78,7 @@ jobs:
                 <html>
                   <body>
                     <p>Succeeded to integrate competition</p>
-                    <p><u>Next run (UTC):</u> {output_data.get('next_run', 'N/A')}</p>
+                    <p><u>Next run (UTC):</u> {output_data.get('str_next_run_time_utc', 'N/A')}</p>
                   </body>
                 </html>
                 """, subtype='html')

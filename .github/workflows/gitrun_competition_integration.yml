@@ -12,7 +12,7 @@ on:
 
 jobs:
   run-python:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       matrix:
         is_testrun: [0, 1]
@@ -30,9 +30,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
-      - name: Install rclone for DropBox 
-        run: | 
-          curl https://rclone.org/install.sh | sudo bash
+      - name: Verify rclone installation
+        id: verify_rclone
+        run: |
+          command -v rclone
+          rclone version
           
       - name: Configure rclone 
         run: | 
@@ -45,30 +47,22 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Cache pip packages
-        uses: actions/cache@v5
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('pyproject.toml', 'uv.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
+          python3 -m pip install --upgrade pip
           pip install ".[prod]"
 
       - name: Run Python script
         run: |
           set -e
           # exit if error at any moment
-          python -m src.predict_core.entry_point.competition_integration
+          python3 -m src.predict_core.entry_point.competition_integration
           echo "output=$(cat json_file_email_details.json | base64 -w0)" >> $GITHUB_ENV
 
       - name: Send Email (Success or Failure)
         if: always()
         run: |
-          python - <<EOF
+          python3 - <<EOF
           import os, smtplib, json, base64
           from email.message import EmailMessage
 

@@ -15,7 +15,7 @@ on:
 
 jobs:
   run-python:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     env:
       IS_TESTRUN: 0 
       IS_OUTPUT_AUTO: 1
@@ -37,10 +37,11 @@ jobs:
         id: check_repo
         uses: actions/checkout@v5
 
-      - name: Install rclone for DropBox
-        id: install_rclone
-        run: | 
-          curl https://rclone.org/install.sh | sudo bash
+      - name: Verify rclone installation
+        id: verify_rclone
+        run: |
+          command -v rclone
+          rclone version
           
       - name: Configure rclone [ USING API KEY ]
         id: configure_rclone
@@ -53,12 +54,13 @@ jobs:
       - name: Extract next_run_time_utc.txt path from config 
         id: extract_nextrun_path 
         run: | 
-          echo "NEXT_RUN_PATH=$(python -c 'import sys; sys.path.append(".."); from src.predict_core.config.config_variables import config_global_variables; print(config_global_variables.NEXT_RUN_TIME_FILE_PATH)')" >> $GITHUB_ENV
+          echo "NEXT_RUN_PATH=$(python3 -c 'import sys; sys.path.append(".."); from src.predict_core.config.config_variables import config_global_variables; print(config_global_variables.NEXT_RUN_TIME_FILE_PATH)')" >> $GITHUB_ENV
 
       - name: Download next_run_time_utc.txt from DropBox 
         id: download_nextrun 
+        if: ${{ steps.extract_nextrun_path.outcome == 'success' }}
         run: | 
-          rclone copy "${NEXT_RUN_PATH}" . --config ~/.config/rclone/rclone.conf || echo "FAILED" > next_run_ts.txt
+          rclone copy "${NEXT_RUN_PATH}" . --config ~/.config/rclone/rclone.conf || echo "FAILED" > next_run_time_utc.txt
       
       - name: Check if execution should proceed
         id: check_run
@@ -88,9 +90,9 @@ jobs:
           echo "Proceeding with execution."
           echo "should_proceed=true" >> $GITHUB_ENV
 
-      - name: Destroying next_run_ts.txt from the run
+      - name: Destroying next_run_time_utc.txt from the run
         id: destroy_nextrun
-        run: rm -f next_run_ts.txt
+        run: rm -f next_run_time_utc.txt
 
       - name: Set up Python
         id: setup_python
@@ -98,27 +100,17 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Cache pip packages
-        id: cache_packages
-        uses: actions/cache@v5
-        if: ${{ env.should_proceed == 'true' }}
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('pyproject.toml', 'uv.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
       - name: Install dependencies
         id: install_dependencies
         if: ${{ env.should_proceed == 'true' }}
         run: |
-          python -m pip install --upgrade pip
+          python3 -m pip install --upgrade pip
           pip install ".[prod]"
 
       - name: Send Email if setup or pre-run steps fail
         if: ${{ failure() }}
         run: |
-          python - <<EOF
+          python3 - <<EOF
           import os, smtplib
           from email.message import EmailMessage
 
@@ -143,14 +135,14 @@ jobs:
         run: |
           set -e
           # exit if error at any moment
-          python -m src.predict_core.entry_point.main
+          python3 -m src.predict_core.entry_point.main
           echo "output=$(cat json_file_email_details.json | base64 -w0)" >> $GITHUB_ENV
 
       - name: Send Email for program (Success or Failure)
         id: send_email_program
         if: ${{ env.should_proceed == 'true' && always() }} 
         run: |
-          python - <<EOF
+          python3 - <<EOF
           import os, smtplib, json, base64
           from email.message import EmailMessage
 
@@ -186,5 +178,3 @@ jobs:
               server.login(os.environ["GMAIL_USER"],os.environ["GMAIL_APP_PASSWORD"])
               server.send_message(msg)
           EOF
-
-      

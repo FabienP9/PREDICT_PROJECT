@@ -47,7 +47,11 @@ The software uses the following external tools and accounts:
 - **DropBox free account** (https://www.dropbox.com/register) which will contains some input files for a successful run, and some program files results in a stable tree. Full details in [the manual](#documentation)   
    To link the project with DropBox:  
     ```
-    curl https://rclone.org/install.sh | sudo bash
+    sudo apt update
+    sudo apt install -y rclone
+    curl https://rclone.org/install.sh -o /tmp/install-rclone.sh
+    sudo bash /tmp/install-rclone.sh
+    rm /tmp/install-rclone.sh
     rclone config
     ```  
     → Choose options "New remote"  
@@ -66,7 +70,7 @@ The software uses the following external tools and accounts:
     ```
         base64 rclone.conf
     ```  
-    → Copy the result into a GitHub Secret RCLONE_CONFIG_BASE64         
+    → Copy the result into a GitHub Secret RCLONE_CONFIG_BASE64
 
 - **Snowflake free account** (https://signup.snowflake.com/), to store predictions and calculations, with at least one user having DML privileges (The software uses its credentials).  
     → The file *snowflake_account_connect.yml* - see [the manual](#documentation) for details - must store the account id  

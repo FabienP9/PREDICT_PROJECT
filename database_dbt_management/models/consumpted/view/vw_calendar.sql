@@ -6,13 +6,12 @@
 {{config(
     materialized="view"
 )}}
--- we get the time when reading messages must be done
--- it is at every game start (only once even if there is several games starting same time)
+-- we get the time when reading messages must be done (end of gameday)
 with read_message as (
     SELECT DISTINCT
         'CHECK' AS TASK_RUN,
-        game_readm.GAMEDAY_KEY,
-        TO_TIMESTAMP(game_readm.DATE_GAME_UTC || ' ' || game_readm.TIME_GAME_UTC) AS TS_TASK_UTC,
+        gameday_readm.GAMEDAY_KEY,
+        TO_TIMESTAMP(gameday_readm.END_DATE_UTC || ' ' || game_readm.END_TIME_UTC) AS TS_TASK_UTC,
         0 AS IS_TO_INIT,
         0 AS IS_TO_CALCULATE,
         0 AS IS_TO_DELETE,
@@ -20,9 +19,9 @@ with read_message as (
         'CHECK' AS MESSAGE_ACTION,
         'AVOID' AS GAME_ACTION
     FROM 
-        {{ref('consumpted_game')}} game_readm
+        {{ref('consumpted_gameday')}} gameday_readm
     WHERE
-        game_readm.TIME_GAME_UTC IS NOT NULL
+        gameday_readm.END_TIME_UTC IS NOT NULL
 ),
 -- we get the time when we should init the gameday G
 -- if exists a previous gameday GP in the season, beginning is max 10 days before the beginning of G

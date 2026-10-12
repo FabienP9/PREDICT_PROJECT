@@ -21,11 +21,6 @@
     unique_key = 'PREDICT_KEY',
 )}}
 
-{% if is_incremental() %}
-    {% set results = run_query("SELECT MAX(EDITION_TIME_UTC) as max_updated_at FROM " ~ this) %}
-    {% set max_updated_at = results.columns[0].values()[0] if results.columns[0].values() else none %}
-{% endif %}
-
 -- we get correction of prediction
 with correction as (
     SELECT
@@ -69,9 +64,14 @@ message_scope as (
         REGEXP_SUBSTR_ALL(MESSAGE_TRANSFORMED, '#[^#;]+#[^=>]+==>[^;<>]+') AS ARRAY_PREDICTIONS
     FROM
         {{ref('curated_message_check')}} message
-    LEFT JOIN
+    JOIN
         {{ref('curated_forum')}} forum
         ON forum.FORUM_KEY = message.FORUM_KEY
+    JOIN
+        {{source('LAND','MESSAGE_CHECK')}} land_message
+        ON land_message.FORUM_SOURCE = forum.FORUM_SOURCE
+        AND land_message.MESSAGE_FORUM_ID = message.MESSAGE_FORUM_ID
+        AND GREATEST(land_message.CREATION_TIME_LOCAL,COALESCE(land_message.EDITION_TIME_LOCAL,'2000-01-01')) = message.EDITION_TIME_LOCAL
     LEFT JOIN
         correction correction2
         ON correction2.MESSAGE_FORUM_ID = message.MESSAGE_FORUM_ID
@@ -82,15 +82,6 @@ message_scope as (
         AND message.MESSAGE_FORUM_ID = quotes2.MESSAGE_FORUM_ID
     WHERE
         message.IS_MESSAGE_TO_PROCESS = 1
-    {% if is_incremental() and max_updated_at is not none %}
-        AND (
-            -- new one
-            message.DBT_VALID_FROM > '{{ max_updated_at }}'
-            -- or corrected one
-            OR correction2.MESSAGE_FORUM_ID IS NOT NULL
-            -- or where quotes is to add
-            OR quotes2.MESSAGE_FORUM_ID IS NOT NULL)
-    {% endif %}
 ),
 -- we split each prediction to get "#xxxx#" as id and the raw prediction after "===>"
 -- we keep message which have no predictions, for a next cte match with correction file

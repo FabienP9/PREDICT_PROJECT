@@ -110,18 +110,18 @@ calculate_gameday as (
             gameday_calculate.END_TIME_UTC IS NOT NULL
 ),
 -- the timetable of games can change, so we need to read them regularly to be sure we have the updated timetable
--- 10 weeks before / 6 weeks before / 3 weeks before / 10 days and 3 days before the expected beginning (first game)
--- 10 days and 3 days before the expected end (last game)
+-- 10 weeks+2days before / 6 weeks+1day before / 3 weeks before / 10 days and 4 days before the expected beginning (first game)
+-- 11 days and 3 days before the expected end (last game)
 -- we read them during UTC night each time
 read_gameday_beginning as (
-    {{calendar_read_gameday_beginning('WEEK',-10,'05:00:00.000')}}
-    UNION ALL {{calendar_read_gameday_beginning('WEEK',-6,'04:00:00.000')}}
+    {{calendar_read_gameday_beginning('DAY',-72,'05:00:00.000')}}
+    UNION ALL {{calendar_read_gameday_beginning('DAY',-43,'04:00:00.000')}}
     UNION ALL {{calendar_read_gameday_beginning('WEEK',-3,'03:00:00.000')}}
     UNION ALL {{calendar_read_gameday_beginning('DAY',-10,'02:00:00.000')}}
-    UNION ALL {{calendar_read_gameday_beginning('DAY',-3,'01:00:00.000')}}
+    UNION ALL {{calendar_read_gameday_beginning('DAY',-4,'01:00:00.000')}}
 ),
 read_gameday_ending as (
-    {{calendar_read_gameday_ending('DAY',-10,'01:30:00.000')}}
+    {{calendar_read_gameday_ending('DAY',-11,'01:30:00.000')}}
     UNION ALL {{calendar_read_gameday_ending('DAY',-3,'00:30:00.000')}}
 ),
 read_gameday_details as (

@@ -99,6 +99,7 @@
         "SEASON_COUNTRY": "object",
         "SEASON_NAME": "object",
         "SEASON_DIVISION": "object",
+        "SEASON_DIVISION_NUMBER": "int64",
         "SEASON_TEAMCHOICE_DEADLINE": "object"
       }      
     },

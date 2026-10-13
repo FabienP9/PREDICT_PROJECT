@@ -240,8 +240,9 @@ They must be created and updated by the software administrator, according to the
     - **SEASON_ID**: an unique id for the season
     - **SEASON_SPORT** : the label of the sport of the season
     - **SEASON_COUNTRY** : The country of the season
-    - **SEASON_NAME** : The name of the season
-    - **SEASON_DIVISION** : The league of the season
+    - **SEASON_NAME** : The name of the season (YYYY-YYYY+1)
+    - **SEASON_DIVISION** : The league name of the season
+    - **SEASON_DIVISION_NUMBER** : The league number of the season in the source
     - **SEASON_TEAMCHOICE_DEADLINE** (date) : The limit date for the player to choose/change its team for the prediction championship 
 
 - <a name="competition"></a>**competition.csv**: Defines competitions belonging to each season from [season.csv](#season)

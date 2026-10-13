@@ -13,6 +13,7 @@ def test_competition_integration(read_yml_as_serie, read_csv):
     mock_initiate_local_dict = {
         "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
         "df_competition": read_csv("competition.csv"),
+        "df_season": read_csv("season.csv"),
         "df_paths": read_csv("paths.csv"),
         "df_task_done": read_csv("task_done.csv")
     }

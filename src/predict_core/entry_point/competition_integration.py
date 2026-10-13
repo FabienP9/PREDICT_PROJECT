@@ -42,7 +42,7 @@ def competition_integration():
 
     # we get games infos related to the competition
     # by first filtering which game are not yet in the database
-    context_dict['df_game'] = games_details_extraction.extract_games_from_competition(context_dict['df_competition'])
+    context_dict['df_game'] = games_details_extraction.extract_games_from_competition(context_dict['df_competition'],context_dict['df_season'])
 
     # we filter input files, to get only input related to those games   
     context_dict.update(files_manipulation.filter_data(files_data_dict = context_dict, 

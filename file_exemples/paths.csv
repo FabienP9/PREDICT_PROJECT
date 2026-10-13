@@ -11,7 +11,7 @@
 "script_creating_database","current/inputs/manual/script_creating_database.txt","0","0",,,"[]","['INITIAL_SNOWFLAKE']","[]","[]"
 "output_need","current/inputs/calculated/output_need.csv","0","1",,,"[]","[]","[]","[]"
 "landing_output_need","current/outputs/database/landing_output_need.csv","0","1",,,"[]","[]","['MESSAGE_CHECK','MESSAGE_RUN','GAME_RUN']","[]"
-"season","current/inputs/manual/season.csv","0","0","GAME","competition","['SEASON_ID']","['INITIAL_COMPET']","[]","[]"
+"season","current/inputs/manual/season.csv","0","0","GAME","competition","['SEASON_ID']","['INITIAL_MAIN','INITIAL_COMPET']","[]","[]"
 "landing_season","current/outputs/database/landing_season.csv","0","1",,,"[]","[]","['INIT_COMPET']","[]"
 "curated_season","current/outputs/database/curated_season.csv","0","1",,,"[]","[]","[]","['INIT_COMPET']"
 "consumpted_season","current/outputs/database/consumpted_season.csv","0","1",,,"[]","[]","[]","['INIT_COMPET']"

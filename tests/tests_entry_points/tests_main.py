@@ -14,6 +14,7 @@ def test_process_games(read_csv):
     context = {
         'sr_output_need': read_csv("output_need_calculate.csv").iloc[0],
         'df_competition': read_csv("competition_unique.csv"),
+        'df_season': read_csv("season_unique.csv"),
         "df_paths" : read_csv("paths.csv"),
         "df_gameday_modification":pd.DataFrame()
     }

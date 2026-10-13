@@ -1,0 +1,2501 @@
+{
+  "status": true,
+  "message": "Calendar get successfully",
+  "data": [
+    {
+      "date": "2027-04-27",
+      "data": [
+        {
+          "id": 19608218,
+          "match_time_utc": "2027-04-27T18:00:00.000Z",
+          "match_id": "e60397ac-a543-11f1-afe6-4d8da76af24d",
+          "match_name": "Paris - Roanne",
+          "tournament_number": 0,
+          "match_date": "2027-04-27",
+          "match_status": "SCHEDULED",
+          "external_id": 30285,
+          "is_pinned": false,
+          "sponser_title": "Vis ton match avec",
+          "sponser_logo": "uploads/content-library/b74f597cff9ff5fc159d21eca75fa950865b876f8dc947c50271ee6531b7631d.png",
+          "sponser_url": "https://betclic.onelink.me/2887093520/wdiag3mg",
+          "competition_external_id": 317,
+          "competition_name": "Betclic \u00c9LITE",
+          "competition_logo_black": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/sm.png"
+          },
+          "competition_logo_white": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/sm.png"
+          },
+          "division_external_id": 1,
+          "competition_abbrev": "PROA",
+          "colour_primary": "0c0b86",
+          "colour_secondary": "e10014",
+          "round_number": 28,
+          "round_description": "28\u00e8me journ\u00e9e",
+          "phase_name": "",
+          "phase_id": 2,
+          "venue_name": "",
+          "display_round": "J28",
+          "broadcast": [
+            {
+              "id": 13692979,
+              "broadcast_id": null,
+              "external_id": 6029,
+              "match_external_id": 30285,
+              "broadcast_provider_external_id": 34,
+              "broadcast_type": "VIDEO_STREAM",
+              "content_id": null,
+              "content_url": null,
+              "replay_id": null,
+              "replay_url": null,
+              "broadcast_time_zone": "Europe/Paris",
+              "broadcast_time": "2027-04-27 19:55:00",
+              "broadcast_provider": {
+                "id": 1,
+                "external_id": 34,
+                "broadcast_provider": "DAZN",
+                "broadcast_provider_url": "https://www.dazn.com/fr-fr/p/basketball?utm_medium=display&utm_source=solus&utm_campaign=lnb&utm_content=static&utm_term=website",
+                "logo": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/sm.png"
+                },
+                "logo_black": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/sm.png"
+                }
+              }
+            }
+          ],
+          "teams": [
+            {
+              "id": 7853,
+              "team_id": "c7b683a1-709c-11f1-8804-ebf7e1c73018",
+              "external_id": 1870,
+              "club_external_id": 58,
+              "club_name": "Paris",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoBlack/sm.png"
+              },
+              "team_name": "Paris",
+              "team_code": "PAB",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            },
+            {
+              "id": 7855,
+              "team_id": "9acd8233-7098-11f1-a90b-9f22aa5591b1",
+              "external_id": 1872,
+              "club_external_id": 65,
+              "club_name": "Roanne",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoBlack/sm.png"
+              },
+              "team_name": "Roanne",
+              "team_code": "ROA",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            }
+          ],
+          "is_previous": true,
+          "is_next": false
+        },
+        {
+          "id": 19608219,
+          "match_time_utc": "2027-04-27T18:00:00.000Z",
+          "match_id": "e61351c3-a543-11f1-97ac-4d8da76af24d",
+          "match_name": "Pau-Lacq-Orthez - Gravelines-Dunkerque",
+          "tournament_number": 0,
+          "match_date": "2027-04-27",
+          "match_status": "SCHEDULED",
+          "external_id": 30286,
+          "is_pinned": false,
+          "sponser_title": "Vis ton match avec",
+          "sponser_logo": "uploads/content-library/b74f597cff9ff5fc159d21eca75fa950865b876f8dc947c50271ee6531b7631d.png",
+          "sponser_url": "https://betclic.onelink.me/2887093520/wdiag3mg",
+          "competition_external_id": 317,
+          "competition_name": "Betclic \u00c9LITE",
+          "competition_logo_black": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/sm.png"
+          },
+          "competition_logo_white": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/sm.png"
+          },
+          "division_external_id": 1,
+          "competition_abbrev": "PROA",
+          "colour_primary": "0c0b86",
+          "colour_secondary": "e10014",
+          "round_number": 28,
+          "round_description": "28\u00e8me journ\u00e9e",
+          "phase_name": "",
+          "phase_id": 2,
+          "venue_name": "",
+          "display_round": "J28",
+          "broadcast": [
+            {
+              "id": 13692980,
+              "broadcast_id": null,
+              "external_id": 6030,
+              "match_external_id": 30286,
+              "broadcast_provider_external_id": 34,
+              "broadcast_type": "VIDEO_STREAM",
+              "content_id": null,
+              "content_url": null,
+              "replay_id": null,
+              "replay_url": null,
+              "broadcast_time_zone": "Europe/Paris",
+              "broadcast_time": "2027-04-27 19:55:00",
+              "broadcast_provider": {
+                "id": 1,
+                "external_id": 34,
+                "broadcast_provider": "DAZN",
+                "broadcast_provider_url": "https://www.dazn.com/fr-fr/p/basketball?utm_medium=display&utm_source=solus&utm_campaign=lnb&utm_content=static&utm_term=website",
+                "logo": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/sm.png"
+                },
+                "logo_black": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/sm.png"
+                }
+              }
+            }
+          ],
+          "teams": [
+            {
+              "id": 7854,
+              "team_id": "98c5b779-7098-11f1-81eb-a351c935a222",
+              "external_id": 1871,
+              "club_external_id": 60,
+              "club_name": "Pau-Lacq-Orthez",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoBlack/sm.png"
+              },
+              "team_name": "Pau-Lacq-Orthez",
+              "team_code": "PAU",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            },
+            {
+              "id": 7847,
+              "team_id": "87ed43f8-7098-11f1-aa8f-23ae2d7880e4",
+              "external_id": 1863,
+              "club_external_id": 33,
+              "club_name": "Gravelines-Dunkerque",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoBlack/sm.png"
+              },
+              "team_name": "Gravelines-Dunkerque",
+              "team_code": "GRA",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            }
+          ],
+          "is_previous": true,
+          "is_next": false
+        },
+        {
+          "id": 19608220,
+          "match_time_utc": "2027-04-27T18:00:00.000Z",
+          "match_id": "e6223ad4-a543-11f1-8dc7-4d8da76af24d",
+          "match_name": "Strasbourg - Nanterre",
+          "tournament_number": 0,
+          "match_date": "2027-04-27",
+          "match_status": "SCHEDULED",
+          "external_id": 30287,
+          "is_pinned": false,
+          "sponser_title": "Vis ton match avec",
+          "sponser_logo": "uploads/content-library/b74f597cff9ff5fc159d21eca75fa950865b876f8dc947c50271ee6531b7631d.png",
+          "sponser_url": "https://betclic.onelink.me/2887093520/wdiag3mg",
+          "competition_external_id": 317,
+          "competition_name": "Betclic \u00c9LITE",
+          "competition_logo_black": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/sm.png"
+          },
+          "competition_logo_white": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/sm.png"
+          },
+          "division_external_id": 1,
+          "competition_abbrev": "PROA",
+          "colour_primary": "0c0b86",
+          "colour_secondary": "e10014",
+          "round_number": 28,
+          "round_description": "28\u00e8me journ\u00e9e",
+          "phase_name": "",
+          "phase_id": 2,
+          "venue_name": "",
+          "display_round": "J28",
+          "broadcast": [
+            {
+              "id": 13692981,
+              "broadcast_id": null,
+              "external_id": 6031,
+              "match_external_id": 30287,
+              "broadcast_provider_external_id": 34,
+              "broadcast_type": "VIDEO_STREAM",
+              "content_id": null,
+              "content_url": null,
+              "replay_id": null,
+              "replay_url": null,
+              "broadcast_time_zone": "Europe/Paris",
+              "broadcast_time": "2027-04-27 19:55:00",
+              "broadcast_provider": {
+                "id": 1,
+                "external_id": 34,
+                "broadcast_provider": "DAZN",
+                "broadcast_provider_url": "https://www.dazn.com/fr-fr/p/basketball?utm_medium=display&utm_source=solus&utm_campaign=lnb&utm_content=static&utm_term=website",
+                "logo": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/sm.png"
+                },
+                "logo_black": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/sm.png"
+                }
+              }
+            }
+          ],
+          "teams": [
+            {
+              "id": 7856,
+              "team_id": "9cef2027-7098-11f1-81b2-8bd270463ea8",
+              "external_id": 1873,
+              "club_external_id": 75,
+              "club_name": "Strasbourg",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoBlack/sm.png"
+              },
+              "team_name": "Strasbourg",
+              "team_code": "STR",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            },
+            {
+              "id": 7852,
+              "team_id": "9a52a462-709c-11f1-b9ac-ebf7e1c73018",
+              "external_id": 1869,
+              "club_external_id": 55,
+              "club_name": "Nanterre",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoBlack/sm.png"
+              },
+              "team_name": "Nanterre",
+              "team_code": "NTR",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            }
+          ],
+          "is_previous": true,
+          "is_next": false
+        },
+        {
+          "id": 19608221,
+          "match_time_utc": "2027-04-27T18:00:00.000Z",
+          "match_id": "e633110b-a543-11f1-b142-4d8da76af24d",
+          "match_name": "Lyon-Villeurbanne - Limoges",
+          "tournament_number": 0,
+          "match_date": "2027-04-27",
+          "match_status": "SCHEDULED",
+          "external_id": 30288,
+          "is_pinned": false,
+          "sponser_title": "Vis ton match avec",
+          "sponser_logo": "uploads/content-library/b74f597cff9ff5fc159d21eca75fa950865b876f8dc947c50271ee6531b7631d.png",
+          "sponser_url": "https://betclic.onelink.me/2887093520/wdiag3mg",
+          "competition_external_id": 317,
+          "competition_name": "Betclic \u00c9LITE",
+          "competition_logo_black": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/sm.png"
+          },
+          "competition_logo_white": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/sm.png"
+          },
+          "division_external_id": 1,
+          "competition_abbrev": "PROA",
+          "colour_primary": "0c0b86",
+          "colour_secondary": "e10014",
+          "round_number": 28,
+          "round_description": "28\u00e8me journ\u00e9e",
+          "phase_name": "",
+          "phase_id": 2,
+          "venue_name": "",
+          "display_round": "J28",
+          "broadcast": [
+            {
+              "id": 13692982,
+              "broadcast_id": null,
+              "external_id": 6032,
+              "match_external_id": 30288,
+              "broadcast_provider_external_id": 34,
+              "broadcast_type": "VIDEO_STREAM",
+              "content_id": null,
+              "content_url": null,
+              "replay_id": null,
+              "replay_url": null,
+              "broadcast_time_zone": "Europe/Paris",
+              "broadcast_time": "2027-04-27 19:55:00",
+              "broadcast_provider": {
+                "id": 1,
+                "external_id": 34,
+                "broadcast_provider": "DAZN",
+                "broadcast_provider_url": "https://www.dazn.com/fr-fr/p/basketball?utm_medium=display&utm_source=solus&utm_campaign=lnb&utm_content=static&utm_term=website",
+                "logo": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/sm.png"
+                },
+                "logo_black": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/sm.png"
+                }
+              }
+            }
+          ],
+          "teams": [
+            {
+              "id": 7850,
+              "team_id": "8e2e7e72-7098-11f1-9b41-f9c599214b85",
+              "external_id": 1866,
+              "club_external_id": 91,
+              "club_name": "Lyon-Villeurbanne",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoBlack/sm.png"
+              },
+              "team_name": "Lyon-Villeurbanne",
+              "team_code": "VIL",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            },
+            {
+              "id": 7849,
+              "team_id": "8c12ba7e-7098-11f1-825d-f9c599214b85",
+              "external_id": 1865,
+              "club_external_id": 43,
+              "club_name": "Limoges",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoBlack/sm.png"
+              },
+              "team_name": "Limoges",
+              "team_code": "LIM",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            }
+          ],
+          "is_previous": true,
+          "is_next": false
+        }
+      ]
+    },
+    {
+      "date": "2027-05-01",
+      "data": [
+        {
+          "id": 19608222,
+          "match_time_utc": "2027-05-01T18:00:00.000Z",
+          "match_id": "e642791c-a543-11f1-98c8-4d8da76af24d",
+          "match_name": "Boulazac - Pau-Lacq-Orthez",
+          "tournament_number": 0,
+          "match_date": "2027-05-01",
+          "match_status": "SCHEDULED",
+          "external_id": 30289,
+          "is_pinned": false,
+          "sponser_title": "Vis ton match avec",
+          "sponser_logo": "uploads/content-library/b74f597cff9ff5fc159d21eca75fa950865b876f8dc947c50271ee6531b7631d.png",
+          "sponser_url": "https://betclic.onelink.me/2887093520/wdiag3mg",
+          "competition_external_id": 317,
+          "competition_name": "Betclic \u00c9LITE",
+          "competition_logo_black": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/sm.png"
+          },
+          "competition_logo_white": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/sm.png"
+          },
+          "division_external_id": 1,
+          "competition_abbrev": "PROA",
+          "colour_primary": "0c0b86",
+          "colour_secondary": "e10014",
+          "round_number": 29,
+          "round_description": "29\u00e8me journ\u00e9e",
+          "phase_name": "",
+          "phase_id": 2,
+          "venue_name": "",
+          "display_round": "J29",
+          "broadcast": [
+            {
+              "id": 13692983,
+              "broadcast_id": null,
+              "external_id": 6033,
+              "match_external_id": 30289,
+              "broadcast_provider_external_id": 34,
+              "broadcast_type": "VIDEO_STREAM",
+              "content_id": null,
+              "content_url": null,
+              "replay_id": null,
+              "replay_url": null,
+              "broadcast_time_zone": "Europe/Paris",
+              "broadcast_time": "2027-05-01 19:55:00",
+              "broadcast_provider": {
+                "id": 1,
+                "external_id": 34,
+                "broadcast_provider": "DAZN",
+                "broadcast_provider_url": "https://www.dazn.com/fr-fr/p/basketball?utm_medium=display&utm_source=solus&utm_campaign=lnb&utm_content=static&utm_term=website",
+                "logo": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/sm.png"
+                },
+                "logo_black": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/sm.png"
+                }
+              }
+            }
+          ],
+          "teams": [
+            {
+              "id": 7842,
+              "team_id": "7d3d468c-7098-11f1-a9bd-f98bcfd90d92",
+              "external_id": 1858,
+              "club_external_id": 10,
+              "club_name": "Boulazac",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1858/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1858/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1858/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1858/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1858/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1858/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1858/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1858/logoBlack/sm.png"
+              },
+              "team_name": "Boulazac",
+              "team_code": "BLZ",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            },
+            {
+              "id": 7854,
+              "team_id": "98c5b779-7098-11f1-81eb-a351c935a222",
+              "external_id": 1871,
+              "club_external_id": 60,
+              "club_name": "Pau-Lacq-Orthez",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoBlack/sm.png"
+              },
+              "team_name": "Pau-Lacq-Orthez",
+              "team_code": "PAU",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            }
+          ],
+          "is_previous": true,
+          "is_next": false
+        },
+        {
+          "id": 19608223,
+          "match_time_utc": "2027-05-01T18:00:00.000Z",
+          "match_id": "e6579497-a543-11f1-945a-4d8da76af24d",
+          "match_name": "Bourg-en-Bresse - Paris",
+          "tournament_number": 0,
+          "match_date": "2027-05-01",
+          "match_status": "SCHEDULED",
+          "external_id": 30290,
+          "is_pinned": false,
+          "sponser_title": "Vis ton match avec",
+          "sponser_logo": "uploads/content-library/b74f597cff9ff5fc159d21eca75fa950865b876f8dc947c50271ee6531b7631d.png",
+          "sponser_url": "https://betclic.onelink.me/2887093520/wdiag3mg",
+          "competition_external_id": 317,
+          "competition_name": "Betclic \u00c9LITE",
+          "competition_logo_black": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/sm.png"
+          },
+          "competition_logo_white": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/sm.png"
+          },
+          "division_external_id": 1,
+          "competition_abbrev": "PROA",
+          "colour_primary": "0c0b86",
+          "colour_secondary": "e10014",
+          "round_number": 29,
+          "round_description": "29\u00e8me journ\u00e9e",
+          "phase_name": "",
+          "phase_id": 2,
+          "venue_name": "",
+          "display_round": "J29",
+          "broadcast": [
+            {
+              "id": 13692984,
+              "broadcast_id": null,
+              "external_id": 6034,
+              "match_external_id": 30290,
+              "broadcast_provider_external_id": 34,
+              "broadcast_type": "VIDEO_STREAM",
+              "content_id": null,
+              "content_url": null,
+              "replay_id": null,
+              "replay_url": null,
+              "broadcast_time_zone": "Europe/Paris",
+              "broadcast_time": "2027-05-01 19:55:00",
+              "broadcast_provider": {
+                "id": 1,
+                "external_id": 34,
+                "broadcast_provider": "DAZN",
+                "broadcast_provider_url": "https://www.dazn.com/fr-fr/p/basketball?utm_medium=display&utm_source=solus&utm_campaign=lnb&utm_content=static&utm_term=website",
+                "logo": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/sm.png"
+                },
+                "logo_black": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/sm.png"
+                }
+              }
+            }
+          ],
+          "teams": [
+            {
+              "id": 7843,
+              "team_id": "7f8fad9e-7098-11f1-9da9-f91e671df7d9",
+              "external_id": 1859,
+              "club_external_id": 13,
+              "club_name": "Bourg-en-Bresse",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1859/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1859/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1859/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1859/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1859/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1859/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1859/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1859/logoBlack/sm.png"
+              },
+              "team_name": "Bourg-en-Bresse",
+              "team_code": "BOU",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            },
+            {
+              "id": 7853,
+              "team_id": "c7b683a1-709c-11f1-8804-ebf7e1c73018",
+              "external_id": 1870,
+              "club_external_id": 58,
+              "club_name": "Paris",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoBlack/sm.png"
+              },
+              "team_name": "Paris",
+              "team_code": "PAB",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            }
+          ],
+          "is_previous": true,
+          "is_next": false
+        },
+        {
+          "id": 19608224,
+          "match_time_utc": "2027-05-01T18:00:00.000Z",
+          "match_id": "e6679cd9-a543-11f1-b602-4d8da76af24d",
+          "match_name": "Chalon/Sa\u00f4ne - Roanne",
+          "tournament_number": 0,
+          "match_date": "2027-05-01",
+          "match_status": "SCHEDULED",
+          "external_id": 30291,
+          "is_pinned": false,
+          "sponser_title": "Vis ton match avec",
+          "sponser_logo": "uploads/content-library/b74f597cff9ff5fc159d21eca75fa950865b876f8dc947c50271ee6531b7631d.png",
+          "sponser_url": "https://betclic.onelink.me/2887093520/wdiag3mg",
+          "competition_external_id": 317,
+          "competition_name": "Betclic \u00c9LITE",
+          "competition_logo_black": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/sm.png"
+          },
+          "competition_logo_white": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/sm.png"
+          },
+          "division_external_id": 1,
+          "competition_abbrev": "PROA",
+          "colour_primary": "0c0b86",
+          "colour_secondary": "e10014",
+          "round_number": 29,
+          "round_description": "29\u00e8me journ\u00e9e",
+          "phase_name": "",
+          "phase_id": 2,
+          "venue_name": "",
+          "display_round": "J29",
+          "broadcast": [
+            {
+              "id": 13692985,
+              "broadcast_id": null,
+              "external_id": 6035,
+              "match_external_id": 30291,
+              "broadcast_provider_external_id": 34,
+              "broadcast_type": "VIDEO_STREAM",
+              "content_id": null,
+              "content_url": null,
+              "replay_id": null,
+              "replay_url": null,
+              "broadcast_time_zone": "Europe/Paris",
+              "broadcast_time": "2027-05-01 19:55:00",
+              "broadcast_provider": {
+                "id": 1,
+                "external_id": 34,
+                "broadcast_provider": "DAZN",
+                "broadcast_provider_url": "https://www.dazn.com/fr-fr/p/basketball?utm_medium=display&utm_source=solus&utm_campaign=lnb&utm_content=static&utm_term=website",
+                "logo": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/sm.png"
+                },
+                "logo_black": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/sm.png"
+                }
+              }
+            }
+          ],
+          "teams": [
+            {
+              "id": 7844,
+              "team_id": "81b82d1c-7098-11f1-ba36-3bd1c9c7f955",
+              "external_id": 1860,
+              "club_external_id": 17,
+              "club_name": "Chalon/Sa\u00f4ne",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1860/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1860/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1860/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1860/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1860/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1860/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1860/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1860/logoBlack/sm.png"
+              },
+              "team_name": "Chalon/Sa\u00f4ne",
+              "team_code": "CHA",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            },
+            {
+              "id": 7855,
+              "team_id": "9acd8233-7098-11f1-a90b-9f22aa5591b1",
+              "external_id": 1872,
+              "club_external_id": 65,
+              "club_name": "Roanne",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoBlack/sm.png"
+              },
+              "team_name": "Roanne",
+              "team_code": "ROA",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            }
+          ],
+          "is_previous": true,
+          "is_next": false
+        },
+        {
+          "id": 19608225,
+          "match_time_utc": "2027-05-01T18:00:00.000Z",
+          "match_id": "e676fbec-a543-11f1-82a9-4d8da76af24d",
+          "match_name": "Cholet - Strasbourg",
+          "tournament_number": 0,
+          "match_date": "2027-05-01",
+          "match_status": "SCHEDULED",
+          "external_id": 30292,
+          "is_pinned": false,
+          "sponser_title": "Vis ton match avec",
+          "sponser_logo": "uploads/content-library/b74f597cff9ff5fc159d21eca75fa950865b876f8dc947c50271ee6531b7631d.png",
+          "sponser_url": "https://betclic.onelink.me/2887093520/wdiag3mg",
+          "competition_external_id": 317,
+          "competition_name": "Betclic \u00c9LITE",
+          "competition_logo_black": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/sm.png"
+          },
+          "competition_logo_white": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/sm.png"
+          },
+          "division_external_id": 1,
+          "competition_abbrev": "PROA",
+          "colour_primary": "0c0b86",
+          "colour_secondary": "e10014",
+          "round_number": 29,
+          "round_description": "29\u00e8me journ\u00e9e",
+          "phase_name": "",
+          "phase_id": 2,
+          "venue_name": "",
+          "display_round": "J29",
+          "broadcast": [
+            {
+              "id": 13692986,
+              "broadcast_id": null,
+              "external_id": 6036,
+              "match_external_id": 30292,
+              "broadcast_provider_external_id": 34,
+              "broadcast_type": "VIDEO_STREAM",
+              "content_id": null,
+              "content_url": null,
+              "replay_id": null,
+              "replay_url": null,
+              "broadcast_time_zone": "Europe/Paris",
+              "broadcast_time": "2027-05-01 19:55:00",
+              "broadcast_provider": {
+                "id": 1,
+                "external_id": 34,
+                "broadcast_provider": "DAZN",
+                "broadcast_provider_url": "https://www.dazn.com/fr-fr/p/basketball?utm_medium=display&utm_source=solus&utm_campaign=lnb&utm_content=static&utm_term=website",
+                "logo": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/sm.png"
+                },
+                "logo_black": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/sm.png"
+                }
+              }
+            }
+          ],
+          "teams": [
+            {
+              "id": 7845,
+              "team_id": "83c1445d-7098-11f1-a9c6-4dad8c526642",
+              "external_id": 1861,
+              "club_external_id": 20,
+              "club_name": "Cholet",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1861/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1861/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1861/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1861/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1861/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1861/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1861/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1861/logoBlack/sm.png"
+              },
+              "team_name": "Cholet",
+              "team_code": "CHO",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            },
+            {
+              "id": 7856,
+              "team_id": "9cef2027-7098-11f1-81b2-8bd270463ea8",
+              "external_id": 1873,
+              "club_external_id": 75,
+              "club_name": "Strasbourg",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoBlack/sm.png"
+              },
+              "team_name": "Strasbourg",
+              "team_code": "STR",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            }
+          ],
+          "is_previous": true,
+          "is_next": false
+        },
+        {
+          "id": 19608226,
+          "match_time_utc": "2027-05-01T18:00:00.000Z",
+          "match_id": "e6860859-a543-11f1-89e5-4d8da76af24d",
+          "match_name": "Gravelines-Dunkerque - Saint-Quentin",
+          "tournament_number": 0,
+          "match_date": "2027-05-01",
+          "match_status": "SCHEDULED",
+          "external_id": 30293,
+          "is_pinned": false,
+          "sponser_title": "Vis ton match avec",
+          "sponser_logo": "uploads/content-library/b74f597cff9ff5fc159d21eca75fa950865b876f8dc947c50271ee6531b7631d.png",
+          "sponser_url": "https://betclic.onelink.me/2887093520/wdiag3mg",
+          "competition_external_id": 317,
+          "competition_name": "Betclic \u00c9LITE",
+          "competition_logo_black": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/sm.png"
+          },
+          "competition_logo_white": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/sm.png"
+          },
+          "division_external_id": 1,
+          "competition_abbrev": "PROA",
+          "colour_primary": "0c0b86",
+          "colour_secondary": "e10014",
+          "round_number": 29,
+          "round_description": "29\u00e8me journ\u00e9e",
+          "phase_name": "",
+          "phase_id": 2,
+          "venue_name": "",
+          "display_round": "J29",
+          "broadcast": [
+            {
+              "id": 13692987,
+              "broadcast_id": null,
+              "external_id": 6037,
+              "match_external_id": 30293,
+              "broadcast_provider_external_id": 34,
+              "broadcast_type": "VIDEO_STREAM",
+              "content_id": null,
+              "content_url": null,
+              "replay_id": null,
+              "replay_url": null,
+              "broadcast_time_zone": "Europe/Paris",
+              "broadcast_time": "2027-05-01 19:55:00",
+              "broadcast_provider": {
+                "id": 1,
+                "external_id": 34,
+                "broadcast_provider": "DAZN",
+                "broadcast_provider_url": "https://www.dazn.com/fr-fr/p/basketball?utm_medium=display&utm_source=solus&utm_campaign=lnb&utm_content=static&utm_term=website",
+                "logo": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/sm.png"
+                },
+                "logo_black": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/sm.png"
+                }
+              }
+            }
+          ],
+          "teams": [
+            {
+              "id": 7847,
+              "team_id": "87ed43f8-7098-11f1-aa8f-23ae2d7880e4",
+              "external_id": 1863,
+              "club_external_id": 33,
+              "club_name": "Gravelines-Dunkerque",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoBlack/sm.png"
+              },
+              "team_name": "Gravelines-Dunkerque",
+              "team_code": "GRA",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            },
+            {
+              "id": 7875,
+              "team_id": "b7bc8eaa-709c-11f1-89ae-f5846576f795",
+              "external_id": 1892,
+              "club_external_id": 74,
+              "club_name": "Saint-Quentin",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1892/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1892/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1892/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1892/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1892/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1892/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1892/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1892/logoBlack/sm.png"
+              },
+              "team_name": "Saint-Quentin",
+              "team_code": "STQ",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            }
+          ],
+          "is_previous": true,
+          "is_next": false
+        },
+        {
+          "id": 19608227,
+          "match_time_utc": "2027-05-01T18:00:00.000Z",
+          "match_id": "e6952991-a543-11f1-88a1-4d8da76af24d",
+          "match_name": "Limoges - Le Mans",
+          "tournament_number": 0,
+          "match_date": "2027-05-01",
+          "match_status": "SCHEDULED",
+          "external_id": 30294,
+          "is_pinned": false,
+          "sponser_title": "Vis ton match avec",
+          "sponser_logo": "uploads/content-library/b74f597cff9ff5fc159d21eca75fa950865b876f8dc947c50271ee6531b7631d.png",
+          "sponser_url": "https://betclic.onelink.me/2887093520/wdiag3mg",
+          "competition_external_id": 317,
+          "competition_name": "Betclic \u00c9LITE",
+          "competition_logo_black": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/sm.png"
+          },
+          "competition_logo_white": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/sm.png"
+          },
+          "division_external_id": 1,
+          "competition_abbrev": "PROA",
+          "colour_primary": "0c0b86",
+          "colour_secondary": "e10014",
+          "round_number": 29,
+          "round_description": "29\u00e8me journ\u00e9e",
+          "phase_name": "",
+          "phase_id": 2,
+          "venue_name": "",
+          "display_round": "J29",
+          "broadcast": [
+            {
+              "id": 13692988,
+              "broadcast_id": null,
+              "external_id": 6038,
+              "match_external_id": 30294,
+              "broadcast_provider_external_id": 34,
+              "broadcast_type": "VIDEO_STREAM",
+              "content_id": null,
+              "content_url": null,
+              "replay_id": null,
+              "replay_url": null,
+              "broadcast_time_zone": "Europe/Paris",
+              "broadcast_time": "2027-05-01 19:55:00",
+              "broadcast_provider": {
+                "id": 1,
+                "external_id": 34,
+                "broadcast_provider": "DAZN",
+                "broadcast_provider_url": "https://www.dazn.com/fr-fr/p/basketball?utm_medium=display&utm_source=solus&utm_campaign=lnb&utm_content=static&utm_term=website",
+                "logo": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/sm.png"
+                },
+                "logo_black": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/sm.png"
+                }
+              }
+            }
+          ],
+          "teams": [
+            {
+              "id": 7849,
+              "team_id": "8c12ba7e-7098-11f1-825d-f9c599214b85",
+              "external_id": 1865,
+              "club_external_id": 43,
+              "club_name": "Limoges",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoBlack/sm.png"
+              },
+              "team_name": "Limoges",
+              "team_code": "LIM",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            },
+            {
+              "id": 7848,
+              "team_id": "89f3ec23-7098-11f1-a4d9-c372850e2e21",
+              "external_id": 1864,
+              "club_external_id": 38,
+              "club_name": "Le Mans",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1864/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1864/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1864/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1864/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1864/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1864/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1864/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1864/logoBlack/sm.png"
+              },
+              "team_name": "Le Mans",
+              "team_code": "LEM",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            }
+          ],
+          "is_previous": true,
+          "is_next": false
+        },
+        {
+          "id": 19608228,
+          "match_time_utc": "2027-05-01T18:00:00.000Z",
+          "match_id": "e6a454ea-a543-11f1-a0d1-4d8da76af24d",
+          "match_name": "Nancy - Lyon-Villeurbanne",
+          "tournament_number": 0,
+          "match_date": "2027-05-01",
+          "match_status": "SCHEDULED",
+          "external_id": 30295,
+          "is_pinned": false,
+          "sponser_title": "Vis ton match avec",
+          "sponser_logo": "uploads/content-library/b74f597cff9ff5fc159d21eca75fa950865b876f8dc947c50271ee6531b7631d.png",
+          "sponser_url": "https://betclic.onelink.me/2887093520/wdiag3mg",
+          "competition_external_id": 317,
+          "competition_name": "Betclic \u00c9LITE",
+          "competition_logo_black": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/sm.png"
+          },
+          "competition_logo_white": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/sm.png"
+          },
+          "division_external_id": 1,
+          "competition_abbrev": "PROA",
+          "colour_primary": "0c0b86",
+          "colour_secondary": "e10014",
+          "round_number": 29,
+          "round_description": "29\u00e8me journ\u00e9e",
+          "phase_name": "",
+          "phase_id": 2,
+          "venue_name": "",
+          "display_round": "J29",
+          "broadcast": [
+            {
+              "id": 13692989,
+              "broadcast_id": null,
+              "external_id": 6039,
+              "match_external_id": 30295,
+              "broadcast_provider_external_id": 34,
+              "broadcast_type": "VIDEO_STREAM",
+              "content_id": null,
+              "content_url": null,
+              "replay_id": null,
+              "replay_url": null,
+              "broadcast_time_zone": "Europe/Paris",
+              "broadcast_time": "2027-05-01 19:55:00",
+              "broadcast_provider": {
+                "id": 1,
+                "external_id": 34,
+                "broadcast_provider": "DAZN",
+                "broadcast_provider_url": "https://www.dazn.com/fr-fr/p/basketball?utm_medium=display&utm_source=solus&utm_campaign=lnb&utm_content=static&utm_term=website",
+                "logo": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/sm.png"
+                },
+                "logo_black": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/sm.png"
+                }
+              }
+            }
+          ],
+          "teams": [
+            {
+              "id": 7851,
+              "team_id": "9294b489-7098-11f1-9672-a9f4be345157",
+              "external_id": 1868,
+              "club_external_id": 51,
+              "club_name": "Nancy",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1868/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1868/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1868/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1868/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1868/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1868/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1868/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1868/logoBlack/sm.png"
+              },
+              "team_name": "Nancy",
+              "team_code": "NAN",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            },
+            {
+              "id": 7850,
+              "team_id": "8e2e7e72-7098-11f1-9b41-f9c599214b85",
+              "external_id": 1866,
+              "club_external_id": 91,
+              "club_name": "Lyon-Villeurbanne",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoBlack/sm.png"
+              },
+              "team_name": "Lyon-Villeurbanne",
+              "team_code": "VIL",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            }
+          ],
+          "is_previous": true,
+          "is_next": false
+        },
+        {
+          "id": 19608229,
+          "match_time_utc": "2027-05-01T18:00:00.000Z",
+          "match_id": "e6b3a1aa-a543-11f1-9375-4d8da76af24d",
+          "match_name": "Nanterre - Dijon",
+          "tournament_number": 0,
+          "match_date": "2027-05-01",
+          "match_status": "SCHEDULED",
+          "external_id": 30296,
+          "is_pinned": false,
+          "sponser_title": "Vis ton match avec",
+          "sponser_logo": "uploads/content-library/b74f597cff9ff5fc159d21eca75fa950865b876f8dc947c50271ee6531b7631d.png",
+          "sponser_url": "https://betclic.onelink.me/2887093520/wdiag3mg",
+          "competition_external_id": 317,
+          "competition_name": "Betclic \u00c9LITE",
+          "competition_logo_black": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/sm.png"
+          },
+          "competition_logo_white": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/sm.png"
+          },
+          "division_external_id": 1,
+          "competition_abbrev": "PROA",
+          "colour_primary": "0c0b86",
+          "colour_secondary": "e10014",
+          "round_number": 29,
+          "round_description": "29\u00e8me journ\u00e9e",
+          "phase_name": "",
+          "phase_id": 2,
+          "venue_name": "",
+          "display_round": "J29",
+          "broadcast": [
+            {
+              "id": 13692990,
+              "broadcast_id": null,
+              "external_id": 6040,
+              "match_external_id": 30296,
+              "broadcast_provider_external_id": 34,
+              "broadcast_type": "VIDEO_STREAM",
+              "content_id": null,
+              "content_url": null,
+              "replay_id": null,
+              "replay_url": null,
+              "broadcast_time_zone": "Europe/Paris",
+              "broadcast_time": "2027-05-01 19:55:00",
+              "broadcast_provider": {
+                "id": 1,
+                "external_id": 34,
+                "broadcast_provider": "DAZN",
+                "broadcast_provider_url": "https://www.dazn.com/fr-fr/p/basketball?utm_medium=display&utm_source=solus&utm_campaign=lnb&utm_content=static&utm_term=website",
+                "logo": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/sm.png"
+                },
+                "logo_black": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/sm.png"
+                }
+              }
+            }
+          ],
+          "teams": [
+            {
+              "id": 7852,
+              "team_id": "9a52a462-709c-11f1-b9ac-ebf7e1c73018",
+              "external_id": 1869,
+              "club_external_id": 55,
+              "club_name": "Nanterre",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoBlack/sm.png"
+              },
+              "team_name": "Nanterre",
+              "team_code": "NTR",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            },
+            {
+              "id": 7846,
+              "team_id": "85e8b3b9-7098-11f1-b4fa-f14a7fa228e4",
+              "external_id": 1862,
+              "club_external_id": 27,
+              "club_name": "Dijon",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1862/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1862/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1862/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1862/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1862/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1862/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1862/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1862/logoBlack/sm.png"
+              },
+              "team_name": "Dijon",
+              "team_code": "DIJ",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            }
+          ],
+          "is_previous": true,
+          "is_next": false
+        }
+      ]
+    },
+    {
+      "date": "2027-05-09",
+      "data": [
+        {
+          "id": 19608230,
+          "match_time_utc": "2027-05-09T18:00:00.000Z",
+          "match_id": "e6d013ea-a543-11f1-9da6-4d8da76af24d",
+          "match_name": "Boulazac - Chalon/Sa\u00f4ne",
+          "tournament_number": 0,
+          "match_date": "2027-05-09",
+          "match_status": "SCHEDULED",
+          "external_id": 30297,
+          "is_pinned": false,
+          "sponser_title": "Vis ton match avec",
+          "sponser_logo": "uploads/content-library/b74f597cff9ff5fc159d21eca75fa950865b876f8dc947c50271ee6531b7631d.png",
+          "sponser_url": "https://betclic.onelink.me/2887093520/wdiag3mg",
+          "competition_external_id": 317,
+          "competition_name": "Betclic \u00c9LITE",
+          "competition_logo_black": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/sm.png"
+          },
+          "competition_logo_white": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/sm.png"
+          },
+          "division_external_id": 1,
+          "competition_abbrev": "PROA",
+          "colour_primary": "0c0b86",
+          "colour_secondary": "e10014",
+          "round_number": 30,
+          "round_description": "30\u00e8me journ\u00e9e",
+          "phase_name": "",
+          "phase_id": 2,
+          "venue_name": "",
+          "display_round": "J30",
+          "broadcast": [
+            {
+              "id": 13692991,
+              "broadcast_id": null,
+              "external_id": 6041,
+              "match_external_id": 30297,
+              "broadcast_provider_external_id": 34,
+              "broadcast_type": "VIDEO_STREAM",
+              "content_id": null,
+              "content_url": null,
+              "replay_id": null,
+              "replay_url": null,
+              "broadcast_time_zone": "Europe/Paris",
+              "broadcast_time": "2027-05-09 19:55:00",
+              "broadcast_provider": {
+                "id": 1,
+                "external_id": 34,
+                "broadcast_provider": "DAZN",
+                "broadcast_provider_url": "https://www.dazn.com/fr-fr/p/basketball?utm_medium=display&utm_source=solus&utm_campaign=lnb&utm_content=static&utm_term=website",
+                "logo": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/sm.png"
+                },
+                "logo_black": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/sm.png"
+                }
+              }
+            }
+          ],
+          "teams": [
+            {
+              "id": 7842,
+              "team_id": "7d3d468c-7098-11f1-a9bd-f98bcfd90d92",
+              "external_id": 1858,
+              "club_external_id": 10,
+              "club_name": "Boulazac",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1858/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1858/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1858/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1858/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1858/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1858/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1858/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1858/logoBlack/sm.png"
+              },
+              "team_name": "Boulazac",
+              "team_code": "BLZ",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            },
+            {
+              "id": 7844,
+              "team_id": "81b82d1c-7098-11f1-ba36-3bd1c9c7f955",
+              "external_id": 1860,
+              "club_external_id": 17,
+              "club_name": "Chalon/Sa\u00f4ne",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1860/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1860/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1860/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1860/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1860/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1860/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1860/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1860/logoBlack/sm.png"
+              },
+              "team_name": "Chalon/Sa\u00f4ne",
+              "team_code": "CHA",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            }
+          ],
+          "is_previous": true,
+          "is_next": false
+        },
+        {
+          "id": 19608231,
+          "match_time_utc": "2027-05-09T18:00:00.000Z",
+          "match_id": "e6e13069-a543-11f1-82a0-4d8da76af24d",
+          "match_name": "Le Mans - Nancy",
+          "tournament_number": 0,
+          "match_date": "2027-05-09",
+          "match_status": "SCHEDULED",
+          "external_id": 30298,
+          "is_pinned": false,
+          "sponser_title": "Vis ton match avec",
+          "sponser_logo": "uploads/content-library/b74f597cff9ff5fc159d21eca75fa950865b876f8dc947c50271ee6531b7631d.png",
+          "sponser_url": "https://betclic.onelink.me/2887093520/wdiag3mg",
+          "competition_external_id": 317,
+          "competition_name": "Betclic \u00c9LITE",
+          "competition_logo_black": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/sm.png"
+          },
+          "competition_logo_white": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/sm.png"
+          },
+          "division_external_id": 1,
+          "competition_abbrev": "PROA",
+          "colour_primary": "0c0b86",
+          "colour_secondary": "e10014",
+          "round_number": 30,
+          "round_description": "30\u00e8me journ\u00e9e",
+          "phase_name": "",
+          "phase_id": 2,
+          "venue_name": "",
+          "display_round": "J30",
+          "broadcast": [
+            {
+              "id": 13692992,
+              "broadcast_id": null,
+              "external_id": 6042,
+              "match_external_id": 30298,
+              "broadcast_provider_external_id": 34,
+              "broadcast_type": "VIDEO_STREAM",
+              "content_id": null,
+              "content_url": null,
+              "replay_id": null,
+              "replay_url": null,
+              "broadcast_time_zone": "Europe/Paris",
+              "broadcast_time": "2027-05-09 19:55:00",
+              "broadcast_provider": {
+                "id": 1,
+                "external_id": 34,
+                "broadcast_provider": "DAZN",
+                "broadcast_provider_url": "https://www.dazn.com/fr-fr/p/basketball?utm_medium=display&utm_source=solus&utm_campaign=lnb&utm_content=static&utm_term=website",
+                "logo": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/sm.png"
+                },
+                "logo_black": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/sm.png"
+                }
+              }
+            }
+          ],
+          "teams": [
+            {
+              "id": 7848,
+              "team_id": "89f3ec23-7098-11f1-a4d9-c372850e2e21",
+              "external_id": 1864,
+              "club_external_id": 38,
+              "club_name": "Le Mans",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1864/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1864/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1864/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1864/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1864/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1864/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1864/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1864/logoBlack/sm.png"
+              },
+              "team_name": "Le Mans",
+              "team_code": "LEM",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            },
+            {
+              "id": 7851,
+              "team_id": "9294b489-7098-11f1-9672-a9f4be345157",
+              "external_id": 1868,
+              "club_external_id": 51,
+              "club_name": "Nancy",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1868/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1868/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1868/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1868/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1868/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1868/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1868/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1868/logoBlack/sm.png"
+              },
+              "team_name": "Nancy",
+              "team_code": "NAN",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            }
+          ],
+          "is_previous": true,
+          "is_next": false
+        },
+        {
+          "id": 19608232,
+          "match_time_utc": "2027-05-09T18:00:00.000Z",
+          "match_id": "e6f09716-a543-11f1-8e9c-4d8da76af24d",
+          "match_name": "Limoges - Bourg-en-Bresse",
+          "tournament_number": 0,
+          "match_date": "2027-05-09",
+          "match_status": "SCHEDULED",
+          "external_id": 30299,
+          "is_pinned": false,
+          "sponser_title": "Vis ton match avec",
+          "sponser_logo": "uploads/content-library/b74f597cff9ff5fc159d21eca75fa950865b876f8dc947c50271ee6531b7631d.png",
+          "sponser_url": "https://betclic.onelink.me/2887093520/wdiag3mg",
+          "competition_external_id": 317,
+          "competition_name": "Betclic \u00c9LITE",
+          "competition_logo_black": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/sm.png"
+          },
+          "competition_logo_white": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/sm.png"
+          },
+          "division_external_id": 1,
+          "competition_abbrev": "PROA",
+          "colour_primary": "0c0b86",
+          "colour_secondary": "e10014",
+          "round_number": 30,
+          "round_description": "30\u00e8me journ\u00e9e",
+          "phase_name": "",
+          "phase_id": 2,
+          "venue_name": "",
+          "display_round": "J30",
+          "broadcast": [
+            {
+              "id": 13692993,
+              "broadcast_id": null,
+              "external_id": 6043,
+              "match_external_id": 30299,
+              "broadcast_provider_external_id": 34,
+              "broadcast_type": "VIDEO_STREAM",
+              "content_id": null,
+              "content_url": null,
+              "replay_id": null,
+              "replay_url": null,
+              "broadcast_time_zone": "Europe/Paris",
+              "broadcast_time": "2027-05-09 19:55:00",
+              "broadcast_provider": {
+                "id": 1,
+                "external_id": 34,
+                "broadcast_provider": "DAZN",
+                "broadcast_provider_url": "https://www.dazn.com/fr-fr/p/basketball?utm_medium=display&utm_source=solus&utm_campaign=lnb&utm_content=static&utm_term=website",
+                "logo": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/sm.png"
+                },
+                "logo_black": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/sm.png"
+                }
+              }
+            }
+          ],
+          "teams": [
+            {
+              "id": 7849,
+              "team_id": "8c12ba7e-7098-11f1-825d-f9c599214b85",
+              "external_id": 1865,
+              "club_external_id": 43,
+              "club_name": "Limoges",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1865/logoBlack/sm.png"
+              },
+              "team_name": "Limoges",
+              "team_code": "LIM",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            },
+            {
+              "id": 7843,
+              "team_id": "7f8fad9e-7098-11f1-9da9-f91e671df7d9",
+              "external_id": 1859,
+              "club_external_id": 13,
+              "club_name": "Bourg-en-Bresse",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1859/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1859/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1859/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1859/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1859/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1859/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1859/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1859/logoBlack/sm.png"
+              },
+              "team_name": "Bourg-en-Bresse",
+              "team_code": "BOU",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            }
+          ],
+          "is_previous": true,
+          "is_next": false
+        },
+        {
+          "id": 19608233,
+          "match_time_utc": "2027-05-09T18:00:00.000Z",
+          "match_id": "e700f6cd-a543-11f1-a7ff-4d8da76af24d",
+          "match_name": "Paris - Nanterre",
+          "tournament_number": 0,
+          "match_date": "2027-05-09",
+          "match_status": "SCHEDULED",
+          "external_id": 30300,
+          "is_pinned": false,
+          "sponser_title": "Vis ton match avec",
+          "sponser_logo": "uploads/content-library/b74f597cff9ff5fc159d21eca75fa950865b876f8dc947c50271ee6531b7631d.png",
+          "sponser_url": "https://betclic.onelink.me/2887093520/wdiag3mg",
+          "competition_external_id": 317,
+          "competition_name": "Betclic \u00c9LITE",
+          "competition_logo_black": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/sm.png"
+          },
+          "competition_logo_white": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/sm.png"
+          },
+          "division_external_id": 1,
+          "competition_abbrev": "PROA",
+          "colour_primary": "0c0b86",
+          "colour_secondary": "e10014",
+          "round_number": 30,
+          "round_description": "30\u00e8me journ\u00e9e",
+          "phase_name": "",
+          "phase_id": 2,
+          "venue_name": "",
+          "display_round": "J30",
+          "broadcast": [
+            {
+              "id": 13692994,
+              "broadcast_id": null,
+              "external_id": 6044,
+              "match_external_id": 30300,
+              "broadcast_provider_external_id": 34,
+              "broadcast_type": "VIDEO_STREAM",
+              "content_id": null,
+              "content_url": null,
+              "replay_id": null,
+              "replay_url": null,
+              "broadcast_time_zone": "Europe/Paris",
+              "broadcast_time": "2027-05-09 19:55:00",
+              "broadcast_provider": {
+                "id": 1,
+                "external_id": 34,
+                "broadcast_provider": "DAZN",
+                "broadcast_provider_url": "https://www.dazn.com/fr-fr/p/basketball?utm_medium=display&utm_source=solus&utm_campaign=lnb&utm_content=static&utm_term=website",
+                "logo": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/sm.png"
+                },
+                "logo_black": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/sm.png"
+                }
+              }
+            }
+          ],
+          "teams": [
+            {
+              "id": 7853,
+              "team_id": "c7b683a1-709c-11f1-8804-ebf7e1c73018",
+              "external_id": 1870,
+              "club_external_id": 58,
+              "club_name": "Paris",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1870/logoBlack/sm.png"
+              },
+              "team_name": "Paris",
+              "team_code": "PAB",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            },
+            {
+              "id": 7852,
+              "team_id": "9a52a462-709c-11f1-b9ac-ebf7e1c73018",
+              "external_id": 1869,
+              "club_external_id": 55,
+              "club_name": "Nanterre",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1869/logoBlack/sm.png"
+              },
+              "team_name": "Nanterre",
+              "team_code": "NTR",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            }
+          ],
+          "is_previous": true,
+          "is_next": false
+        },
+        {
+          "id": 19608234,
+          "match_time_utc": "2027-05-09T18:00:00.000Z",
+          "match_id": "e7121516-a543-11f1-92c9-4d8da76af24d",
+          "match_name": "Pau-Lacq-Orthez - Cholet",
+          "tournament_number": 0,
+          "match_date": "2027-05-09",
+          "match_status": "SCHEDULED",
+          "external_id": 30301,
+          "is_pinned": false,
+          "sponser_title": "Vis ton match avec",
+          "sponser_logo": "uploads/content-library/b74f597cff9ff5fc159d21eca75fa950865b876f8dc947c50271ee6531b7631d.png",
+          "sponser_url": "https://betclic.onelink.me/2887093520/wdiag3mg",
+          "competition_external_id": 317,
+          "competition_name": "Betclic \u00c9LITE",
+          "competition_logo_black": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/sm.png"
+          },
+          "competition_logo_white": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/sm.png"
+          },
+          "division_external_id": 1,
+          "competition_abbrev": "PROA",
+          "colour_primary": "0c0b86",
+          "colour_secondary": "e10014",
+          "round_number": 30,
+          "round_description": "30\u00e8me journ\u00e9e",
+          "phase_name": "",
+          "phase_id": 2,
+          "venue_name": "",
+          "display_round": "J30",
+          "broadcast": [
+            {
+              "id": 13692995,
+              "broadcast_id": null,
+              "external_id": 6045,
+              "match_external_id": 30301,
+              "broadcast_provider_external_id": 34,
+              "broadcast_type": "VIDEO_STREAM",
+              "content_id": null,
+              "content_url": null,
+              "replay_id": null,
+              "replay_url": null,
+              "broadcast_time_zone": "Europe/Paris",
+              "broadcast_time": "2027-05-09 19:55:00",
+              "broadcast_provider": {
+                "id": 1,
+                "external_id": 34,
+                "broadcast_provider": "DAZN",
+                "broadcast_provider_url": "https://www.dazn.com/fr-fr/p/basketball?utm_medium=display&utm_source=solus&utm_campaign=lnb&utm_content=static&utm_term=website",
+                "logo": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/sm.png"
+                },
+                "logo_black": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/sm.png"
+                }
+              }
+            }
+          ],
+          "teams": [
+            {
+              "id": 7854,
+              "team_id": "98c5b779-7098-11f1-81eb-a351c935a222",
+              "external_id": 1871,
+              "club_external_id": 60,
+              "club_name": "Pau-Lacq-Orthez",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1871/logoBlack/sm.png"
+              },
+              "team_name": "Pau-Lacq-Orthez",
+              "team_code": "PAU",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            },
+            {
+              "id": 7845,
+              "team_id": "83c1445d-7098-11f1-a9c6-4dad8c526642",
+              "external_id": 1861,
+              "club_external_id": 20,
+              "club_name": "Cholet",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1861/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1861/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1861/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1861/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1861/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1861/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1861/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1861/logoBlack/sm.png"
+              },
+              "team_name": "Cholet",
+              "team_code": "CHO",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            }
+          ],
+          "is_previous": true,
+          "is_next": false
+        },
+        {
+          "id": 19608235,
+          "match_time_utc": "2027-05-09T18:00:00.000Z",
+          "match_id": "43061b66-a544-11f1-a9dc-3f509ef44449",
+          "match_name": "Roanne - Gravelines-Dunkerque",
+          "tournament_number": 0,
+          "match_date": "2027-05-09",
+          "match_status": "SCHEDULED",
+          "external_id": 30302,
+          "is_pinned": false,
+          "sponser_title": "Vis ton match avec",
+          "sponser_logo": "uploads/content-library/b74f597cff9ff5fc159d21eca75fa950865b876f8dc947c50271ee6531b7631d.png",
+          "sponser_url": "https://betclic.onelink.me/2887093520/wdiag3mg",
+          "competition_external_id": 317,
+          "competition_name": "Betclic \u00c9LITE",
+          "competition_logo_black": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/sm.png"
+          },
+          "competition_logo_white": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/sm.png"
+          },
+          "division_external_id": 1,
+          "competition_abbrev": "PROA",
+          "colour_primary": "0c0b86",
+          "colour_secondary": "e10014",
+          "round_number": 30,
+          "round_description": "30\u00e8me journ\u00e9e",
+          "phase_name": "",
+          "phase_id": 2,
+          "venue_name": "",
+          "display_round": "J30",
+          "broadcast": [
+            {
+              "id": 13692996,
+              "broadcast_id": null,
+              "external_id": 6046,
+              "match_external_id": 30302,
+              "broadcast_provider_external_id": 34,
+              "broadcast_type": "VIDEO_STREAM",
+              "content_id": null,
+              "content_url": null,
+              "replay_id": null,
+              "replay_url": null,
+              "broadcast_time_zone": "Europe/Paris",
+              "broadcast_time": "2027-05-09 19:55:00",
+              "broadcast_provider": {
+                "id": 1,
+                "external_id": 34,
+                "broadcast_provider": "DAZN",
+                "broadcast_provider_url": "https://www.dazn.com/fr-fr/p/basketball?utm_medium=display&utm_source=solus&utm_campaign=lnb&utm_content=static&utm_term=website",
+                "logo": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/sm.png"
+                },
+                "logo_black": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/sm.png"
+                }
+              }
+            }
+          ],
+          "teams": [
+            {
+              "id": 7855,
+              "team_id": "9acd8233-7098-11f1-a90b-9f22aa5591b1",
+              "external_id": 1872,
+              "club_external_id": 65,
+              "club_name": "Roanne",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1872/logoBlack/sm.png"
+              },
+              "team_name": "Roanne",
+              "team_code": "ROA",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            },
+            {
+              "id": 7847,
+              "team_id": "87ed43f8-7098-11f1-aa8f-23ae2d7880e4",
+              "external_id": 1863,
+              "club_external_id": 33,
+              "club_name": "Gravelines-Dunkerque",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1863/logoBlack/sm.png"
+              },
+              "team_name": "Gravelines-Dunkerque",
+              "team_code": "GRA",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            }
+          ],
+          "is_previous": true,
+          "is_next": false
+        },
+        {
+          "id": 19608236,
+          "match_time_utc": "2027-05-09T18:00:00.000Z",
+          "match_id": "433981fb-a544-11f1-a9ed-3f509ef44449",
+          "match_name": "Strasbourg - Dijon",
+          "tournament_number": 0,
+          "match_date": "2027-05-09",
+          "match_status": "SCHEDULED",
+          "external_id": 30303,
+          "is_pinned": false,
+          "sponser_title": "Vis ton match avec",
+          "sponser_logo": "uploads/content-library/b74f597cff9ff5fc159d21eca75fa950865b876f8dc947c50271ee6531b7631d.png",
+          "sponser_url": "https://betclic.onelink.me/2887093520/wdiag3mg",
+          "competition_external_id": 317,
+          "competition_name": "Betclic \u00c9LITE",
+          "competition_logo_black": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/sm.png"
+          },
+          "competition_logo_white": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/sm.png"
+          },
+          "division_external_id": 1,
+          "competition_abbrev": "PROA",
+          "colour_primary": "0c0b86",
+          "colour_secondary": "e10014",
+          "round_number": 30,
+          "round_description": "30\u00e8me journ\u00e9e",
+          "phase_name": "",
+          "phase_id": 2,
+          "venue_name": "",
+          "display_round": "J30",
+          "broadcast": [
+            {
+              "id": 13692997,
+              "broadcast_id": null,
+              "external_id": 6047,
+              "match_external_id": 30303,
+              "broadcast_provider_external_id": 34,
+              "broadcast_type": "VIDEO_STREAM",
+              "content_id": null,
+              "content_url": null,
+              "replay_id": null,
+              "replay_url": null,
+              "broadcast_time_zone": "Europe/Paris",
+              "broadcast_time": "2027-05-09 19:55:00",
+              "broadcast_provider": {
+                "id": 1,
+                "external_id": 34,
+                "broadcast_provider": "DAZN",
+                "broadcast_provider_url": "https://www.dazn.com/fr-fr/p/basketball?utm_medium=display&utm_source=solus&utm_campaign=lnb&utm_content=static&utm_term=website",
+                "logo": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/sm.png"
+                },
+                "logo_black": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/sm.png"
+                }
+              }
+            }
+          ],
+          "teams": [
+            {
+              "id": 7856,
+              "team_id": "9cef2027-7098-11f1-81b2-8bd270463ea8",
+              "external_id": 1873,
+              "club_external_id": 75,
+              "club_name": "Strasbourg",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1873/logoBlack/sm.png"
+              },
+              "team_name": "Strasbourg",
+              "team_code": "STR",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            },
+            {
+              "id": 7846,
+              "team_id": "85e8b3b9-7098-11f1-b4fa-f14a7fa228e4",
+              "external_id": 1862,
+              "club_external_id": 27,
+              "club_name": "Dijon",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1862/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1862/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1862/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1862/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1862/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1862/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1862/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1862/logoBlack/sm.png"
+              },
+              "team_name": "Dijon",
+              "team_code": "DIJ",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            }
+          ],
+          "is_previous": true,
+          "is_next": false
+        },
+        {
+          "id": 19608237,
+          "match_time_utc": "2027-05-09T18:00:00.000Z",
+          "match_id": "43493057-a544-11f1-ba6b-3f509ef44449",
+          "match_name": "Lyon-Villeurbanne - Saint-Quentin",
+          "tournament_number": 0,
+          "match_date": "2027-05-09",
+          "match_status": "SCHEDULED",
+          "external_id": 30304,
+          "is_pinned": false,
+          "sponser_title": "Vis ton match avec",
+          "sponser_logo": "uploads/content-library/b74f597cff9ff5fc159d21eca75fa950865b876f8dc947c50271ee6531b7631d.png",
+          "sponser_url": "https://betclic.onelink.me/2887093520/wdiag3mg",
+          "competition_external_id": 317,
+          "competition_name": "Betclic \u00c9LITE",
+          "competition_logo_black": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoBlack/sm.png"
+          },
+          "competition_logo_white": {
+            "lg": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/lg.png",
+            "md": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/md.png",
+            "or": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/or.png",
+            "sm": "https://assets.altrstat.xyz/images/Basketball/Competition/317/logoWhite/sm.png"
+          },
+          "division_external_id": 1,
+          "competition_abbrev": "PROA",
+          "colour_primary": "0c0b86",
+          "colour_secondary": "e10014",
+          "round_number": 30,
+          "round_description": "30\u00e8me journ\u00e9e",
+          "phase_name": "",
+          "phase_id": 2,
+          "venue_name": "",
+          "display_round": "J30",
+          "broadcast": [
+            {
+              "id": 13692998,
+              "broadcast_id": null,
+              "external_id": 6048,
+              "match_external_id": 30304,
+              "broadcast_provider_external_id": 34,
+              "broadcast_type": "VIDEO_STREAM",
+              "content_id": null,
+              "content_url": null,
+              "replay_id": null,
+              "replay_url": null,
+              "broadcast_time_zone": "Europe/Paris",
+              "broadcast_time": "2027-05-09 19:55:00",
+              "broadcast_provider": {
+                "id": 1,
+                "external_id": 34,
+                "broadcast_provider": "DAZN",
+                "broadcast_provider_url": "https://www.dazn.com/fr-fr/p/basketball?utm_medium=display&utm_source=solus&utm_campaign=lnb&utm_content=static&utm_term=website",
+                "logo": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoWhite/sm.png"
+                },
+                "logo_black": {
+                  "lg": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/lg.png",
+                  "md": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/md.png",
+                  "or": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/or.png",
+                  "sm": "https://assets.altrstat.xyz/images/Basketball/BroadcastProvider/34/logoBlack/sm.png"
+                }
+              }
+            }
+          ],
+          "teams": [
+            {
+              "id": 7850,
+              "team_id": "8e2e7e72-7098-11f1-9b41-f9c599214b85",
+              "external_id": 1866,
+              "club_external_id": 91,
+              "club_name": "Lyon-Villeurbanne",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1866/logoBlack/sm.png"
+              },
+              "team_name": "Lyon-Villeurbanne",
+              "team_code": "VIL",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            },
+            {
+              "id": 7875,
+              "team_id": "b7bc8eaa-709c-11f1-89ae-f5846576f795",
+              "external_id": 1892,
+              "club_external_id": 74,
+              "club_name": "Saint-Quentin",
+              "logo_white": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1892/logoWhite/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1892/logoWhite/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1892/logoWhite/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1892/logoWhite/sm.png"
+              },
+              "logo_black": {
+                "lg": "https://assets.altrstat.xyz/images/Basketball/Team/1892/logoBlack/lg.png",
+                "md": "https://assets.altrstat.xyz/images/Basketball/Team/1892/logoBlack/md.png",
+                "or": "https://assets.altrstat.xyz/images/Basketball/Team/1892/logoBlack/or.png",
+                "sm": "https://assets.altrstat.xyz/images/Basketball/Team/1892/logoBlack/sm.png"
+              },
+              "team_name": "Saint-Quentin",
+              "team_code": "STQ",
+              "is_favourite": "no",
+              "score_string": "0",
+              "rank": 0
+            }
+          ],
+          "is_previous": true,
+          "is_next": false
+        }
+      ]
+    }
+  ]
+}

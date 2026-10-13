@@ -3,7 +3,6 @@ This tests file concern all functions in the output_message_inited_generation mo
 It units test unexpected paths
 '''
 import pandas as pd
-from datetime import datetime
 import numpy as np
 from unittest.mock import patch
 

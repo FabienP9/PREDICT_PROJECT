@@ -30,6 +30,7 @@ def test_filter_data_failure(read_csv, read_yml_as_serie, assert_exit):
     mock_initiate_local_dict = {
         "sr_snowflake_account_connect": read_yml_as_serie( "snowflake_account_connect.yml"),
         "df_competition": read_csv( "competition.csv"),
+        "df_season": read_csv( "season.csv"),
         "df_paths": read_csv( "paths.csv"),
         "df_task_done": read_csv( "task_done.csv")
     }
@@ -49,6 +50,7 @@ def test_snowflake_update_failure(read_csv, read_yml_as_serie,assert_exit):
     mock_initiate_local_dict = {
         "sr_snowflake_account_connect": read_yml_as_serie( "snowflake_account_connect.yml"),
         "df_competition": read_csv( "competition.csv"),
+        "df_season": read_csv( "season.csv"),
         "df_paths": read_csv( "paths.csv"),
         "df_task_done": read_csv( "task_done.csv")
     }
@@ -70,6 +72,7 @@ def test_calendar_update_failure(read_csv, read_yml_as_serie, assert_exit):
     mock_initiate_local_dict = {
         "sr_snowflake_account_connect": read_yml_as_serie( "snowflake_account_connect.yml"),
         "df_competition": read_csv( "competition.csv"),
+        "df_season": read_csv( "season.csv"),
         "df_paths": read_csv( "paths.csv"),
         "df_task_done": read_csv( "task_done.csv")
     }
@@ -92,6 +95,7 @@ def test_terminate_local_environment_failure(read_csv, read_yml_as_serie, assert
     mock_initiate_local_dict = {
         "sr_snowflake_account_connect": read_yml_as_serie( "snowflake_account_connect.yml"),
         "df_competition": read_csv( "competition.csv"),
+        "df_season": read_csv( "season.csv"),
         "df_paths": read_csv( "paths.csv"),
         "df_task_done": read_csv( "task_done.csv")
     }

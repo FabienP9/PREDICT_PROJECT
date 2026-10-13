@@ -13,24 +13,25 @@ def test_extract_games_from_competition(read_csv):
 
     # this test the function extract_games_from_competition
     df_competition = read_csv("competition_unique.csv")
+    df_season = read_csv("season_unique.csv")
     mock_df_game = read_csv("game.csv")
-    with patch.dict(games_details_extraction.game_info_functions, {"LNB": lambda competition_source_id: mock_df_game}), \
+    with patch.dict(games_details_extraction.game_info_functions, {"LNB": lambda *args, **kwargs: mock_df_game}), \
          patch.object(games_details_extraction, "create_csv"):
 
-        result = games_details_extraction.extract_games_from_competition(df_competition)
+        result = games_details_extraction.extract_games_from_competition(df_competition,df_season)
         assert_frame_equal(result.reset_index(drop=True), mock_df_game.reset_index(drop=True),check_dtype=False)
 
 def test_extract_games_from_need(read_csv):
     
     # this test the function extract_games_from_need
     sr_output_need = read_csv("output_need_calculate.csv").iloc[0]
-    print(sr_output_need)
     df_competition = read_csv("competition_unique.csv")
+    df_season = read_csv("season_unique.csv")
     mock_df_game = read_csv("game.csv")
     df_gameday_modification = pd.DataFrame(columns=['SEASON_ID','GAME_SOURCE_ID','GAMEDAY_MODIFIED'])
 
     with patch.dict(games_details_extraction.game_info_functions, {"LNB": lambda *args, **kwargs: mock_df_game}), \
         patch.object(games_details_extraction, "create_csv"):
 
-        result = games_details_extraction.extract_games_from_need(sr_output_need,df_competition,df_gameday_modification)
+        result = games_details_extraction.extract_games_from_need(sr_output_need,df_competition,df_gameday_modification, df_season)
         assert_frame_equal(result.reset_index(drop=True), mock_df_game.reset_index(drop=True),check_dtype=False)

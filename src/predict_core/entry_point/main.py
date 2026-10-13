@@ -35,7 +35,7 @@ def process_games(context_dict: dict) -> dict:
             Exits the program if error running the function (using decorator)
     '''
 
-    context_dict['df_game'] = games_details_extraction.extract_games_from_need(context_dict['sr_output_need'],context_dict['df_competition'],context_dict['df_gameday_modification'])
+    context_dict['df_game'] = games_details_extraction.extract_games_from_need(context_dict['sr_output_need'],context_dict['df_competition'],context_dict['df_gameday_modification'],context_dict['df_season'])
     
     # we filter game files, to get only inputs related to those games   
     context_dict.update(files_manipulation.filter_data(files_data_dict = context_dict, df_paths=context_dict['df_paths'], filtering_category = var.GAME_FILTERING_CATEGORY))

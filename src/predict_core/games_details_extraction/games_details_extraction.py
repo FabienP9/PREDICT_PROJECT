@@ -19,12 +19,13 @@ game_info_functions = {
 }
 
 @config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('df_competition',)})
-def extract_games_from_competition(df_competition: pd.DataFrame) -> pd.DataFrame:
+def extract_games_from_competition(df_competition: pd.DataFrame, df_season: pd.DataFrame) -> pd.DataFrame:
     
     """
         Gets all games from list of competition while called by entry point function competition_integration
         Args:
             df_competition (dataframe): the list of competition from input files
+            df_season (dataframe): the list of season from input files
         Returns:
             dataframe: contains all games (with their competition ids an season ids)     
         Raises:
@@ -36,10 +37,13 @@ def extract_games_from_competition(df_competition: pd.DataFrame) -> pd.DataFrame
                'GAMEDAY', 'DATE_GAME_UTC', 'TIME_GAME_UTC', 'DATE_GAME_LOCAL', 'TIME_GAME_LOCAL',
                'TEAM_HOME', 'SCORE_HOME', 'TEAM_AWAY', 'SCORE_AWAY', 'GAME_SOURCE_ID'])
     
-    for compet_row in df_competition.itertuples(index=False):
+    df_competition_season = pd.merge(df_competition,df_season, how='inner',on='SEASON_ID')
+    for compet_row in df_competition_season.itertuples(index=False):
         source = compet_row.COMPETITION_SOURCE
         get_game_details = game_info_functions.get(source)
-        df_game_details = get_game_details(competition_source_id = compet_row.COMPETITION_SOURCE_ID)
+        df_game_details = get_game_details(compet_row.COMPETITION_SOURCE_ID,
+                                           compet_row.SEASON_DIVISION_NUMBER, 
+                                           compet_row.SEASON_NAME)
         df_game_details['COMPETITION_SOURCE'] = compet_row.COMPETITION_SOURCE
         df_game_details['COMPETITION_ID'] = compet_row.COMPETITION_ID
         df_game_details['SEASON_ID'] = compet_row.SEASON_ID
@@ -52,7 +56,7 @@ def extract_games_from_competition(df_competition: pd.DataFrame) -> pd.DataFrame
     return df_game
 
 @config_decorators.exit_program(log_filter=lambda args: {})
-def extract_games_from_need(sr_output_need: pd.Series,df_competition: pd.DataFrame, df_gameday_modification: pd.DataFrame) -> pd.DataFrame:
+def extract_games_from_need(sr_output_need: pd.Series,df_competition: pd.DataFrame, df_gameday_modification: pd.DataFrame, df_season: pd.DataFrame) -> pd.DataFrame:
     
     """
         Gets games while called by entry point function main based on needs competition and gameday
@@ -60,6 +64,7 @@ def extract_games_from_need(sr_output_need: pd.Series,df_competition: pd.DataFra
             sr_output_need (series - one row): the output_need we process - we extract only games from its gameday
             df_competition (DataFrame): the list of competition from input files, to get the source of game
             df_gameday_modification (DataFrame): the list of gameday modified from input files, to get the original name of gamedays
+            df_competition (DataFrame): the list of season from input files, to filter games on relevant
         Returns:
             dataframe: contains all games related with need competition and gameday   
         Raises:
@@ -68,9 +73,11 @@ def extract_games_from_need(sr_output_need: pd.Series,df_competition: pd.DataFra
     
     logging.info("GAME -> GETTING GAMES [START]")
     
-    competition_source = df_competition[(
-         (df_competition['SEASON_ID'] == sr_output_need['SEASON_ID']) &
-         (df_competition['COMPETITION_SOURCE_ID'] == sr_output_need['COMPETITION_SOURCE_ID']))].iloc[0]['COMPETITION_SOURCE']
+    df_competition_season = pd.merge(df_competition,df_season, how='inner',on='SEASON_ID')
+    competition = df_competition_season[(
+         (df_competition_season['SEASON_ID'] == sr_output_need['SEASON_ID']) &
+         (df_competition_season['COMPETITION_SOURCE_ID'] == sr_output_need['COMPETITION_SOURCE_ID']))].iloc[0]
+    competition_source = competition['COMPETITION_SOURCE']
 
     # If there are values in gameday_modification corresponding to the gameday needed
     # we filter on the original gameday from the source to get specific gamekeys wee need to extract
@@ -82,6 +89,8 @@ def extract_games_from_need(sr_output_need: pd.Series,df_competition: pd.DataFra
     get_game_details = game_info_functions.get(competition_source)
     if len(sr_games_to_extract) == 0:
         df_game = get_game_details(competition_source_id = sr_output_need['COMPETITION_SOURCE_ID'],
+                                    season_division_number = competition.SEASON_DIVISION_NUMBER, 
+                                    season_name = competition.SEASON_NAME,
                                    gameday = sr_output_need['GAMEDAY'])
     else:
         df_game = get_game_details(competition_source_id = sr_output_need['COMPETITION_SOURCE_ID'],

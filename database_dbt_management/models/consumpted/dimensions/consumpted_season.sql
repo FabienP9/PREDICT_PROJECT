@@ -29,6 +29,7 @@ with final_season as (
         season.SEASON_COUNTRY,
         season.SEASON_NAME,
         season.SEASON_DIVISION,
+        season.SEASON_DIVISION_NUMBER,
         season.SEASON_TEAMCHOICE_DEADLINE
     FROM
         {{ref('curated_season')}} season
@@ -43,6 +44,7 @@ SELECT
     final_season.SEASON_COUNTRY,
     final_season.SEASON_NAME,
     final_season.SEASON_DIVISION,
+    final_season.SEASON_DIVISION_NUMBER,
     final_season.SEASON_TEAMCHOICE_DEADLINE,
     {{updated_at_fields()}}
 FROM

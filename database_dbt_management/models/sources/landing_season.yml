@@ -39,6 +39,11 @@ sources:
             tests:
               - not_null
 
+          - name: SEASON_DIVISION_NUMBER
+            description: The division number of the season
+            tests:
+              - not_null
+
           - name: SEASON_TEAMCHOICE_DEADLINE
             description: |
               The deadline for team choice. The team chosen by a user will have its point for the prediction championship

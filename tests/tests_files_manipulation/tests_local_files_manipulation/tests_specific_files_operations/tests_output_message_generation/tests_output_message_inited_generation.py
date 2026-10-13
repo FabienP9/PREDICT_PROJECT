@@ -5,7 +5,6 @@ It units test the happy path for each function
 
 from unittest.mock import patch
 import pandas as pd
-from datetime import datetime
 import numpy as np
 
 from src.predict_core.files_manipulation.local_files_manipulation.specific_files_operations.output_message_file_generation import output_message_inited_generation

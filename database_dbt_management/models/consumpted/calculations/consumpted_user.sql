@@ -106,7 +106,7 @@ final_user as (
             ELSE 0
         END AS IS_ELIGIBLE_AVERAGE_RANKING,
         CASE 
-            WHEN figures.NB_PREDICTION/nb_predictions_total.NB_PREDICTION_TOTAL > 0.25 THEN 1
+            WHEN figures.NB_PREDICTION/nb_predictions_total.NB_PREDICTION_TOTAL > 0.15 THEN 1
             ELSE 0
         END AS IS_ELIGIBLE_PREDICTCHAMP        
     FROM

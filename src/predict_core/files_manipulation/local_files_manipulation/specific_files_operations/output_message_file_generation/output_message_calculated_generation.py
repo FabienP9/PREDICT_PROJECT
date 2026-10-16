@@ -509,7 +509,7 @@ def get_parameters(sr_snowflake_account: pd.Series, sr_gameday_output_calculate:
         param_dict['IS_FOR_RANK'] = df_gamepredictchamp.at[0,'IS_FOR_RANK']
         param_dict['RESULTS_PREDICTCHAMP'] = get_predictchamp_result(df_gamepredictchamp,sr_snowflake_account,sr_gameday_output_calculate)
         param_dict['HAS_HOME_ADV'] = df_gamepredictchamp.at[0,'HAS_HOME_ADV']
-        param_dict['NB_MIN_PREDICTION_PREDICTCHAMP'] = int(param_dict['NB_TOTAL_PREDICT']/4)
+        param_dict['NB_MIN_PREDICTION_PREDICTCHAMP'] = int(param_dict['NB_TOTAL_PREDICT']*0.15)
 
     # if the predictions games are not for rank, we don't display the predictions championship ranking
     if param_dict['IS_FOR_RANK'] == 0:

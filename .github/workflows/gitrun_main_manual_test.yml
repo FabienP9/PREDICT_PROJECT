@@ -106,6 +106,7 @@ jobs:
                       {output_data.get('str_output_need', 'N/A').replace('\n', '<br>')}</p>
                     <p><u>Next run (UTC):</u> {output_data.get('str_next_run_time_utc', 'N/A')}</p>
                     <p><u>Check string</u>: {output_data.get('check_string', 'N/A')}</p>
+                    <p><u>Logs</u>: {run_url}</p>
                   </body>
                 </html>
                 """, subtype='html')

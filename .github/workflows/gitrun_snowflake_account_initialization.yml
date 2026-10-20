@@ -70,7 +70,7 @@ jobs:
           msg = EmailMessage()
           if status == "success":
               msg['Subject'] = f'GitHub Action SUCCEEDED - Snowflake IS_TESTRUN={is_test}'
-              msg.set_content(f"Succeeded to init snowflake account with IS_TESTRUN={is_test}.")
+              msg.set_content(f"Succeeded to init snowflake account with IS_TESTRUN={is_test}.\n\nRun logs: {run_url}")
           else:
               msg['Subject'] = f'GitHub Action FAILED - Snowflake IS_TESTRUN={is_test}'
               msg.set_content(f"Failed to init snowflake account with IS_TESTRUN={is_test}.\n\nRun logs: {run_url}")

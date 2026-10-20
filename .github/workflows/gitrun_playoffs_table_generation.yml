@@ -93,6 +93,7 @@ jobs:
                   <body>
                     <p>Succeeded to generate playoffs table</p>
                     <p><u>image_url:</u> {output_data.get('image_url', 'N/A')}</p>
+                    <p><u>Logs</u>: {run_url}</p>
                   </body>
                 </html>
                 """, subtype='html')

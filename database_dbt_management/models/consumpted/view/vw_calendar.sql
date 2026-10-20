@@ -82,7 +82,7 @@ init_gameday as (
         0 AS IS_TO_DELETE,
         0 AS IS_TO_RECALCULATE,
         'AVOID' AS MESSAGE_ACTION,
-        'AVOID' AS GAME_ACTION
+        'RUN' AS GAME_ACTION
     FROM 
         init_gameday_begin
     JOIN 
@@ -114,15 +114,21 @@ calculate_gameday as (
 -- 11 days and 3 days before the expected end (last game)
 -- we read them during UTC night each time
 read_gameday_beginning as (
-    {{calendar_read_gameday_beginning('DAY',-72,'05:00:00.000')}}
+    {{calendar_read_gameday_beginning('DAY',-96,'06:00:00.000')}}
+    UNION ALL {{calendar_read_gameday_beginning('DAY',-69,'05:00:00.000')}}
     UNION ALL {{calendar_read_gameday_beginning('DAY',-43,'04:00:00.000')}}
-    UNION ALL {{calendar_read_gameday_beginning('WEEK',-3,'03:00:00.000')}}
+    UNION ALL {{calendar_read_gameday_beginning('DAY',-21,'03:00:00.000')}}
     UNION ALL {{calendar_read_gameday_beginning('DAY',-10,'02:00:00.000')}}
     UNION ALL {{calendar_read_gameday_beginning('DAY',-4,'01:00:00.000')}}
 ),
 read_gameday_ending as (
-    {{calendar_read_gameday_ending('DAY',-11,'01:30:00.000')}}
-    UNION ALL {{calendar_read_gameday_ending('DAY',-3,'00:30:00.000')}}
+    {{calendar_read_gameday_ending('DAY',-84,'05:30:00.000')}}
+    UNION ALL {{calendar_read_gameday_ending('DAY',-55,'04:30:00.000')}}
+    UNION ALL {{calendar_read_gameday_ending('DAY',-31,'03:30:00.000')}}
+    UNION ALL {{calendar_read_gameday_ending('DAY',-16,'02:30:00.000')}}
+    UNION ALL {{calendar_read_gameday_ending('DAY',-8,'01:30:00.000')}}
+    UNION ALL {{calendar_read_gameday_ending('DAY',-4,'00:30:00.000')}}
+
 ),
 read_gameday_details as (
     SELECT

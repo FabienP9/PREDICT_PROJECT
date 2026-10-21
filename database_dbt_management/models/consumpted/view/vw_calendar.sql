@@ -128,6 +128,7 @@ read_gameday_ending as (
     UNION ALL {{calendar_read_gameday_ending('DAY',-16,'02:30:00.000')}}
     UNION ALL {{calendar_read_gameday_ending('DAY',-8,'01:30:00.000')}}
     UNION ALL {{calendar_read_gameday_ending('DAY',-4,'00:30:00.000')}}
+		UNION ALL {{calendar_read_gameday_ending('DAY',0,'00:00:00.000')}}
 
 ),
 read_gameday_details as (

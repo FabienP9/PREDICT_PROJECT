@@ -16,7 +16,7 @@ def test_get_games_result(read_csv, read_txt):
 
     s = output_message_calculated_generation.get_games_result(df_games, sr_gameday_output_calculate)
     s_expected = read_txt("output_message_calculated_games_result.txt")
-        
+    print (s)
     assert s == s_expected
 
 def test_get_games_odds(read_csv, read_txt):

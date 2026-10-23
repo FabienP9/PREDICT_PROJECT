@@ -11,6 +11,7 @@ import os
 from typing import Tuple
 import numpy as np
 import pandas as pd
+import re
 
 from .....config import config_decorators
 from .....config.config_variables import config_global_variables as var
@@ -43,8 +44,7 @@ def get_games_result(df_games: pd.DataFrame, sr_gameday_output_calculate: pd.Ser
     df_games_copy['RESULT_STR'] = df_games_copy['RESULT'].map(lambda x: f"+{x}" if x > 0 else str(x))
 
     #we extract the list of games to display, concatenating fields into a string
-    df_games_copy['STRING'] = df_games_copy['GAME_MESSAGE'] + \
-        " (G" + df_games_copy['GAME_MESSAGE_SHORT'].astype(str).str.zfill(2) + ") - " + \
+    df_games_copy['STRING'] = df_games_copy['GAME_MESSAGE'] + " - " + \
         np.where(df_games_copy['RESULT'] > 0, "__F__boldbegin__F__", "") + \
         df_games_copy['TEAM_HOME_NAME'] + \
         np.where(df_games_copy['RESULT'] > 0, "__F__boldend__F__", "") + " vs " + \
@@ -77,8 +77,7 @@ def get_games_odds(df_games: pd.DataFrame, sr_gameday_output_calculate: pd.Serie
 
     #we extract the list of games to display, concatenating fields into a string
     df_games_copy['PERC'] = np.where(df_games_copy['RESULT'] > 0, df_games_copy['PERC_PREDICTOR_WINNER_HOME'] , df_games_copy['PERC_PREDICTOR_WINNER_AWAY'])
-    df_games_copy['STRING'] = df_games_copy['GAME_MESSAGE'] + \
-        " (G" + df_games_copy['GAME_MESSAGE_SHORT'].astype(str).str.zfill(2) + ") - __F__boldbegin__F__" + \
+    df_games_copy['STRING'] = df_games_copy['GAME_MESSAGE'] + " - __F__boldbegin__F__" + \
         np.where(df_games_copy['RESULT'] > 0, df_games_copy['TEAM_HOME_NAME'] , df_games_copy['TEAM_AWAY_NAME']) + "__F__boldend__F__ - __F__boldbegin__F__ __L__odd__L__: " + \
         df_games_copy['PERC'].astype(str) + "% __F__boldend__F__ ("+ \
         np.where(df_games_copy['RESULT'] > 0, df_games_copy['NB_PREDICTOR_WINNER_HOME'] , df_games_copy['NB_PREDICTOR_WINNER_AWAY']).astype(str) + "÷" +\
@@ -106,15 +105,28 @@ def get_scores_detailed(sr_snowflake_account: pd.Series, sr_gameday_output_calcu
 
     # We call the predictions games scores query 
     df_predict_games = snowflake_execute(sr_snowflake_account,sql.VW_PREDICT_GAME_QUERY,sql.DATABASE,(sr_gameday_output_calculate['SEASON_ID'],sr_gameday_output_calculate['GAMEDAY']))
+    
     # we remove useless column in this run context - we couldn't remove at the sources: see the related Snowflake view spec for more details
     df_predict_games = df_predict_games.dropna(axis=1, how='all')
+    
+
+
     #if there are no columns remaining or no rows (no users) we just return like it
     if df_predict_games.shape[0] == 0 or df_predict_games.shape[1]  == 0:
         return df_predict_games,0
     else:
+
+        # we transform columns Gxy into GAMEDAY_SHORT.xy
+        gameday_prefix = df_predict_games['GAMEDAY_SHORT'].iloc[0]
+        new_columns = {}
+        for col in df_predict_games.columns:
+            if re.match(r'^G\d{2}', col):  # Begins exactly G followed by 2 digits
+                new_columns[col] = gameday_prefix + "." + col[1:]  # Replace G with the prefix
+        df_predict_games.rename(columns=new_columns, inplace=True)
+        
         # we remove GAMEDAY and SEASON_ID they were used to filter and rename USER_NAME to USERNAME
         df_predict_games = df_predict_games.rename(columns={'USER_NAME': 'USERNAME'})
-        df_predict_games = df_predict_games.drop(columns=['GAMEDAY','SEASON_ID'])
+        df_predict_games = df_predict_games.drop(columns=['GAMEDAY','GAMEDAY_SHORT','SEASON_ID'])
         # We transform the dataframe on two level header splitting on _ 
         split_cols = df_predict_games.columns.to_series().str.split('_', n=1, expand=True)
 

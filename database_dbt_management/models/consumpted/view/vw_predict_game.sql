@@ -16,6 +16,7 @@ with predict_game AS (
     SELECT
         user.USER_NAME,
         game.GAME_MESSAGE_SHORT,
+        SPLIT_PART(game.GAME_MESSAGE, '.', 0) AS GAMEDAY_SHORT,
         ug.POINTS,
         game.RESULT,
         pg.PREDICT,
@@ -51,6 +52,7 @@ with predict_game AS (
 SELECT
     USER_NAME,
     GAMEDAY,
+    GAMEDAY_SHORT,
     SEASON_ID,
     POINTS AS PT,
     {% for i in range(1, max_nb_games + 1) %}
@@ -68,5 +70,6 @@ FROM
 GROUP BY
     USER_NAME,
     GAMEDAY,
+    GAMEDAY_SHORT,
     SEASON_ID,
     POINTS

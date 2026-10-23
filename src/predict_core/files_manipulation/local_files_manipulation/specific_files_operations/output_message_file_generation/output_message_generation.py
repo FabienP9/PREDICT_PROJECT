@@ -268,7 +268,7 @@ def capture_scores_detailed(df: pd.DataFrame, capture_name: str): # NOSONAR
     '''
 
     # Create table data
-    header_1 = list(df.columns.get_level_values(0))
+    header_1 = list(df.columns.get_level_values(0).str.replace(".", "\n."))
     header_2 = list(df.columns.get_level_values(1))
     table_data = [header_2]  # Start with second-level headers
     table_data.insert(0,header_1)  # Add first-level headers

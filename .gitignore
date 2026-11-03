@@ -11,3 +11,4 @@ dist/
 *.egg
 .venv
 windows_interaction
+script.py

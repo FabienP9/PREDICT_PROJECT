@@ -280,45 +280,51 @@ def capture_scores_detailed(df: pd.DataFrame, capture_name: str): # NOSONAR
     ax.axis('tight')
     ax.axis('off')
 
-    # colors for row background color switch
-    color1 ='#fff2cc'
-    color2 ='#ccfff5'
-
     # Create the table
     tbl = Table(ax, bbox=[0, 0, 1, 1])
-
     ncols = len(table_data[0])  # Total number of columns
 
     # Add cells
+    height_header = 0.1
+    height_data = 0.06
     for row_idx, row in enumerate(table_data):
         for col_idx, cell in enumerate(row):
             if row_idx == 0 and col_idx > 0:  # Handle merged effect for the first-level header
                 if col_idx == 1 or cell != row[col_idx - 1]:
-                    tbl.add_cell(row_idx, col_idx, 1 / ncols, 0.15, text=cell, loc='center', facecolor='white')
+                    tbl.add_cell(row_idx, col_idx, 1 / ncols, height_header, text=cell, loc='center', facecolor='white')
                 else:
                     # Skip duplicate cells
                     continue
             else:
-                height = 0.1 if row_idx > 1 else 0.15  # Adjust height for headers
+                height = height_data if row_idx > 1 else height_header  # Adjust height for headers
                 tbl.add_cell(row_idx, col_idx, 1 / ncols, height, text=cell, loc='center', facecolor='white')
 
+
     # Style the table
+    # colors for row background color switch
+    color1 ='#fff2cc'
+    color2 ='#ccfff5'
+    small_fontsize = 20
+    big_fontsize = 30
+    tbl.auto_set_font_size(False)
+    tbl.auto_set_column_width(range(len(df.columns)))
     for (row, col), cell in tbl.get_celld().items():
-        if row in (0,1):  # Header row
-            cell.set_text_props(weight='bold')  # Bold text for column headers
-        elif row > 1:  # Data rows (skip the header row)
-            # Alternate row colors for readability
+        if row == 0:
+            cell.set_text_props(size=big_fontsize,weight='bold')  # Bold text for column headers
+        elif (row == 1 and col%6 in (0,1,5)):
+            cell.set_text_props(size=small_fontsize,weight='bold')
+        elif (row == 1):
+            cell.set_text_props(size=small_fontsize,style='italic')
+        else:
+            if (col%6 in (0,1,5)):  # Data rows
+                # Alternate row colors for readability
+                cell.set_text_props(size=big_fontsize,weight='bold')
+            else:
+                cell.set_text_props(size=big_fontsize,style='italic')
             if row % 2 == 0:  # Even row index (data rows)
                 cell.set_facecolor(color1) 
             else:  # Odd row index (data rows)
-                cell.set_facecolor(color2) 
-        if col%6 in (0,1,5):
-            cell.set_text_props(weight='bold')
-    
-    # Add column and row lines to emphasize merged cells
-    tbl.auto_set_font_size(False)
-    tbl.set_fontsize(30)
-    tbl.auto_set_column_width(range(len(df.columns))) # Adjust scale for better visibility
+                cell.set_facecolor(color2)
 
     # Add the table to the plot
     ax.add_table(tbl)

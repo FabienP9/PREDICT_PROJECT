@@ -108,14 +108,11 @@ def get_scores_detailed(sr_snowflake_account: pd.Series, sr_gameday_output_calcu
     
     # we remove useless column in this run context - we couldn't remove at the sources: see the related Snowflake view spec for more details
     df_predict_games = df_predict_games.dropna(axis=1, how='all')
-    
-
 
     #if there are no columns remaining or no rows (no users) we just return like it
     if df_predict_games.shape[0] == 0 or df_predict_games.shape[1]  == 0:
         return df_predict_games,0
     else:
-
         # we transform columns Gxy into GAMEDAY_SHORT.xy
         gameday_prefix = df_predict_games['GAMEDAY_SHORT'].iloc[0]
         new_columns = {}
@@ -132,7 +129,7 @@ def get_scores_detailed(sr_snowflake_account: pd.Series, sr_gameday_output_calcu
 
         # For 'USERNAME' and 'PT', set the second level to empty string
         split_cols[1] = split_cols[1].fillna('')  # fill None for columns without underscore
-        split_cols.loc[split_cols[0].isin(['USERNAME', 'PT']), 1] = ''
+        split_cols.loc[split_cols[0].isin(['USERNAME', 'DETAILPOINTS']), 1] = ''
  
         # Convert to MultiIndex
         df_predict_games.columns = pd.MultiIndex.from_frame(split_cols)
@@ -140,7 +137,14 @@ def get_scores_detailed(sr_snowflake_account: pd.Series, sr_gameday_output_calcu
         num_cols = df_predict_games.select_dtypes(include=['float', 'int']).columns
         df_predict_games[num_cols] = df_predict_games[num_cols].fillna(0).astype(int)
         df_predict_games = df_predict_games.fillna('')
-        df_predict_games = df_predict_games.rename(columns={'USERNAME': '__D__USER_NAME__D__'})
+        df_predict_games = df_predict_games.rename(columns={'USERNAME': '__D__USER_NAME__D__',
+                                                            'DETAILPOINTS': '__D__DETAILPOINTS__D__',
+                                                            'BONUS':'__D__BONUS__D__',
+                                                            'RESULT':'__D__RESULT__D__',
+                                                            'PREDICT':'__D__PREDICT__D__',
+                                                            'SCORE_WIN':'__D__SCORE_WIN__D__',
+                                                            'SCORE_SHIFT':'__D__SCORE_SHIFT__D__',
+                                                            'AUTOMATIC_SCORE':'__D__AUTOMATIC_SCORE__D__'})
         return df_predict_games, len(df_predict_games)
 
 @config_decorators.exit_program(log_filter=lambda args: {'columns_df_userscores_global': args['df_userscores_global'].columns.tolist(),})

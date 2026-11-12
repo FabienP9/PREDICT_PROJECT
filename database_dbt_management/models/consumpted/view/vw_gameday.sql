@@ -8,7 +8,7 @@
 with gameday as (
     SELECT
         gameday1.GAMEDAY,
-        gameday1.NB_GAME+2 AS NB_PREDICTION, /* one bonus game per gameday = 3 prediction */
+        gameday1.NB_GAME_PLAYED +2 AS NB_PREDICTION_PLAYED, /* one bonus game per gameday = 3 prediction */
         gameday1.BEGIN_DATE_LOCAL,
         gameday1.BEGIN_TIME_LOCAL,
         gameday1.END_DATE_LOCAL,
@@ -17,6 +17,7 @@ with gameday as (
         gameday1.END_TIME_UTC,
         gameday1.GAMEDAY_MESSAGE,
         gameday1.IS_CALCULATED,
+        gameday1.IS_TO_CALCULATE_PARTIAL,
         compet.COMPETITION_LABEL,
 		compet.IS_SAME_FOR_PREDICTCHAMP,
         season.SEASON_ID,
@@ -40,7 +41,7 @@ with gameday as (
 )
 SELECT
     gameday.GAMEDAY,
-    gameday.NB_PREDICTION,
+    gameday.NB_PREDICTION_PLAYED,
     gameday.BEGIN_DATE_LOCAL,
     gameday.BEGIN_TIME_LOCAL,
     gameday.END_DATE_LOCAL,
@@ -49,6 +50,7 @@ SELECT
     gameday.END_TIME_UTC,
     gameday.GAMEDAY_MESSAGE,
     gameday.IS_CALCULATED,
+    gameday.IS_TO_CALCULATE_PARTIAL,
     gameday.SEASON_ID,
     gameday.SEASON_DIVISION,
     gameday.USER_CAN_CHOOSE_TEAM_FOR_PREDICTCHAMP,

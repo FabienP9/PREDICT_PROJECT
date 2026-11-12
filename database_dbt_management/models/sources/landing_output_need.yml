@@ -14,7 +14,7 @@ sources:
             description: The type of task which is run (UPDATEGAMES,CALCULATE,INIT,CHECK)
             tests:
             - accepted_values: 
-                values: ['CHECK','INIT','CALCULATE','UPDATEGAMES']
+                values: ['CHECK','INIT','CALCULATE','CALCULATE_PARTIAL','UPDATEGAMES']
 
           - name: SEASON_ID
             description: The ID of the season
@@ -68,6 +68,12 @@ sources:
 
           - name: IS_TO_CALCULATE
             description: Boolean to know if a gameday will be calculated in this run (1) or not (0)
+            tests:
+              - accepted_values: 
+                  values: [0, 1]
+
+          - name: IS_TO_CALCULATE_PARTIAL
+            description: Boolean to know if a gameday will be partially calculated in this run (1) or not (0)
             tests:
               - accepted_values: 
                   values: [0, 1]

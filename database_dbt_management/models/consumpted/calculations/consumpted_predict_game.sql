@@ -15,7 +15,7 @@
         GAME_KEY: from curated
         GAMEDAY_KEY: from curated
     Filter:
-        Only games prediction related to the gameday with action (IS_TO_DELETE or IS_TO_CALCULATE) 
+        Only games prediction related to the gameday with action (IS_TO_DELETE or IS_TO_CALCULATE or IS_TO_CALCULATE_PARTIAL) 
         where prediction is last ontime
     Materialization:
         incremental to avoid removing old prediction already calculated */
@@ -36,6 +36,7 @@ with prediction as (
         predict.GAME_KEY,
         game.RESULT AS GAME_RESULT,
         game.SCORE_WIN_VALUE,
+        game.IS_PLAYED,
         predict.PREDICT_ID,
         predict.PREDICT,
         predict.IS_PREDICTION_FROM_MESSAGE AS IS_PREDICTION_FROM_MESSAGE_GAME,
@@ -57,7 +58,7 @@ with prediction as (
    JOIN
         {{ref('consumpted_gameday')}} gameday
         ON game.GAMEDAY_KEY = gameday.GAMEDAY_KEY
-       AND gameday.IS_TO_CALCULATE + gameday.IS_TO_DELETE > 0
+       AND gameday.IS_TO_CALCULATE + gameday.IS_TO_CALCULATE_PARTIAL + gameday.IS_TO_DELETE > 0
     LEFT JOIN
         {{ref('curated_choice_bonus')}} bonus
         ON predict.GAME_KEY = bonus.GAME_KEY
@@ -86,16 +87,16 @@ calculation as (
         predict2.IS_TO_CALCULATE,
         predict2.IS_TO_DELETE,
         CASE
-            -- for deletion we revert back score to 0
-            WHEN predict2.IS_TO_DELETE = 1 THEN 0
+            -- for deletion we revert back score to 0. same score if game not played
+            WHEN predict2.IS_TO_DELETE = 1 OR predict2.IS_PLAYED = 0 THEN 0
             -- if the game result and prediction are not same sign, the user didn't find the good winner and win 0 points
             WHEN predict2.GAME_RESULT * COALESCE(predict2.PREDICT,0) <= 0 THEN 0
             -- if he found the good winner the score is the one calculated in consumpted_game (multiplied by 3 if bonus game)
             WHEN predict2.GAME_RESULT * COALESCE(predict2.PREDICT,0) > 0 THEN (2*predict2.IS_BONUS_GAME +1)*predict2.SCORE_WIN_VALUE
         END AS SCORE_WIN,
         CASE
-            -- for deletion we revert back score to 0
-            WHEN predict2.IS_TO_DELETE = 1 THEN 0
+            -- for deletion we revert back score to 0. same score if game not played
+            WHEN predict2.IS_TO_DELETE = 1 OR predict2.IS_PLAYED = 0 THEN 0
             -- if the absolute difference between result and prediction is 15 or less, then 15-difference or 3*(15-diff) if bonus game
             -- if diff = 0 then 30 or 90 if bonus
             WHEN predict2.GAME_RESULT - predict2.PREDICT = 0 THEN (2*predict2.IS_BONUS_GAME +1)*30
@@ -107,9 +108,17 @@ calculation as (
             WHEN predict2.IS_PREDICTION_FROM_MESSAGE_BONUS = 0 AND predict2.IS_PROGRAM_REFINEMENT_BONUS = 0 THEN 1
             ELSE 0
         END AS IS_PREDICTION_IN_DEFECT,
-        (2*predict2.IS_BONUS_GAME +1)*(1-IS_PREDICTION_IN_DEFECT) AS AUTOMATIC_SCORE,
+        CASE
+            -- for deletion we revert back score to 0. same score if game not played
+            WHEN predict2.IS_TO_DELETE = 1 OR predict2.IS_PLAYED = 0 THEN 0
+            ELSE (2*predict2.IS_BONUS_GAME +1)*(1-IS_PREDICTION_IN_DEFECT) 
+        END AS AUTOMATIC_SCORE,
         SCORE_WIN + SCORE_SHIFT + AUTOMATIC_SCORE AS SCORE,
-        2*predict2.IS_BONUS_GAME +1 As NB_PREDICTION
+        CASE
+            -- for deletion we revert back nb prediction to 0. same score if game not played
+            WHEN predict2.IS_TO_DELETE = 1 OR predict2.IS_PLAYED = 0 THEN 0
+            ELSE 2*predict2.IS_BONUS_GAME +1 
+        END AS NB_PREDICTION
     FROM prediction predict2
 )
 SELECT

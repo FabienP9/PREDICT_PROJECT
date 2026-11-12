@@ -273,8 +273,8 @@ def download_needed_files(df_paths: pd.DataFrame, sr_output_need: pd.Series) -> 
     #if we run game we download files with game flagged category
     if sr_output_need['GAME_ACTION'] in (var.GAME_ACTION_MAP['RUN']):
         download_category.extend([var.DOWNLOAD_ADDITIONAL_MAP["GAME_RUN"]]) 
-    #if we want to initiate/ calculate gameday in output, we dowwnload files we need for this
-    if sr_output_need.at['TASK_RUN'] in (var.TASK_RUN_MAP['INIT'],var.TASK_RUN_MAP['CALCULATE']):
+    #if we want to initiate/ calculate (partially or not) gameday in output, we dowwnload files we need for this
+    if sr_output_need.at['TASK_RUN'] in (var.TASK_RUN_MAP['INIT'],var.TASK_RUN_MAP['CALCULATE'],var.TASK_RUN_MAP['CALCULATE_PARTIAL']):
         download_category.extend([sr_output_need['TASK_RUN']]) 
 
     #We get list of tables which need to be updated based on possible categories

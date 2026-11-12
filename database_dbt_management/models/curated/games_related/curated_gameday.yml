@@ -87,6 +87,12 @@ models:
       - accepted_values: 
           values: [0, 1]
 
+  - name: IS_TO_CALCULATE_PARTIAL
+    description: Boolean to know if a gameday will be partially calculated in this run (1) or not (0)
+    tests:
+      - accepted_values: 
+          values: [0, 1]
+
   - name: IS_TO_DELETE
     description: Boolean to know if a gameday calculation will be deleted in this run (1) or not (0)
     tests:

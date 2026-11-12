@@ -41,7 +41,7 @@ Every gameday, players can make predictions on all games of the gameday, or a pa
         #GameDayID.ForumGameID# Team1 vs Team2 ==> +1
     ```
     The template is part of the gameday prediction template, prealably automatically posted by the software thanks to the [planned calendar of run](#calendar).  
-    An exemple (in French) can be found under GitHub directory: *file_exemples/forumoutput_inited_s2_25emejournee_france_bi.txt*    
+    An exemple (in French) can be found under GitHub directory: *file_exemples/forumoutput_inited_s1_1erejournee_france_bi.txt*    
     Team1 is considered to be the home team, Team2 is considered to be the away team by the software, even if the game is played at neutral venue.
 
 - Bonus game
@@ -51,7 +51,7 @@ Every gameday, players can make predictions on all games of the gameday, or a pa
         #GameDayID.BN# Bonus game => GameDayID.ForumGameID
     ```
     The template is also part of the gameday prediction template, prealably posted by the software thanks to the [planned calendar of run](#calendar).    
-    An exemple (in French) is also available: *file_exemples/forumoutput_inited_s2_25emejournee_france_bi.txt*  
+    An exemple (in French) is also available: *file_exemples/forumoutput_inited_s1_1erejournee_france_bi.txt*  
     The bonus will award players 3 times more points than a normal prediction
 
 - Choice of a team for the prediction championship
@@ -61,7 +61,7 @@ Every gameday, players can make predictions on all games of the gameday, or a pa
         SEASON.TM# Team for prediction championship => Chosen team
     ``` 
     The template is also part of the gameday prediction template, prealably posted by the software thanks to the [planned calendar of run](#calendar).    
-    An exemple (in French): *file_exemples/forumoutput_inited_s2_25emejournee_france_bi.txt*  
+    An exemple (in French): *file_exemples/forumoutput_inited_s1_1erejournee_france_bi.txt*  
     The deadline is defined by the software administrator with the column SEASON_TEAMCHOICE_DEADLINE of [the input required manual file season.csv](#season)
 
 ### Individual competition
@@ -71,7 +71,7 @@ Players compete individually based on the number of points earned.
 - "Good winner" score
 
     If players found the good winner, they get 15 points. Else 0.
-    The predictions odds are calculated. If less than 40% of predictors chose the winner, a bonification of (40-odd) is added to the score   
+    The predictions odds are calculated. If less than 40% of predictors chose the winner, a bonification of (40-odd) is added to the score. Ex: if odd = 35% then score is 15 + (40-35) = 20
     Their score is multiplied by 3 if it is the bonus game.
 
 - "Good score difference" score
@@ -124,13 +124,13 @@ Their individual points contribute to the chosen team, for the prediction champi
     During the competition of the regular season, games are assumed to be the same than the ones of the predicted league.   
     This is decided by the software administrator with the column IS_SAME_FOR_PREDICTCHAMP of [the input required manual file competition.csv](#competition).  
     For other competitions, depending on the ranking of the prediction championship, games might be different. For exemple for playoffs, the qualified TOP8 will almost certainly be different than the one from the predicted league.
-    In this case, the software administrator have to write manual prediction championship games in [the input required manual file predictchamp_game_to_add.csv](#predictchampgametoadd)
+    In this case, the software administrator has to write manual prediction championship games in [the input required manual file predictchamp_game_to_add.csv](#predictchampgametoadd)
 
 - Teams  points
 
     For each game:
     - A team’s score is the maximum gameday individual score among all players who selected that team.
-    - Players must have made strictly more than 25% of predictions in the season to be considered
+    - Players must have made strictly more than 15% of predictions in the season to be considered
     - The home team receives a 10% bonus.
     - If the game is at a neutral venue, the administrator may disable the home team advantage using HAS_HOME_ADV in  
     [predictchamp_game_to_add.csv](#predictchampgametoadd).
@@ -233,7 +233,7 @@ Example of each file is copied under *file_exemples/* folder
     Used to generate the graphical playoff image posted on forums.
     (See [playoffs table generation](#generateplayoffs) for details.)
     
-### Manual files required (either in global_manual_inputs - if used both in Prod and Test-  or local_manual_inputs):
+### Manual files required (either in global_manual_inputs - if the identical file is used in Prod and Test-  or local_manual_inputs in Prod and Test separately):
 They must be created and updated by the software administrator, according to the scope evolutions.
 
 - <a name="season"></a>**season.csv**: Defines the seasons included in the scope.
@@ -314,7 +314,7 @@ Defines manual prediction championship games when IS_SAME_FOR_PREDICTCHAMP = 0 f
     - **TEAM_AWAY**: The name of the away team, or second team if not in a home-away format
     - **HAS_HOME_ADV** (0/1): Boolean telling to add home bonus points when calculate results or not
 
-- **message_quote_to_keep.csv**: Some forums authorize quoting from another message. By default, the program eliminated quotes. This file defines message where quotes content should be preserved (if player predictions are in it)
+- **message_quote_to_keep.csv**: Some forums authorize quoting from another message. By default, the program eliminates quotes. This file defines message where quotes content should be preserved (if player predictions are in it)
     - **FORUM_SOURCE**: The source of the forum - same as on [topic.csv](#topic)/FORUM_SOURCE
     - **MESSAGE_FORUM_ID**: The number of the message on the forum source where to keep quote
 
@@ -327,7 +327,7 @@ Defines manual prediction championship games when IS_SAME_FOR_PREDICTCHAMP = 0 f
 - <a name="inittemplate"></a>**output_gameday_init_template_xxxx.txt**: Template for gameday initialization messages (prediction templates).  
 A version must exist for each forum language, replacing xxxx with the country
 It is personalized during run (removing parameters between __L__ for language and __F__ for forum specific formats).  
-An example of message posted based on it, is also copied in *files_example*, named *forumoutput_inited_s2_25emejournee_france_bi.txt*
+An example of message posted based on it, is also copied in *files_example*, named *forumoutput_inited_s1_1erejournee_france_bi.txt*
 
 - <a name="calculationtemplate"></a>**output_gameday_calculation_template_xxxx.txt**: Template for gameday result messages.  
 A version must exist for each forum language, replacing xxxx with the country
@@ -341,7 +341,7 @@ An example of message posted based on it, is also copied in *files_example*, nam
 Each language and forum of the scope must exist in this file otherwise, the program will raise an error.  
 
 ### Semi-automatic input files  
-The following files are downloaded, modified by the program then uploaded back to DropBox. They must be created initially with the correct headers.
+The following files are downloaded, modified by the program then uploaded back to DropBox. They must be created empty initially but with the correct headers.
 
 - **RUN_TYPE.csv**, in *current/inputs/calculated*: Store the type of run for each run, log initiation then termination of each run.  
     - **RUN_TIME_UTC**: Will store the UTC time of run
@@ -351,7 +351,7 @@ The following files are downloaded, modified by the program then uploaded back t
     - **OUTPUT_AUTO**: Will store the value of the parameter [IS_OUTPUT_AUTO](#isoutputauto)
     - **PLANNED_RUN_TIME_UTC**: Will store the utc run time [planned in the calendar](#calendar), if ran automatically
 
-- **task_done.csv**<a name="taskdone"></a>, in *current/outputs/python*: Tracks tasks already ran. The program will compare it with the [planned calendar](#calendar) to know what remains to be run, and when.
+- **task_done.csv**<a name="taskdone"></a>, in *current/outputs/python*: Tracks tasks already ran successfully. The program will compare it with the [planned calendar](#calendar) to know what remains to be run, and when.
     - **TASK_RUN**: The [type of the task](#taskrun)
     - **SEASON_ID**: The id of the season - same as on [season.csv](#season)/SEASON_ID	
     - **GAMEDAY**: The gameday name	
@@ -360,7 +360,7 @@ The following files are downloaded, modified by the program then uploaded back t
 - <a name="nextruntimeutc"></a>**next_run_time_utc.txt**, in *current/outputs/python*: Store the next run time utc according to the [planned calendar](#calendar).   
 When creating it must store the value "NONE". The calendar and its value will be updated after [adding new seasons and competitions in the scope](#addtoscope), according to new [planned calendar](#calendar)
 
-- <a name="messagecheckts"></a>**message_check_ts.csv**, in *current/outputs/python*: Stores the timestamp of the last manual message check. (messages before won't be loaded). It will be helpful for the program to know if there are [new messages to validate before running calculation](#messageaction). A row for each season must be written with a initial date:
+- <a name="messagecheckts"></a>**message_check_ts.csv**, in *current/outputs/python*: Stores the timestamp of the last message check. (messages before won't be loaded). It will be helpful for the program to know if there are [new messages to validate before running calculation](#messageaction). A row for each season must be written with a initial date:
     - **SEASON_ID**: The id of the related season - same as on [season.csv](#season)/SEASON_ID
     - **LAST_CHECK_TS_UTC**: The timestamp of the last time messages have been manually checked in UTC time  
 If the [boolean_check_message_manually](#booleancheckmessagemanually) is 0, the modification of message check ts will be automatic, else must be modified manually by the software administtrator after checking message.
@@ -424,13 +424,14 @@ During the [main run](#mainrun) or ["competition integration" run](#competitioni
 
 For each gameday of the season, the begin datetime of the first game, and the begin datetime of the last game is calculated.  
 Considering them, the view *VW_CALENDAR* (see the file *vw_calendar.sql* for more details) enables the program to know when to perform tasks for each gameday (for more details of the definition of tasks see [here](#taskrun)). 
-- TASK_RUN = 'UPDATEGAMES': planned several times before the begin datetime of the first game of the gameday to detect possible changes of date and times of games
-- TASK_RUN = 'INIT': planned at the beginning of the first game of the previous gameday - it will post the prediction template for the new gameday. If more than one gameday begin same day, both will be inited same planned time, based on the previous gameday day.
-- TASK_RUN = 'CHECK': planned at the beginning of each game, to read the latest games predictions from players
-- TASK_RUN = 'CALCULATE': planned two hours after the beginning of last game of the gameday, to perform and post calculations of predictions. If the last game is not finished yet, the extraction will return an error, and retry for the next automatic run, unless [OVERWRITE_GAMES_STATUS](#overwritegamesstatus) = 1
+- TASK_RUN = 'UPDATEGAMES': planned several times before the begin datetime eache game of the gameday
+- TASK_RUN = 'INIT': planned at the beginning of the first game of the previous gameday - it will post the prediction template for the new gameday: (ex: see file: *file_exemples/forumoutput_inited_s1_1erejournee_france_bi.txt*). If more than one gameday begin same day, both will be inited same planned time, based on the previous gameday day.
+- TASK_RUN = 'CHECK': planned at the beginning of each game, to read the latest games predictions from players in forums.
+- TASK_RUN = 'CALCULATE': planned 105 minutes after the beginning of last game of the gameday, to perform and post calculations of predictions. (ex: see file: *file_exemples/forumoutput_calculated_s1_1erejournee_france_bi.txt*) If the last game is not finished yet, the extraction will return an error, and retry for the next automatic run, unless [OVERWRITE_GAMES_STATUS](#overwritegamesstatus) = 1
+- TASK_RUN = 'CALCULATE_PARTIAL': planned 105 minutes after the beginning each game (except last) of the gameday, to perform and post partial calculations of predictions based on completed games.
 
 After updating the database without errors, the software will insert the ran task into [task_done.csv file](#taskdone).  
-It will then compare the calendar of run to it, to get what utc time will be run next, and insert it into [next_run_time_utc.txt](#nextruntimeutc).
+It will then compare the calendar of run to it, to get what utc time will be run next, and insert it into [next_run_time_utc.txt](#nextruntimeutc) and a [email with success status will be sent](#emailsent). 
     
 Next automatic run by GitHub actions (10 minutes later or so), at the very beginning of the run, the software will check if current utc time greater than the time from [#next_run_time_utc.txt](nextruntimeutc).  
 If it is not, it stops running, and [no email is sent](#emailsent). 
@@ -503,8 +504,11 @@ The program runs tasks automatically based on [the planned calendar](#calendar).
     - 'UPDATEGAMES': if combined with GAME_ACTION = 'RUN', will update details about games about the specified GAMEDAY in the database, looking for possible change in date and time
     - 'CHECK': if associated with MESSAGE_ACTION = 'CHECK', retreives messages for the software administrator validation
     - 'CALCULATE': Post GAMEDAY results message
+    - 'CALCULATE_PARTIAL': Post GAMEDAY partial results message
 
 - <a name="istocalculate"></a>IS_TO_CALCULATE: If 1, will perform calculation on the database for the desired GAMEDAY if not already done.
+
+- <a name="istocalculatepartial"></a>IS_TO_CALCULATE_PARTIAL: If 1, will perform calculation on games completed on the database for the desired GAMEDAY.
 
 - <a name="istodelete"></a>IS_TO_DELETE: If 1, will delete calculations on the database for the desired GAMEDAY (reset scores = 0)
 

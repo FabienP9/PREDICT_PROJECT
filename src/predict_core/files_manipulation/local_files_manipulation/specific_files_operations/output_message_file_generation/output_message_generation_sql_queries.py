@@ -62,7 +62,7 @@ VW_TOPIC_CALCULATE_QUERY = f'''
         AND SEASON_ID = %s;
 '''
 
-#Query to get topics where to list games
+#Query to get games on a specific gameday
 VW_GAME_QUERY = f'''
     SELECT
         GAMEDAY,
@@ -73,6 +73,7 @@ VW_GAME_QUERY = f'''
         TEAM_AWAY_NAME,
         SCORE_HOME,
         SCORE_AWAY,
+        IS_PLAYED,
         RESULT,
         DATE_GAME_LOCAL,
         TIME_GAME_LOCAL,
@@ -146,26 +147,25 @@ VW_PREDICT_GAME_QUERY = f'''
         AND GAMEDAY = %s
     ORDER BY
         lower(USER_NAME)
-    '''
+'''
 
-#Query to get global (per season) result per user
-VW_USER_SCORES_GLOBAL_QUERY = f'''
+#Query to get result per gameday per user
+VW_USER_SCORES_GAMEDAY_QUERY = f'''
     SELECT
         USER_NAME,
-        TOTAL_POINTS,
+        GAMEDAY_POINTS,
+        NB_PREDICTION_GAMEDAY,
         CAST(CASE
-            WHEN NB_GAMEDAY_PREDICT = 0 THEN 0
-            ELSE TOTAL_POINTS / NB_TOTAL_PREDICT
+            WHEN NB_PREDICTION_GAMEDAY = 0 THEN 0
+            ELSE GAMEDAY_POINTS / NB_PREDICTION_GAMEDAY
         END AS DECIMAL(10,2)) AS AVERAGE_POINTS,
-        NB_GAMEDAY_PREDICT,
-        NB_GAMEDAY_FIRST,
-        NB_TOTAL_PREDICT,
-        RANK() OVER (ORDER BY TOTAL_POINTS DESC) AS RANK
+        RANK() OVER (ORDER BY GAMEDAY_POINTS DESC) AS RANK
     FROM
-        {DATABASE}.CONSUMPTED.VW_USER_SCORES_GLOBAL
+        {DATABASE}.CONSUMPTED.VW_USER_SCORES_GAMEDAY
     WHERE
         SEASON_ID = %s
-    '''
+        AND GAMEDAY = %s
+'''
 
 #Query to get global (per season) result per user
 VW_USER_SCORES_GLOBAL_QUERY = f'''
@@ -188,34 +188,17 @@ VW_USER_SCORES_GLOBAL_QUERY = f'''
         SEASON_ID = %s
     '''
 
-#Query to get result per gameday per user
-VW_USER_SCORES_GAMEDAY_QUERY = f'''
-    SELECT
-        USER_NAME,
-        GAMEDAY_POINTS,
-        NB_PREDICTION_GAMEDAY,
-        CAST(CASE
-            WHEN NB_PREDICTION_GAMEDAY = 0 THEN 0
-            ELSE GAMEDAY_POINTS / NB_PREDICTION_GAMEDAY
-        END AS DECIMAL(10,2)) AS AVERAGE_POINTS,
-        RANK() OVER (ORDER BY GAMEDAY_POINTS DESC) AS RANK
-    FROM
-        {DATABASE}.CONSUMPTED.VW_USER_SCORES_GAMEDAY
-    WHERE
-        SEASON_ID = %s
-        AND GAMEDAY = %s
-    '''
-
-#Query to list of calculated gameday per season
+#Query to list of calculated gameday per season + the one which calculating (partially or not)
 VW_GAMEDAY_CALCULATED_QUERY = f'''
     SELECT
         GAMEDAY,
-        NB_PREDICTION
+        NB_PREDICTION_PLAYED,
+        IS_CALCULATED
     FROM
         {DATABASE}.CONSUMPTED.VW_GAMEDAY 
     WHERE
         SEASON_ID = %s
-        AND IS_CALCULATED = 1
+        AND IS_CALCULATED + IS_TO_CALCULATE_PARTIAL > 0
     ORDER BY
         END_DATE_LOCAL, END_TIME_LOCAL
     '''
@@ -316,12 +299,14 @@ VW_USER_SCORES_GAMEDAY_MVPMONTH_QUERY = f'''
 VW_GAMEDAY_CALCULATED_MVPMONTH_QUERY = f'''
     SELECT
         GAMEDAY,
-        NB_PREDICTION
+        NB_PREDICTION_PLAYED,
+        IS_CALCULATED
     FROM
         {DATABASE}.CONSUMPTED.VW_GAMEDAY 
     WHERE
         SEASON_ID = %s
         AND END_YEARMONTH_LOCAL = %s
+        AND IS_CALCULATED + IS_TO_CALCULATE_PARTIAL > 0
     ORDER BY
         END_DATE_LOCAL, END_TIME_LOCAL
     '''
@@ -350,12 +335,14 @@ VW_USER_SCORES_GAMEDAY_MVPCOMPET_QUERY = f'''
 VW_GAMEDAY_CALCULATED_MVPCOMPET_QUERY = f'''
     SELECT
         GAMEDAY,
-        NB_PREDICTION
+        NB_PREDICTION_PLAYED,
+        IS_CALCULATED
     FROM
         {DATABASE}.CONSUMPTED.VW_GAMEDAY 
     WHERE
         SEASON_ID = %s
         AND COMPETITION_LABEL = %s
+        AND IS_CALCULATED + IS_TO_CALCULATE_PARTIAL > 0
     ORDER BY
         END_DATE_LOCAL, END_TIME_LOCAL
     '''

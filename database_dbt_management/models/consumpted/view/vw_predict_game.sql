@@ -8,7 +8,8 @@
 )}}
 -- we set a static number of game to 16, because we can't run Snowflake dynamically
 -- the number of games in a gameday will always be lower.
--- when using it, the python program will cut the unnecessary games
+-- when using it, the python program will cut the unnecessary games (NULL columns).
+-- if gameday partially played, we put NULL also on games not plaayed columns
 {% set max_nb_games = 16 %}
 
 -- we get the prediction
@@ -19,6 +20,7 @@ with predict_game AS (
         SPLIT_PART(game.GAME_MESSAGE, '.', 0) AS GAMEDAY_SHORT,
         ug.POINTS,
         game.RESULT,
+        game.IS_PLAYED,
         pg.PREDICT,
         CASE 
             WHEN pg.IS_BONUS_GAME = 1 THEN '*3' 
@@ -48,7 +50,7 @@ with predict_game AS (
             ON user.USER_KEY = ug.USER_KEY
             AND gameday.GAMEDAY_KEY = ug.GAMEDAY_KEY
 )
--- we pivot the table to get users and gamedays in rows
+-- we pivot the table to get users and gamedays in rows.
 SELECT
     USER_NAME,
     GAMEDAY,
@@ -57,12 +59,12 @@ SELECT
     POINTS AS DETAILPOINTS,
     {% for i in range(1, max_nb_games + 1) %}
         {% set i2 = "{:02d}".format(i) %}
-        MAX(CASE WHEN GAME_MESSAGE_SHORT = {{ i }} THEN BONUS END) AS G{{ i2 }}_BONUS,
-        MAX(CASE WHEN GAME_MESSAGE_SHORT = {{ i }} THEN RESULT END) AS G{{ i2 }}_RESULT,
-        MAX(CASE WHEN GAME_MESSAGE_SHORT = {{ i }} THEN PREDICT END) AS G{{ i2 }}_PREDICT,
-        MAX(CASE WHEN GAME_MESSAGE_SHORT = {{ i }} THEN SCORE_WIN END) AS G{{ i2 }}_SCORE_WIN,
-        MAX(CASE WHEN GAME_MESSAGE_SHORT = {{ i }} THEN SCORE_SHIFT END) AS G{{ i2 }}_SCORE_SHIFT,
-        MAX(CASE WHEN GAME_MESSAGE_SHORT = {{ i }} THEN AUTOMATIC_SCORE END) AS G{{ i2 }}_AUTOMATIC_SCORE
+        MAX(CASE WHEN GAME_MESSAGE_SHORT = {{ i }} AND IS_PLAYED = 1 THEN BONUS END) AS G{{ i2 }}_BONUS,
+        MAX(CASE WHEN GAME_MESSAGE_SHORT = {{ i }} AND IS_PLAYED = 1 THEN RESULT END) AS G{{ i2 }}_RESULT,
+        MAX(CASE WHEN GAME_MESSAGE_SHORT = {{ i }} AND IS_PLAYED = 1 THEN PREDICT END) AS G{{ i2 }}_PREDICT,
+        MAX(CASE WHEN GAME_MESSAGE_SHORT = {{ i }} AND IS_PLAYED = 1 THEN SCORE_WIN END) AS G{{ i2 }}_SCORE_WIN,
+        MAX(CASE WHEN GAME_MESSAGE_SHORT = {{ i }} AND IS_PLAYED = 1 THEN SCORE_SHIFT END) AS G{{ i2 }}_SCORE_SHIFT,
+        MAX(CASE WHEN GAME_MESSAGE_SHORT = {{ i }} AND IS_PLAYED = 1 THEN AUTOMATIC_SCORE END) AS G{{ i2 }}_AUTOMATIC_SCORE
         {% if not loop.last %},{% endif %}
     {% endfor %}
 FROM 

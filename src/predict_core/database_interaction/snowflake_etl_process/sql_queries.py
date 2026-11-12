@@ -21,6 +21,7 @@ CALENDAR_QUERY = f"""
         TS_TASK_LOCAL,
         IS_TO_INIT,
         IS_TO_CALCULATE,
+        IS_TO_CALCULATE_PARTIAL,
         IS_TO_DELETE,
         IS_TO_RECALCULATE,
         MESSAGE_ACTION,

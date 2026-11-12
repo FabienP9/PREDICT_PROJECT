@@ -1,55 +1,63 @@
 |0|#MESSAGE_PREFIX_PROGRAM_STRING#|2|
 
 
-|0|__F__centerbegin__F____F__boldbegin__F____F__sizeverybigbegin__F____F__openingsmiley__F__ Ouverture - #GAMEDAY_OPENING#__F__sizeverybigend__F____F__boldend__F__ __F__openingsmiley__F__|1|
+|0|__F__centerbegin__F____F__smiley_opening__F____F__boldbegin__F____F__sizeverybigbegin__F__ Ouverture - #GAMEDAY_OPENING#__F__sizeverybigend__F____F__boldend__F__ __F__smiley_opening__F__|1|
 |0|__F__boldbegin__F____F__sizebigbegin__F__1er match : #FIRSTGAMETIME_OPENING#__F__sizebigend__F____F__boldend__F____F__centerend__F__|3|
 
 
 
 
-|0|__F__underlinebegin__F__Trame pour pronostics__F__underlineend__F__|1|
-|0| Vous pouvez copier-coller les matchs que vous voulez pronostiquer et les remplacer par vos choix __F__wink__F__|2|
+|0|__F__sizebigbegin__F____F__boldbegin__F__Ouverture - #GAMEDAY_OPENING#__F__boldend__F____F__sizebigend__F__|2|
 
 
-|0|"__F__boldbegin__F__|1|
+|0|__F__underlinebegin__F__Trame pour pronostics - #GAMEDAY_OPENING# __F__underlineend__F__|1|
+|0| Copiez-collez les matchs que vous voulez pronostiquer puis remplacez par vos choix. __F__smiley_predictchoice__F__|2|
+
+
+|0|__F__quote2begin__F__|1|
 |0|#LIST_GAMES_OPENING#|1|
-|0|__F__boldend__F__"|2|
+|0|__F__quote2end__F__|2|
 
 
-|0|Pour que votre choix soit valide il doit être publié avant le début du match qu'il concerne (voir le calendrier de la journée ci-dessous) __F__warning__F__ |1|
-|0|Pour que votre choix soit lu automatiquement et ainsi gagner un léger bonus (cf « score de l’automatisation ») merci de :|1|
-|0|1/ __F__boldbegin__F__ conserver l'identifiant associé (entre "#")__F__boldend__F__|1|
-|0|2/ indiquer votre choix __F__boldbegin__F__après la flèche "==>" __F__boldend__F____F__italicend__F__|2|
+|0|__F__boldbegin__F__Indispensable__F__boldend__F____F__smiley_predictneed__F__: Vous pouvez diviser la trame et publier à différents moments... mais il est indispensable de publier un choix (ou modifier le message le contenant) __F__boldbegin__F__avant le début du match correspondant __F__boldend__F__ (voir le calendrier de la journée ci-dessous). |1|
+|0|__F__boldbegin__F__Important__F__boldend__F__: Pour obtenir le score de l'automatisation (1pt par prono) __F__smiley_predictauto__F__ |1|
+|0|1/ __F__boldbegin__F__ conservez l'identifiant associé (entre "#")__F__boldend__F__|1|
+|0|2/ indiquez votre choix __F__boldbegin__F__après la flèche "==>" __F__boldend__F__|2|
 
 
-|0|__F__underlinebegin__F__Calendrier de la journée (à date)__F__underlineend__F__|1|
-|0|#CALENDAR_GAMES_OPENING#|0|
+|0|__F__underlinebegin__F__Calendrier de la journée (à date) - #GAMEDAY_OPENING# __F__underlineend__F__|1|
+|0|__F__quote1begin__F__#CALENDAR_GAMES_OPENING#__F__quote1end__F__|0|
+
+
 
 
 #USER_CAN_CHOOSE_TEAM_FOR_PREDICTCHAMP_BEGIN#
-|2|__F__underlinebegin__F__Choix d'une équipe pour le championnat de pronostics__F__underlineend__F__|1|
-|0|Vous pouvez choisir / changer votre équipe préférée pour le championnat de pronostics jusqu'au début de la phase retour en (ré)indiquant la ligne avec votre (nouvelle) équipe. Elle sera prise en compte pour toutes les journées jusqu'à la fin de saison. __F__enjoyment__F__|1|
-|0|Voici la ligne à indiquer:|1|
-|0|"__F__boldbegin__F__|1|
-|0|#SEASON.TM# Equipe - Championnat de pronostics ==> __F__italicbegin__F__votre équipe__F__italicend__F__|1|
-|0|__F__boldend__F__"|0|
+|3|__F__sizebigbegin__F____F__boldbegin__F__Choix d'une équipe pour le championnat de pronostics__F__boldend__F____F__sizebigend__F__|1|
+|0|Voici la ligne à indiquer pour soutenir votre équipe préférée. __F__smiley_teamchoice__F__ Inutile de la réécrire sì déjà postée (sauf si modification, acceptée jusqu'au 1er match de la phase retour). __F__smiley_teamneed__F__|1|
+|0|__F__quote2begin__F__|1|
+|0|#SEASON.TM# Equipe - Championnat de pronostics ==> votre équipe |1|
+|0|__F__quote2end__F__|0|
 #USER_CAN_CHOOSE_TEAM_FOR_PREDICTCHAMP_END#
 
 
+
+
 #REMAINING_GAMES_BEGIN#
-|2|__F__underlinebegin__F__Journée(s) encore partiellement ouverte(s)__F__underlineend__F__|1|
+|3|__F__sizebigbegin__F____F__boldbegin__F__Journée(s) encore partiellement ouverte(s)__F__boldend__F____F__sizebigend__F__|2|
+
+
 |0|A date, la/les journée(s) __F__boldbegin__F__ #LIST_GAMEDAYS_OPENED# __F__boldend__F__ reste(nt) partiellement ouverte(s): les matchs suivants n'ont pas été joués.|1|
-|0|Vous pouvez encore réaliser ou modifier vos pronos sur les matchs que vous souhaitez parmi cette liste, jusqu'à leur début (voir le calendrier des matchs ci-dessous). __F__smallsmile__F__|2|
-|0|"__F__boldbegin__F__|1|
-|0|#LIST_GAMES_OPENED#|1|
-|0|__F__boldend__F__"|2|
+|0|Réalisez ou modifiez vos pronos sur les matchs que vous souhaitez parmi cette liste, jusqu'à leur début. __F__smiley_opened__F__|0|
 
 
-|0|__F__underlinebegin__F__Calendrier de(s) journée(s) encore partiellement ouverte(s) (à date)__F__underlineend__F__|1|
-|0|#CALENDAR_GAMES_OPENED#|0|
+|1|#DETAILS_OPENED_GAMES#|0|
 #REMAINING_GAMES_END#
 
+
+
+
 #NEXT_OPENING_BEGIN#
-|2|__F__underlinebegin__F__Calendrier des prochaines ouvertures de journées (à date dans la base de données)__F__underlineend__F__|1|
-|0|#CALENDAR_NEXT_OPENING#|0|
+|3|__F__sizebigbegin__F____F__boldbegin__F__Prochaines ouvertures de journées__F__boldend__F____F__sizebigend__F__|2|
+|0|__F__underlinebegin__F__Calendrier (à date)__F__underlineend__F__|1|
+|0|__F__quote1begin__F__#CALENDAR_NEXT_OPENING#__F__quote1end__F__|0|
 #NEXT_OPENING_END#

@@ -11,7 +11,7 @@
     Foreign Key:
         SEASON_KEY: from curated
     Filter:
-        Only user related with season on which the gameday is the action (IS_TO_DELETE or IS_TO_CALCULATE)
+        Only user related with season on which the gameday is the action (IS_TO_DELETE or IS_TO_CALCULATE or IS_TO_CALCULATE_PARTIAL)
     Materialization:
         incremental to avoid removing old calculations */
 
@@ -34,7 +34,7 @@ with user as (
     JOIN
         {{ref('consumpted_gameday')}} gameday
         ON season.SEASON_KEY = gameday.SEASON_KEY
-        AND gameday.IS_TO_CALCULATE + gameday.IS_TO_DELETE > 0
+        AND gameday.IS_TO_CALCULATE + gameday.IS_TO_CALCULATE_PARTIAL + gameday.IS_TO_DELETE > 0
 ),
 -- we merge with consumpted_user_gameday to get features
 user_gameday as (
@@ -80,15 +80,15 @@ figures as (
         ug2.USER_NAME,
         ug2.SEASON_KEY
 ),
--- we get the number of predictions total in the season
+-- we get the number of predictions played in the season
 nb_predictions_total as (
     SELECT
         gameday.SEASON_KEY,
-        SUM(gameday.NB_PREDICTION) AS NB_PREDICTION_TOTAL
+        SUM(gameday.NB_PREDICTION_PLAYED) AS NB_PREDICTION_TOTAL
     FROM
         {{ref('consumpted_gameday')}} gameday
     WHERE
-        gameday.IS_CALCULATED = 1
+        gameday.IS_CALCULATED + gameday.IS_TO_CALCULATE_PARTIAL > 0 
     GROUP BY
         gameday.SEASON_KEY
 ),

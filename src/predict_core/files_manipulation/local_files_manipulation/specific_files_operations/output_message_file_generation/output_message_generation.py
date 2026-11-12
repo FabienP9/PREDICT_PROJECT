@@ -387,7 +387,7 @@ def generate_output_message(context_dict: dict):
     if len(df_gameday) > 0 and sr_output_need['TASK_RUN']  == var.TASK_RUN_MAP["INIT"]:
         has_to_post_inited_message = True
     
-    if len(df_gameday) > 0 and sr_output_need['TASK_RUN']  == var.TASK_RUN_MAP["CALCULATE"]:
+    if len(df_gameday) > 0 and sr_output_need['TASK_RUN']  in (var.TASK_RUN_MAP["CALCULATE"],var.TASK_RUN_MAP["CALCULATE_PARTIAL"]):
         has_to_post_calculated_message = True
 
     if len(df_gameday) > 0:
@@ -399,4 +399,9 @@ def generate_output_message(context_dict: dict):
         return output_i.process_output_message_inited(context_dict,df_gameday.iloc[0])
 
     if has_to_post_calculated_message:
-       return output_c.process_output_message_calculated(context_dict,df_gameday.iloc[0])
+        # we forward if it is partial calculation or not.
+        if sr_output_need['TASK_RUN']  == var.TASK_RUN_MAP["CALCULATE_PARTIAL"]:
+           is_partial = 1
+        else:
+           is_partial = 0
+        return output_c.process_output_message_calculated(context_dict,df_gameday.iloc[0], is_partial)

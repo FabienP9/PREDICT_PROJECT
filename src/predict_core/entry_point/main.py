@@ -150,7 +150,7 @@ def main():
     
     #We create the output_need file - The next algorithm of run depends on its values
     context_dict['sr_output_need'] = output_need_calculation.generate_output_need(context_dict)
-    
+        
     # we download additional files according to the value of MESSAGE_ACTION and GAME_ACTION
     context_dict.update(dropbox.download_needed_files(context_dict['df_paths'], context_dict['sr_output_need']))
     
@@ -171,9 +171,10 @@ def main():
     # The new added games or just ran task may have change the calendar of run
     context_dict['str_next_run_time_utc'] = tasks_calendar_management.update_calendar_related_files(called_by, context_dict['sr_snowflake_account_connect'], context_dict['df_task_done'], context_dict['sr_output_need'])
 
-    if context_dict['sr_output_need']['TASK_RUN'] in (var.TASK_RUN_MAP["INIT"],var.TASK_RUN_MAP["CALCULATE"]):
+    # we generate output message and post it if the task is to init or is to calculate (partially or not)
+    if context_dict['sr_output_need']['TASK_RUN'] in (var.TASK_RUN_MAP["INIT"],var.TASK_RUN_MAP["CALCULATE"],var.TASK_RUN_MAP["CALCULATE_PARTIAL"]):
         output_param_dict, df_topics = output_message_generation.generate_output_message(context_dict)
-
+    
         # we post messages for each concerned topics
         posting_args = [(df_topics.iloc[i].to_dict(), 
                          output_param_dict[f"MESSAGE_{df_topics.iloc[i]['FORUM_COUNTRY']}_{df_topics.iloc[i]['FORUM_SOURCE']}"])

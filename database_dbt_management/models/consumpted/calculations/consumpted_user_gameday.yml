@@ -30,8 +30,8 @@ models:
           to_model: ref('consumpted_season')
           to_column: SEASON_KEY
 
-  - name: NB_GAME
-    description: The number of games in the gameday
+  - name: NB_GAME_PLAYED
+    description: The number of games played in the gameday
     tests:
       - is_integer
 

@@ -14,7 +14,7 @@
         TEAM_HOME_KEY: from curated
         TEAM_AWAY_KEY: from curated
     Filter:
-        Only games related to the gameday with action (IS_TO_DELETE or IS_TO_CALCULATE)
+        Only games related to the gameday with action (IS_TO_DELETE or IS_TO_CALCULATE or IS_TO_CALCULATE_PARTIAL)
     Materialization:
         incremental to avoid removing old calculations */
 {{config(
@@ -43,7 +43,7 @@ with game as (
     JOIN
         {{ref('consumpted_gameday')}} gameday
         ON game.GAMEDAY_KEY = gameday.GAMEDAY_KEY
-        AND gameday.IS_TO_CALCULATE + gameday.IS_TO_DELETE > 0
+        AND gameday.IS_TO_CALCULATE + gameday.IS_TO_CALCULATE_PARTIAL + gameday.IS_TO_DELETE > 0
 ),
 --we extract max of team points for gameday with action
 team_points as (
@@ -56,7 +56,7 @@ team_points as (
     JOIN
         {{ref('consumpted_gameday')}} gameday
         ON ug.GAMEDAY_KEY = gameday.GAMEDAY_KEY
-        AND gameday.IS_TO_CALCULATE + gameday.IS_TO_DELETE > 0
+        AND gameday.IS_TO_CALCULATE + gameday.IS_TO_CALCULATE_PARTIAL + gameday.IS_TO_DELETE > 0
     JOIN
         {{ref('consumpted_user')}} user
         ON user.USER_KEY = ug.USER_KEY

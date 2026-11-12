@@ -65,6 +65,7 @@ def calculate_output_need_from_manual(sr_snowflake_account: pd.Series, sr_output
         'TS_TASK_LOCAL': df_calendar.loc[closest_row_idx, 'TS_TASK_LOCAL'],
         'IS_TO_INIT': sr_output_need_manual['IS_TO_INIT'],
         'IS_TO_CALCULATE': sr_output_need_manual['IS_TO_CALCULATE'],
+        'IS_TO_CALCULATE_PARTIAL': sr_output_need_manual['IS_TO_CALCULATE_PARTIAL'],
         'IS_TO_DELETE': sr_output_need_manual['IS_TO_DELETE'],
         'IS_TO_RECALCULATE': sr_output_need_manual['IS_TO_RECALCULATE'],
         'MESSAGE_ACTION': sr_output_need_manual['MESSAGE_ACTION'],
@@ -173,6 +174,7 @@ def set_output_need_to_check_status(sr_output_need: pd.Series) -> pd.Series:
     sr_output_need['MESSAGE_ACTION'] = var.MESSAGE_ACTION_MAP["CHECK"]
     sr_output_need['GAME_ACTION'] = var.GAME_ACTION_MAP["AVOID"]
     sr_output_need['IS_TO_CALCULATE'] = 0
+    sr_output_need['IS_TO_CALCULATE_PARTIAL'] = 0
     sr_output_need['IS_TO_DELETE'] = 0
     sr_output_need['IS_TO_RECALCULATE'] = 0
 

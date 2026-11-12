@@ -154,6 +154,7 @@ def test_create_message(read_csv,read_txt, read_json):
          patch.object(output_message_inited_generation.files_manipulation,"create_txt"):
         
         content, country, forum = output_message_inited_generation.create_message(param_dict, template, translations, country, forum, sr_gameday_output_init)
+
         assert content.split() == expected_result.split()
         assert country == "FRANCE"
         assert forum == 'BI'

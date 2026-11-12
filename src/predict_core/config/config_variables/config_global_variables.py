@@ -66,7 +66,9 @@ DATABASE_RUN_CATEGORY_MAP = {
     "MESSAGE_CHECK": "MESSAGE_CHECK",
     "MESSAGE_RUN": "MESSAGE_RUN",
     "GAME_RUN": "GAME_RUN",
-    "CALCULATION": "CALCULATION"
+    "CALCULATION": "CALCULATION",
+    # if we calculate partially we need to run same tables than if we calculate completely
+    "CALCULATION_PARTIAL": "CALCULATION"
 }
 
 CALLER = {
@@ -91,6 +93,7 @@ TASK_RUN_MAP = {
     "UPDATEGAMES": "UPDATEGAMES",
     "CHECK": "CHECK",
     "CALCULATE": "CALCULATE",
+    "CALCULATE_PARTIAL": "CALCULATE_PARTIAL",
     "INIT": "INIT"
 }
 

@@ -135,6 +135,7 @@ need as (
         need.GAMEDAY,
         need.IS_TO_INIT,
         need.IS_TO_CALCULATE,
+        need.IS_TO_CALCULATE_PARTIAL,
         need.IS_TO_DELETE,
         need.IS_TO_RECALCULATE
     FROM
@@ -147,6 +148,7 @@ need_with_key as (
         need2.GAMEDAY,
         need2.IS_TO_INIT,
         need2.IS_TO_CALCULATE,
+        need2.IS_TO_CALCULATE_PARTIAL,
         need2.IS_TO_DELETE,
         need2.IS_TO_RECALCULATE
     FROM
@@ -176,6 +178,7 @@ gameday_with_need as (
         gameday.END_TIME_UTC,
         COALESCE(need_key.IS_TO_INIT,0) AS IS_TO_INIT,
         COALESCE(need_key.IS_TO_CALCULATE,0) AS IS_TO_CALCULATE,
+        COALESCE(need_key.IS_TO_CALCULATE_PARTIAL,0) AS IS_TO_CALCULATE_PARTIAL,
         COALESCE(need_key.IS_TO_DELETE,0) AS IS_TO_DELETE,
         COALESCE(need_key.IS_TO_RECALCULATE,0) AS IS_TO_RECALCULATE
     FROM
@@ -218,7 +221,8 @@ gameday_with_need as (
         gameday_need.GAMEDAY_KEY IS NOT NULL
     OR
         -- ...which were previously run action (we reset actions columns if it is not the same currently run)
-        this.IS_TO_INIT + this.IS_TO_CALCULATE + this.IS_TO_DELETE + this.IS_TO_RECALCULATE > 0
+        this.IS_TO_INIT + this.IS_TO_CALCULATE + this.IS_TO_CALCULATE_PARTIAL 
+        + this.IS_TO_DELETE + this.IS_TO_RECALCULATE > 0
 ),
 -- we get last gameday cte (gameday_utc) and this_filtered in a full join. 
 -- when date and time  are null: for (partially) played, it will be replaced by the current version 
@@ -243,6 +247,7 @@ gameday_with_this as (
         -- if it is the last run gameday, we set default to 0, unless we have it in gameday_with_need
         COALESCE(gameday2.IS_TO_INIT,0) AS IS_TO_INIT,
         COALESCE(gameday2.IS_TO_CALCULATE,0) AS IS_TO_CALCULATE,
+        COALESCE(gameday2.IS_TO_CALCULATE_PARTIAL,0) AS IS_TO_CALCULATE_PARTIAL,
         COALESCE(gameday2.IS_TO_DELETE,0) AS IS_TO_DELETE,
         COALESCE(gameday2.IS_TO_RECALCULATE,0) AS IS_TO_RECALCULATE
     FROM
@@ -272,6 +277,7 @@ SELECT
     final_gameday.END_TIME_UTC,
     final_gameday.IS_TO_INIT,
     final_gameday.IS_TO_CALCULATE,
+    final_gameday.IS_TO_CALCULATE_PARTIAL,
     final_gameday.IS_TO_DELETE,
     final_gameday.IS_TO_RECALCULATE,
     {{updated_at_fields()}}

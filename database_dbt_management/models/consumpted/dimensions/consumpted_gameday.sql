@@ -10,7 +10,7 @@
         SEASON_KEY: from curated
         COMPETITION_KEY: from curated
     Filter:
-        Only new gamedays or gamedays whose status flags (calculate, delete, recalculate) require action since last run
+        Only new gamedays or gamedays whose status flags (calculate, calculate_partial, delete, recalculate) require action since last run
     Materialization:
         incremental to avoid removing old gamedays already in
 */
@@ -47,11 +47,12 @@ with gameday as (
         gameday.END_TIME_UTC,
         gameday.IS_TO_INIT,
         gameday.IS_TO_CALCULATE,
+        gameday.IS_TO_CALCULATE_PARTIAL,
         gameday.IS_TO_DELETE,
         gameday.IS_TO_RECALCULATE,
         gameday.IS_TO_INIT AS IS_OUTPUT_INIT,
         CASE
-            WHEN gameday.IS_TO_CALCULATE + gameday.IS_TO_DELETE + gameday.IS_TO_RECALCULATE > 0 THEN 1
+            WHEN gameday.IS_TO_CALCULATE + gameday.IS_TO_DELETE + gameday.IS_TO_RECALCULATE + gameday.IS_TO_CALCULATE_PARTIAL > 0 THEN 1
             ELSE 0
         END AS IS_OUTPUT_CALCULATION
     FROM
@@ -60,16 +61,17 @@ with gameday as (
     WHERE UPDATED_AT_UTC > '{{ max_updated_at }}'
     {% endif %}
 ),
--- we get the number of games
+-- we get the number of games played
 gameday_nbgame as (
     SELECT
         gameday2.GAMEDAY_KEY,
-        COALESCE(COUNT(game.GAMEDAY_KEY),0) AS NB_GAME
+        COALESCE(COUNT(game.GAMEDAY_KEY),0) AS NB_GAME_PLAYED
     FROM
         gameday gameday2
     LEFT JOIN
         {{ref('curated_game')}} game
         ON game.GAMEDAY_KEY = gameday2.GAMEDAY_KEY
+        AND game.IS_PLAYED = 1
     GROUP BY
         gameday2.GAMEDAY_KEY
 ),
@@ -82,7 +84,7 @@ final_gameday as (
         gameday3.COMPETITION_SOURCE_ID,
         gameday3.GAMEDAY,
         gameday3.GAMEDAY_MESSAGE,
-        gameday_nbgame.NB_GAME,
+        gameday_nbgame.NB_GAME_PLAYED,
         gameday3.IS_PLAYED,
         gameday3.IS_PARTIALLY_PLAYED,
         gameday3.BEGIN_DATE_LOCAL,
@@ -107,6 +109,14 @@ final_gameday as (
                 -- else we don't calculate it
                 ELSE 0
             END AS IS_TO_CALCULATE,
+            CASE
+                -- if partially played and we want to calculate and gameday doesn't exist yet in table, then we will calculate it
+                WHEN this.GAMEDAY_KEY IS NULL AND gameday3.IS_PARTIALLY_PLAYED AND gameday3.IS_TO_CALCULATE_PARTIAL = 1 THEN 1
+                -- if partially played and we want to calculate and it is not already calculated, then we will calculate it
+                WHEN this.IS_CALCULATED = 0 AND gameday3.IS_PARTIALLY_PLAYED AND gameday3.IS_TO_CALCULATE_PARTIAL = 1 THEN 1
+                -- else we don't calculate it
+                ELSE 0
+            END AS IS_TO_CALCULATE_PARTIAL,
             -- if the gameday is not calculated, no need to delete it
             CASE
                 WHEN gameday3.IS_TO_DELETE = 1 AND this.IS_CALCULATED = 1 THEN 1
@@ -126,6 +136,7 @@ final_gameday as (
             END AS IS_CALCULATED,
         {% else %}
             gameday3.IS_TO_CALCULATE,
+            gameday3.IS_TO_CALCULATE_PARTIAL,
             0 AS IS_TO_DELETE,
             gameday3.IS_TO_CALCULATE AS IS_CALCULATED,
         {% endif %}
@@ -145,8 +156,8 @@ SELECT
     final_gameday.COMPETITION_SOURCE_ID,
     final_gameday.GAMEDAY,
     final_gameday.GAMEDAY_MESSAGE,
-    final_gameday.NB_GAME,
-    final_gameday.NB_GAME + 2 AS NB_PREDICTION,
+    final_gameday.NB_GAME_PLAYED,
+    final_gameday.NB_GAME_PLAYED + 2 AS NB_PREDICTION_PLAYED,
     final_gameday.IS_PLAYED,
     final_gameday.IS_PARTIALLY_PLAYED,
     final_gameday.BEGIN_DATE_LOCAL,
@@ -158,6 +169,7 @@ SELECT
     final_gameday.END_DATE_UTC,
     final_gameday.END_TIME_UTC,
     final_gameday.IS_TO_CALCULATE,
+    final_gameday.IS_TO_CALCULATE_PARTIAL,
     final_gameday.IS_TO_DELETE,
     final_gameday.IS_CALCULATED,
     final_gameday.IS_OUTPUT_INIT,

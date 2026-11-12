@@ -6,6 +6,7 @@ import os
 import requests
 import pandas as pd
 from zoneinfo import ZoneInfo
+from ...config.config_variables import config_global_variables as var
 from ...config import config_decorators
 
 @config_decorators.exit_program(log_filter=lambda args: dict(args))
@@ -92,7 +93,7 @@ def extract_nested_teams_scores(teams_scores: list, index: int, field) -> str | 
     return teams_scores[index].get(field)
 
 @config_decorators.exit_program(log_filter=lambda args: dict(args))
-def get_game_details_lnb(competition_source_id: int, season_division_number: int, season_name: str, gameday: str | None= None, sr_games_to_extract: pd.Series | None = None) -> pd.DataFrame:
+def get_game_details_lnb(competition_source_id: int, season_division_number: int, season_name: str, gameday: str | None= None, sr_games_to_extract: pd.Series | None = None, task_run: str | None = None) -> pd.DataFrame:
 
     """
         Gets all games details from a competition coming from LNB website, managed in JSON, possibly filtered by gameday
@@ -102,6 +103,7 @@ def get_game_details_lnb(competition_source_id: int, season_division_number: int
             season_name (str): used to filter the request sent to LNB website
             gameday (str): if given, filter the result on this gameday
             sr_games_to_extract (pandas dataframe): if given, filter the result on these games id
+            task_run (string): if given, if CALCULATE_PARTIAL, will accept not finished games yet and reset them
         Returns:
             the dataframe corresponding to all games details extracted from this competition and possibly gamedays
         Raises:
@@ -167,12 +169,24 @@ def get_game_details_lnb(competition_source_id: int, season_division_number: int
         df_game_subset = get_games_subset(iteration,session,payload, anchor_game_id)
     
     df_game = df_game[df_game["COMPETITION_SOURCE_ID"] == competition_source_id].reset_index(drop=True)
+    # if gameday is given we filter on it
     if gameday is not None:
         df_game = df_game[df_game["GAMEDAY"] == gameday].reset_index(drop=True)
+    # if sr_games_to_extract is given we filter on these specific games
     if sr_games_to_extract is not None:
         df_game = df_game[df_game["GAME_SOURCE_ID"].astype(str).isin(sr_games_to_extract.values.astype(str))]
-    if not df_game['STATUS'].isin(['SCHEDULED','COMPLETE']).all() and os.getenv('OVERWRITE_GAMES_STATUS') == 0:
+
+    # If games are not finished or not started, the default behaviour is to return an error so the task can be rerun few minutes later
+    # except if we explicitely overwrite the status or we are calculating partially (ongoing games are allowed)
+    if (not df_game['STATUS'].isin(['SCHEDULED','COMPLETE']).all()) \
+        and (os.getenv('OVERWRITE_GAMES_STATUS') == '0') \
+        and (var.TASK_RUN_MAP.get('CALCULATE_PARTIAL') != task_run):
         raise ValueError("At least one game is in progress or unknow status- retry extraction later")
+    # if we calculate partially, we modify ongoing games so that they seems like not played yet
+    elif (var.TASK_RUN_MAP.get('CALCULATE_PARTIAL') == task_run):
+        df_game.loc[~df_game['STATUS'].isin(['SCHEDULED', 'COMPLETE']), 'SCORE_HOME'] = 0
+        df_game.loc[~df_game['STATUS'].isin(['SCHEDULED', 'COMPLETE']), 'SCORE_AWAY'] = 0
     df_game = df_game[(df_game['TEAM_HOME'].notna()) & (df_game['TEAM_AWAY'].notna())]  
     df_game = df_game[list_columns].reset_index(drop=True)
+
     return df_game

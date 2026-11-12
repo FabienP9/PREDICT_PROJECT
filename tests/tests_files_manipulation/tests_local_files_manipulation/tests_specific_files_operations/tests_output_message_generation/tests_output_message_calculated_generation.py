@@ -16,19 +16,37 @@ def test_get_games_result(read_csv, read_txt):
 
     s = output_message_calculated_generation.get_games_result(df_games, sr_gameday_output_calculate)
     s_expected = read_txt("output_message_calculated_games_result.txt")
-    print (s)
     assert s == s_expected
 
-def test_get_games_odds(read_csv, read_txt):
+def test_get_games_result_notplayed(read_csv, read_txt):
 
-    # this test the function get_games_result   
+    # this test the function get_games_result with a game not played  
     sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
+    df_games = read_csv("q_vw_game_query_notplayed.csv")
+
+    s = output_message_calculated_generation.get_games_result(df_games, sr_gameday_output_calculate)
+    s_expected = read_txt("output_message_calculated_games_result_notplayed.txt")
+    assert s == s_expected
+
+def test_get_games_odds_played(read_csv, read_txt):
+
+    # this test the function get_games_odds_played
     df_games = read_csv("q_vw_game_query.csv")
 
-    s = output_message_calculated_generation.get_games_odds(df_games, sr_gameday_output_calculate)
+    s = output_message_calculated_generation.get_games_odds_played(df_games)
     s_expected = read_txt("output_message_calculated_games_odds.txt")
         
     assert s == s_expected
+
+def test_get_games_odds_notplayed(read_csv, read_txt):
+
+    # this test the function get_games_odds_played
+    df_games = read_csv("q_vw_game_query_notplayed.csv")
+
+    s = output_message_calculated_generation.get_games_odds_played(df_games)
+    s_expected = read_txt("output_message_calculated_games_odds_notplayed.txt")
+    assert s == s_expected
+
 
 def test_get_scores_detailed(read_yml_as_serie, read_csv):
 
@@ -210,6 +228,7 @@ def test_get_parameters(read_yml_as_serie, read_csv, read_txt):
     mock_df_games = read_csv("q_vw_game_query.csv")
     mock_str_games_result = read_txt("output_message_calculated_games_result.txt")
     mock_str_games_odds = read_txt("output_message_calculated_games_odds.txt")
+    mock_str_games_odds_notplayed = read_txt("output_message_calculated_games_odds_notplayed.txt")
     mock_df_predict_games = read_csv("output_message_calculated_scores_details.csv", header=[0, 1],keep_default_na=False,na_filter=False)
     mock_df_userscores_global = read_csv("q_vw_user_scores_global_query.csv")
     mock_df_scores_global = read_csv("output_message_calculated_scores_global.csv")
@@ -227,7 +246,8 @@ def test_get_parameters(read_yml_as_serie, read_csv, read_txt):
     mock_str_mvp_compet_gameday = read_txt("output_message_calculated_list_gameday_with_predict.txt")
     
     with patch.object(output_message_calculated_generation,"get_games_result", return_value=(mock_str_games_result)), \
-         patch.object(output_message_calculated_generation,"get_games_odds", return_value=(mock_str_games_odds)), \
+         patch.object(output_message_calculated_generation,"get_games_odds_played", return_value=(mock_str_games_odds)), \
+         patch.object(output_message_calculated_generation,"get_games_odds_not_played", return_value=(mock_str_games_odds_notplayed)), \
          patch.object(output_message_calculated_generation,"get_scores_detailed", return_value=(mock_df_predict_games, 2)), \
          patch.object(output_message_calculated_generation,"snowflake_execute", side_effect=[mock_df_games,mock_df_userscores_global, mock_df_list_gameday, mock_df_gamepredictchamp]), \
          patch.object(output_message_calculated_generation,"get_scores_global", return_value=(mock_df_scores_global, 2)), \
@@ -276,7 +296,8 @@ def test_create_message(read_txt, read_json, read_csv):
         "GAMEDAY": "1ere journee",
         "SEASON_DIVISION": "PROB",
         "RESULT_GAMES": read_txt("output_message_calculated_games_result.txt"),
-        "GAMES_ODDS": read_txt("output_message_calculated_games_odds.txt"),
+        "GAMES_ODDS_PLAYED": read_txt("output_message_calculated_games_odds.txt"),
+        "GAMES_ODDS_NOTPLAYED": "",
         "NB_GAMEDAY_CALCULATED": 3,
         "NB_MAX_PREDICT": 8,
         "NB_TOTAL_PREDICT": 66,
@@ -320,10 +341,69 @@ def test_create_message(read_txt, read_json, read_csv):
          patch.object(output_message_calculated_generation.files_manipulation,"create_txt"):
 
           
-        content, country, forum = output_message_calculated_generation.create_message(param_dict, template, translations, country, forum, sr_gameday_output_calculate)
+        content, country, forum = output_message_calculated_generation.create_message(param_dict, template, translations, country, forum, sr_gameday_output_calculate, 0)
         assert content.split() == expected_result.split()
         assert country == "FRANCE"
         assert forum == 'BI'
+
+def test_create_message_partial(read_txt, read_json, read_csv):
+    
+    # this test the function create_messages_for_country with all parameters for partial calculation
+    param_dict = {
+        "GAMEDAY": "1ere journee",
+        "SEASON_DIVISION": "PROB",
+        "RESULT_GAMES": read_txt("output_message_calculated_games_result_notplayed.txt"),
+        "GAMES_ODDS_PLAYED": read_txt("output_message_calculated_games_odds.txt"),
+        "GAMES_ODDS_NOTPLAYED": read_txt("output_message_calculated_games_odds_notplayed.txt"),
+        "NB_GAMEDAY_CALCULATED": 3,
+        "NB_MAX_PREDICT": 8,
+        "NB_TOTAL_PREDICT": 66,
+        "LIST_GAMEDAY_CALCULATED": read_txt("output_message_calculated_list_gameday.txt"),
+        "NB_USER_DETAIL": 2,
+        "SCORES_GAMEDAY_DF_URL_FRANCE_BI": "url_gameday",
+        "SCORES_DETAILED_DF_URL_FRANCE_BI": "url_detail",
+        "NB_GAMES": 2,
+        "NB_CORRECTION": 2,
+        "LIST_CORRECTION": read_txt("output_message_calculated_correction.txt"),
+        "NB_USER_GLOBAL": 2,
+        "SCORES_GLOBAL_DF_URL_FRANCE_BI": "url_global",
+        "NB_USER_AVERAGE": 1,
+        "NB_MIN_PREDICTION": 33,
+        "NB_MIN_PREDICTION_PREDICTCHAMP": 10,
+        "SCORES_AVERAGE": read_txt("output_message_calculated_scores_average.txt"),
+        "NB_GAME_PREDICTCHAMP": 2,
+        "RESULTS_PREDICTCHAMP": read_txt("output_message_calculated_predictchamp_result.txt"),   
+        "IS_FOR_RANK": 1,
+        "RANK_PREDICTCHAMP_DF_URL_FRANCE_BI": "url_predictchamp",
+        "NB_USER_MONTH": 2,
+        "GAMEDAY_MONTH": "__L__MONTH_01__L__",
+        "LIST_USER_MONTH": read_txt("output_message_calculated_mvp_race_figures.txt"),   
+        "LIST_GAMEDAY_MONTH": read_txt("output_message_calculated_list_gameday_with_predict.txt"),
+        "NB_USER_COMPETITION": 2,
+        "GAMEDAY_COMPETITION": "__L__REGULAR SEASON__L__",
+        "IS_SAME_FOR_PREDICTCHAMP": 1,
+        "LIST_USER_COMPETITION": read_txt("output_message_calculated_mvp_race_figures.txt"), 
+        "LIST_GAMEDAY_COMPETITION": read_txt("output_message_calculated_list_gameday_with_predict.txt"),
+        "HAS_HOME_ADV": 1
+    }
+    template = read_txt("output_gameday_calculation_template_france.txt")
+    translations = read_json("output_gameday_template_translations.json")
+    country = "FRANCE"
+    forum = 'BI'
+    sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
+    mock_filename = "result.txt"
+    expected_result = read_txt("forumoutput_calculated_s1_1erejournee_france_bi_notplayed.txt")
+
+    with patch.object(output_message_calculated_generation.output,"define_filename", return_value=mock_filename) as mock_filename, \
+         patch.object(output_message_calculated_generation.files_manipulation,"create_txt"):
+
+          
+        content, country, forum = output_message_calculated_generation.create_message(param_dict, template, translations, country, forum, sr_gameday_output_calculate, 1)
+        
+        assert content.split() == expected_result.split()
+        assert country == "FRANCE"
+        assert forum == 'BI'
+
 
 def test_process_output_message_calculated(read_yml_as_serie, read_txt, read_json, read_csv):
     
@@ -350,4 +430,4 @@ def test_process_output_message_calculated(read_yml_as_serie, read_txt, read_jso
          patch.object(output_message_calculated_generation,"get_parameters", return_value=mock_params_retrieved), \
          patch.object(output_message_calculated_generation,"multithread_run", side_effect=[mock_params_df_retrieved, mock_messages,None]):
 
-        output_message_calculated_generation.process_output_message_calculated(context_dict, sr_gameday_output_calculate)
+        output_message_calculated_generation.process_output_message_calculated(context_dict, sr_gameday_output_calculate, 0)

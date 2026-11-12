@@ -3,6 +3,7 @@ This tests file concern all functions in the games_details_extraction_lnb.
 It units test the enexpected path for each function, which return exception
 '''
 from unittest.mock import MagicMock, patch
+import pandas as pd
 
 from src.predict_core.games_details_extraction.games_details_extraction_lnb import games_details_extraction_lnb
 
@@ -91,3 +92,31 @@ def test_get_games_subset_with_anchor_game_id():
             sent_payload = call_args[1]["json"]
             assert expected_anchor_key in sent_payload
             assert sent_payload[expected_anchor_key] == anchor_game_id
+
+def test_get_game_details_lnb_with_gameday_running_game(read_json, assert_exit):
+
+    # this tests the get_game_details_lnb function with gameday and a task to run CALCULATE_PARTIAL, with a running game
+    competition_source_id = 317
+    season_division_number = 1
+    season_name = "2026-2027"
+    gameday = '30ème journée'
+    task_run = 'CALCULATE'
+
+    df_games = pd.json_normalize(read_json("lnb_response_running.json").get("data", []), record_path="data", errors="ignore")
+    
+
+    # Mock get_games_subset to return data once, then empty (stops pagination loop)
+    with patch.object(games_details_extraction_lnb, "get_games_subset") as mock_get_games_subset:
+        # First call returns game data, subsequent calls return empty DataFrame
+        mock_get_games_subset.side_effect = [
+            df_games.copy(),           # Iteration 1: has data
+            pd.DataFrame()             # Iteration 2+: empty (loop terminates)
+        ]
+        
+        assert_exit(lambda: games_details_extraction_lnb.get_game_details_lnb(
+            competition_source_id = competition_source_id,
+            season_division_number = season_division_number,
+            season_name = season_name,
+            gameday = gameday,
+            task_run = task_run
+        ))

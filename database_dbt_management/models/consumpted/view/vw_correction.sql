@@ -14,6 +14,9 @@ SELECT
 FROM
     {{ref('consumpted_predict_game')}} pg
 JOIN
+    {{ref('consumpted_game')}} game            
+    ON pg.GAME_KEY = game.GAME_KEY
+JOIN
     {{ref('consumpted_user')}} user            
     ON pg.USER_KEY = user.USER_KEY
 JOIN
@@ -24,3 +27,4 @@ JOIN
     ON season.SEASON_KEY = pg.SEASON_KEY 
 WHERE    
     pg.IS_PREDICTION_IN_DEFECT = 1
+    AND game.IS_PLAYED = 1

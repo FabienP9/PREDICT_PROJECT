@@ -18,7 +18,7 @@
         SEASON_KEY: from curated
         GAME_KEY: from curated
     Filter:
-        Only gameday with action (IS_TO_DELETE or IS_TO_CALCULATE)
+        Only gameday with action (IS_TO_DELETE or IS_TO_CALCULATE or IS_TO_CALCULATE_PARTIAL)
     Materialization:
         incremental to avoid removing old calculations */
 
@@ -35,7 +35,7 @@ with user_game as (
         gameday.GAMEDAY_KEY,
         gameday.SEASON_KEY,
         predict.SCORE AS PREDICTION_SCORE,
-        gameday.NB_GAME,
+        gameday.NB_GAME_PLAYED,
         predict.IS_PREDICTION_IN_DEFECT,
         predict.AUTOMATIC_SCORE,
         predict.NB_PREDICTION,
@@ -49,7 +49,7 @@ with user_game as (
     JOIN
         {{ref('consumpted_gameday')}} gameday
         ON predict.GAMEDAY_KEY = gameday.GAMEDAY_KEY
-        AND gameday.IS_TO_CALCULATE + gameday.IS_TO_DELETE > 0 
+        AND gameday.IS_TO_CALCULATE + gameday.IS_TO_CALCULATE_PARTIAL + gameday.IS_TO_DELETE > 0 
     JOIN
         {{ref('consumpted_season')}} season
         ON gameday.SEASON_KEY = season.SEASON_KEY
@@ -61,7 +61,7 @@ grouped as (
         ug.USER_KEY,
         ug.GAMEDAY_KEY,
         ug.SEASON_KEY,
-        ug.NB_GAME,
+        ug.NB_GAME_PLAYED,
         SUM(ug.PREDICTION_SCORE) AS CALCULATED_SCORE,
         SUM(ug.AUTOMATIC_SCORE) AS AUTOMATIC_SCORE,
         SUM(ug.NB_PREDICTION) AS NB_PREDICTION,
@@ -75,7 +75,7 @@ grouped as (
         ug.USER_KEY,
         ug.GAMEDAY_KEY,
         ug.SEASON_KEY,
-        ug.NB_GAME,
+        ug.NB_GAME_PLAYED,
         ug.GAMEDAY_END_DATE_UTC,
         ug.GAMEDAY_END_TIME_UTC
 ),
@@ -86,7 +86,7 @@ score as (
         grouped.USER_KEY,
         grouped.GAMEDAY_KEY,
         grouped.SEASON_KEY,
-        grouped.NB_GAME,
+        grouped.NB_GAME_PLAYED,
         grouped.CALCULATED_SCORE,
         grouped.ARE_PREDICTIONS_IN_DEFECT,
         grouped.AUTOMATIC_SCORE,
@@ -106,7 +106,7 @@ score_with_chosenteam as (
         score.USER_KEY,
         score.GAMEDAY_KEY,
         score.SEASON_KEY,
-        score.NB_GAME,
+        score.NB_GAME_PLAYED,
         score.ARE_PREDICTIONS_IN_DEFECT,
         score.CALCULATED_SCORE,
         score.AUTOMATIC_SCORE,
@@ -140,7 +140,7 @@ SELECT
     final.USER_KEY,
     final.GAMEDAY_KEY,
     final.SEASON_KEY,
-    final.NB_GAME,
+    final.NB_GAME_PLAYED,
     final.ARE_PREDICTIONS_IN_DEFECT,
     final.CALCULATED_SCORE,
     final.AUTOMATIC_SCORE,

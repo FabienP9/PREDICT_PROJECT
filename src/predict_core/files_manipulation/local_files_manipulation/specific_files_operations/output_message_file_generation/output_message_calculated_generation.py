@@ -37,56 +37,96 @@ def get_games_result(df_games: pd.DataFrame, sr_gameday_output_calculate: pd.Ser
             Exits the program if error running the function (using decorator)
     '''
 
-    #We call the games query by first personalizing it
+    # We call the games query by first personalizing it
     df_games_copy = df_games.copy()
     
-    #we add a + before the result if it is positive
+    # we add a + before the result if it is positive
     df_games_copy['RESULT_STR'] = df_games_copy['RESULT'].map(lambda x: f"+{x}" if x > 0 else str(x))
 
-    #we extract the list of games to display, concatenating fields into a string
-    df_games_copy['STRING'] = df_games_copy['GAME_MESSAGE'] + " - " + \
-        np.where(df_games_copy['RESULT'] > 0, "__F__boldbegin__F__", "") + \
-        df_games_copy['TEAM_HOME_NAME'] + \
-        np.where(df_games_copy['RESULT'] > 0, "__F__boldend__F__", "") + " vs " + \
-        np.where(df_games_copy['RESULT'] < 0, "__F__boldbegin__F__", "") + \
-        df_games_copy['TEAM_AWAY_NAME'] + \
-        np.where(df_games_copy['RESULT'] < 0, "__F__boldend__F__", "") + ": __F__boldbegin__F__" + \
-        df_games_copy['RESULT_STR'] + "__F__boldend__F__ [ " + \
-        df_games_copy['SCORE_HOME'].astype(str) +" - " + df_games_copy['SCORE_AWAY'].astype(str) + " ]"  
-    
+    # we extract the list of games to display, concatenating fields into a string
+    # string for games played
+    games_played_str = (
+        df_games_copy['GAME_MESSAGE'] + " - " +
+        np.where(df_games_copy['RESULT'] > 0, "__F__boldbegin__F__", "") +
+        df_games_copy['TEAM_HOME_NAME'] +
+        np.where(df_games_copy['RESULT'] > 0, "__F__boldend__F__", "") + " vs " +
+        np.where(df_games_copy['RESULT'] < 0, "__F__boldbegin__F__", "") +
+        df_games_copy['TEAM_AWAY_NAME'] +
+        np.where(df_games_copy['RESULT'] < 0, "__F__boldend__F__", "") + ": __F__boldbegin__F__" +
+        df_games_copy['RESULT_STR'] + "__F__boldend__F__ [ " +
+        df_games_copy['SCORE_HOME'].astype(str) + " - " + df_games_copy['SCORE_AWAY'].astype(str) + " ]"
+    )
+    # string for games not played yet
+    games_not_played_str = (
+        "__F__italicbegin__F__" + df_games_copy['GAME_MESSAGE'] + " - " +
+        df_games_copy['TEAM_HOME_NAME'] + " vs " + df_games_copy['TEAM_AWAY_NAME'] +
+        ":  __L__Not played__L____F__italicend__F__"
+    )
+
     # we create the LIST_GAMES string by concatenating all games-strings on several lines
+    df_games_copy['STRING'] = np.where(df_games_copy['IS_PLAYED'] == 1,games_played_str,games_not_played_str)
     RESULT_GAMES = "\n".join(df_games_copy['STRING'])
     return RESULT_GAMES
 
-@config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate',)})
-def get_games_odds(df_games: pd.DataFrame, sr_gameday_output_calculate: pd.Series) -> str:
+@config_decorators.exit_program(log_filter=lambda args: {})
+def get_games_odds_played(df_games: pd.DataFrame) -> str:
 
     '''
-        Gets the list of games odds and SCORE_WIN value to display on the output calculated message
+        Gets the list of games odds for games played and SCORE_WIN value to display on the output calculated message
         Inputs:
-            sr_snowflake_account (series - one row) containing snowflake credentials to run the sql game query
-            sr_gameday_output_calculate (series - one row) containing the query filters
+            df_games (dataframe) containing the games of the gameday
         Returns:
             A multiple row string displaying the list of games with odds and SCORE_WIN calculation
         Raises:
             Exits the program if error running the function (using decorator)
     '''
 
-    #We call the games query by first personalizing it
-    df_games_copy = df_games
+    #We get games already played
+    df_games_played = df_games[df_games['IS_PLAYED'] == 1].reset_index(drop=True)
 
     #we extract the list of games to display, concatenating fields into a string
-    df_games_copy['PERC'] = np.where(df_games_copy['RESULT'] > 0, df_games_copy['PERC_PREDICTOR_WINNER_HOME'] , df_games_copy['PERC_PREDICTOR_WINNER_AWAY'])
-    df_games_copy['STRING'] = df_games_copy['GAME_MESSAGE'] + " - __F__boldbegin__F__" + \
-        np.where(df_games_copy['RESULT'] > 0, df_games_copy['TEAM_HOME_NAME'] , df_games_copy['TEAM_AWAY_NAME']) + "__F__boldend__F__ - __F__boldbegin__F__ __L__odd__L__: " + \
-        df_games_copy['PERC'].astype(str) + "% __F__boldend__F__ ("+ \
-        np.where(df_games_copy['RESULT'] > 0, df_games_copy['NB_PREDICTOR_WINNER_HOME'] , df_games_copy['NB_PREDICTOR_WINNER_AWAY']).astype(str) + "÷" +\
-        (df_games_copy['NB_PREDICTOR_WINNER_HOME']+df_games_copy['NB_PREDICTOR_WINNER_AWAY']).astype(str) + ") ==> " + \
-        "__F__boldbegin__F____L__Score__L__ = " + df_games_copy['SCORE_WIN_VALUE'].astype(str) + "__F__boldend__F__" 
+    df_games_played['PERC'] = np.where(df_games_played['RESULT'] > 0, df_games_played['PERC_PREDICTOR_WINNER_HOME'] , df_games_played['PERC_PREDICTOR_WINNER_AWAY'])
+    df_games_played['STRING'] = df_games_played['GAME_MESSAGE'] + " - __F__boldbegin__F__" + \
+        np.where(df_games_played['RESULT'] > 0, df_games_played['TEAM_HOME_NAME'] , df_games_played['TEAM_AWAY_NAME']) + "__F__boldend__F__ - __F__boldbegin__F__ __L__odd__L__: " + \
+        df_games_played['PERC'].astype(str) + "% __F__boldend__F__ ("+ \
+        np.where(df_games_played['RESULT'] > 0, df_games_played['NB_PREDICTOR_WINNER_HOME'] , df_games_played['NB_PREDICTOR_WINNER_AWAY']).astype(str) + "÷" +\
+        (df_games_played['NB_PREDICTOR_WINNER_HOME']+df_games_played['NB_PREDICTOR_WINNER_AWAY']).astype(str) + ") ==> " + \
+        "__F__boldbegin__F____L__Score__L__ = " + df_games_played['SCORE_WIN_VALUE'].astype(str) + "__F__boldend__F__" 
     
-    # we create the LIST_GAMES string by concatenating all games-strings on several lines
-    GAMES_ODDS = "\n".join(df_games_copy['STRING'])    
-    return GAMES_ODDS
+    # we create the GAMES_ODDS_PLAYED string by concatenating all games-strings on several lines
+    GAMES_ODDS_PLAYED = "\n".join(df_games_played['STRING'])  
+    return GAMES_ODDS_PLAYED
+
+@config_decorators.exit_program(log_filter=lambda args: {})
+def get_games_odds_not_played(df_games: pd.DataFrame) -> str:
+
+    '''
+        Gets the list of games odds for games not played yet and calculate score value to display on the output calculated message
+        Inputs:
+            df_games (dataframe) containing the games of the gameday
+        Returns:
+            A multiple row string displaying the list of games with odds and SCORE_WIN calculation
+        Raises:
+            Exits the program if error running the function (using decorator)
+    '''
+
+    #We get games not played yet
+    df_games_notplayed = df_games[df_games['IS_PLAYED'] == 0].reset_index(drop=True)
+
+    #we extract the list of games to display, concatenating fields into a string
+    df_games_notplayed['STRING'] = "__F__italicbegin__F__" + df_games_notplayed['GAME_MESSAGE'] + " - " + \
+            df_games_notplayed['TEAM_HOME_NAME'] + " : " + df_games_notplayed['PERC_PREDICTOR_WINNER_HOME'].astype(str) + \
+            "% ("+ df_games_notplayed['NB_PREDICTOR_WINNER_HOME'].astype(str) + "÷" + \
+            (df_games_notplayed['NB_PREDICTOR_WINNER_HOME']+df_games_notplayed['NB_PREDICTOR_WINNER_AWAY']).astype(str) + ") " \
+            "==> score = "+ np.maximum(55 - df_games_notplayed["PERC_PREDICTOR_WINNER_HOME"], 15).astype(str)  + " vs " + \
+            df_games_notplayed['TEAM_AWAY_NAME'] + " : " + df_games_notplayed['PERC_PREDICTOR_WINNER_AWAY'].astype(str) + \
+            "% ("+ df_games_notplayed['NB_PREDICTOR_WINNER_AWAY'].astype(str) + "÷" + \
+            (df_games_notplayed['NB_PREDICTOR_WINNER_HOME']+df_games_notplayed['NB_PREDICTOR_WINNER_AWAY']).astype(str) + ") " \
+            "==> score = "+ np.maximum(55 - df_games_notplayed["PERC_PREDICTOR_WINNER_AWAY"], 15).astype(str) + "__F__italicend__F__"
+            
+    # we create the GAMES_ODDS_NOTPLAYED string by concatenating all games-strings on several lines
+    GAMES_ODDS_NOTPLAYED = "\n".join(df_games_notplayed['STRING'])  
+    return GAMES_ODDS_NOTPLAYED
 
 @config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate',)})
 def get_scores_detailed(sr_snowflake_account: pd.Series, sr_gameday_output_calculate: pd.Series) -> Tuple[pd.DataFrame,int]:
@@ -222,6 +262,29 @@ def get_scores_average(nb_prediction: int, df_userscores_global: pd.DataFrame) -
     SCORES_AVERAGE = "\n".join(df_userscores_modified['STRING'])
     return SCORES_AVERAGE, len(df_userscores_modified),NB_MIN_PREDICTION
 
+@config_decorators.exit_program(log_filter=lambda args: {'columns_df_gameday_calculated': args['df_gameday_calculated'].columns.tolist(),'sr_gameday_output_calculate': args['sr_gameday_output_calculate'],})
+def get_list_gameday(df_gameday_calculated: pd.DataFrame, sr_gameday_output_calculate: pd.Series ) -> str:
+
+    '''
+        Gets the list of gameday calculated to display as a string on the output calculated message
+        Inputs:
+            df_gameday_calculated (dataframe) containing list of calculated gameday
+            sr_gameday_output_calculate (series - one row) containing the query filters
+        Returns:
+            A string displaying the list of gameday
+        Raises:
+            Exits the program if error running the function (using decorator)
+    '''
+
+    df_gameday_modified = df_gameday_calculated.copy()
+    df_gameday_modified['STRING'] = (df_gameday_calculated['GAMEDAY'] + " (" + df_gameday_calculated['NB_PREDICTION_PLAYED'].astype(str) + ")")
+    LIST_GAMEDAY_CALCULATED = " / ".join(df_gameday_modified['STRING'])
+
+    #we transform the subsring of the calculated gameday to highlight it
+    LIST_GAMEDAY_CALCULATED = LIST_GAMEDAY_CALCULATED.replace(" / " + sr_gameday_output_calculate['GAMEDAY'],
+                                                              " __F__boldbegin__F__ + " + sr_gameday_output_calculate['GAMEDAY'] + " __F__boldend__F__ ")
+    return LIST_GAMEDAY_CALCULATED
+
 @config_decorators.exit_program(log_filter=lambda args: {'columns_df_gamepredictchamp': args['df_gamepredictchamp'].columns.tolist(), 'sr_gameday_output_calculate': args['sr_gameday_output_calculate'] })
 def get_predictchamp_result(df_gamepredictchamp: pd.DataFrame, sr_snowflake_account: pd.Series, sr_gameday_output_calculate: pd.Series) -> str:
 
@@ -351,30 +414,6 @@ def get_correction(sr_snowflake_account: pd.Series, sr_gameday_output_calculate:
 
     return LIST_CORRECTION, grouped.shape[0]
 
-@config_decorators.exit_program(log_filter=lambda args: {'columns_df_gameday_calculated': args['df_gameday_calculated'].columns.tolist(),'sr_gameday_output_calculate': args['sr_gameday_output_calculate'],})
-def get_list_gameday(df_gameday_calculated: pd.DataFrame, sr_gameday_output_calculate: pd.Series ) -> str:
-
-    '''
-        Gets the list of gameday calculated to display as a string on the output calculated message
-        Inputs:
-            df_gameday_calculated (dataframe) containing list of calculated gameday
-            sr_gameday_output_calculate (series - one row) containing the query filters
-        Returns:
-            A string displaying the list of gameday
-        Raises:
-            Exits the program if error running the function (using decorator)
-    '''
-
-    df_gameday_modified = df_gameday_calculated.copy()
-    df_gameday_modified['STRING'] = (df_gameday_calculated['GAMEDAY'] + " (" + df_gameday_calculated['NB_PREDICTION'].astype(str) + ")")
-    LIST_GAMEDAY_CALCULATED = " / ".join(df_gameday_modified['STRING'])
-
-    #we transform the subsring of the calculated gameday to highlight it
-    LIST_GAMEDAY_CALCULATED = LIST_GAMEDAY_CALCULATED.replace(" / " + sr_gameday_output_calculate['GAMEDAY'],
-                                                              " __F__boldbegin__F__ + " + sr_gameday_output_calculate['GAMEDAY'] + " __F__boldend__F__ ")
-
-    return LIST_GAMEDAY_CALCULATED
-
 @config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate',)})
 def get_mvp_month_race_figure(sr_snowflake_account: pd.Series, sr_gameday_output_calculate: pd.Series) -> Tuple[str, str, int]:
 
@@ -419,7 +458,7 @@ def list_mvp_month_race_gameday(sr_snowflake_account: pd.Series, sr_gameday_outp
     '''
 
     df_month_mvp_gamedays = snowflake_execute(sr_snowflake_account,sql.VW_GAMEDAY_CALCULATED_MVPMONTH_QUERY,sql.DATABASE,(sr_gameday_output_calculate['SEASON_ID'],sr_gameday_output_calculate['END_YEARMONTH_LOCAL']))
-    df_month_mvp_gamedays['STRING'] = (df_month_mvp_gamedays['GAMEDAY'] + " (" + df_month_mvp_gamedays['NB_PREDICTION'].astype(str) + " __L__predict__L__)")
+    df_month_mvp_gamedays['STRING'] = (df_month_mvp_gamedays['GAMEDAY'] + " (" + df_month_mvp_gamedays['NB_PREDICTION_PLAYED'].astype(str) + " __L__predict__L__)")
     LIST_GAMEDAY_MVPMONTH = " / ".join(df_month_mvp_gamedays['STRING'])
 
     return LIST_GAMEDAY_MVPMONTH
@@ -468,7 +507,7 @@ def list_mvp_compet_race_gameday(sr_snowflake_account: pd.Series, sr_gameday_out
     '''
 
     df_month_mvp_gamedays = snowflake_execute(sr_snowflake_account,sql.VW_GAMEDAY_CALCULATED_MVPCOMPET_QUERY,sql.DATABASE,(sr_gameday_output_calculate['SEASON_ID'],sr_gameday_output_calculate['COMPETITION_LABEL']))
-    df_month_mvp_gamedays['STRING'] = (df_month_mvp_gamedays['GAMEDAY'] + " (" + df_month_mvp_gamedays['NB_PREDICTION'].astype(str) + " __L__predict__L__)")
+    df_month_mvp_gamedays['STRING'] = (df_month_mvp_gamedays['GAMEDAY'] + " (" + df_month_mvp_gamedays['NB_PREDICTION_PLAYED'].astype(str) + " __L__predict__L__)")
     LIST_GAMEDAY_MVPCOMPET = " / ".join(df_month_mvp_gamedays['STRING'])
 
     return LIST_GAMEDAY_MVPCOMPET
@@ -494,7 +533,8 @@ def get_parameters(sr_snowflake_account: pd.Series, sr_gameday_output_calculate:
     param_dict['IS_SAME_FOR_PREDICTCHAMP'] = sr_gameday_output_calculate['IS_SAME_FOR_PREDICTCHAMP']
     df_games = snowflake_execute(sr_snowflake_account,sql.VW_GAME_QUERY,sql.DATABASE,(sr_gameday_output_calculate['SEASON_ID'],sr_gameday_output_calculate['GAMEDAY']))
     param_dict['RESULT_GAMES'] = get_games_result(df_games,sr_gameday_output_calculate)
-    param_dict['GAMES_ODDS'] = get_games_odds(df_games,sr_gameday_output_calculate)
+    param_dict['GAMES_ODDS_PLAYED'] = get_games_odds_played(df_games)
+    param_dict['GAMES_ODDS_NOTPLAYED'] = get_games_odds_not_played(df_games)
     param_dict['SCORES_DETAILED_DF'], param_dict['NB_USER_DETAIL'] = get_scores_detailed(sr_snowflake_account,sr_gameday_output_calculate) 
     
     # we get the scores per users query 
@@ -504,8 +544,8 @@ def get_parameters(sr_snowflake_account: pd.Series, sr_gameday_output_calculate:
     # we get the gamedays calculated query 
     df_gameday_calculated = snowflake_execute(sr_snowflake_account,sql.VW_GAMEDAY_CALCULATED_QUERY,sql.DATABASE,(sr_gameday_output_calculate['SEASON_ID'],))
     param_dict['NB_GAMEDAY_CALCULATED'] = len(df_gameday_calculated)
-    param_dict['NB_TOTAL_PREDICT'] = df_gameday_calculated['NB_PREDICTION'].sum()
-    param_dict['NB_MAX_PREDICT'] = df_gameday_calculated.loc[df_gameday_calculated['GAMEDAY'] == param_dict['GAMEDAY'], 'NB_PREDICTION'].iloc[0]
+    param_dict['NB_TOTAL_PREDICT'] = df_gameday_calculated['NB_PREDICTION_PLAYED'].sum()
+    param_dict['NB_MAX_PREDICT'] = df_gameday_calculated.loc[df_gameday_calculated['GAMEDAY'] == param_dict['GAMEDAY'], 'NB_PREDICTION_PLAYED'].iloc[0]
     param_dict['SCORES_AVERAGE'] ,param_dict['NB_USER_AVERAGE'], param_dict['NB_MIN_PREDICTION'] = get_scores_average(param_dict['NB_TOTAL_PREDICT'],df_userscores_global)
 
     param_dict['SCORES_GAMEDAY_DF'],param_dict['NB_USER_GAMEDAY'] = get_scores_gameday(sr_snowflake_account,sr_gameday_output_calculate)
@@ -589,7 +629,7 @@ def get_parameters_df_management(param_dict: dict, sr_gameday_output_calculate: 
     return param_df_dict
 
 @config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('country', 'forum','sr_gameday_output_calculate')})
-def create_message(param_dict: dict, template:str, translations_dict: dict, country: str, forum: str, sr_gameday_output_calculate: pd.Series) -> Tuple[str,str]:
+def create_message(param_dict: dict, template:str, translations_dict: dict, country: str, forum: str, sr_gameday_output_calculate: pd.Series, is_partial) -> Tuple[str,str]:
 
     '''
         Defines calculated gameday message:
@@ -617,7 +657,8 @@ def create_message(param_dict: dict, template:str, translations_dict: dict, coun
         ("#GAMEDAY#",param_dict['GAMEDAY']),
         ("#SEASON_DIVISION#",param_dict['SEASON_DIVISION']),
         ("#RESULT_GAMES#",param_dict['RESULT_GAMES']),
-        ("#GAMES_ODDS#",param_dict['GAMES_ODDS']),
+        ("#GAMES_ODDS_PLAYED#",param_dict['GAMES_ODDS_PLAYED']),
+        ("#GAMES_ODDS_NOTPLAYED#",param_dict['GAMES_ODDS_NOTPLAYED']),
         ("#NB_GAMEDAY_CALCULATED#",str(param_dict['NB_GAMEDAY_CALCULATED'])),
         ("#NB_MAX_PREDICT#",str(param_dict['NB_MAX_PREDICT'])),
         ("#NB_TOTAL_PREDICT#",str(param_dict['NB_TOTAL_PREDICT'])),
@@ -675,9 +716,9 @@ def create_message(param_dict: dict, template:str, translations_dict: dict, coun
 
     for replacement_field, replacement_value in replacement_substr:
         content = content.replace(replacement_field,replacement_value) 
-
     # ... and possibly block if condition not True
     conditional_blocks = [ #begin_tag , end_tag, condition
+        ("#WITH_PARTIAL_RESULT_BEGIN#", "#WITH_PARTIAL_RESULT_END#", is_partial == 1),
         ("#WITH_PREDICTORS_GAMEDAY_BEGIN#", "#WITH_PREDICTORS_GAMEDAY_END#", param_dict['NB_USER_DETAIL'] > 0),
         ("#WITHOUT_PREDICTORS_GAMEDAY_BEGIN#", "#WITHOUT_PREDICTORS_GAMEDAY_END#", param_dict['NB_USER_DETAIL'] == 0),
         ("#SCOREAUTO0_BEGIN#", "#SCOREAUTO0_END#", param_dict['NB_CORRECTION'] > 0),
@@ -709,7 +750,7 @@ def create_message(param_dict: dict, template:str, translations_dict: dict, coun
     return content,country,forum
 
 @config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate',)})
-def process_output_message_calculated(context_dict: dict, sr_gameday_output_calculate: pd.Series):
+def process_output_message_calculated(context_dict: dict, sr_gameday_output_calculate: pd.Series, is_partial):
 
     '''
         Defines calculated gameday message:
@@ -739,7 +780,7 @@ def process_output_message_calculated(context_dict: dict, sr_gameday_output_calc
     logging.info("OUTPUT -> PARAM RETRIEVED")
     message_args= [(param_dict,context_dict['str_output_gameday_calculation_template_'+country.lower()]
                     ,context_dict['lst_output_gameday_template_translations'],country,forum,
-                    sr_gameday_output_calculate) for (country,forum) in list_countries_forums]
+                    sr_gameday_output_calculate, is_partial) for (country,forum) in list_countries_forums]
     results = multithread_run(create_message, message_args)
     for content,country,forum in results:
         param_dict['MESSAGE_'+country+'_'+forum] = content

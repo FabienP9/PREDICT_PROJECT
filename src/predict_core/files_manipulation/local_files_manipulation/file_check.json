@@ -47,13 +47,14 @@
         "MESSAGE_FORUM_ID": "int64"
       }
     },
-    "output_need_manual_yml.yml": {
+    "output_need_manual.yml": {
       "columns": {
         "TASK_RUN": "object",
         "SEASON_ID": "object",
         "GAMEDAY": "object",
         "IS_TO_INIT": "int",
         "IS_TO_CALCULATE": "int",
+        "IS_TO_CALCULATE_PARTIAL": "int",
         "IS_TO_DELETE": "int",
         "IS_TO_RECALCULATE": "int",
         "MESSAGE_ACTION": "object",

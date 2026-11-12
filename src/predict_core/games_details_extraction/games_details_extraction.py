@@ -41,9 +41,9 @@ def extract_games_from_competition(df_competition: pd.DataFrame, df_season: pd.D
     for compet_row in df_competition_season.itertuples(index=False):
         source = compet_row.COMPETITION_SOURCE
         get_game_details = game_info_functions.get(source)
-        df_game_details = get_game_details(compet_row.COMPETITION_SOURCE_ID,
-                                           compet_row.SEASON_DIVISION_NUMBER, 
-                                           compet_row.SEASON_NAME)
+        df_game_details = get_game_details(competition_source_id = compet_row.COMPETITION_SOURCE_ID,
+                                           season_division_number = compet_row.SEASON_DIVISION_NUMBER, 
+                                           season_name = compet_row.SEASON_NAME)
         df_game_details['COMPETITION_SOURCE'] = compet_row.COMPETITION_SOURCE
         df_game_details['COMPETITION_ID'] = compet_row.COMPETITION_ID
         df_game_details['SEASON_ID'] = compet_row.SEASON_ID
@@ -80,21 +80,23 @@ def extract_games_from_need(sr_output_need: pd.Series,df_competition: pd.DataFra
     competition_source = competition['COMPETITION_SOURCE']
 
     # If there are values in gameday_modification corresponding to the gameday needed
-    # we filter on the original gameday from the source to get specific gamekeys wee need to extract
+    # we filter on the original gameday from the source to get specific gamekeys we need to extract
     sr_games_to_extract = df_gameday_modification[
         (df_gameday_modification["SEASON_ID"] == sr_output_need['SEASON_ID']) &
         (df_gameday_modification["GAMEDAY_MODIFIED"] == sr_output_need['GAMEDAY'])]['GAME_SOURCE_ID']
 
-    # If there is no gameday modified, we keep the gameday from need
+    # If there is no gameday in gameday_modification, we keep the gameday from need
     get_game_details = game_info_functions.get(competition_source)
     if len(sr_games_to_extract) == 0:
         df_game = get_game_details(competition_source_id = sr_output_need['COMPETITION_SOURCE_ID'],
                                     season_division_number = competition.SEASON_DIVISION_NUMBER, 
                                     season_name = competition.SEASON_NAME,
-                                   gameday = sr_output_need['GAMEDAY'])
+                                   gameday = sr_output_need['GAMEDAY'],
+                                   task_run = sr_output_need['TASK_RUN'])
     else:
         df_game = get_game_details(competition_source_id = sr_output_need['COMPETITION_SOURCE_ID'],
-                                   sr_games_to_extract = sr_games_to_extract)
+                                   sr_games_to_extract = sr_games_to_extract,
+                                   task_run = sr_output_need['TASK_RUN'])
         
     df_game['COMPETITION_SOURCE'] = competition_source
     df_game['COMPETITION_ID'] = sr_output_need['COMPETITION_ID']

@@ -79,6 +79,7 @@ def test_get_game_details_lnb_with_gameday(read_csv, read_json):
     season_division_number = 1
     season_name = "2026-2027"
     gameday = '30ème journée'
+    task_run = 'CALCULATE'
 
     df_games = pd.json_normalize(read_json("lnb_response.json").get("data", []), record_path="data", errors="ignore")
     expected_df = read_csv("game_from_lnb_response_gameday.csv")
@@ -92,25 +93,60 @@ def test_get_game_details_lnb_with_gameday(read_csv, read_json):
         ]
         
         result_df = games_details_extraction_lnb.get_game_details_lnb(
-            competition_source_id,
-            season_division_number,
-            season_name,
-            gameday
+            competition_source_id = competition_source_id,
+            season_division_number = season_division_number,
+            season_name = season_name,
+            gameday = gameday,
+            task_run = task_run
         )
+        print(result_df)
         assert_frame_equal(
             result_df[1:].astype(str).reset_index(drop=True), 
             expected_df[1:].astype(str).reset_index(drop=True), 
             check_dtype=False
         )
 
+def test_get_game_details_lnb_with_gameday_calculate_partial(read_csv, read_json):
 
-
-def test_get_game_details_lnb_without_gameday(read_csv, read_json):
-
-    # this tests the get_game_details_lnb function with gameday
+    # this tests the get_game_details_lnb function with gameday and a task to run CALCULATE_PARTIAL, with a running game
     competition_source_id = 317
     season_division_number = 1
     season_name = "2026-2027"
+    gameday = '30ème journée'
+    task_run = 'CALCULATE_PARTIAL'
+
+    df_games = pd.json_normalize(read_json("lnb_response_running.json").get("data", []), record_path="data", errors="ignore")
+    expected_df = read_csv("game_from_lnb_response_gameday.csv")
+
+    # Mock get_games_subset to return data once, then empty (stops pagination loop)
+    with patch.object(games_details_extraction_lnb, "get_games_subset") as mock_get_games_subset:
+        # First call returns game data, subsequent calls return empty DataFrame
+        mock_get_games_subset.side_effect = [
+            df_games.copy(),           # Iteration 1: has data
+            pd.DataFrame()             # Iteration 2+: empty (loop terminates)
+        ]
+        
+        result_df = games_details_extraction_lnb.get_game_details_lnb(
+            competition_source_id = competition_source_id,
+            season_division_number = season_division_number,
+            season_name = season_name,
+            gameday = gameday,
+            task_run = task_run
+        )
+        
+        assert_frame_equal(
+            result_df[1:].astype(str).reset_index(drop=True), 
+            expected_df[1:].astype(str).reset_index(drop=True), 
+            check_dtype=False
+        )
+
+def test_get_game_details_lnb_without_gameday(read_csv, read_json):
+
+    # this tests the get_game_details_lnb function without gameday
+    competition_source_id = 317
+    season_division_number = 1
+    season_name = "2026-2027"
+    task_run = 'CALCULATE'
 
     df_games = pd.json_normalize(read_json("lnb_response.json").get("data", []), record_path="data", errors="ignore")
     expected_df = read_csv("game_from_lnb_response.csv")
@@ -124,9 +160,10 @@ def test_get_game_details_lnb_without_gameday(read_csv, read_json):
         ]
         
         result_df = games_details_extraction_lnb.get_game_details_lnb(
-            competition_source_id,
-            season_division_number,
-            season_name
+            competition_source_id = competition_source_id,
+            season_division_number = season_division_number,
+            season_name = season_name,
+            task_run = task_run
         )
         assert_frame_equal(
             result_df[1:].astype(str).reset_index(drop=True), 

@@ -7,6 +7,7 @@ from pandas.testing import assert_frame_equal
 import pandas as pd
 
 from src.predict_core.files_manipulation.local_files_manipulation.specific_files_operations.output_message_file_generation import output_message_calculated_generation
+from src.predict_core.config.config_variables import config_global_variables as var
 
 def test_get_games_result(read_csv, read_txt):
 
@@ -46,7 +47,6 @@ def test_get_games_odds_notplayed(read_csv, read_txt):
     s = output_message_calculated_generation.get_games_odds_played(df_games)
     s_expected = read_txt("output_message_calculated_games_odds_notplayed.txt")
     assert s == s_expected
-
 
 def test_get_scores_detailed(read_yml_as_serie, read_csv):
 
@@ -289,9 +289,9 @@ def test_get_parameters_df_management(read_csv, read_json):
         assert result["RANK_PREDICTCHAMP_DF_URL_FRANCE_BI"] == "url4"
         assert mock_manage_df.call_count == 4
 
-def test_create_message(read_txt, read_json, read_csv):
+def test_create_main_message(read_txt, read_json, read_csv):
     
-    # this test the function create_messages_for_country with all parameters
+    # this test the function create_main_message with all parameters
     param_dict = {
         "GAMEDAY": "1ere journee",
         "SEASON_DIVISION": "PROB",
@@ -329,7 +329,7 @@ def test_create_message(read_txt, read_json, read_csv):
         "LIST_GAMEDAY_COMPETITION": read_txt("output_message_calculated_list_gameday_with_predict.txt"),
         "HAS_HOME_ADV": 1
     }
-    template = read_txt("output_gameday_calculation_template_france.txt")
+    template = read_txt("output_gameday_calculation_main_template_france.txt")
     translations = read_json("output_gameday_template_translations.json")
     country = "FRANCE"
     forum = 'BI'
@@ -341,14 +341,14 @@ def test_create_message(read_txt, read_json, read_csv):
          patch.object(output_message_calculated_generation.files_manipulation,"create_txt"):
 
           
-        content, country, forum = output_message_calculated_generation.create_message(param_dict, template, translations, country, forum, sr_gameday_output_calculate, 0)
+        content, country, forum = output_message_calculated_generation.create_main_message(param_dict, template, translations, country, forum, sr_gameday_output_calculate, 0)
         assert content.split() == expected_result.split()
         assert country == "FRANCE"
         assert forum == 'BI'
 
-def test_create_message_partial(read_txt, read_json, read_csv):
+def test_create_main_message_partial(read_txt, read_json, read_csv):
     
-    # this test the function create_messages_for_country with all parameters for partial calculation
+    # this test the function create_main_message with all parameters for partial calculation
     param_dict = {
         "GAMEDAY": "1ere journee",
         "SEASON_DIVISION": "PROB",
@@ -386,7 +386,7 @@ def test_create_message_partial(read_txt, read_json, read_csv):
         "LIST_GAMEDAY_COMPETITION": read_txt("output_message_calculated_list_gameday_with_predict.txt"),
         "HAS_HOME_ADV": 1
     }
-    template = read_txt("output_gameday_calculation_template_france.txt")
+    template = read_txt("output_gameday_calculation_main_template_france.txt")
     translations = read_json("output_gameday_template_translations.json")
     country = "FRANCE"
     forum = 'BI'
@@ -397,12 +397,37 @@ def test_create_message_partial(read_txt, read_json, read_csv):
     with patch.object(output_message_calculated_generation.output,"define_filename", return_value=mock_filename) as mock_filename, \
          patch.object(output_message_calculated_generation.files_manipulation,"create_txt"):
 
-          
-        content, country, forum = output_message_calculated_generation.create_message(param_dict, template, translations, country, forum, sr_gameday_output_calculate, 1)
+        content, country, forum = output_message_calculated_generation.create_main_message(param_dict, template, translations, country, forum, sr_gameday_output_calculate, 1)
         
         assert content.split() == expected_result.split()
         assert country == "FRANCE"
         assert forum == 'BI'
+
+def test_create_small_message(read_txt, read_json, read_csv):
+    
+    # this test the function create_small_message with all parameters for partial calculation
+    param_dict = {
+        "GAMEDAY": "1ere journee"
+    }
+    template = """|0|#MESSAGE_PREFIX_PROGRAM_STRING#|2|
+                    |0|__F__sizeverybigbegin__F____F__boldbegin__F__ Résultats partiels - #GAMEDAY# __F__boldend__F____F__sizeverybigend__F__|1|
+                    __F__sizebigbegin__F__Mise à jour effectuée: voir page 1 ==> __F__urlbegin__F__#EDITED_MESSAGE#__F__urlend__F____F__sizebigend__F__|2|
+                    |0|#MESSAGE_PREFIX_PROGRAM_STRING#|0|"""
+    translations = read_json("output_gameday_template_translations.json")
+    country = "FRANCE"
+    forum = 'BI'
+
+    content, country, forum = output_message_calculated_generation.create_small_message(param_dict, template, translations, country, forum)
+
+    assert content.split() == f"""{var.MESSAGE_PREFIX_PROGRAM_STRING}
+
+                    [size=200][b] Résultats partiels - 1ere journee [/b][/size]
+                    [size=150]Mise à jour effectuée: voir page 1 ==> [url]#EDITED_MESSAGE#[/url][/size]
+
+                    {var.MESSAGE_PREFIX_PROGRAM_STRING}
+""".split()
+    assert country == "FRANCE"
+    assert forum == 'BI'
 
 
 def test_process_output_message_calculated(read_yml_as_serie, read_txt, read_json, read_csv):
@@ -410,8 +435,10 @@ def test_process_output_message_calculated(read_yml_as_serie, read_txt, read_jso
     # this test the function process_output_message_calculated
     context_dict = {
         "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
-        'str_output_gameday_calculation_template_france': read_txt("output_gameday_calculation_template_france.txt"),
-        'str_output_gameday_calculation_template_italia': read_txt("output_gameday_calculation_template_france.txt"),
+        'str_output_gameday_calculation_main_template_france': read_txt("output_gameday_calculation_main_template_france.txt"),
+        'str_output_gameday_calculation_main_template_italia': read_txt("output_gameday_calculation_main_template_france.txt"),
+        'str_output_gameday_calculation_small_template_france': read_txt("output_gameday_calculation_main_template_france.txt"),
+        'str_output_gameday_calculation_small_template_italia': read_txt("output_gameday_calculation_main_template_france.txt"),
         'lst_output_gameday_template_translations': read_json("output_gameday_template_translations.json")
     }
     sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]

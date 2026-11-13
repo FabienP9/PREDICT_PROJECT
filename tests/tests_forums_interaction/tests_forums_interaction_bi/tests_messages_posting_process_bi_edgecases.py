@@ -88,4 +88,4 @@ def test_post_message_bi_times_out(read_csv, assert_exit):
          patch("os.getenv", return_value="http://fake-forum"), \
          patch.object(messages_posting_process_bi.var, "TIME_MESSAGE_WAIT", 1):
         
-        assert_exit(lambda: messages_posting_process_bi.post_edit_message_bi(topic_row, "timeout test"))
+        assert_exit(lambda: messages_posting_process_bi.post_edit_message_bi(topic_row, "timeout test", "timeout test but in small format"))

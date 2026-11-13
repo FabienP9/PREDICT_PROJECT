@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 
 from src.predict_core.files_manipulation.local_files_manipulation.specific_files_operations.output_message_file_generation import output_message_inited_generation
+from src.predict_core.config.config_variables import config_global_variables as var
 
 def test_transform_games_to_list(read_csv,read_txt):
 
@@ -125,7 +126,7 @@ def test_get_parameters(read_yml_as_serie, read_csv,read_txt):
         
         assert expected_param_dict == param_dict
 
-def test_create_message(read_csv,read_txt, read_json):
+def test_create_main_message(read_csv,read_txt, read_json):
     
     # this test the function create_message
     param_dict = {
@@ -142,7 +143,7 @@ def test_create_message(read_csv,read_txt, read_json):
         'NB_NEXT_OPENING' : 2,
         'USER_CAN_CHOOSE_TEAM_FOR_PREDICTCHAMP': np.int64(1)}
     
-    template = read_txt("output_gameday_init_template_france.txt")
+    template = read_txt("output_gameday_init_main_template_france.txt")
     translations = read_json("output_gameday_template_translations.json")
     country = "FRANCE"
     forum = 'BI'
@@ -153,19 +154,47 @@ def test_create_message(read_csv,read_txt, read_json):
     with patch.object(output_message_inited_generation.output,"define_filename", return_value=mock_filename) as mock_filename, \
          patch.object(output_message_inited_generation.files_manipulation,"create_txt"):
         
-        content, country, forum = output_message_inited_generation.create_message(param_dict, template, translations, country, forum, sr_gameday_output_init)
+        content, country, forum = output_message_inited_generation.create_main_message(param_dict, template, translations, country, forum, sr_gameday_output_init)
 
         assert content.split() == expected_result.split()
         assert country == "FRANCE"
         assert forum == 'BI'
+
+def test_create_small_message(read_txt, read_json, read_csv):
+    
+    # this test the function create_small_message with all parameters for partial calculation
+    param_dict = {
+        "GAMEDAY_OPENING": "1ere journee"
+    }
+    template = """|0|#MESSAGE_PREFIX_PROGRAM_STRING#|2|
+                    |0|__F__sizeverybigbegin__F____F__boldbegin__F__ Ouverture - #GAMEDAY# __F__boldend__F____F__sizeverybigend__F__|1|
+__F__sizebigbegin__F__Ouverture effectuée: voir page 1 ==> __F__urlbegin__F__#EDITED_MESSAGE#__F__urlend__F____F__sizebigend__F__|2|
+|0|#MESSAGE_PREFIX_PROGRAM_STRING#|0|
+"""
+    translations = read_json("output_gameday_template_translations.json")
+    country = "FRANCE"
+    forum = 'BI'
+
+    content, country, forum = output_message_inited_generation.create_small_message(param_dict, template, translations, country, forum)
+    assert content.split() == f"""{var.MESSAGE_PREFIX_PROGRAM_STRING}
+
+                    [size=200][b] Ouverture - 1ere journee [/b][/size]
+[size=150]Ouverture effectuée: voir page 1 ==> [url]#EDITED_MESSAGE#[/url][/size]
+
+{var.MESSAGE_PREFIX_PROGRAM_STRING}
+""".split()
+    assert country == "FRANCE"
+    assert forum == 'BI'
 
 def test_process_output_message_inited(read_yml_as_serie, read_csv,read_txt, read_json):
     
     # this test the function process_output_message_inited
     context_dict = {
         "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
-        'str_output_gameday_init_template_france': read_txt("output_gameday_init_template_france.txt"),
-        'str_output_gameday_init_template_italia': read_txt("output_gameday_init_template_france.txt"),
+        'str_output_gameday_init_main_template_france': read_txt("output_gameday_init_main_template_france.txt"),
+        'str_output_gameday_init_main_template_italia': read_txt("output_gameday_init_main_template_france.txt"),
+        'str_output_gameday_init_small_template_france': read_txt("output_gameday_init_main_template_france.txt"),
+        'str_output_gameday_init_small_template_italia': read_txt("output_gameday_init_main_template_france.txt"),
         'lst_output_gameday_template_translations': read_json("output_gameday_template_translations.json")
     }
     sr_gameday_output_init = read_csv("sr_gameday_output_init.csv").iloc[0]

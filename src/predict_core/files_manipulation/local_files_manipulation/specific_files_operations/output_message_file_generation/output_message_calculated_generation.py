@@ -629,10 +629,10 @@ def get_parameters_df_management(param_dict: dict, sr_gameday_output_calculate: 
     return param_df_dict
 
 @config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('country', 'forum','sr_gameday_output_calculate')})
-def create_message(param_dict: dict, template:str, translations_dict: dict, country: str, forum: str, sr_gameday_output_calculate: pd.Series, is_partial) -> Tuple[str,str]:
+def create_main_message(param_dict: dict, template:str, translations_dict: dict, country: str, forum: str, sr_gameday_output_calculate: pd.Series, is_partial: int) -> Tuple[str,str]:
 
     '''
-        Defines calculated gameday message:
+        Defines calculated gameday main message, to post on forums:
         - by replacing text with calculated parameters
         - create the text file containing the message, per country and per forum
         Inputs:
@@ -641,6 +641,7 @@ def create_message(param_dict: dict, template:str, translations_dict: dict, coun
             country (str): the country of the forum for the message, we translate __L__ text for this country
             forum (str): the forum for the message, we translate __F__ text for this forum formats
             sr_gameday_output_calculate (series - one row) containing parameters for the file name
+            is_partial (int): Telling if result are partial or not: some part of message parametrization depends on it
         Returns:
             the message personalized with the related country and forum
         Raises:
@@ -749,8 +750,44 @@ def create_message(param_dict: dict, template:str, translations_dict: dict, coun
 
     return content,country,forum
 
+@config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('country', 'forum')})
+def create_small_message(param_dict: dict, template:str, translations_dict: dict, country: str, forum: str) -> Tuple[str,str,str]:
+
+    '''
+        Defines calculated gameday small message to post on forums. Will inform user of an update on forums:
+        - by replacing text with calculated parameters
+        - create the text containing the message, per country and per forum
+        Inputs:
+            param_dict (data dictionary) containing parameters
+            template (str): the message text we want to personalize
+            country (str): the country of the forum for the message, we translate __L__ text for this country
+            forum (str): the forum for the message, we translate __F__ text for this forum formats
+        Returns:
+            the message personalized with the related country and forum
+        Raises:
+            Exits the program if error running the function (using decorator)
+    '''
+
+    # we replace |N| in the text with N*newlines
+    content = output.format_message(template)
+
+    # we replace parameters...
+    # list is (replacement_field, replacement_value)
+    replacement_substr = [
+        ("#MESSAGE_PREFIX_PROGRAM_STRING#", var.MESSAGE_PREFIX_PROGRAM_STRING),
+        ("#GAMEDAY#",param_dict['GAMEDAY'])
+    ]
+
+    for replacement_field, replacement_value in replacement_substr:
+        content = content.replace(replacement_field,replacement_value) 
+
+    #We then translate the content for the country and the forum
+    content = output.translate_string(content,country,forum,translations_dict)
+
+    return content,country,forum
+
 @config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate',)})
-def process_output_message_calculated(context_dict: dict, sr_gameday_output_calculate: pd.Series, is_partial):
+def process_output_message_calculated(context_dict: dict, sr_gameday_output_calculate: pd.Series, is_partial: int):
 
     '''
         Defines calculated gameday message:
@@ -760,6 +797,7 @@ def process_output_message_calculated(context_dict: dict, sr_gameday_output_calc
         Inputs:
             context_dict (data dictionary) containing data to calculate the parameters
             sr_gameday_output_calculate (series - one row) containing details to calculate the parameters
+            is_partial (int) defining if the calculation is partial - message generation depends on it
         Raises:
             Exits the program if error running the function (using decorator)
     '''
@@ -778,12 +816,27 @@ def process_output_message_calculated(context_dict: dict, sr_gameday_output_calc
     for param_df_dict in results:
         param_dict.update(param_df_dict)
     logging.info("OUTPUT -> PARAM RETRIEVED")
-    message_args= [(param_dict,context_dict['str_output_gameday_calculation_template_'+country.lower()]
+
+    #if calculation is partial we need to generate the small message
+    if is_partial == 1:
+        small_message_args= [(param_dict,context_dict['str_output_gameday_calculation_small_template_'+country.lower()]
+                        ,context_dict['lst_output_gameday_template_translations'],country,forum)
+                          for (country,forum) in list_countries_forums]
+        results_small = multithread_run(create_small_message, small_message_args) 
+        for content,country,forum in results_small:
+            param_dict['MESSAGE_SMALL_'+country+'_'+forum] = content
+
+    # in any case we need the main message
+    main_message_args= [(param_dict,context_dict['str_output_gameday_calculation_main_template_'+country.lower()]
                     ,context_dict['lst_output_gameday_template_translations'],country,forum,
                     sr_gameday_output_calculate, is_partial) for (country,forum) in list_countries_forums]
-    results = multithread_run(create_message, message_args)
-    for content,country,forum in results:
-        param_dict['MESSAGE_'+country+'_'+forum] = content
+    results_main = multithread_run(create_main_message, main_message_args)
+    for content,country,forum in results_main:
+        param_dict['MESSAGE_MAIN_'+country+'_'+forum] = content
+        # if it is not partial we generate empty small message
+        if is_partial == 0:
+            param_dict['MESSAGE_SMALL_'+country+'_'+forum] = ""
+
     logging.info("OUTPUT -> MESSAGES CREATED")
     logging.info("OUTPUT -> GENERATING CALCULATED MESSAGE [DONE]")
     return param_dict,df_topics

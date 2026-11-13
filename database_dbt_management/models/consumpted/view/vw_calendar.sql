@@ -232,8 +232,7 @@ cte_union as (
         UNION ALL SELECT * FROM init_task
     )
     WHERE 
-        --DATEADD(MONTH,-1,current_date) <= COALESCE(TS_TASK_UTC,TS_TASK_LOCAL)
-        COALESCE(TS_TASK_UTC,TS_TASK_LOCAL) >= '2026-11-07'
+        DATEADD(MONTH,-1,current_date) <= COALESCE(TS_TASK_UTC,TS_TASK_LOCAL)
         AND DATEADD(MONTH,1,current_date) >= COALESCE(TS_TASK_UTC,TS_TASK_LOCAL)
 ),
 -- we retrieve the calendar with the calculation of local time

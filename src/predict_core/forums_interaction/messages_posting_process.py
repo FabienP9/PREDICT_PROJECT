@@ -20,17 +20,18 @@ messages_post_functions = {
 }
 
 @config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('topic_row',) })       
-def post_message(topic_row: pd.Series, message_content: str):
+def post_message(topic_row: pd.Series, message_main: str, message_small: str):
 
     '''
         Calls the function to run according to the forum source
         in order to post a message 
         Inputs:
             topic_row (series - one row) to get the forum source
-            message_content (str) the message to post
+            message_main (str) the main message to post
+            message_small (str) the small message to post (informing the user of an update of the main post with message_main)
         Raises:
             Exits the program if error running the function (using decorator)
     '''
 
     post_function = messages_post_functions.get(topic_row['FORUM_SOURCE'])
-    post_function(topic_row,message_content)
+    post_function(topic_row,message_main,message_small)

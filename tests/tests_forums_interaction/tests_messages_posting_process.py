@@ -10,7 +10,8 @@ from src.predict_core.forums_interaction import messages_posting_process
 def test_post_message(read_csv):
 
     topic_row = read_csv("q_topics_query.csv").iloc[0]
-    message_content = "Hello, forum!"
+    message_main = "Hello, forum!"
+    message_small = "He, fo!"
 
     with patch.dict(messages_posting_process.messages_post_functions, {'BI': MagicMock()}):
-        messages_posting_process.post_message(topic_row, message_content)
+        messages_posting_process.post_message(topic_row, message_main, message_small)

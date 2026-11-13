@@ -324,15 +324,23 @@ Defines manual prediction championship games when IS_SAME_FOR_PREDICTCHAMP = 0 f
 
 - <a name="scriptcreatingdatabase"></a>**script_creating_database.txt**: Full SQL script used to [initialize a snowflake account](#initsnowflake). Parameters between `#` are replaced during runtime.
 
-- <a name="inittemplate"></a>**output_gameday_init_template_xxxx.txt**: Template for gameday initialization messages (prediction templates).  
+- <a name="inittemplate"></a>**output_gameday_init_main_template_xxxx.txt**: Template for gameday initialization messages (prediction templates).  
 A version must exist for each forum language, replacing xxxx with the country
 It is personalized during run (removing parameters between __L__ for language and __F__ for forum specific formats).  
 An example of message posted based on it, is also copied in *files_example*, named *forumoutput_inited_s1_1erejournee_france_bi.txt*
 
-- <a name="calculationtemplate"></a>**output_gameday_calculation_template_xxxx.txt**: Template for gameday result messages.  
+- **output_gameday_init_small_template_xxxx.txt**: Small template for gameday initialization messages. If there is a post to edit, the [main message](#inittemplate) will be used to edit, and the small message will be used as content of a new post, informing the user of an update of the edited post
+A version must exist for each forum language, replacing xxxx with the country
+It is personalized during run (removing parameters between __L__ for language and __F__ for forum specific formats).
+
+- <a name="calculationtemplate"></a>**output_gameday_calculation_main_template_xxxx.txt**: Template for gameday result messages.  
 A version must exist for each forum language, replacing xxxx with the country
 It is personalized during run (removing parameters between __L__ for language and __F__ for forum specific formats). 
 An example of message posted based on it, is also copied in *files_example*, named *forumoutput_calculated_s2_leaderscupelite2-finale_france_bi.txt*  
+
+- **output_gameday_calculation_small_template_xxxx.txt**: Small template for gameday calculation messages. If there is a post to edit, the [main message](#calculationtemplate) will be used to edit, and the small message will be used as content of a new post, informing the user of an update of the edited post
+A version must exist for each forum language, replacing xxxx with the country
+It is personalized during run (removing parameters between __L__ for language and __F__ for forum specific formats).
 
 - <a name="translationfile"></a>**output_gameday_template_translations.json**: Contains translations:  
     for language "__L__"  
@@ -405,7 +413,7 @@ The software administrator can add to the scope any competion from any sport lea
     - add a new section in the file [output_gameday_template_translations.json](#translationfile) for forum format using xxx as section head  
 
     If the forum language is with a new language, the software administrator must:
-    - add new files to DropBox: [output_gameday_init_template_xxxx.txt](#inittemplate) and [output_gameday_calculation_template_xxxx.txt](#calculationtemplate) with xxxx being the new language
+    - new files to DropBox: [output_gameday_init_main_template_xxxx.txt and output_gameday_init_small_template_xxxx.txt](#inittemplate) and [output_gameday_calculation_main_template_xxxx.txt and output_gameday_calculation_small_template_xxxx.txt](#calculationtemplate) with xxxx being the new language
     - add a new section in the file [output_gameday_template_translations.json](#translationfile) for language translation using xxxx as section head
 
     Finally the software administrator must:  

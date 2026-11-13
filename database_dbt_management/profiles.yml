@@ -1,10 +1,10 @@
 DBT_PRONO:
   outputs:
     prod:
-      account: cywpstb-ob94462
-      database: PREDICT_PROD
-      user: TCHOURYMAN
-      password: 125RingN011!!!
+      account: #ACCOUNT#
+      database: #DATABASE#
+      user: #USER#
+      password: #PASSWORD#
       role: ACCOUNTADMIN
       schema: LANDING
       threads: 1

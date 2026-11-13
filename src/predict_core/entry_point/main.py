@@ -177,8 +177,9 @@ def main():
     
         # we post messages for each concerned topics
         posting_args = [(df_topics.iloc[i].to_dict(), 
-                         output_param_dict[f"MESSAGE_{df_topics.iloc[i]['FORUM_COUNTRY']}_{df_topics.iloc[i]['FORUM_SOURCE']}"])
-            for i in range(len(df_topics))]   
+                         output_param_dict[f"MESSAGE_MAIN_{df_topics.iloc[i]['FORUM_COUNTRY']}_{df_topics.iloc[i]['FORUM_SOURCE']}"], 
+                         output_param_dict[f"MESSAGE_SMALL_{df_topics.iloc[i]['FORUM_COUNTRY']}_{df_topics.iloc[i]['FORUM_SOURCE']}"]
+                         ) for i in range(len(df_topics))]   
         multithread_run(messages_posting_process.post_message, posting_args)
     
     local_environment_manipulation.terminate_local_environment(called_by,context_dict)

@@ -295,7 +295,7 @@ def test_get_parameters_missing_key(read_yml_as_serie, read_csv,read_txt, assert
 
         assert_exit(lambda: output_message_calculated_generation.get_parameters(sr_snowflake_account_connect, sr_gameday_output_calculate))
 
-def test_create_message_conditional_blocks(read_csv,read_txt,read_json):
+def test_create_main_message_conditional_blocks(read_csv,read_txt,read_json):
     
     # this test the function create_messages_for_country with a template without parameters. Must return the same result than the template
     param_dict = {
@@ -345,7 +345,7 @@ def test_create_message_conditional_blocks(read_csv,read_txt,read_json):
     with patch.object(output_message_calculated_generation.output,"define_filename", return_value=mock_filename) as mock_filename, \
          patch.object(output_message_calculated_generation.files_manipulation,"create_txt"):
         
-        content, country, forum = output_message_calculated_generation.create_message(param_dict, template, translations, country, forum, sr_gameday_output_calculate, 0)
+        content, country, forum = output_message_calculated_generation.create_main_message(param_dict, template, translations, country, forum, sr_gameday_output_calculate, 0)
         
         assert content == template
         assert country == "FRANCE"
@@ -356,8 +356,10 @@ def test_process_output_message_no_topics(read_yml_as_serie, read_csv,read_txt, 
     # this test the function process_output_message_calculated with no topics. Must run
     context_dict = {
         "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
-        'str_output_gameday_calculation_template_france': read_txt("output_gameday_calculation_template_france.txt"),
-        'str_output_gameday_calculation_template_italia': read_txt("output_gameday_calculation_template_france.txt"),
+        'str_output_gameday_calculation_main_template_france': read_txt("output_gameday_calculation_main_template_france.txt"),
+        'str_output_gameday_calculation_main_template_italia': read_txt("output_gameday_calculation_main_template_france.txt"),
+        'str_output_gameday_calculation_small_template_france': read_txt("output_gameday_calculation_main_template_france.txt"),
+        'str_output_gameday_calculation_small_template_italia': read_txt("output_gameday_calculation_main_template_france.txt"),
         'lst_output_gameday_template_translations': read_json("output_gameday_template_translations.json")
     }
     sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
@@ -383,8 +385,8 @@ def test_process_output_message_posting_fails(read_yml_as_serie, read_csv,read_t
     # this test the function process_output_message_calculated with posting function failing. Must exit the program.
     context_dict = {
         "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
-        'str_output_gameday_calculation_template_france': read_txt("output_gameday_calculation_template_france.txt"),
-        'str_output_gameday_calculation_template_italia': read_txt("output_gameday_calculation_template_france.txt"),
+        'str_output_gameday_calculation_main_template_france': read_txt("output_gameday_calculation_main_template_france.txt"),
+        'str_output_gameday_calculation_main_template_italia': read_txt("output_gameday_calculation_main_template_france.txt"),
         'lst_output_gameday_template_translations': read_json("output_gameday_template_translations.json")
     }
     sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]

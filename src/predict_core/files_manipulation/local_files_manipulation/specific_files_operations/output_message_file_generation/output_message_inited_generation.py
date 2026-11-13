@@ -325,10 +325,10 @@ def get_parameters(sr_snowflake_account: pd.Series, sr_gameday_output_init: pd.S
     return param_dict
 
 @config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('country','forum','sr_gameday_output_init') })
-def create_message(param_dict: dict, template: str, translations_dict: dict, country: str, forum:str, sr_gameday_output_init: pd.Series) -> Tuple[str,str,str]:
+def create_main_message(param_dict: dict, template: str, translations_dict: dict, country: str, forum:str, sr_gameday_output_init: pd.Series) -> Tuple[str,str,str]:
 
     '''
-        Defines inited gameday message:
+        Defines inited gameday main message to post on forums:
         - by replacing text with calculated parameters
         - create the text file containing the message, per country and per forum
         Inputs:
@@ -385,6 +385,42 @@ def create_message(param_dict: dict, template: str, translations_dict: dict, cou
 
     return content,country,forum
 
+@config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('country', 'forum')})
+def create_small_message(param_dict: dict, template:str, translations_dict: dict, country: str, forum: str) -> Tuple[str,str,str]:
+
+    '''
+        Defines calculated gameday small message. Will inform the user of an update on forum
+        - by replacing text with calculated parameters
+        - create the text containing the message, per country and per forum
+        Inputs:
+            param_dict (data dictionary) containing parameters
+            template (str): the message text we want to personalize
+            country (str): the country of the forum for the message, we translate __L__ text for this country
+            forum (str): the forum for the message, we translate __F__ text for this forum formats
+        Returns:
+            the message personalized with the related country and forum
+        Raises:
+            Exits the program if error running the function (using decorator)
+    '''
+
+    # we replace |N| in the text with N*newlines
+    content = output.format_message(template)
+
+    # we replace parameters...
+    # list is (replacement_field, replacement_value)
+    replacement_substr = [
+        ("#MESSAGE_PREFIX_PROGRAM_STRING#", var.MESSAGE_PREFIX_PROGRAM_STRING),
+        ("#GAMEDAY#",param_dict['GAMEDAY_OPENING'])
+    ]
+
+    for replacement_field, replacement_value in replacement_substr:
+        content = content.replace(replacement_field,replacement_value) 
+
+    #We then translate the content for the country and the forum
+    content = output.translate_string(content,country,forum,translations_dict)
+
+    return content,country,forum
+
 @config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_init',) })
 def process_output_message_inited(context_dict: dict, sr_gameday_output_init: pd.Series):
 
@@ -412,12 +448,22 @@ def process_output_message_inited(context_dict: dict, sr_gameday_output_init: pd
     logging.info("OUTPUT -> PARAM RETRIEVED")
 
     # we create messages from parameters for each country
-    message_args= [(param_dict,context_dict['str_output_gameday_init_template_'+country.lower()],
-                    context_dict['lst_output_gameday_template_translations'],country,forum,
+    # the small message
+    small_message_args= [(param_dict,context_dict['str_output_gameday_init_small_template_'+country.lower()]
+                        ,context_dict['lst_output_gameday_template_translations'],country,forum)
+                          for (country,forum) in list_countries_forums]
+    results_small = multithread_run(create_small_message, small_message_args) 
+    for content,country,forum in results_small:
+        param_dict['MESSAGE_SMALL_'+country+'_'+forum] = content
+
+    # the main message
+    main_message_args= [(param_dict,context_dict['str_output_gameday_init_main_template_'+country.lower()]
+                    ,context_dict['lst_output_gameday_template_translations'],country,forum,
                     sr_gameday_output_init) for (country,forum) in list_countries_forums]
-    results = multithread_run(create_message, message_args)
-    for content,country,forum in results:
-        param_dict['MESSAGE_'+country+'_'+forum] = content
+    results_main = multithread_run(create_main_message, main_message_args)
+    for content,country,forum in results_main:
+        param_dict['MESSAGE_MAIN_'+country+'_'+forum] = content
+
     logging.info("OUTPUT -> MESSAGES CREATED")
     logging.info("OUTPUT -> GENERATING INITED MESSAGE [DONE]")
 

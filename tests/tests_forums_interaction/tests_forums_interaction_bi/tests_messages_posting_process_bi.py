@@ -11,11 +11,12 @@ def test_post_edit_message_bi(read_csv):
 
     # this test the function post_edit_message_bi
     topic_row = read_csv("q_topics_query.csv").iloc[0]
-    message_content = "Hello BI forum!"
+    message_main = "Hello BI forum!"
+    message_small = "He BI fo!"
 
     with patch.object(messages_posting_process_bi,"login_and_post_message_bi") as mock_post:
 
-        messages_posting_process_bi.post_edit_message_bi(topic_row, message_content)
+        messages_posting_process_bi.post_edit_message_bi(topic_row, message_main, message_small)
         assert mock_post.call_count == 2
 
 def test_login_to_bi():

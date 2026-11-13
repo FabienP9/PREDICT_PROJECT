@@ -1,0 +1,7 @@
+|0|#MESSAGE_PREFIX_PROGRAM_STRING#|2|
+
+
+|0|__F__sizeverybigbegin__F____F__boldbegin__F__ Ouverture - #GAMEDAY# __F__boldend__F____F__sizeverybigend__F__|1|
+__F__sizebigbegin__F__Ouverture effectuée: voir page 1 ==> __F__urlbegin__F__#EDITED_MESSAGE#__F__urlend__F____F__sizebigend__F__|2|
+
+|0|#MESSAGE_PREFIX_PROGRAM_STRING#|0|

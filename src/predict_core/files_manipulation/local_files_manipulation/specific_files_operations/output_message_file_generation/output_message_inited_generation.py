@@ -10,6 +10,7 @@ import os
 from datetime import datetime, timedelta,timezone
 from typing import Tuple
 import pandas as pd
+import random
 
 from .....config import config_decorators
 from .....config.config_multithread import multithread_run
@@ -415,6 +416,11 @@ def create_small_message(param_dict: dict, template:str, translations_dict: dict
 
     for replacement_field, replacement_value in replacement_substr:
         content = content.replace(replacement_field,replacement_value) 
+
+
+    # we add a random color around it
+    color = random.choice(var.COLOR_SMALL_MESSAGE)
+    content = f"__F__{color}__F__{content}__F__color_end__F__"
 
     #We then translate the content for the country and the forum
     content = output.translate_string(content,country,forum,translations_dict)

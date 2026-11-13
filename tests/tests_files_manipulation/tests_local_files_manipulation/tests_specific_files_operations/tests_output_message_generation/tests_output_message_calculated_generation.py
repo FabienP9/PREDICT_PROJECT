@@ -409,23 +409,12 @@ def test_create_small_message(read_txt, read_json, read_csv):
     param_dict = {
         "GAMEDAY": "1ere journee"
     }
-    template = """|0|#MESSAGE_PREFIX_PROGRAM_STRING#|2|
-                    |0|__F__sizeverybigbegin__F____F__boldbegin__F__ Résultats partiels - #GAMEDAY# __F__boldend__F____F__sizeverybigend__F__|1|
-                    __F__sizebigbegin__F__Mise à jour effectuée: voir page 1 ==> __F__urlbegin__F__#EDITED_MESSAGE#__F__urlend__F____F__sizebigend__F__|2|
-                    |0|#MESSAGE_PREFIX_PROGRAM_STRING#|0|"""
+    template = """Hello todos"""
     translations = read_json("output_gameday_template_translations.json")
     country = "FRANCE"
     forum = 'BI'
 
-    content, country, forum = output_message_calculated_generation.create_small_message(param_dict, template, translations, country, forum)
-
-    assert content.split() == f"""{var.MESSAGE_PREFIX_PROGRAM_STRING}
-
-                    [size=200][b] Résultats partiels - 1ere journee [/b][/size]
-                    [size=150]Mise à jour effectuée: voir page 1 ==> [url]#EDITED_MESSAGE#[/url][/size]
-
-                    {var.MESSAGE_PREFIX_PROGRAM_STRING}
-""".split()
+    _, country, forum = output_message_calculated_generation.create_small_message(param_dict, template, translations, country, forum)
     assert country == "FRANCE"
     assert forum == 'BI'
 

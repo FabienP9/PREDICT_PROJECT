@@ -60,6 +60,7 @@ def test_set_output_need_to_check_status_updates_series(read_csv):
         result['TS_TASK_UTC'] = pd.to_datetime(result['TS_TASK_UTC']).tz_localize(None) \
         if isinstance(result['TS_TASK_UTC'], pd.Timestamp) else result['TS_TASK_UTC']
 
+
         expected_sr['TS_TASK_UTC'] = pd.to_datetime(expected_sr['TS_TASK_UTC']).tz_localize(None) \
         if isinstance(expected_sr['TS_TASK_UTC'], pd.Timestamp) else expected_sr['TS_TASK_UTC']
         assert_series_equal(result.reset_index(drop=True), expected_sr.reset_index(drop=True),check_dtype=False,check_names=False)

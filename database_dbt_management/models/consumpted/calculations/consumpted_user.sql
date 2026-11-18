@@ -11,7 +11,7 @@
     Foreign Key:
         SEASON_KEY: from curated
     Filter:
-        Only user related with season on which the gameday is the action (IS_TO_DELETE or IS_TO_CALCULATE)
+        Only user related with season on which the gameday is to calculate or calculated
     Materialization:
         incremental to avoid removing old calculations */
 
@@ -36,7 +36,7 @@ with user as (
         ON season.SEASON_KEY = gameday.SEASON_KEY
         AND gameday.IS_TO_CALCULATE + gameday.IS_TO_DELETE > 0
 ),
--- we merge with consumpted_user_gameday to get features
+-- we merge with consumpted_user_gameday to get features, only on the gameday with action + already calculated
 user_gameday as (
     SELECT
        user.USER_KEY,
@@ -45,6 +45,7 @@ user_gameday as (
        ug.GAMEDAY_KEY,
        ug.POINTS,
        ug.NB_PREDICTION,
+       gameday2.NB_PREDICTION_PLAYED,
        -- we calculate the rank of each user to calculate the number of time a user ranked first (next run)
        RANK() OVER (
             PARTITION BY
@@ -56,9 +57,12 @@ user_gameday as (
         user
     JOIN
         {{ref('consumpted_user_gameday')}} ug
-    ON
-        user.SEASON_KEY = ug.SEASON_KEY
-        and user.USER_KEY = ug.USER_KEY
+        ON user.SEASON_KEY = ug.SEASON_KEY
+        AND user.USER_KEY = ug.USER_KEY
+    JOIN
+        {{ref('consumpted_gameday')}} gameday2
+        ON ug.GAMEDAY_KEY = gameday2.GAMEDAY_KEY
+        AND gameday2.IS_TO_CALCULATE + gameday2.IS_CALCULATED > 0
 ),
 -- we calculate the total points, the number of predicted gamedays and predictions, 
 -- and get the number of time the user came first
@@ -69,6 +73,7 @@ figures as (
         ug2.SEASON_KEY,
         SUM(ug2.POINTS) AS TOTAL_POINTS,
         SUM(ug2.NB_PREDICTION) AS NB_PREDICTION,
+        SUM(ug2.NB_PREDICTION_PLAYED) AS NB_PREDICTION_PLAYED,
         COUNT(DISTINCT ug2.GAMEDAY_KEY) AS NB_GAMEDAY_PREDICT,
         SUM(CASE 
                 WHEN ug2.RANK_USER_GAMEDAY = 1 THEN 1
@@ -80,18 +85,6 @@ figures as (
         ug2.USER_NAME,
         ug2.SEASON_KEY
 ),
--- we get the number of predictions total in the season
-nb_predictions_total as (
-    SELECT
-        gameday.SEASON_KEY,
-        SUM(gameday.NB_PREDICTION) AS NB_PREDICTION_TOTAL
-    FROM
-        {{ref('consumpted_gameday')}} gameday
-    WHERE
-        gameday.IS_CALCULATED = 1
-    GROUP BY
-        gameday.SEASON_KEY
-),
 final_user as (
     SELECT
         figures.USER_KEY,
@@ -102,18 +95,15 @@ final_user as (
         figures.NB_GAMEDAY_PREDICT,
         figures.NB_GAMEDAY_FIRST,
         CASE 
-            WHEN figures.NB_PREDICTION/nb_predictions_total.NB_PREDICTION_TOTAL > 0.75 THEN 1
+            WHEN figures.NB_PREDICTION/figures.NB_PREDICTION_PLAYED > 0.75 THEN 1
             ELSE 0
         END AS IS_ELIGIBLE_AVERAGE_RANKING,
         CASE 
-            WHEN figures.NB_PREDICTION/nb_predictions_total.NB_PREDICTION_TOTAL > 0.15 THEN 1
+            WHEN figures.NB_PREDICTION/figures.NB_PREDICTION_PLAYED > 0.15 THEN 1
             ELSE 0
         END AS IS_ELIGIBLE_PREDICTCHAMP        
     FROM
         figures
-    JOIN
-        nb_predictions_total
-        ON nb_predictions_total.SEASON_KEY = figures.SEASON_KEY
 )
 SELECT
     final_user.USER_KEY,

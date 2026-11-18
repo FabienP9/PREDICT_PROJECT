@@ -8,7 +8,7 @@
 with gameday as (
     SELECT
         gameday1.GAMEDAY,
-        gameday1.NB_GAME+2 AS NB_PREDICTION, /* one bonus game per gameday = 3 prediction */
+        gameday1.NB_GAME_PLAYED +2 AS NB_PREDICTION_PLAYED, /* one bonus game per gameday = 3 prediction */
         gameday1.BEGIN_DATE_LOCAL,
         gameday1.BEGIN_TIME_LOCAL,
         gameday1.END_DATE_LOCAL,
@@ -40,7 +40,7 @@ with gameday as (
 )
 SELECT
     gameday.GAMEDAY,
-    gameday.NB_PREDICTION,
+    gameday.NB_PREDICTION_PLAYED,
     gameday.BEGIN_DATE_LOCAL,
     gameday.BEGIN_TIME_LOCAL,
     gameday.END_DATE_LOCAL,

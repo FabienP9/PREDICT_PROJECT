@@ -135,6 +135,8 @@ def test_main(read_csv, read_yml_as_serie):
     }
     mock_sr_output_need = read_csv("output_need_calculate.csv").iloc[0]
     mock_extraction_time_utc = '2025-01-01 18:00:00'
+    mock_initiate_local_dict['sr_output_need']['LAST_MESSAGE_CHECK_TS_UTC']  = "2000-01-01 00:01:00"
+    mock_sr_output_need['LAST_MESSAGE_CHECK_TS_UTC']  = "2000-01-01 00:01:00"
 
     with patch.object(main.env,"check_environment_variable"),\
          patch.object(main.dropbox,"initiate_folder"), \

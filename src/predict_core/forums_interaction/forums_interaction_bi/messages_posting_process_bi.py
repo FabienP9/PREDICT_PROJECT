@@ -19,34 +19,46 @@ from ...config.config_variables import config_global_variables as var
 logging.basicConfig(level=logging.INFO)
 
 @config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('topic_row',)})
-def post_edit_message_bi(topic_row: pd.Series, message_content: str):
+def post_edit_message_bi(topic_row: pd.Series, message_main: str, message_small: str):
 
     '''
         Call Post and edit function on the "BI" forum conditionnally
         Inputs:
             topic_row (series - one row) details about the topic to know where to post, and if to edit
-            message_content (str): message to post
+            message_main (str): main message to post (on edit post and conditionnally on new post)
+            message_small (str): small message to post (on new post to inform user of an update of the edited post)
         Raises:
             Exits the program if error running the function (using decorator)
     '''
-
+   
+    # if there is a post we want to edit
     if pd.notna(topic_row['MESSAGE_NUMBER_TO_EDIT']):
-        
-        date_update = datetime.now(ZoneInfo(topic_row['FORUM_TIMEZONE'])).strftime("%d/%m")
+
+        # we transform message main to add header for the edit post
+        date_update = datetime.now(ZoneInfo(topic_row['FORUM_TIMEZONE'])).strftime("%d/%m - %H:%M")
         if topic_row['IS_FOR_PREDICT'] == 1:
             string_update = "[i][Message auto-généré présentant la dernière ouverture de journée pour pronostics - Mis a jour le " + date_update + "][/i]"
-            message_content_updated = message_content.replace(var.MESSAGE_PREFIX_PROGRAM_STRING,
-                                                              var.MESSAGE_PREFIX_PROGRAM_STRING + "\n" + string_update + "\n")
-            
-            login_and_post_message_bi(topic_row, message_content_updated, is_to_edit = 1)
-        
         if topic_row['IS_FOR_RESULT'] == 1:
-            string_update = "[i][Message auto-généré présentant les derniers résultats - Mis a jour le " + date_update + "][/i]"
-            message_content_updated = message_content.replace(var.MESSAGE_PREFIX_PROGRAM_STRING,
-                                                              var.MESSAGE_PREFIX_PROGRAM_STRING+ "\n" + string_update + "\n")
-            login_and_post_message_bi(topic_row, message_content_updated, is_to_edit = 1)
+                string_update = "[i][Message auto-généré présentant les derniers résultats - Mis a jour le " + date_update + "][/i]"
+        message_main_header = message_main.replace(var.MESSAGE_PREFIX_PROGRAM_STRING,
+                                                              var.MESSAGE_PREFIX_PROGRAM_STRING + "\n" + string_update + "\n")
+        
+        # we replace "EDITED_MESSAGE" string of message small with the link of the edited post on BI forum
+        message_small_topic = message_small.replace("#EDITED_MESSAGE#",
+                        f"viewtopic.php?p={topic_row['MESSAGE_NUMBER_TO_EDIT']}#p{topic_row['MESSAGE_NUMBER_TO_EDIT']}")
+        
+        # we edit the edit post with main message with header
+        login_and_post_message_bi(topic_row, message_main_header, is_to_edit = 1)
 
-    login_and_post_message_bi(topic_row, message_content, is_to_edit = 0)
+        # if message small is empty we post the main message to a new post else we post the small message
+        if message_small == "":
+            login_and_post_message_bi(topic_row, message_main, is_to_edit = 0)
+        else:
+            login_and_post_message_bi(topic_row, message_small_topic, is_to_edit = 0)
+
+    # if there is no message to edit on BI forum we just post the main message on a new post
+    else:
+        login_and_post_message_bi(topic_row, message_main, is_to_edit = 0)
 
 @config_decorators.exit_program(log_filter=lambda args: {})
 def login_to_bi(session: requests.Session, login_url: str) -> Tuple[Literal[0, 1], str]:

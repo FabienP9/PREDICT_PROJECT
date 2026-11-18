@@ -60,16 +60,17 @@ with gameday as (
     WHERE UPDATED_AT_UTC > '{{ max_updated_at }}'
     {% endif %}
 ),
--- we get the number of games
+-- we get the number of games played
 gameday_nbgame as (
     SELECT
         gameday2.GAMEDAY_KEY,
-        COALESCE(COUNT(game.GAMEDAY_KEY),0) AS NB_GAME
+        COALESCE(COUNT(game.GAMEDAY_KEY),0) AS NB_GAME_PLAYED
     FROM
         gameday gameday2
     LEFT JOIN
         {{ref('curated_game')}} game
         ON game.GAMEDAY_KEY = gameday2.GAMEDAY_KEY
+        AND game.IS_PLAYED = 1
     GROUP BY
         gameday2.GAMEDAY_KEY
 ),
@@ -82,7 +83,7 @@ final_gameday as (
         gameday3.COMPETITION_SOURCE_ID,
         gameday3.GAMEDAY,
         gameday3.GAMEDAY_MESSAGE,
-        gameday_nbgame.NB_GAME,
+        gameday_nbgame.NB_GAME_PLAYED,
         gameday3.IS_PLAYED,
         gameday3.IS_PARTIALLY_PLAYED,
         gameday3.BEGIN_DATE_LOCAL,
@@ -98,27 +99,25 @@ final_gameday as (
         {% if is_incremental() %}
             -- if the gameday is already calculated, no need to calculate except if we want to recalculate
             CASE
-                -- if played and we want to recalculate, we will calculate
+                -- if played and we want to recalculate (only when fully played), we will calculate
                 WHEN gameday3.IS_PLAYED = 1 AND gameday3.IS_TO_RECALCULATE = 1 THEN 1
-                -- if played and we want to calculate and gameday doesn't exist yet in table, then we will calculate it
-                WHEN gameday3.IS_PLAYED = 1 AND gameday3.IS_TO_CALCULATE = 1 AND this.GAMEDAY_KEY IS NULL THEN 1
-                -- if played and we want to calculate and it is not already calculated, then we will calculate it
-                WHEN gameday3.IS_PLAYED = 1 AND gameday3.IS_TO_CALCULATE = 1 AND this.IS_CALCULATED = 0 THEN 1
+                -- if we want to calculate and gameday doesn't exist yet in table, then we will calculate it
+                WHEN gameday3.IS_TO_CALCULATE = 1 AND this.GAMEDAY_KEY IS NULL THEN 1
+                -- if we want to calculate and it is not already calculated, then we will calculate it
+                WHEN gameday3.IS_TO_CALCULATE = 1 AND this.IS_CALCULATED = 0 THEN 1
                 -- else we don't calculate it
                 ELSE 0
             END AS IS_TO_CALCULATE,
-            -- if the gameday is not calculated, no need to delete it
-            CASE
-                WHEN gameday3.IS_TO_DELETE = 1 AND this.IS_CALCULATED = 1 THEN 1
-                ELSE 0
-            END AS IS_TO_DELETE,
+            gameday3.IS_TO_DELETE,
             -- we then update IS_CALCULATED - which will help us know for next runs if it need to be calculated again
             CASE
+                -- if it is not fully played it is not calculated
+                WHEN gameday3.IS_PLAYED = 0 THEN 0
                 -- if we want to delete it then it won't be calculated anymore
-                WHEN gameday3.IS_TO_DELETE = 1 AND this.IS_CALCULATED = 1 THEN 0
+                WHEN gameday3.IS_TO_DELETE = 1 THEN 0
                 -- if we want to recalculate, then it will be calculated
                 WHEN gameday3.IS_PLAYED = 1 AND gameday3.IS_TO_RECALCULATE = 1 THEN 1
-                -- if we want to calculate and it is not yet, then it will be calculated
+                -- if we want to calculate and it is fully played then it will be calculated
                 WHEN gameday3.IS_PLAYED = 1 AND gameday3.IS_TO_CALCULATE = 1 AND this.GAMEDAY_KEY IS NULL THEN 1
                 WHEN gameday3.IS_PLAYED = 1 AND gameday3.IS_TO_CALCULATE = 1 AND this.IS_CALCULATED = 0 THEN 1
                 WHEN this.GAMEDAY_KEY IS NULL THEN 0
@@ -145,8 +144,8 @@ SELECT
     final_gameday.COMPETITION_SOURCE_ID,
     final_gameday.GAMEDAY,
     final_gameday.GAMEDAY_MESSAGE,
-    final_gameday.NB_GAME,
-    final_gameday.NB_GAME + 2 AS NB_PREDICTION,
+    final_gameday.NB_GAME_PLAYED,
+    final_gameday.NB_GAME_PLAYED + 2 AS NB_PREDICTION_PLAYED,
     final_gameday.IS_PLAYED,
     final_gameday.IS_PARTIALLY_PLAYED,
     final_gameday.BEGIN_DATE_LOCAL,

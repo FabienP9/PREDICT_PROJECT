@@ -173,14 +173,14 @@ To add more/ change souces, read [the full manual](#documentation).
 
 ## Usage - Entry points<a name="usage"></a>
 
-The system exposes several entry points, to see them all read [the full manual](#documentation).  
+The system exposes several entry points, to understand them all, read [the full manual](#documentation).  
 The main entry point, which calculates results, posts them on forums, posts predictions templates, or reads messages is called main. 
 - Typical local usage:
     ```
         python -m src.predict_core.entry_point.main
     ```
 - Typical GitHub Actions usage:  
-    → *gitrun_main_auto_prod.yml*  will check if it time to run a scheduled task then run it or do nothing if it is not  
+    → *gitrun_main_auto_prod.yml*  will check if it time to run a scheduled task then run it - or do nothing if it is not  
     → *gitrun_main_manual_prod.yml* will run a task manually written (see *output_need_manual_file.csv* on the [full manual](#documentation))  
 
 ## Error management and impacts<a name="error"></a>
@@ -208,8 +208,9 @@ This ensures that:
     Each test module uses dedicated material files under *tests/materials/*.  
     To run them:
     ```
+        unset # this will make sure no variables is stored locally it might fail otherwise
         pytest # to run all tests
-        pytest tests/tests_*/[...]/tests_*/tests.*.py # to run one module test
+        pytest tests/tests_*/[...]/tests_*/tests_*.py # to run one module test
     ```
 
 - DBT tests

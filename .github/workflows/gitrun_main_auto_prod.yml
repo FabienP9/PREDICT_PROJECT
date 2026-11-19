@@ -134,12 +134,12 @@ jobs:
         if: ${{ env.should_proceed == 'true' }}
         run: |
           set -e
-          # exit if error at any moment
+          echo "program_ran=true" >> $GITHUB_ENV
           python3 -m src.predict_core.entry_point.main
           echo "output=$(cat json_file_email_details.json | base64 -w0)" >> $GITHUB_ENV
 
       - name: Send Email (Success or Failure)
-        if: always()
+        if: ${{ env.program_ran == 'true' }}
         run: |
           python3 - <<EOF
           import os, smtplib, json, pathlib, base64

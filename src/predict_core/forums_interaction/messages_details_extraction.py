@@ -79,7 +79,6 @@ def extract_messages_from_topic(topic_row: Tuple,ts_message_extract_min_utc: pd.
         except (socket.timeout, TimeoutError) as e:
             raise ValueError(f"{var.SOFT_ERROR_TAG} PAGE {page_url} -> timed out: {e}") from e
         
-        messagetext = messagetext.decode('utf-8') 
         #we get all messages from the page
         get_messages_infos = messages_info_functions.get(topic_row.FORUM_SOURCE)
         df = get_messages_infos(messagetext, topic_row, start)

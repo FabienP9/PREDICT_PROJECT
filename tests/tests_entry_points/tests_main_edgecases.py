@@ -11,7 +11,7 @@ def test_process_games_missing_key(assert_exit):
     
     # this test the process_games with missing key in context dict. Must exit the program.
     context = {}
-    assert_exit(lambda: main.process_games(context))
+    assert_exit(lambda: main.process_games(context), expected_code = 1) # hard exit
     
 def test_process_games_failure(read_csv,assert_exit):
     
@@ -27,7 +27,7 @@ def test_process_games_failure(read_csv,assert_exit):
     with patch.object(main.games_details_extraction,"extract_games_from_need", side_effect=RuntimeError("boom")), \
          patch.object(main.files_manipulation,"filter_data"):
 
-        assert_exit(lambda: main.process_games(context))
+        assert_exit(lambda: main.process_games(context), expected_code = 1) # hard exit
 
 def test_process_messages_extract_messages_failure(read_csv, read_yml_as_serie, assert_exit):
     
@@ -42,7 +42,7 @@ def test_process_messages_extract_messages_failure(read_csv, read_yml_as_serie, 
 
     with patch.object(main.messages_details_extraction,"extract_messages", side_effect=ValueError("bad")):
 
-            assert_exit(lambda: main.process_messages(context))
+            assert_exit(lambda: main.process_messages(context), expected_code = 1) # hard exit
         
 def test_process_messages_invalid_message_dataframe(read_yml_as_serie, read_csv, assert_exit):
     
@@ -62,7 +62,7 @@ def test_process_messages_invalid_message_dataframe(read_yml_as_serie, read_csv,
          patch.object(main.output_need_calculation,"set_output_need_to_check_status"), \
          patch.object(main.files_manipulation,"create_csv"):
 
-            assert_exit(lambda: main.process_messages(context))
+            assert_exit(lambda: main.process_messages(context), expected_code = 1) # hard exit
 
 def test_display_check_string_missing_key(read_yml_as_serie, read_csv,assert_exit):
     
@@ -74,14 +74,14 @@ def test_display_check_string_missing_key(read_yml_as_serie, read_csv,assert_exi
         'nb_new_messages': 3,
         "df_boolean_check_message_manually" : read_csv("boolean_check_message_manually_1.csv")
     }
-    assert_exit(lambda: main.display_check_string(context))
+    assert_exit(lambda: main.display_check_string(context), expected_code = 1) # hard exit
     
 def test_main_dropbox_failure(assert_exit):
     
     # this test the main with dropbox connection failing. Must exit the program.
     with patch.object(main.env,"check_environment_variable"),\
          patch.object(main.dropbox,"initiate_folder", side_effect=OSError("dropbox fail")):
-        assert_exit(lambda: main.main())
+        assert_exit(lambda: main.main(), expected_code = 1) # hard exit
     
 def test_main_generate_output_need_failure(read_csv, read_yml_as_serie, assert_exit):
     
@@ -98,4 +98,4 @@ def test_main_generate_output_need_failure(read_csv, read_yml_as_serie, assert_e
          patch.object(main.local_environment_manipulation,"initiate_local_environment", return_value=mock_initiate_local_dict), \
          patch.object(main.output_need_calculation,"generate_output_need", side_effect=Exception("gen fail")):
         
-        assert_exit(lambda: main.main())
+        assert_exit(lambda: main.main(), expected_code = 1) # hard exit

@@ -65,7 +65,7 @@ def test_snowflake_execute_invalidquery(read_yml_as_serie,assert_exit):
          patch.object(snowflake_connection_execution.sqlglot,'parse_one') as mock_parse_one:
 
         mock_parse_one.return_value = object()
-        assert_exit(lambda: snowflake_connection_execution.snowflake_execute(sr_snowflake_account_connect, query, "#DATABASE#"))
+        assert_exit(lambda: snowflake_connection_execution.snowflake_execute(sr_snowflake_account_connect, query, "#DATABASE#"), expected_code = 1) # hard exit
 
 def test_snowflake_execute_script_empty_script(read_yml_as_serie):
     

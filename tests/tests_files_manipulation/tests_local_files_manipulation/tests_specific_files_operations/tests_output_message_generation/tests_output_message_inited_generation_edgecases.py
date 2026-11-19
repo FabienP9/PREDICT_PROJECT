@@ -20,7 +20,7 @@ def test_transform_games_to_list_missing_column(read_csv,assert_exit):
 
     # this test the function transform_games_to_list with a missing column. Must exit the program
     df_games = read_csv("edgecases/q_vw_game_query_missing_game_message.csv")
-    assert_exit(lambda: output_message_inited_generation.transform_games_to_list(df_games))
+    assert_exit(lambda: output_message_inited_generation.transform_games_to_list(df_games), expected_code = 1) # hard exit
 
 def test_transform_databasetime_for_output_invalid_format():
 
@@ -35,19 +35,19 @@ def test_transform_databasetime_for_output_none(assert_exit):
 
     # this test the function transform_databasetime_for_output with None. Must exit the program.
     df_cols_time = pd.Series([None])
-    assert_exit(lambda: output_message_inited_generation.transform_databasetime_for_output(df_cols_time, get_moment = 1))
+    assert_exit(lambda: output_message_inited_generation.transform_databasetime_for_output(df_cols_time, get_moment = 1), expected_code = 1) # hard exit
 
 def test_transform_databasedate_for_output_invalid_format(assert_exit):
 
     # this test the function transform_databasedate_for_output with invalid format. Must exit program
     df_date = pd.Series(["2024/01/31"])
-    assert_exit(lambda: output_message_inited_generation.transform_databasedate_for_output(df_date))
+    assert_exit(lambda: output_message_inited_generation.transform_databasedate_for_output(df_date), expected_code = 1) # hard exit
 
 def test_transform_databasedate_for_output_noday(assert_exit):
 
     # this test the function transform_databasedate_for_output with no day. Must exit the program.
     df_date = pd.Series("2026-02")
-    assert_exit(lambda: output_message_inited_generation.transform_databasedate_for_output(df_date))
+    assert_exit(lambda: output_message_inited_generation.transform_databasedate_for_output(df_date), expected_code = 1) # hard exit
 
 def test_add_time_to_databasedatetime_badformat(assert_exit):
     #this test the function add_time_to_databasedatetime with bad format for time.Must exit the program
@@ -56,7 +56,7 @@ def test_add_time_to_databasedatetime_badformat(assert_exit):
     df_col_time = pd.Series('99:99:99')
     minutes_to_add = 3
 
-    assert_exit(lambda: output_message_inited_generation.add_time_to_databasedatetime(df_col_date,df_col_time,minutes_to_add))
+    assert_exit(lambda: output_message_inited_generation.add_time_to_databasedatetime(df_col_date,df_col_time,minutes_to_add), expected_code = 1) # hard exit
 
 def test_transform_games_to_calendar_empty(read_csv):
     
@@ -70,7 +70,7 @@ def test_transform_games_to_calendar_bad_type(read_csv, assert_exit):
     
     # this test the function transform_games_to_calendar with a string instead of time. Must exit the program, but should not happen due to test in database.
     df_games = read_csv("edgecases/q_vw_game_query_badtype.csv")
-    assert_exit(lambda: output_message_inited_generation.transform_games_to_calendar(df_games))
+    assert_exit(lambda: output_message_inited_generation.transform_games_to_calendar(df_games), expected_code = 1) # hard exit
 
 def test_get_next_opening_gamedays_calendar_empty(read_yml_as_serie, read_csv):
 
@@ -94,9 +94,9 @@ def test_get_next_opening_gamedays_calendar_badtype(read_yml_as_serie, read_csv,
     
     with patch.object(output_message_inited_generation,'snowflake_execute', return_value=mock_df_next_gamedays):
 
-        assert_exit(lambda: output_message_inited_generation.get_next_opening_gamedays_calendar(sr_snowflake_account_connect, sr_gameday_output_init,'2026-03-06'))
+        assert_exit(lambda: output_message_inited_generation.get_next_opening_gamedays_calendar(sr_snowflake_account_connect, sr_gameday_output_init,'2026-03-06'), expected_code = 1) # hard exit
 
-def test_create_main_message_no_remaining_games(read_csv, read_txt, read_json, assert_exit):
+def test_create_main_message_no_remaining_games(read_csv, read_txt, read_json):
     
     # this test the function create_message with NB_GAMES_OPENED = 0 and NB_NEXT_OPENING=0. Must not wrtie the two last paragraphs
     param_dict = {
@@ -140,7 +140,7 @@ def test_create_message_none_param(read_csv, read_txt, read_json, assert_exit):
     forum = 'BI'
     sr_gameday_output_init = read_csv("sr_gameday_output_init.csv").iloc[0]
     
-    assert_exit(lambda: output_message_inited_generation.create_main_message(param_dict, template, translations, country, forum, sr_gameday_output_init))
+    assert_exit(lambda: output_message_inited_generation.create_main_message(param_dict, template, translations, country, forum, sr_gameday_output_init), expected_code = 1) # hard exit
 
 def test_process_output_message_with_no_topics(read_yml_as_serie, read_csv, read_txt, read_json):
     

@@ -26,13 +26,13 @@ def test_get_users_malformed_html():
     users = messages_details_extraction_bi.get_users_bi(soup)
     assert users == []
 
-def test_get_ids_malformed_ids():
+def test_get_ids_malformed_ids(assert_exit):
     
     # this test the function get_ids_bi with id not int. Must raise the value (to the caller)
     message = "<dl class='postprofile' id='badprefix123'></dl>"
     soup = bs(message, "html.parser")
     with pytest.raises(ValueError):
-        messages_details_extraction_bi.get_ids_bi(soup)
+        assert_exit(lambda:messages_details_extraction_bi.get_ids_bi(soup), expected_code = 1) # hard exit
 
 def test_get_ids_empty():
     
@@ -42,13 +42,13 @@ def test_get_ids_empty():
     ids = messages_details_extraction_bi.get_ids_bi(soup)
     assert ids == []
 
-def test_get_creationtimes_invalid_date():
+def test_get_creationtimes_invalid_date(assert_exit):
     
     # this test the function get_creationtimes_bi with invalid date. Must raise the issue (to the caller)
     message = "<time>Invalid Date</time>"
     soup = bs(message, "html.parser")
     with pytest.raises(ValueError):
-        messages_details_extraction_bi.get_creationtimes_bi(soup)
+        assert_exit(lambda:messages_details_extraction_bi.get_creationtimes_bi(soup), expected_code = 1) # hard exit
     
 def test_content_outer_blockquote_nested():
     
@@ -84,7 +84,7 @@ def test_editiontime_no_notice(read_txt):
     edition_times =  messages_details_extraction_bi.get_editiontimes_bi(soup)
     assert edition_times == expected
 
-def test_get_messages_details_inconsistent_lengths(read_txt, read_csv):
+def test_get_messages_details_inconsistent_lengths(read_txt, read_csv, assert_exit):
     
     # this test the function get_messages_details_bi with inconsistent length between lists. Must raise an issue
     messagetext = read_txt("bi_message_html.txt")
@@ -105,7 +105,7 @@ def test_get_messages_details_inconsistent_lengths(read_txt, read_csv):
          patch.object(messages_details_extraction_bi,"get_editiontimes_bi", return_value = mock_edition_times):
       
         with pytest.raises(ValueError):
-            messages_details_extraction_bi.get_messages_details_bi(messagetext, topic_row, start)
+            assert_exit(lambda:messages_details_extraction_bi.get_messages_details_bi(messagetext, topic_row, start), expected_code = 1) # hard exit
 
 def test_get_messages_details_empty_html(read_csv):
     

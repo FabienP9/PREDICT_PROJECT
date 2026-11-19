@@ -15,7 +15,7 @@ def test_translate_string_missing_country_key(read_json, assert_exit):
     country = 'ITALIA'
     forum = 'BI'
     translations = read_json("output_gameday_template_translations.json")
-    assert_exit(lambda: output_message_generation.translate_string(content, country, forum, translations))
+    assert_exit(lambda: output_message_generation.translate_string(content, country, forum, translations), expected_code = 1) # hard exit
 
 def test_translate_string_invalid_type(read_json, assert_exit):
     
@@ -24,7 +24,7 @@ def test_translate_string_invalid_type(read_json, assert_exit):
     country = 'FRANCE'
     forum = 'BI'
     translations = read_json("output_gameday_template_translations.json")
-    assert_exit(lambda: output_message_generation.translate_string(content, country, forum, translations))
+    assert_exit(lambda: output_message_generation.translate_string(content, country, forum, translations), expected_code = 1) # hard exit
 
 def test_translate_df_headers_missing_country_key(read_json, assert_exit):
     
@@ -33,7 +33,7 @@ def test_translate_df_headers_missing_country_key(read_json, assert_exit):
     country = "ITALIA"
     forum = 'BI'
     translations = read_json("output_gameday_template_translations.json")
-    assert_exit(lambda: output_message_generation.translate_df_headers(df, country, forum, translations))
+    assert_exit(lambda: output_message_generation.translate_df_headers(df, country, forum, translations), expected_code = 1) # hard exit
 
 def test_translate_df_headers_invalid_type(read_json, assert_exit):
     
@@ -42,13 +42,13 @@ def test_translate_df_headers_invalid_type(read_json, assert_exit):
     country = "FRANCE"
     forum = 'BI'
     translations = read_json("output_gameday_template_translations.json")
-    assert_exit(lambda: output_message_generation.translate_df_headers(df, country, forum, translations))
+    assert_exit(lambda: output_message_generation.translate_df_headers(df, country, forum, translations), expected_code = 1) # hard exit
 
 def test_format_message_invalid_type(assert_exit):
     
     # this test the function format_message with invalid type (int instead of string). Must exit the program.
     message = 123
-    assert_exit(lambda: output_message_generation.format_message(message))
+    assert_exit(lambda: output_message_generation.format_message(message), expected_code = 1) # hard exit
 
 def test_format_message_invalid_pattern():
     
@@ -88,7 +88,7 @@ def test_define_filename_missing_columns(read_csv, assert_exit):
     extension = "txt"
     country = "FRANCE"
     forum = "BI"
-    assert_exit(lambda: output_message_generation.define_filename(input_type, sr_gameday_output_init, extension, country, forum))
+    assert_exit(lambda: output_message_generation.define_filename(input_type, sr_gameday_output_init, extension, country, forum), expected_code = 1) # hard exit
 
 def test_define_filename_none_country(read_csv):
     
@@ -122,7 +122,7 @@ def test_capture_df_oneheader_empty_df(assert_exit):
     df = pd.DataFrame()
     capture_name = "test_capture.jpg"
 
-    assert_exit(lambda: output_message_generation.capture_df_oneheader(df, capture_name))
+    assert_exit(lambda: output_message_generation.capture_df_oneheader(df, capture_name), expected_code = 1) # hard exit
 
 def test_capture_scores_detailed_empty_df(assert_exit):
     
@@ -131,7 +131,7 @@ def test_capture_scores_detailed_empty_df(assert_exit):
     capture_name = "mycapture"
 
     with patch.object(output_message_generation.files_manipulation, 'create_jpg'):
-        assert_exit(lambda: output_message_generation.capture_scores_detailed(df, capture_name))
+        assert_exit(lambda: output_message_generation.capture_scores_detailed(df, capture_name), expected_code = 1) # hard exit
     
 def test_capture_scores_detailed_invalid_columns(assert_exit):
     
@@ -140,7 +140,7 @@ def test_capture_scores_detailed_invalid_columns(assert_exit):
     capture_name = "mycapture"
 
     with patch.object(output_message_generation.files_manipulation, 'create_jpg'):
-        assert_exit(lambda: output_message_generation.capture_scores_detailed(df, capture_name))
+        assert_exit(lambda: output_message_generation.capture_scores_detailed(df, capture_name), expected_code = 1) # hard exit
 
 def test_manage_df_empty_dataframe_raises(read_json, read_csv, assert_exit):
     
@@ -159,7 +159,7 @@ def test_manage_df_empty_dataframe_raises(read_json, read_csv, assert_exit):
             capture_name=capture_name,
             sr_gameday_output=sr_gameday_output_calculate,
             translations_dict=translations
-        ))
+        ), expected_code = 1) # hard exit
 
 def test_manage_df_upload_failure_propagates(read_json, read_csv, assert_exit):
     
@@ -187,4 +187,4 @@ def test_manage_df_upload_failure_propagates(read_json, read_csv, assert_exit):
                 capture_name=capture_name,
                 sr_gameday_output=sr_gameday_output_calculate,
                 translations_dict=translations
-            ))
+            ), expected_code = 1) # hard exit

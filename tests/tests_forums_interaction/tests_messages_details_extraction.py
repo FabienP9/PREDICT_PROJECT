@@ -6,6 +6,7 @@ It units test the happy path for each function
 from unittest.mock import MagicMock, patch
 from pandas.testing import assert_frame_equal
 import pandas as pd
+import os
 
 from src.predict_core.forums_interaction import messages_details_extraction
 
@@ -19,8 +20,11 @@ def test_extract_messages_from_topic(read_csv):
     mock_response = MagicMock()
     mock_response.read.return_value = b"<html></html>"
     mock_df = read_csv("message_check.csv")
-    with patch.object(messages_details_extraction.urllib,'urlopen') as mock_urlopen, \
-         patch.dict(messages_details_extraction.messages_info_functions, {'BI': MagicMock()}):
+    with patch.object(messages_details_extraction.urllib.request, 'urlopen') as mock_urlopen, \
+         patch.dict(messages_details_extraction.messages_info_functions, {'BI': MagicMock()}), \
+         patch.dict(os.environ, {'BI_URL': 'http://fake-forum'}):
+        mock_urlopen.return_value = mock_response
+        messages_details_extraction.messages_info_functions['BI'].return_value = mock_df
         
         mock_urlopen.return_value = mock_response
         messages_details_extraction.messages_info_functions['BI'].return_value = mock_df

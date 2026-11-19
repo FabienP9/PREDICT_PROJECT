@@ -23,7 +23,7 @@ def test_check_environment_variable_missingvar(assert_exit):
     }
 
     with patch.dict(os.environ, env_values, clear=False):
-        assert_exit(lambda: config_environment_variables.check_environment_variable("main"))
+        assert_exit(lambda: config_environment_variables.check_environment_variable("main"),expected_code=1) #hardexit
 
 def test_check_environment_variable_badtype(assert_exit):
     
@@ -43,4 +43,4 @@ def test_check_environment_variable_badtype(assert_exit):
     }
 
     with patch.dict(os.environ, env_values, clear=False):
-        assert_exit(lambda: config_environment_variables.check_environment_variable("main"))
+        assert_exit(lambda: config_environment_variables.check_environment_variable("main"),expected_code=1) #hardexit

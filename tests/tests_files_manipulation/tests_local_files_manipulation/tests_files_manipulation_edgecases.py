@@ -11,14 +11,14 @@ def test_read_json_file_not_found(assert_exit):
     
     # this test the function read_json with a file non existant. Must exit the program
     with patch("builtins.open", side_effect=FileNotFoundError("no file")):
-        assert_exit(lambda: files_manipulation.read_json("does_not_exist.json"))
+        assert_exit(lambda: files_manipulation.read_json("does_not_exist.json"), expected_code = 1) # hard exit
 
 def test_read_json_invalid_json(assert_exit):
     
     # this test the function read_json with a file json type invalid. Must exit the program
     with patch("builtins.open", mock_open(read_data="not-json")), \
          patch("json.load", side_effect=ValueError("bad json")):
-        assert_exit(lambda: files_manipulation.read_json("bad.json"))
+        assert_exit(lambda: files_manipulation.read_json("bad.json"), expected_code = 1) # hard exit
 
 def test_read_and_check_csv_missing_columns(read_json, assert_exit):
     
@@ -27,7 +27,7 @@ def test_read_and_check_csv_missing_columns(read_json, assert_exit):
     mock_schema = read_json("edgecases/read_csv_schema_with_fake_column.json")
 
     with patch.object(files_manipulation, "read_json", return_value=mock_schema):
-        assert_exit(lambda: files_manipulation.read_and_check_csv(local_file_path))
+        assert_exit(lambda: files_manipulation.read_and_check_csv(local_file_path), expected_code = 1) # hard exit
 
 def test_read_and_check_csv_type_mismatch(read_csv, read_json, assert_exit):
     
@@ -36,25 +36,25 @@ def test_read_and_check_csv_type_mismatch(read_csv, read_json, assert_exit):
     mock_schema = read_json("read_csv_schema.json")
 
     with patch.object(files_manipulation, "read_json", return_value=mock_schema):
-        assert_exit(lambda: files_manipulation.read_and_check_csv(local_file_path))
+        assert_exit(lambda: files_manipulation.read_and_check_csv(local_file_path), expected_code = 1) # hard exit
 
 def test_read_yml_as_txt_file_not_found(assert_exit):
     
     # this test the function read_yml_as_txt with a file non existant. Must exit the program
     with patch("builtins.open", side_effect=FileNotFoundError("no file")):
-        assert_exit(lambda: files_manipulation.read_yml_as_txt("missing.yml"))
+        assert_exit(lambda: files_manipulation.read_yml_as_txt("missing.yml"), expected_code = 1) # hard exit
 
 def test_read_and_check_yml_as_serie_file_not_found(assert_exit):
     
     # this test the function read_and_check_yml_as_serie with a file non existant. Must exit the program
     with patch("builtins.open", side_effect=FileNotFoundError("no file")):
-        assert_exit(lambda: files_manipulation.read_and_check_yml_as_serie("missing.yml"))
+        assert_exit(lambda: files_manipulation.read_and_check_yml_as_serie("missing.yml"), expected_code = 1) # hard exit
 
 def test_read_txt_file_not_found(assert_exit):
     
     # this test the function read_txt with a file non existant. Must exit the program
     with patch("builtins.open", side_effect=FileNotFoundError("no file")):
-        assert_exit(lambda: files_manipulation.read_txt("missing.txt"))
+        assert_exit(lambda: files_manipulation.read_txt("missing.txt"), expected_code = 1) # hard exit
 
 def test_create_csv_write_failure(read_csv, assert_exit):
 
@@ -63,7 +63,7 @@ def test_create_csv_write_failure(read_csv, assert_exit):
     df = read_csv("read_csv.csv")
 
     with patch("pandas.DataFrame.to_csv", side_effect=OSError("disk full")):
-        assert_exit(lambda: files_manipulation.create_csv(local_file_path, df))
+        assert_exit(lambda: files_manipulation.create_csv(local_file_path, df), expected_code = 1) # hard exit
 
 def test_create_yml_failure(read_yml_as_txt, assert_exit):
     
@@ -72,7 +72,7 @@ def test_create_yml_failure(read_yml_as_txt, assert_exit):
     s = read_yml_as_txt("read_yml_as_txt.yml")
 
     with patch("builtins.open", side_effect=OSError("cannot write")):
-        assert_exit(lambda: files_manipulation.create_yml(local_file_path, s))
+        assert_exit(lambda: files_manipulation.create_yml(local_file_path, s), expected_code = 1) # hard exit
 
 def test_create_txt_failure(read_txt, assert_exit):
     
@@ -81,7 +81,7 @@ def test_create_txt_failure(read_txt, assert_exit):
     s = read_txt("read_txt.txt")
 
     with patch("builtins.open", side_effect=OSError("cannot write")):
-        assert_exit(lambda: files_manipulation.create_yml(local_file_path, s))
+        assert_exit(lambda: files_manipulation.create_yml(local_file_path, s), expected_code = 1) # hard exit
 
 def test_create_jpg_save_failure(assert_exit):
     
@@ -90,4 +90,4 @@ def test_create_jpg_save_failure(assert_exit):
         local_file_path = tmpdir+"/create_jpg.jpg"
         fake_fig = MagicMock()
         fake_fig.savefig.side_effect = Exception("save error")
-        assert_exit(lambda: files_manipulation.create_jpg(local_file_path, fake_fig))
+        assert_exit(lambda: files_manipulation.create_jpg(local_file_path, fake_fig), expected_code = 1) # hard exit

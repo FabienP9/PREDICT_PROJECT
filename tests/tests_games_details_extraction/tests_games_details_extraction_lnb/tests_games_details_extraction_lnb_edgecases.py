@@ -18,7 +18,7 @@ def test_get_token_bad_status_code(assert_exit):
     mock_session.get.return_value = mock_response
     
     with patch.object(games_details_extraction_lnb.requests.Session, "get", return_value = mock_response):
-        assert_exit(lambda: games_details_extraction_lnb.get_token(subset_number, mock_session))
+        assert_exit(lambda: games_details_extraction_lnb.get_token(subset_number, mock_session),expected_code = 0) #soft error
 
 def test_get_token_missing_token_in_response(assert_exit):
 
@@ -31,7 +31,7 @@ def test_get_token_missing_token_in_response(assert_exit):
     mock_session.get.return_value = mock_response
     
     with patch.object(games_details_extraction_lnb.requests.Session, "get", return_value = mock_response):
-        assert_exit(lambda: games_details_extraction_lnb.get_token(subset_number, mock_session))
+        assert_exit(lambda: games_details_extraction_lnb.get_token(subset_number, mock_session),expected_code = 0) #soft error
 
 def test_get_games_subset_non_200_status(assert_exit):
 
@@ -56,7 +56,7 @@ def test_get_games_subset_non_200_status(assert_exit):
                     mock_session, 
                     fake_payload.copy(), 
                     None
-                ))
+                ),expected_code = 0) #soft error
 
 def test_get_games_subset_with_anchor_game_id():
 
@@ -95,7 +95,7 @@ def test_get_games_subset_with_anchor_game_id():
 
 def test_get_game_details_lnb_with_gameday_running_game(read_json, assert_exit):
 
-    # this tests the get_game_details_lnb function with gameday and a task to run CALCULATE_PARTIAL, with a running game
+    # this tests the get_game_details_lnb function with gameday and a task to run CALCULATE, with a running game
     competition_source_id = 317
     season_division_number = 1
     season_name = "2026-2027"
@@ -121,4 +121,4 @@ def test_get_game_details_lnb_with_gameday_running_game(read_json, assert_exit):
             gameday = gameday,
             task_run = task_run,
             date_task_utc = date_task_utc
-        ))
+        ),expected_code = 0)  #soft exit

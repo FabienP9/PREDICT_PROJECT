@@ -25,7 +25,7 @@ def test_get_scores_detailed_missing_split(read_yml_as_serie, read_csv,assert_ex
     mock_df_predict_games = read_csv("edgecases/q_vw_predict_game_query_columns_nounderscores.csv",keep_default_na=False,na_filter=False)
     
     with patch.object(output_message_calculated_generation, "snowflake_execute", return_value=mock_df_predict_games):
-        assert_exit(lambda: output_message_calculated_generation.get_scores_detailed(sr_snowflake_account_connect, sr_gameday_output_calculate))
+        assert_exit(lambda: output_message_calculated_generation.get_scores_detailed(sr_snowflake_account_connect, sr_gameday_output_calculate), expected_code = 1) # hard exit
 
 def test_get_scores_global_empty_df(read_csv):
     
@@ -46,7 +46,7 @@ def test_get_scores_global_missing_cols(assert_exit):
     mock_df_rank = pd.DataFrame({"USER_NAME":["X"]})
 
     with patch.object(output_message_calculated_generation.output, "display_rank", return_value=mock_df_rank):
-        assert_exit(lambda: output_message_calculated_generation.get_scores_global(df_userscores_global))
+        assert_exit(lambda: output_message_calculated_generation.get_scores_global(df_userscores_global), expected_code = 1) # hard exit
 
 def test_get_scores_gameday_empty(read_yml_as_serie, read_csv):
     
@@ -72,7 +72,7 @@ def test_get_scores_gameday_missing_column(read_yml_as_serie, read_csv, assert_e
     
     with patch.object(output_message_calculated_generation, "snowflake_execute", return_value=mock_df_userscores_gameday), \
         patch.object(output_message_calculated_generation.output, "display_rank", return_value=mock_df_userscores_gameday_ranked):
-            assert_exit(lambda: output_message_calculated_generation.get_scores_gameday(sr_snowflake_account_connect, sr_gameday_output_calculate))
+            assert_exit(lambda: output_message_calculated_generation.get_scores_gameday(sr_snowflake_account_connect, sr_gameday_output_calculate), expected_code = 1) # hard exit
 
 def test_get_scores_average_empty_df(read_csv):
     
@@ -95,7 +95,7 @@ def test_get_scores_average_missing_column( assert_exit):
     mock_df_rank = pd.DataFrame({"USER_NAME":["X"]})
     
     with patch.object(output_message_calculated_generation.output, 'calculate_and_display_rank', return_value= mock_df_rank):
-        assert_exit(lambda: output_message_calculated_generation.get_scores_average(nb_prediction, df_userscores_global))
+        assert_exit(lambda: output_message_calculated_generation.get_scores_average(nb_prediction, df_userscores_global), expected_code = 1) # hard exit
 
 def test_get_predictchamp_ranking_empty(read_yml_as_serie, read_csv):
     
@@ -129,7 +129,7 @@ def test_get_list_gameday_missing_columns(assert_exit,read_csv):
     # this test the function get_list_gameday with missing columns. Must exit the program
     df_list_gameday = pd.DataFrame({ "NB_PREDICTION": [3]})
     sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
-    assert_exit(lambda: output_message_calculated_generation.get_list_gameday(df_list_gameday,sr_gameday_output_calculate))
+    assert_exit(lambda: output_message_calculated_generation.get_list_gameday(df_list_gameday,sr_gameday_output_calculate), expected_code = 1) # hard exit
 
 def test_get_list_gameday_empty_dataframe(read_csv):
     
@@ -185,7 +185,7 @@ def test_get_mvp_compet_race_figure_missing_key(read_csv,read_yml_as_serie, asse
     mock_df_compet_mvp = read_csv("q_vw_user_scores_gameday_mvp_query.csv",quotechar='"')
     
     with patch.object(output_message_calculated_generation, "snowflake_execute", return_value=mock_df_compet_mvp):
-        assert_exit(lambda: output_message_calculated_generation.get_mvp_compet_race_figure(sr_snowflake_account_connect, sr_gameday_output_calculate))
+        assert_exit(lambda: output_message_calculated_generation.get_mvp_compet_race_figure(sr_snowflake_account_connect, sr_gameday_output_calculate), expected_code = 1) # hard exit
 
 def test_list_mvp_compet_race_gameday_missing_columns(read_csv,read_yml_as_serie, assert_exit):
     
@@ -195,7 +195,7 @@ def test_list_mvp_compet_race_gameday_missing_columns(read_csv,read_yml_as_serie
     mock_df_list_gameday = pd.DataFrame(columns=["GAMEDAY"])
 
     with patch.object(output_message_calculated_generation, "snowflake_execute", return_value=mock_df_list_gameday):
-        assert_exit(lambda: output_message_calculated_generation.list_mvp_compet_race_gameday(sr_snowflake_account_connect,sr_gameday_output_calculate))
+        assert_exit(lambda: output_message_calculated_generation.list_mvp_compet_race_gameday(sr_snowflake_account_connect,sr_gameday_output_calculate), expected_code = 1) # hard exit
 
 def test_list_mvp_compet_race_gameday_badtypes(read_csv,read_yml_as_serie, assert_exit):
     
@@ -205,7 +205,7 @@ def test_list_mvp_compet_race_gameday_badtypes(read_csv,read_yml_as_serie, asser
     
     mock_df_list_gameday = read_csv("edgecases/q_vw_gameday_calculated_query_badtype.csv")
     with patch.object(output_message_calculated_generation, "snowflake_execute", return_value=mock_df_list_gameday):
-        assert_exit(lambda: output_message_calculated_generation.list_mvp_compet_race_gameday(sr_snowflake_account_connect,sr_gameday_output_calculate))
+        assert_exit(lambda: output_message_calculated_generation.list_mvp_compet_race_gameday(sr_snowflake_account_connect,sr_gameday_output_calculate), expected_code = 1) # hard exit
 
 def test_get_parameters_no_predictchamp(read_csv,read_txt, read_yml_as_serie):
 
@@ -293,7 +293,7 @@ def test_get_parameters_missing_key(read_yml_as_serie, read_csv,read_txt, assert
          patch.object(output_message_calculated_generation,"get_mvp_compet_race_figure", return_value=(mock_str_mvp_compet, 2)), \
          patch.object(output_message_calculated_generation,"list_mvp_compet_race_gameday", return_value=(mock_str_mvp_compet_gameday)):
 
-        assert_exit(lambda: output_message_calculated_generation.get_parameters(sr_snowflake_account_connect, sr_gameday_output_calculate))
+        assert_exit(lambda: output_message_calculated_generation.get_parameters(sr_snowflake_account_connect, sr_gameday_output_calculate), expected_code = 1) # hard exit
 
 def test_create_main_message_conditional_blocks(read_csv,read_txt,read_json):
     
@@ -399,4 +399,4 @@ def test_process_output_message_posting_fails(read_yml_as_serie, read_csv,read_t
          patch.object(output_message_calculated_generation,"get_parameters", return_value=mock_params_retrieved), \
          patch.object(output_message_calculated_generation,"multithread_run", side_effect=Exception("boom")):
 
-        assert_exit(lambda: output_message_calculated_generation.process_output_message_calculated(context_dict, sr_gameday_output_calculate))
+        assert_exit(lambda: output_message_calculated_generation.process_output_message_calculated(context_dict, sr_gameday_output_calculate), expected_code = 1) # hard exit

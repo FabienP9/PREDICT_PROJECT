@@ -12,7 +12,7 @@ def test_dropbox_init_failure(assert_exit):
     with patch.object(snowflake_account_initialization.env,"check_environment_variable"),\
          patch.object(snowflake_account_initialization.dropbox,"initiate_folder", side_effect=Exception("Dropbox init failed")):
             
-            assert_exit(lambda: snowflake_account_initialization.snowflake_account_initialization())
+            assert_exit(lambda: snowflake_account_initialization.snowflake_account_initialization(), expected_code = 1) # hard exit
 
 def test_local_env_failure(assert_exit):
     
@@ -21,7 +21,7 @@ def test_local_env_failure(assert_exit):
          patch.object(snowflake_account_initialization.dropbox,"initiate_folder"), \
          patch.object(snowflake_account_initialization.local_environment_manipulation,"initiate_local_environment", side_effect=Exception("Local env failed")):
 
-          assert_exit(lambda: snowflake_account_initialization.snowflake_account_initialization())
+          assert_exit(lambda: snowflake_account_initialization.snowflake_account_initialization(), expected_code = 1) # hard exit
 
 def test_snowflake_script_failure(read_csv, read_yml_as_serie, assert_exit):
     
@@ -37,7 +37,7 @@ def test_snowflake_script_failure(read_csv, read_yml_as_serie, assert_exit):
          patch.object(snowflake_account_initialization.local_environment_manipulation,"initiate_local_environment", return_value=mock_initiate_local_dict), \
          patch.object(snowflake_account_initialization.snowflake_connection_execution,"snowflake_execute_script", side_effect=Exception("Snowflake script failed")):
 
-          assert_exit(lambda: snowflake_account_initialization.snowflake_account_initialization())
+          assert_exit(lambda: snowflake_account_initialization.snowflake_account_initialization(), expected_code = 1) # hard exit
 
 def test_dropbox_download_failure(read_yml_as_serie, read_csv, assert_exit):
     
@@ -56,7 +56,7 @@ def test_dropbox_download_failure(read_yml_as_serie, read_csv, assert_exit):
          patch.object(snowflake_account_initialization.snowflake_connection_execution,"snowflake_execute_script"), \
          patch.object(snowflake_account_initialization.dropbox,"download_folder", side_effect=Exception("Download failed")):
 
-          assert_exit(lambda: snowflake_account_initialization.snowflake_account_initialization())
+          assert_exit(lambda: snowflake_account_initialization.snowflake_account_initialization(), expected_code = 1) # hard exit
 
 def test_update_snowflake_failure(read_yml_as_serie, read_csv, assert_exit):
     
@@ -76,7 +76,7 @@ def test_update_snowflake_failure(read_yml_as_serie, read_csv, assert_exit):
          patch.object(snowflake_account_initialization.dropbox,"download_folder"), \
          patch.object(snowflake_account_initialization.snowflake_etl_process,"update_snowflake", side_effect=Exception("Update failed")):
 
-          assert_exit(lambda: snowflake_account_initialization.snowflake_account_initialization())
+          assert_exit(lambda: snowflake_account_initialization.snowflake_account_initialization(), expected_code = 1) # hard exit
 
 def test_terminate_local_env_failure(read_csv, read_yml_as_serie, assert_exit):
     
@@ -97,4 +97,4 @@ def test_terminate_local_env_failure(read_csv, read_yml_as_serie, assert_exit):
          patch.object(snowflake_account_initialization.snowflake_etl_process,"update_snowflake"), \
          patch.object(snowflake_account_initialization.local_environment_manipulation,"terminate_local_environment", side_effect=Exception("Terminate failed")):
 
-          assert_exit(lambda: snowflake_account_initialization.snowflake_account_initialization())
+          assert_exit(lambda: snowflake_account_initialization.snowflake_account_initialization(), expected_code = 1) # hard exit

@@ -60,7 +60,7 @@ def test_update_snowflake_from_dbt_failure(assert_exit,read_yml_as_serie,read_cs
         mock_run.return_value.stdout = "bad"
         mock_run.return_value.stderr = "error"
 
-        assert_exit(lambda: snowflake_etl_process.update_snowflake_from_dbt(called_by,sr_snowflake_account_connect,df_paths,lst_dbt_tables))
+        assert_exit(lambda: snowflake_etl_process.update_snowflake_from_dbt(called_by,sr_snowflake_account_connect,df_paths,lst_dbt_tables), expected_code = 1) # hard exit
 
 def test_update_snowflake_initsnowflake_runs_python_and_dbt(read_csv,read_yml_as_serie):
     

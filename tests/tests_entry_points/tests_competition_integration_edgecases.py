@@ -12,7 +12,7 @@ def test_dropbox_initiate_folder_failure(assert_exit):
     # this test the function competition_integration with a failing initiate_folder. Must exit program
     with patch.object(competition_integration.env,"check_environment_variable"),\
          patch.object(competition_integration.dropbox,"initiate_folder", side_effect=Exception("Dropbox error")):
-        assert_exit(lambda: competition_integration.competition_integration())
+        assert_exit(lambda: competition_integration.competition_integration(), expected_code = 1) # hard exit
 
 def test_initiate_local_environment_missing_key(assert_exit):
     
@@ -22,7 +22,7 @@ def test_initiate_local_environment_missing_key(assert_exit):
          patch.object(competition_integration.dropbox,"initiate_folder"), \
          patch.object(competition_integration.local_environment_manipulation,"initiate_local_environment", return_value = mock_initiate_local_dict):
 
-        assert_exit(lambda: competition_integration.competition_integration())
+        assert_exit(lambda: competition_integration.competition_integration(), expected_code = 1) # hard exit
 
 def test_filter_data_failure(read_csv, read_yml_as_serie, assert_exit):
     
@@ -42,7 +42,7 @@ def test_filter_data_failure(read_csv, read_yml_as_serie, assert_exit):
          patch.object(competition_integration.games_details_extraction,"extract_games_from_competition", return_value=mock_df_game), \
          patch.object(competition_integration.files_manipulation,"filter_data", side_effect=Exception("Filter failed")):
 
-        assert_exit(lambda: competition_integration.competition_integration())
+        assert_exit(lambda: competition_integration.competition_integration(), expected_code = 1) # hard exit
 
 def test_snowflake_update_failure(read_csv, read_yml_as_serie,assert_exit):
     
@@ -64,7 +64,7 @@ def test_snowflake_update_failure(read_csv, read_yml_as_serie,assert_exit):
          patch.object(competition_integration.snowflake_etl_process,"delete_tables_data_from_python"), \
          patch.object(competition_integration.snowflake_etl_process,"update_snowflake"):
 
-        assert_exit(lambda: competition_integration.competition_integration())
+        assert_exit(lambda: competition_integration.competition_integration(), expected_code = 1) # hard exit
 
 def test_calendar_update_failure(read_csv, read_yml_as_serie, assert_exit):
     
@@ -87,7 +87,7 @@ def test_calendar_update_failure(read_csv, read_yml_as_serie, assert_exit):
          patch.object(competition_integration.snowflake_etl_process,"update_snowflake"), \
          patch.object(competition_integration,"update_calendar_related_files", side_effect=Exception("Calendar error")):
     
-        assert_exit(lambda: competition_integration.competition_integration())
+        assert_exit(lambda: competition_integration.competition_integration(), expected_code = 1) # hard exit
 
 def test_terminate_local_environment_failure(read_csv, read_yml_as_serie, assert_exit):
     
@@ -112,4 +112,4 @@ def test_terminate_local_environment_failure(read_csv, read_yml_as_serie, assert
          patch.object(competition_integration,"update_calendar_related_files", return_value=mock_str_next_run_time_utc), \
          patch.object(competition_integration.local_environment_manipulation,"terminate_local_environment", side_effect=Exception("Terminate failed")):
 
-        assert_exit(lambda: competition_integration.competition_integration())
+        assert_exit(lambda: competition_integration.competition_integration(), expected_code = 1) # hard exit

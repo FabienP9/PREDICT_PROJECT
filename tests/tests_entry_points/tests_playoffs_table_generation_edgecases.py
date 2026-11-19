@@ -21,7 +21,7 @@ def test_get_matchups_strings_invalid_type(assert_exit):
     
     # this test the get_matchups_strings function with list with invalid types. Must exit the program
     playoffs_matchups = [None]
-    assert_exit(lambda: playoffs_table_generation.get_matchups_strings(playoffs_matchups))
+    assert_exit(lambda: playoffs_table_generation.get_matchups_strings(playoffs_matchups), expected_code = 1) # hard exit
 
 def test_get_results_strings_all_zero_results():
     
@@ -35,7 +35,7 @@ def test_get_results_strings_invalid_type(assert_exit):
     
     # this test the get_results_strings function with invalid type. Must exit the program
     playoffs_results = [[[123, 456]]]
-    assert_exit(lambda: playoffs_table_generation.get_results_strings(playoffs_results))
+    assert_exit(lambda: playoffs_table_generation.get_results_strings(playoffs_results), expected_code = 1) # hard exit
 
 def test_display_textbox_with_result_adds_artist():
     
@@ -83,7 +83,7 @@ def test_draw_playoffs_image_download_fails(assert_exit):
     with patch.object(playoffs_table_generation.local_environment_manipulation,"create_local_folder"), \
          patch.object(playoffs_table_generation.dropbox,"download_file", side_effect=Exception("dropbox error")):
 
-        assert_exit(lambda: playoffs_table_generation.draw_playoffs_image())
+        assert_exit(lambda: playoffs_table_generation.draw_playoffs_image(), expected_code = 1) # hard exit
 
 def test_draw_playoffs_image_exec_fails(assert_exit):
 
@@ -97,7 +97,7 @@ def test_draw_playoffs_image_exec_fails(assert_exit):
          patch.object(playoffs_table_generation,"create_json_file_email"), \
          patch.object(playoffs_table_generation.local_environment_manipulation,"destroy_local_folder"):
 
-         assert_exit(lambda: playoffs_table_generation.draw_playoffs_image())
+         assert_exit(lambda: playoffs_table_generation.draw_playoffs_image(), expected_code = 1) # hard exit
 
 def test_draw_playoffs_image_create_jpg_fails(read_txt, assert_exit):
     
@@ -108,7 +108,7 @@ def test_draw_playoffs_image_create_jpg_fails(read_txt, assert_exit):
          patch.object(playoffs_table_generation.dropbox,"download_file", return_value = {"str_playoffs_table": mock_str_playoffs_table}), \
          patch.object(playoffs_table_generation.files_manipulation,"create_jpg", side_effect=Exception("create_jpg failed")):
 
-        assert_exit(lambda: playoffs_table_generation.draw_playoffs_image())
+        assert_exit(lambda: playoffs_table_generation.draw_playoffs_image(), expected_code = 1) # hard exit
 
 def test_draw_playoffs_image_imgbb_bad_json(read_txt, assert_exit):
     
@@ -123,4 +123,4 @@ def test_draw_playoffs_image_imgbb_bad_json(read_txt, assert_exit):
          patch.object(playoffs_table_generation.local_environment_manipulation,"destroy_local_folder"):
 
         mock_post.return_value.json = lambda: {"bad": "json"}
-        assert_exit(lambda: playoffs_table_generation.draw_playoffs_image())
+        assert_exit(lambda: playoffs_table_generation.draw_playoffs_image(), expected_code = 0) # soft exit with imgbb failure

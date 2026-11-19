@@ -54,11 +54,14 @@ def download_file(dropbox_file_path: str, local_folder: str, is_encapsulated: Li
             'rclone', 'copy', dropbox_file_path_abs , local_folder,
             '--config', os.path.expanduser(RCLONE_CONFIG_PATH)]
 
-        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=var.DROPBOX_WAIT_TIME)
-
+        try:
+            result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=var.DROPBOX_WAIT_TIME)
+        except subprocess.TimeoutExpired as e:
+            raise ValueError(f"{var.SOFT_ERROR_TAG} DROPBOX {dropbox_file_path} -> Timed out: {e}") from e
+        
         #If there is an error downloading file, we raise an error for the retry decorator
         if result.returncode != 0:
-            raise ValueError(f"DROPBOX {dropbox_file_path} -> Error downloading file: {result.stderr}")
+            raise ValueError(f"{var.SOFT_ERROR_TAG} DROPBOX {dropbox_file_path} -> Error downloading file: {result.stderr}")
     else:
         logging.info(f"DROPBOX {dropbox_file_path} -> DOWNLOADING [ALREADY DONE]")
         
@@ -132,22 +135,29 @@ def copy_folder(remote_source_folder: str, remote_target_folder: str, sourcepath
 
     #We list the files from source folder
     command_list = ['rclone', 'lsf', remote_source_folder_abs ]
-    result_list = subprocess.run(command_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=var.DROPBOX_WAIT_TIME)
-
+    try:
+        result_list = subprocess.run(command_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=var.DROPBOX_WAIT_TIME)
+    except subprocess.TimeoutExpired as e:
+        raise ValueError(f"{var.SOFT_ERROR_TAG} DROPBOX -> Timed out: {e}") from e
+    
     #If there is an error listing files, we raise an error for the retry decorator
     if result_list.returncode != 0:
-        raise ValueError(f"Error listing files: {result_list.stderr}")
+        raise ValueError(f"{var.SOFT_ERROR_TAG} Error listing files: {result_list.stderr}")
 
     #Then we copy the files - as there is lots of file we wait longer
     if sync_folder == 1:
         command_copy = ['rclone', 'sync', remote_source_folder_abs, remote_target_folder_abs , '--progress']
     else:
         command_copy = ['rclone', 'copy', remote_source_folder_abs, remote_target_folder_abs , '--progress']
-    result_copy = subprocess.run(command_copy, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=2*var.DROPBOX_WAIT_TIME)
+    
+    try:
+        result_copy = subprocess.run(command_copy, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=2*var.DROPBOX_WAIT_TIME)
+    except subprocess.TimeoutExpired as e:
+        raise ValueError(f"{var.SOFT_ERROR_TAG} DROPBOX -> Timed out: {e}") from e
 
     #If there is an error copying files, we raise an error for the retry decorator
     if result_copy.returncode != 0:
-        raise ValueError(f"Error copying files: {result_copy.stderr}")
+        raise ValueError(f"{var.SOFT_ERROR_TAG} Error copying files: {result_copy.stderr}")
         
     logging.info(f"DROPBOX {remote_source_folder} -> COPYING FOLDER TO {remote_target_folder} [DONE]")
 
@@ -199,11 +209,14 @@ def upload_file(local_file_path: str, remote_file_path: str):
         '--config', os.path.expanduser(RCLONE_CONFIG_PATH)
     ]
 
-    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=var.DROPBOX_WAIT_TIME)
-
+    try:
+        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=var.DROPBOX_WAIT_TIME)
+    except subprocess.TimeoutExpired as e:
+        raise ValueError(f"{var.SOFT_ERROR_TAG} DROPBOX -> Timed out: {e}") from e
+    
     #If there is an error uploading file, we raise an error for the retry decorator
     if result.returncode != 0:
-        raise ValueError(f"DROPBOX {local_file_path} -> Error uploading file: {result.stderr}")
+        raise ValueError(f"{var.SOFT_ERROR_TAG} DROPBOX {local_file_path} -> Error uploading file: {result.stderr}")
 
     logging.info(f"DROPBOX {local_file_path} -> UPLOADING [DONE]")
 
@@ -234,7 +247,7 @@ def download_folder(folder_name: str, df_paths: pd.DataFrame, local_folder: str)
 
     #If there is an error listing files, we raise an error for the retry decorator
     if result_list.returncode != 0:
-        raise ValueError(f"Error listing files: {result_list.stderr}")
+        raise ValueError(f"{var.SOFT_ERROR_TAG} Error listing files: {result_list.stderr}")
 
     #Then we download each file using their name
     files = [Path(file).stem for file in result_list.stdout.strip().split("\n") if file.strip()]

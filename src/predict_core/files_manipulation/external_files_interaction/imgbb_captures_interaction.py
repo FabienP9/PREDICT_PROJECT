@@ -7,7 +7,7 @@ import requests
 
 from ...config import config_decorators
 
-@config_decorators.exit_program(log_filter=lambda args: dict(args))
+@config_decorators.exit_program(log_filter=lambda args: dict(args), is_soft_error = 1)
 @config_decorators.retry_function(log_filter=lambda args: dict(args))
 def push_capture_online(image_path: str) -> str:
 

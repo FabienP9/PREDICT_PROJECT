@@ -117,6 +117,7 @@ def display_check_string(context_dict: dict) -> str:
         else:
             check_string = "No need to check - messages processed automatically"
 
+        var.JSON_EMAIL_FILE_DICT['Check string'] = check_string
         logging.info("__________________________________________________________________")
         logging.info(check_string)
         logging.info("__________________________________________________________________")
@@ -184,12 +185,8 @@ def main():
     
     local_environment_manipulation.terminate_local_environment(called_by,context_dict)
     
-    sr_output_need_sent = context_dict['sr_output_need'][['TASK_RUN','SEASON_DIVISION','GAMEDAY','TS_TASK_UTC','LAST_MESSAGE_CHECK_TS_UTC']]
-    str_output_need_sent = "\n".join(f"{idx} = {sr_output_need_sent[idx]}" for idx in sr_output_need_sent.index)
-    check_string = display_check_string(context_dict)
-    create_json_file_email(str_next_run_time_utc = context_dict['str_next_run_time_utc'],
-                           str_output_need = str_output_need_sent,
-                           check_string = check_string)
+    var.JSON_EMAIL_FILE_DICT['Status of run'] = 'Successful'
+    create_json_file_email()
     
     logging.info("MAIN -> DONE")
     

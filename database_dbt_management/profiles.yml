@@ -7,7 +7,7 @@ DBT_PRONO:
       password: #PASSWORD#
       role: ACCOUNTADMIN
       schema: LANDING
-      threads: 1
+      threads: 8
       type: snowflake
       warehouse: COMPUTE_WH
   target: prod

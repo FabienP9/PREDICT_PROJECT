@@ -173,11 +173,25 @@ def initiate_folder():
             Exits the program if error running the function (using decorator)
     """
         
+    copy_folder(var.DROPBOX_FOLDER_MAP['global_manual_inputs'],var.DROPBOX_FOLDER_MAP['manual_current'],sourcepath_from_root=1,targetpath_from_root=0, sync_folder=0)
+    copy_folder(var.DROPBOX_FOLDER_MAP['local_manual_inputs'],var.DROPBOX_FOLDER_MAP['manual_current'], sync_folder=0)
+
+@config_decorators.exit_program(log_filter=lambda args: dict(args))
+def terminate_folder():
+
+    """
+        Prepares the environnement of files on DropBox:
+        - Creating a rotating backup of the current and previous file states:
+            Rotation: current -> -1 -> -2 -> -3
+        - Copying manual input files into the current input directory
+        Raises:
+            Exits the program if error running the function (using decorator)
+    """
+        
     copy_folder(var.DROPBOX_FOLDER_MAP['-2'],var.DROPBOX_FOLDER_MAP['-3'])
     copy_folder(var.DROPBOX_FOLDER_MAP['-1'],var.DROPBOX_FOLDER_MAP['-2'])
     copy_folder(var.DROPBOX_FOLDER_MAP['CURRENT'],var.DROPBOX_FOLDER_MAP['-1'])
-    copy_folder(var.DROPBOX_FOLDER_MAP['global_manual_inputs'],var.DROPBOX_FOLDER_MAP['manual_current'],sourcepath_from_root=1,targetpath_from_root=0, sync_folder=0)
-    copy_folder(var.DROPBOX_FOLDER_MAP['local_manual_inputs'],var.DROPBOX_FOLDER_MAP['manual_current'], sync_folder=0)
+    
 
 @config_decorators.exit_program(log_filter=lambda args: dict(args))
 @config_decorators.retry_function(log_filter=lambda args: dict(args))

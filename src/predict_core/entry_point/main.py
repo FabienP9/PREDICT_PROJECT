@@ -184,7 +184,8 @@ def main():
         multithread_run(messages_posting_process.post_message, posting_args)
     
     local_environment_manipulation.terminate_local_environment(called_by,context_dict)
-    
+    dropbox.terminate_folder()
+
     var.JSON_EMAIL_FILE_DICT['Status of run'] = 'Successful'
     create_json_file_email()
     

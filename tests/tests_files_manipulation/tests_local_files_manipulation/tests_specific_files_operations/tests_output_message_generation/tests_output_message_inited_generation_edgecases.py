@@ -96,7 +96,7 @@ def test_get_next_opening_gamedays_calendar_badtype(read_yml_as_serie, read_csv,
 
         assert_exit(lambda: output_message_inited_generation.get_next_opening_gamedays_calendar(sr_snowflake_account_connect, sr_gameday_output_init,'2026-03-06'))
 
-def test_create_message_no_remaining_games(read_csv, read_txt, read_json, assert_exit):
+def test_create_main_message_no_remaining_games(read_csv, read_txt, read_json, assert_exit):
     
     # this test the function create_message with NB_GAMES_OPENED = 0 and NB_NEXT_OPENING=0. Must not wrtie the two last paragraphs
     param_dict = {
@@ -114,7 +114,7 @@ def test_create_message_no_remaining_games(read_csv, read_txt, read_json, assert
         'USER_CAN_CHOOSE_TEAM_FOR_PREDICTCHAMP': np.int64(1)
     }
     
-    template = read_txt("output_gameday_init_template_france.txt")
+    template = read_txt("output_gameday_init_main_template_france.txt")
     translations = read_json("output_gameday_template_translations.json")
     country = "FRANCE"
     forum = 'BI'
@@ -125,7 +125,7 @@ def test_create_message_no_remaining_games(read_csv, read_txt, read_json, assert
     with patch.object(output_message_inited_generation.output,"define_filename", return_value=mock_filename) as mock_filename, \
          patch.object(output_message_inited_generation.files_manipulation,"create_txt"):
         
-        content, country, forum = output_message_inited_generation.create_message(param_dict, template, translations, country, forum, sr_gameday_output_init)
+        content, country, forum = output_message_inited_generation.create_main_message(param_dict, template, translations, country, forum, sr_gameday_output_init)
         assert content.split() == expected_result.split()
         assert country == "FRANCE"
         assert forum == 'BI'
@@ -134,21 +134,23 @@ def test_create_message_none_param(read_csv, read_txt, read_json, assert_exit):
     
     # this test the function create_message with no parameters. Must exit the program
     param_dict = None
-    template = read_txt("output_gameday_init_template_france.txt")
+    template = read_txt("output_gameday_init_main_template_france.txt")
     translations = read_json("output_gameday_template_translations.json")
     country = "FRANCE"
     forum = 'BI'
     sr_gameday_output_init = read_csv("sr_gameday_output_init.csv").iloc[0]
     
-    assert_exit(lambda: output_message_inited_generation.create_message(param_dict, template, translations, country, forum, sr_gameday_output_init))
+    assert_exit(lambda: output_message_inited_generation.create_main_message(param_dict, template, translations, country, forum, sr_gameday_output_init))
 
 def test_process_output_message_with_no_topics(read_yml_as_serie, read_csv, read_txt, read_json):
     
     # this test the function process_output_message_inited with no topics provided. multithreading_run for posting should be called with empty list
     context_dict = {
         "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
-        'str_output_gameday_init_template_france': read_txt("output_gameday_init_template_france.txt"),
-        'str_output_gameday_init_template_italia': read_txt("output_gameday_init_template_france.txt"),
+        'str_output_gameday_init_main_template_france': read_txt("output_gameday_init_main_template_france.txt"),
+        'str_output_gameday_init_main_template_italia': read_txt("output_gameday_init_main_template_france.txt"),
+        'str_output_gameday_init_small_template_france': read_txt("output_gameday_init_main_template_france.txt"),
+        'str_output_gameday_init_small_template_italia': read_txt("output_gameday_init_main_template_france.txt"),
         'lst_output_gameday_template_translations': read_json("output_gameday_template_translations.json")
     }
     sr_gameday_output_init = read_csv("sr_gameday_output_init.csv").iloc[0]

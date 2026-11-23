@@ -171,7 +171,7 @@ def test_list_mvp_month_race_gameday_empty(read_csv,read_yml_as_serie):
     # this function test the function list_mvp_month_race_gameday with empty dataframe. Must accept
     sr_snowflake_account_connect = read_yml_as_serie("snowflake_account_connect.yml")
     sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
-    mock_df_list_gameday = pd.DataFrame(columns=["GAMEDAY", "NB_PREDICTION"])
+    mock_df_list_gameday = pd.DataFrame(columns=["GAMEDAY", "NB_PREDICTION_PLAYED"])
     expected_str = ""
     with patch.object(output_message_calculated_generation, "snowflake_execute", return_value=mock_df_list_gameday):
         str_list_gameday = output_message_calculated_generation.list_mvp_month_race_gameday(sr_snowflake_account_connect,sr_gameday_output_calculate)
@@ -216,6 +216,7 @@ def test_get_parameters_no_predictchamp(read_csv,read_txt, read_yml_as_serie):
     mock_df_games = read_csv("q_vw_game_query.csv")
     mock_str_games_result = read_txt("output_message_calculated_games_result.txt")
     mock_str_games_odds = read_txt("output_message_calculated_games_odds.txt")
+    mock_str_games_odds_notplayed = read_txt("output_message_calculated_games_odds_notplayed.txt")
     mock_df_predict_games = read_csv("output_message_calculated_scores_details.csv", header=[0, 1],keep_default_na=False,na_filter=False)
     mock_df_userscores_global = read_csv("q_vw_user_scores_global_query.csv")
     mock_df_scores_global = read_csv("output_message_calculated_scores_global.csv")
@@ -231,7 +232,8 @@ def test_get_parameters_no_predictchamp(read_csv,read_txt, read_yml_as_serie):
     mock_str_mvp_compet_gameday = read_txt("output_message_calculated_list_gameday_with_predict.txt")
  
     with patch.object(output_message_calculated_generation,"get_games_result", return_value=(mock_str_games_result)), \
-         patch.object(output_message_calculated_generation,"get_games_odds", return_value=(mock_str_games_odds)), \
+         patch.object(output_message_calculated_generation,"get_games_odds_played", return_value=(mock_str_games_odds)), \
+         patch.object(output_message_calculated_generation,"get_games_odds_not_played", return_value=(mock_str_games_odds_notplayed)), \
          patch.object(output_message_calculated_generation,"get_scores_detailed", return_value=(mock_df_predict_games, 2)), \
          patch.object(output_message_calculated_generation,"snowflake_execute", side_effect=[mock_df_games,mock_df_userscores_global, mock_df_list_gameday, mock_df_gamepredictchamp]), \
          patch.object(output_message_calculated_generation,"get_scores_global", return_value=(mock_df_scores_global, 2)), \
@@ -259,6 +261,7 @@ def test_get_parameters_missing_key(read_yml_as_serie, read_csv,read_txt, assert
     mock_df_games = read_csv("q_vw_game_query.csv")
     mock_str_games_result = read_txt("output_message_calculated_games_result.txt")
     mock_str_games_odds = read_txt("output_message_calculated_games_odds.txt")
+    mock_str_games_odds_notplayed = read_txt("output_message_calculated_games_odds_notplayed.txt")
     mock_df_predict_games = read_csv("output_message_calculated_scores_details.csv", header=[0, 1],keep_default_na=False,na_filter=False)
     mock_df_userscores_global = read_csv("q_vw_user_scores_global_query.csv")
     mock_df_scores_global = read_csv("output_message_calculated_scores_global.csv")
@@ -274,7 +277,8 @@ def test_get_parameters_missing_key(read_yml_as_serie, read_csv,read_txt, assert
     mock_str_mvp_compet_gameday = read_txt("output_message_calculated_list_gameday_with_predict.txt")
  
     with patch.object(output_message_calculated_generation,"get_games_result", return_value=(mock_str_games_result)), \
-         patch.object(output_message_calculated_generation,"get_games_odds", return_value=(mock_str_games_odds)), \
+         patch.object(output_message_calculated_generation,"get_games_odds_played", return_value=(mock_str_games_odds)), \
+         patch.object(output_message_calculated_generation,"get_games_odds_not_played", return_value=(mock_str_games_odds_notplayed)), \
          patch.object(output_message_calculated_generation,"get_scores_detailed", return_value=(mock_df_predict_games, 2)), \
          patch.object(output_message_calculated_generation,"snowflake_execute", side_effect=[mock_df_games,mock_df_userscores_global, mock_df_list_gameday, mock_df_gamepredictchamp]), \
          patch.object(output_message_calculated_generation,"get_scores_global", return_value=(mock_df_scores_global, 2)), \
@@ -291,14 +295,16 @@ def test_get_parameters_missing_key(read_yml_as_serie, read_csv,read_txt, assert
 
         assert_exit(lambda: output_message_calculated_generation.get_parameters(sr_snowflake_account_connect, sr_gameday_output_calculate))
 
-def test_create_message_conditional_blocks(read_csv,read_txt,read_json):
+def test_create_main_message_conditional_blocks(read_csv,read_txt,read_json):
     
     # this test the function create_messages_for_country with a template without parameters. Must return the same result than the template
     param_dict = {
         "GAMEDAY": "1ere journee",
         "SEASON_DIVISION": "PROB",
         "RESULT_GAMES": read_txt("output_message_calculated_games_result.txt"),
-        "GAMES_ODDS": read_txt("output_message_calculated_games_odds.txt"),
+        "GAMES_ODDS_PLAYED": read_txt("output_message_calculated_games_odds.txt"),
+        "GAMES_ODDS_NOTPLAYED": "",
+        "IS_FULLY_CALCULATED":0,
         "NB_GAMEDAY_CALCULATED": 3,
         "NB_MAX_PREDICT": 8,
         "NB_TOTAL_PREDICT": 66,
@@ -340,7 +346,7 @@ def test_create_message_conditional_blocks(read_csv,read_txt,read_json):
     with patch.object(output_message_calculated_generation.output,"define_filename", return_value=mock_filename) as mock_filename, \
          patch.object(output_message_calculated_generation.files_manipulation,"create_txt"):
         
-        content, country, forum = output_message_calculated_generation.create_message(param_dict, template, translations, country, forum, sr_gameday_output_calculate)
+        content, country, forum = output_message_calculated_generation.create_main_message(param_dict, template, translations, country, forum, sr_gameday_output_calculate)
         
         assert content == template
         assert country == "FRANCE"
@@ -351,8 +357,10 @@ def test_process_output_message_no_topics(read_yml_as_serie, read_csv,read_txt, 
     # this test the function process_output_message_calculated with no topics. Must run
     context_dict = {
         "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
-        'str_output_gameday_calculation_template_france': read_txt("output_gameday_calculation_template_france.txt"),
-        'str_output_gameday_calculation_template_italia': read_txt("output_gameday_calculation_template_france.txt"),
+        'str_output_gameday_calculation_main_template_france': read_txt("output_gameday_calculation_main_template_france.txt"),
+        'str_output_gameday_calculation_main_template_italia': read_txt("output_gameday_calculation_main_template_france.txt"),
+        'str_output_gameday_calculation_small_template_france': read_txt("output_gameday_calculation_main_template_france.txt"),
+        'str_output_gameday_calculation_small_template_italia': read_txt("output_gameday_calculation_main_template_france.txt"),
         'lst_output_gameday_template_translations': read_json("output_gameday_template_translations.json")
     }
     sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]
@@ -364,7 +372,8 @@ def test_process_output_message_no_topics(read_yml_as_serie, read_csv,read_txt, 
     },{
         'df1_ITALIA_II':"url3",
         'df2_ITALIA_II':"url4"        
-    }]
+    },
+    {'IS_FULLY_CALCULATED':1}]
     mock_messages = [("fake_content_FRANCE", "FRANCE", "BI"), ("fake_content_ITALIA", "ITALIA", "II")]
 
     with patch.object(output_message_calculated_generation,"snowflake_execute", return_value=mock_df_topics), \
@@ -378,8 +387,8 @@ def test_process_output_message_posting_fails(read_yml_as_serie, read_csv,read_t
     # this test the function process_output_message_calculated with posting function failing. Must exit the program.
     context_dict = {
         "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
-        'str_output_gameday_calculation_template_france': read_txt("output_gameday_calculation_template_france.txt"),
-        'str_output_gameday_calculation_template_italia': read_txt("output_gameday_calculation_template_france.txt"),
+        'str_output_gameday_calculation_main_template_france': read_txt("output_gameday_calculation_main_template_france.txt"),
+        'str_output_gameday_calculation_main_template_italia': read_txt("output_gameday_calculation_main_template_france.txt"),
         'lst_output_gameday_template_translations': read_json("output_gameday_template_translations.json")
     }
     sr_gameday_output_calculate = read_csv("sr_gameday_output_calculate.csv").iloc[0]

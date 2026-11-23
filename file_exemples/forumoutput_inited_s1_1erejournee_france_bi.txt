@@ -1,0 +1,51 @@
++++++
+
+[center]:angel8:[b][size=200] Ouverture - 1ere journee[/size][/b] :angel8:
+[b][size=150]1er match : Lundi 01/01 15h[/size][/b][/center]
+
+
+[size=150][b]Ouverture - 1ere journee[/b][/size]
+
+[u]Trame pour pronostics - 1ere journee [/u]
+ Copiez-collez les matchs que vous voulez pronostiquer puis remplacez par vos choix. :compress:
+
+[code]
+#1EJ.01# TEAM1 vs TEAM2 ==> +1 
+#1EJ.02# TEAM3 vs TEAM4 ==> +1 
+#1EJ.BN# Identifiant du match bonus ==> 1EJ.01 
+[/code]
+
+[b]Indispensable[/b]:!:: Vous pouvez diviser la trame et publier à différents moments... mais il est indispensable de publier un choix (ou modifier le message le contenant) [b]avant le début du match correspondant [/b] (voir le calendrier de la journée ci-dessous). 
+[b]Important[/b]: Pour obtenir le score de l'automatisation (1pt par prono) :computer: 
+1/ [b] conservez l'identifiant associé (entre "#")[/b]
+2/ indiquez votre choix [b]après la flèche "==>" [/b]
+
+[u]Calendrier de la journée (à date) - 1ere journee [/u]
+[quote]01/01: 1EJ.01 (15h) / 1EJ.02 (16h05)
+01/01 - dans la soirée: Résultats des pronos de 1ere journee[/quote]
+
+
+[size=150][b]Choix d'une équipe pour le championnat de pronostics[/b][/size]
+Voici la ligne à indiquer pour soutenir votre équipe préférée. :love7: Inutile de la réécrire sì déjà postée (sauf si modification, acceptée jusqu'au 1er match de la phase retour). :cyclopsani:
+[code]
+#SEASON.TM# Equipe - Championnat de pronostics ==> votre équipe 
+[/code]
+
+
+[size=150][b]Journée(s) encore partiellement ouverte(s)[/b][/size]
+
+A date, la/les journée(s) [b] 3eme journee [/b] reste(nt) partiellement ouverte(s): les matchs suivants n'ont pas été joués.
+Réalisez ou modifiez vos pronos sur les matchs que vous souhaitez parmi cette liste, jusqu'à leur début. :thumbup:
+
+
+[u]3eme journee [/u]                            
+[i]-> Trame pour pronostics - 3eme journee [/i]                            [code]#3EJ.02# teamA vs teamB ==> +1 
+#3EJ.BN# Identifiant du match bonus ==> 3EJ.02 [/code]                            [i]-> Calendrier de la journée (à date) - 3eme journee [/i]                            [quote]01/01: 3EJ.02 (18h)
+01/01 - dans la soirée: Résultats des pronos de 3eme journee[/quote]
+
+
+[size=150][b]Prochaines ouvertures de journées[/b][/size]
+
+[u]Calendrier (à date)[/u]
+[quote]1ere journee: Ouverture 01/01 - dans la soirée / 1er Match 03/01 18h / Résultats des pronos 03/01 - dans la soirée
+3eme journee: Ouverture 03/01 - dans la soirée / 1er Match 06/01 20h30 / Résultats des pronos 09/01 - en fin de soirée[/quote]

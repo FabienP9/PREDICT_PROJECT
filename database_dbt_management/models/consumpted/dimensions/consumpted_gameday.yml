@@ -39,12 +39,12 @@ models:
     tests:
       - not_null
 
-  - name: NB_GAME
+  - name: NB_GAME_PLAYED
     description: The number of games in the gameday
     tests:
       - is_integer
 
-  - name: NB_PREDICTION
+  - name: NB_PREDICTION_PLAYED
     description: The number of prediction in the gameday (NB_GAMES+2 with the bonus game)
     tests:
       - is_integer

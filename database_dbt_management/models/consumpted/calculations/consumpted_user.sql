@@ -1,3 +1,5 @@
+--consumpted_user
+
 /*  The purpose of this table is calculate score, features and points for users
     Only for the season of gameday with action
     Inputs:
@@ -11,7 +13,8 @@
     Foreign Key:
         SEASON_KEY: from curated
     Filter:
-        Only user related with season on which the gameday is the action (IS_TO_DELETE or IS_TO_CALCULATE)
+        Only user related with season on which the gameday is to calculate or deleted
+        Only gameday from the season which is to calculate or calculated
     Materialization:
         incremental to avoid removing old calculations */
 
@@ -19,22 +22,20 @@
     materialized="incremental",
     unique_key=['USER_KEY']
 )}}
--- we get only user with season for which gameday is on action
-with user as (
-    SELECT
-        user.USER_KEY,
-        user.USER_NAME,
-        user.SEASON_KEY,
-        gameday.GAMEDAY_KEY
-    FROM
-        {{ref('curated_user')}} user
-    JOIN
-        {{ref('consumpted_season')}} season
-        ON user.SEASON_KEY = season.SEASON_KEY
-    JOIN
-        {{ref('consumpted_gameday')}} gameday
-        ON season.SEASON_KEY = gameday.SEASON_KEY
-        AND gameday.IS_TO_CALCULATE + gameday.IS_TO_DELETE > 0
+
+-- we get the scope of gameday - we get the all gamedays calculated or to calculte from the season in action
+with gameday_scope as (
+  SELECT
+    gameday2.GAMEDAY_KEY,
+    gameday2.NB_PREDICTION_PLAYED
+  FROM
+    {{ref('consumpted_gameday')}} gameday
+  JOIN
+    {{ref('consumpted_gameday')}} gameday2
+    ON gameday2.SEASON_KEY = gameday.SEASON_KEY
+    AND gameday2.IS_TO_CALCULATE + gameday2.IS_CALCULATED > 0
+  WHERE
+    gameday.IS_TO_CALCULATE + gameday.IS_TO_DELETE > 0
 ),
 -- we merge with consumpted_user_gameday to get features
 user_gameday as (
@@ -53,67 +54,52 @@ user_gameday as (
                 ug.POINTS DESC
        ) AS RANK_USER_GAMEDAY
     FROM
-        user
+        {{ref('curated_user')}} user
     JOIN
         {{ref('consumpted_user_gameday')}} ug
-    ON
-        user.SEASON_KEY = ug.SEASON_KEY
-        and user.USER_KEY = ug.USER_KEY
+        ON user.SEASON_KEY = ug.SEASON_KEY
+        AND user.USER_KEY = ug.USER_KEY
+    JOIN
+        gameday_scope
+        ON ug.GAMEDAY_KEY = gameday_scope.GAMEDAY_KEY
 ),
--- we calculate the total points, the number of predicted gamedays and predictions, 
--- and get the number of time the user came first
-figures as (
+-- we get the number of predictions played in the season, features depends on it
+nb_prediction_played as (
+  SELECT 
+    SUM(gameday_scope.NB_PREDICTION_PLAYED) AS NB_PREDICTION_PLAYED
+  FROM
+    gameday_scope
+),
+-- we calculate features
+final_user as (
     SELECT
         ug2.USER_KEY,
         ug2.USER_NAME,
         ug2.SEASON_KEY,
         SUM(ug2.POINTS) AS TOTAL_POINTS,
         SUM(ug2.NB_PREDICTION) AS NB_PREDICTION,
+        nb_prediction_played.NB_PREDICTION_PLAYED,
         COUNT(DISTINCT ug2.GAMEDAY_KEY) AS NB_GAMEDAY_PREDICT,
         SUM(CASE 
                 WHEN ug2.RANK_USER_GAMEDAY = 1 THEN 1
                 ELSE 0 END)
-        AS NB_GAMEDAY_FIRST
-    FROM user_gameday ug2
+        AS NB_GAMEDAY_FIRST,
+        CASE 
+            WHEN SUM(ug2.NB_PREDICTION)/nb_prediction_played.NB_PREDICTION_PLAYED > 0.75 THEN 1
+            ELSE 0
+        END AS IS_ELIGIBLE_AVERAGE_RANKING,
+          CASE 
+             WHEN SUM(ug2.NB_PREDICTION)/nb_prediction_played.NB_PREDICTION_PLAYED > 0.15 THEN 1
+            ELSE 0
+        END AS IS_ELIGIBLE_PREDICTCHAMP,
+    FROM 
+      user_gameday ug2,
+      nb_prediction_played
     GROUP BY
         ug2.USER_KEY,
         ug2.USER_NAME,
-        ug2.SEASON_KEY
-),
--- we get the number of predictions total in the season
-nb_predictions_total as (
-    SELECT
-        gameday.SEASON_KEY,
-        SUM(gameday.NB_PREDICTION) AS NB_PREDICTION_TOTAL
-    FROM
-        {{ref('consumpted_gameday')}} gameday
-    WHERE
-        gameday.IS_CALCULATED = 1
-    GROUP BY
-        gameday.SEASON_KEY
-),
-final_user as (
-    SELECT
-        figures.USER_KEY,
-        figures.USER_NAME,
-        figures.SEASON_KEY,
-        figures.TOTAL_POINTS,
-        figures.NB_PREDICTION,
-        figures.NB_GAMEDAY_PREDICT,
-        figures.NB_GAMEDAY_FIRST,
-        CASE 
-            WHEN figures.NB_PREDICTION/nb_predictions_total.NB_PREDICTION_TOTAL > 0.75 THEN 1
-            ELSE 0
-        END AS IS_ELIGIBLE_AVERAGE_RANKING,
-        CASE 
-            WHEN figures.NB_PREDICTION/nb_predictions_total.NB_PREDICTION_TOTAL > 0.15 THEN 1
-            ELSE 0
-        END AS IS_ELIGIBLE_PREDICTCHAMP        
-    FROM
-        figures
-    JOIN
-        nb_predictions_total
-        ON nb_predictions_total.SEASON_KEY = figures.SEASON_KEY
+        ug2.SEASON_KEY,
+        nb_prediction_played.NB_PREDICTION_PLAYED
 )
 SELECT
     final_user.USER_KEY,

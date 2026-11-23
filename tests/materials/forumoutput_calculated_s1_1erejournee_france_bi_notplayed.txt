@@ -1,0 +1,85 @@
++++++
+
+[center]:hello1:[size=200][b] Résultats partiels - 1ere journee [/b][/size]:hello1:[/center]
+
+
+[size=150][b]Périmètre des journées terminées  + celle en cours[/b][/size]
+
+[u][b]3 journées  [avec celle en cours] - 66 pronos[/b] (1 match bonus/journée = 3 pronos)[/u]:
+1ere journee (12) / 2eme journee (12) / 3eme journee (12) 
+
+[size=150][b]Résultats PROB - 1ere journee[/b][/size]
+[quote]1EJ.01 - [b]TEAM1[/b] vs TEAM2: [b]+4[/b] [ 85 - 81 ]
+[i]1EJ.02 - TEAM3 vs TEAM4:  Non joué[/i][/quote]
+
+[size=150][b]Concours individuel[/b][/size]
+
+[b][u]Côtes des pronostiqueurs & Score du bon vainqueur - 1ere journee[/u][/b]
+[i]-> Côte: % des pronostiqueurs ayant choisi le vainqueur :wav:
+-> “Score du bon vainqueur”: Si côte < 40%, score = 55 - côte, sinon 15 pts [/i]:angel10:
+
+* Matchs terminés
+[quote]1EJ.01 - [b]TEAM1[/b] - [b] côte: 25% [/b] (1÷4) ==> [b]score = 30[/b]
+1EJ.02 - [b]TEAM4[/b] - [b] côte: 75% [/b] (3÷4) ==> [b]score = 15[/b][/quote]
+
+* Estimation des autres matchs (à date)
+[quote]1EJ.01 - [b]TEAM1[/b] - [b] côte: 25% [/b] (1÷4) ==> [b]score = 30[/b][/quote]
+
+[b][u] Détail des scores - 1ere journee[/u][/b]
+[i] -> “Score du bon vainqueur”: si vainqueur trouvé, voir valeur sur la section précédente :headbang:
+-> “Score du bon écart”: 30 pts si résultat trouvé :king: Sinon, 15 pts - l’écart entre pronostic et résultat. :wave: 
+-> “Score de l’automatisation”: 1 pt si les 2 points importants de la trame sont respectés :dark1:
+-> Nombre de points de journée (NB_PTS_JOURNEE): somme des scores, avec scores triplés pour le match bonus [/i]:3some:
+
+[img]url_detail[/img]
+[i]-> Afficher en grand: [url]url_detail[/url][/i]
+
+[i]Score de l'automatisation=0 (problème de format - action manuelle exécutée ) pour:
+USER1 : 1EJ.05 / 1EJ.08
+USER2 : 1EJ.09[/i]
+
+[b][u]Classement individuel de journée - 1ere journee[/b][/u]
+[img]url_gameday[/img]
+
+[b][u] Classement individuel global - sur toute la saison:[/u][/b]
+[img]url_global[/img]
+
+[b][u] Classement moyen par pronostic - sur toute la saison:[/u][/b]
+[i]-> Calcul: TOTAL_POINTS ÷ NB_TOTAL_PRONO avec NB_TOTAL_PRONO > 33 prono (> 75% du périmètre) [/i]:thumbright:
+[quote]1. USER1 - 19.5 pts/prono[/quote]
+
+[size=150][b]Championnat de pronostics[/b][/size]
+
+[b][u]Résultats - 1ere journee[/u][/b]
+[i]-> En Saison reguliere, les matchs du championnat de pronostics sont les mêmes qu’en PROB :boxing:
+-> Score d’une équipe: Nombre de points de journée de son meilleur pronostiqueur avec NB_TOTAL_PRONO > 10 prono (> 15% du périmètre) :thumbleft:
+-> L'équipe à domicile reçoit un bonus de 10% et la victoire en cas d'égalité [/i]:director:
+
+[quote]1/ [b]TeamA[/b] vs TeamB : 240 - 0
+[code]Pour TeamA:
+-> USER1: 200 pts   - [Non comptabilisés: USER2 (188)]
+-> Bonus domicile: 40 pts[/code]
+2/ TeamC vs [b]TeamD[/b] : 0 - 102
+[code]Pour TeamD:
+-> USER3: 102 pts[/code][/quote]
+
+[b][u] Classement - sur toute la saison régulière[/b][/u]
+[img]url_predictchamp[/img]
+
+[size=150][b]Trophée de MVP - Most Valuable Predictor[/b][/size] 
+[u][b]Election du MVP du mois de Janvier [/b][/u]
+-> Résultats des pronostiqueurs des journées terminées* au cours du mois de Janvier :bounce:
+[i]* 1ere journee (12 prono) / 2eme journee (12 prono) / 3eme journee (12 prono)[/i]
+
+[quote]USER1 - 682 pts / 3V-1D [avec TeamA, TeamB]
+USER2 - 598 pts / 1V-2D [avec TeamC]
+USER3 - 432 pts [/quote]
+
+[size=150][b]Trophée de MVP - Most Valuable Predictor[/b][/size] 
+[u][b]Election du MVP de Saison reguliere [/b][/u]
+-> Résultats des pronostiqueurs des journées* sur l'ensemble de la compétition :bounce:
+[i]* 1ere journee (12 prono) / 2eme journee (12 prono) / 3eme journee (12 prono)[/i]
+
+[quote]USER1 - 682 pts / 3V-1D [avec TeamA, TeamB]
+USER2 - 598 pts / 1V-2D [avec TeamC]
+USER3 - 432 pts [/quote]

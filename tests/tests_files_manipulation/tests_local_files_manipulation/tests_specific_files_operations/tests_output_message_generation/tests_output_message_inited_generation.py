@@ -125,7 +125,7 @@ def test_get_parameters(read_yml_as_serie, read_csv,read_txt):
         
         assert expected_param_dict == param_dict
 
-def test_create_message(read_csv,read_txt, read_json):
+def test_create_main_message(read_csv,read_txt, read_json):
     
     # this test the function create_message
     param_dict = {
@@ -142,7 +142,7 @@ def test_create_message(read_csv,read_txt, read_json):
         'NB_NEXT_OPENING' : 2,
         'USER_CAN_CHOOSE_TEAM_FOR_PREDICTCHAMP': np.int64(1)}
     
-    template = read_txt("output_gameday_init_template_france.txt")
+    template = read_txt("output_gameday_init_main_template_france.txt")
     translations = read_json("output_gameday_template_translations.json")
     country = "FRANCE"
     forum = 'BI'
@@ -153,18 +153,36 @@ def test_create_message(read_csv,read_txt, read_json):
     with patch.object(output_message_inited_generation.output,"define_filename", return_value=mock_filename) as mock_filename, \
          patch.object(output_message_inited_generation.files_manipulation,"create_txt"):
         
-        content, country, forum = output_message_inited_generation.create_message(param_dict, template, translations, country, forum, sr_gameday_output_init)
+        content, country, forum = output_message_inited_generation.create_main_message(param_dict, template, translations, country, forum, sr_gameday_output_init)
+
         assert content.split() == expected_result.split()
         assert country == "FRANCE"
         assert forum == 'BI'
+
+def test_create_small_message(read_txt, read_json, read_csv):
+    
+    # this test the function create_small_message with all parameters for partial calculation
+    param_dict = {
+        "GAMEDAY_OPENING": "1ere journee"
+    }
+    template = """Hello todos"""
+    translations = read_json("output_gameday_template_translations.json")
+    country = "FRANCE"
+    forum = 'BI'
+
+    _, country, forum = output_message_inited_generation.create_small_message(param_dict, template, translations, country, forum)
+    assert country == "FRANCE"
+    assert forum == 'BI'
 
 def test_process_output_message_inited(read_yml_as_serie, read_csv,read_txt, read_json):
     
     # this test the function process_output_message_inited
     context_dict = {
         "sr_snowflake_account_connect":  read_yml_as_serie("snowflake_account_connect.yml"),
-        'str_output_gameday_init_template_france': read_txt("output_gameday_init_template_france.txt"),
-        'str_output_gameday_init_template_italia': read_txt("output_gameday_init_template_france.txt"),
+        'str_output_gameday_init_main_template_france': read_txt("output_gameday_init_main_template_france.txt"),
+        'str_output_gameday_init_main_template_italia': read_txt("output_gameday_init_main_template_france.txt"),
+        'str_output_gameday_init_small_template_france': read_txt("output_gameday_init_main_template_france.txt"),
+        'str_output_gameday_init_small_template_italia': read_txt("output_gameday_init_main_template_france.txt"),
         'lst_output_gameday_template_translations': read_json("output_gameday_template_translations.json")
     }
     sr_gameday_output_init = read_csv("sr_gameday_output_init.csv").iloc[0]

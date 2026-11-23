@@ -6,6 +6,9 @@ import os
 import requests
 import pandas as pd
 from zoneinfo import ZoneInfo
+from datetime import timedelta
+
+from ...config.config_variables import config_global_variables as var
 from ...config import config_decorators
 
 @config_decorators.exit_program(log_filter=lambda args: dict(args))
@@ -92,7 +95,13 @@ def extract_nested_teams_scores(teams_scores: list, index: int, field) -> str | 
     return teams_scores[index].get(field)
 
 @config_decorators.exit_program(log_filter=lambda args: dict(args))
-def get_game_details_lnb(competition_source_id: int, season_division_number: int, season_name: str, gameday: str | None= None, sr_games_to_extract: pd.Series | None = None) -> pd.DataFrame:
+def get_game_details_lnb(competition_source_id: int, 
+                         season_division_number: int, 
+                         season_name: str, 
+                         gameday: str | None= None, 
+                         sr_games_to_extract: pd.Series | None = None, 
+                         task_run: str | None = None, 
+                         date_task_utc: pd.Timestamp | None = None) -> pd.DataFrame:
 
     """
         Gets all games details from a competition coming from LNB website, managed in JSON, possibly filtered by gameday
@@ -102,6 +111,9 @@ def get_game_details_lnb(competition_source_id: int, season_division_number: int
             season_name (str): used to filter the request sent to LNB website
             gameday (str): if given, filter the result on this gameday
             sr_games_to_extract (pandas dataframe): if given, filter the result on these games id
+            task_run (string): if given, if CALCULATE, behaviour will depend on date_utc
+            date_task_utc (pd.TimeStamp): if given, and task_run = CALCULATE
+                will throw an error if one of games beginning before this date - 105 mns is still running
         Returns:
             the dataframe corresponding to all games details extracted from this competition and possibly gamedays
         Raises:
@@ -112,7 +124,7 @@ def get_game_details_lnb(competition_source_id: int, season_division_number: int
     list_columns = ['COMPETITION_SOURCE_ID', 'GAMEDAY',
                     'DATE_GAME_UTC', 'TIME_GAME_UTC', 'DATE_GAME_LOCAL', 'TIME_GAME_LOCAL',
                     'TEAM_HOME', 'SCORE_HOME', 'TEAM_AWAY', 'SCORE_AWAY', 'GAME_SOURCE_ID']
-    list_columns_status = list_columns + ['STATUS']
+    list_columns_all = list_columns + ['STATUS', 'DATETIME_GAME_UTC']
     df_game = pd.DataFrame(columns= list_columns)
 
     # Parameters to send to LNB website
@@ -148,6 +160,7 @@ def get_game_details_lnb(competition_source_id: int, season_division_number: int
         df_game_subset_transformed = pd.DataFrame()
         df_game_subset_transformed['COMPETITION_SOURCE_ID'] = df_game_subset['competition_external_id']
         df_game_subset_transformed["GAMEDAY"] = df_game_subset["round_description"]
+        df_game_subset_transformed['DATETIME_GAME_UTC'] = pd.to_datetime(df_game_subset["DATETIME_UTC"], utc=True, errors='coerce')
         df_game_subset_transformed["DATE_GAME_UTC"] = df_game_subset["DATETIME_UTC"].dt.date.astype(str)
         df_game_subset_transformed["TIME_GAME_UTC"] = df_game_subset["DATETIME_UTC"].dt.time.astype(str) 
         df_game_subset_transformed["DATE_GAME_LOCAL"] = df_game_subset["DATETIME_LOCAL"].dt.date.astype(str)
@@ -159,7 +172,7 @@ def get_game_details_lnb(competition_source_id: int, season_division_number: int
         df_game_subset_transformed["GAME_SOURCE_ID"] = df_game_subset["match_id"]
         df_game_subset_transformed['STATUS'] = df_game_subset["match_status"]
 
-        df_game_subset_transformed = df_game_subset_transformed[list_columns_status].reset_index(drop=True)
+        df_game_subset_transformed = df_game_subset_transformed[list_columns_all].reset_index(drop=True)
         df_game = pd.concat([df_game, df_game_subset_transformed], ignore_index=True)
         
         anchor_game_id = df_game_subset.loc[0, 'external_id'].item()
@@ -167,12 +180,25 @@ def get_game_details_lnb(competition_source_id: int, season_division_number: int
         df_game_subset = get_games_subset(iteration,session,payload, anchor_game_id)
     
     df_game = df_game[df_game["COMPETITION_SOURCE_ID"] == competition_source_id].reset_index(drop=True)
+    # if gameday is given we filter on it
     if gameday is not None:
         df_game = df_game[df_game["GAMEDAY"] == gameday].reset_index(drop=True)
+    # if sr_games_to_extract is given we filter on these specific games
     if sr_games_to_extract is not None:
         df_game = df_game[df_game["GAME_SOURCE_ID"].astype(str).isin(sr_games_to_extract.values.astype(str))]
-    if not df_game['STATUS'].isin(['SCHEDULED','COMPLETE']).all() and os.getenv('OVERWRITE_GAMES_STATUS') == 0:
-        raise ValueError("At least one game is in progress or unknow status- retry extraction later")
+
+    # if we are calculating: the default behaviour is that all games which should be finished at this time must be over before we calculate 
+    # if not we return an error unless we are overwriting games status
+    if (var.TASK_RUN_MAP.get('CALCULATE')  == task_run) and (os.getenv('OVERWRITE_GAMES_STATUS') == '0'):
+        date_utc_gamebegin = pd.to_datetime(date_task_utc - timedelta(minutes=var.BASKETBALL_GAMETIME_MIN_ESTIMATED), utc=True) 
+        df_game_before = df_game[df_game['DATETIME_GAME_UTC'] <= date_utc_gamebegin]
+        if (not df_game_before['STATUS'].isin(['SCHEDULED','COMPLETE']).all()):
+            raise ValueError("At least one game is in progress or unknow status- retry extraction later")
+        # if some games are running but which began later, we change their scores so that they seem not played
+        df_game.loc[~df_game['STATUS'].isin(['SCHEDULED', 'COMPLETE']), 'SCORE_HOME'] = 0
+        df_game.loc[~df_game['STATUS'].isin(['SCHEDULED', 'COMPLETE']), 'SCORE_AWAY'] = 0
+
     df_game = df_game[(df_game['TEAM_HOME'].notna()) & (df_game['TEAM_AWAY'].notna())]  
     df_game = df_game[list_columns].reset_index(drop=True)
+
     return df_game

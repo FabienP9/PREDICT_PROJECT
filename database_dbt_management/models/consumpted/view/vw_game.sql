@@ -26,6 +26,7 @@ SELECT
     team_away.TEAM_NAME AS TEAM_AWAY_NAME,
     game.SCORE_HOME,
     game.SCORE_AWAY,
+    game.IS_PLAYED,
     game.RESULT,
     game.NB_PREDICTOR_WINNER_HOME,
     game.NB_PREDICTOR_WINNER_AWAY,

@@ -47,7 +47,7 @@
         "MESSAGE_FORUM_ID": "int64"
       }
     },
-    "output_need_manual_yml.yml": {
+    "output_need_manual.yml": {
       "columns": {
         "TASK_RUN": "object",
         "SEASON_ID": "object",

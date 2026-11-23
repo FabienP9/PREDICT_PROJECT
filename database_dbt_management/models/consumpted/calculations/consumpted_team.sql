@@ -6,7 +6,7 @@
     Foreign Key:
         SEASON_KEY: from curated
     Filter:
-        Only teams related with season we processed from landing_season
+        Only gamedays with actions (IS_TO_CALCULATE = 1) or calculated
     Materialization:
         incremental to avoid removing old calculations */
 
@@ -58,30 +58,56 @@ calculation as (
         team2.SEASON_KEY,
         COALESCE(SUM(CASE 
                 -- wins at home
-                WHEN team2.TEAM_KEY = gp.TEAM_HOME_KEY AND gp.WINNER=1 AND gp.IS_FOR_RANK=1 THEN 1
+                WHEN team2.TEAM_KEY = gp.TEAM_HOME_KEY 
+                    AND gameday.GAMEDAY_KEY IS NOT NULL 
+                    AND gp.WINNER=1 AND gp.IS_FOR_RANK=1 
+                THEN 1
                 -- wins away
-                WHEN team2.TEAM_KEY = gp.TEAM_AWAY_KEY AND gp.WINNER=2 AND gp.IS_FOR_RANK=1 THEN 1
+                WHEN team2.TEAM_KEY = gp.TEAM_AWAY_KEY 
+                    AND gameday.GAMEDAY_KEY IS NOT NULL 
+                    AND gp.WINNER=2 
+                    AND gp.IS_FOR_RANK=1 
+                THEN 1
                 ELSE 0 END),0)
         AS WIN,
         COALESCE(SUM(CASE 
                 -- loss at home
-                WHEN team2.TEAM_KEY = gp.TEAM_HOME_KEY AND gp.WINNER=2 AND gp.IS_FOR_RANK=1 THEN 1
+                WHEN team2.TEAM_KEY = gp.TEAM_HOME_KEY 
+                    AND gameday.GAMEDAY_KEY IS NOT NULL
+                    AND gp.WINNER=2 
+                    AND gp.IS_FOR_RANK=1 
+                THEN 1
                 -- loss away
-                WHEN team2.TEAM_KEY = gp.TEAM_AWAY_KEY AND gp.WINNER=1 AND gp.IS_FOR_RANK=1 THEN 1
+                WHEN team2.TEAM_KEY = gp.TEAM_AWAY_KEY 
+                    AND gameday.GAMEDAY_KEY IS NOT NULL 
+                    AND gp.WINNER=1 
+                    AND gp.IS_FOR_RANK=1 THEN 1
                 ELSE 0 END),0)
         AS LOSS,
         COALESCE(SUM(CASE 
                 -- points by the team at home
-                WHEN team2.TEAM_KEY = gp.TEAM_HOME_KEY AND gp.IS_FOR_RANK=1 THEN gp.POINTS_HOME
+                WHEN team2.TEAM_KEY = gp.TEAM_HOME_KEY 
+                    AND gameday.GAMEDAY_KEY IS NOT NULL 
+                    AND gp.IS_FOR_RANK=1 
+                THEN gp.POINTS_HOME
                 -- points by the team away
-                WHEN team2.TEAM_KEY = gp.TEAM_AWAY_KEY AND gp.IS_FOR_RANK=1 THEN gp.POINTS_AWAY
+                WHEN team2.TEAM_KEY = gp.TEAM_AWAY_KEY 
+                    AND gameday.GAMEDAY_KEY IS NOT NULL 
+                    AND gp.IS_FOR_RANK=1 
+                THEN gp.POINTS_AWAY
                 ELSE 0 END),0)
         AS POINTS_PRO,
         COALESCE(SUM(CASE 
                 -- points by the opposite team when at home
-                WHEN team2.TEAM_KEY = gp.TEAM_HOME_KEY AND gp.IS_FOR_RANK=1 THEN gp.POINTS_AWAY
+                WHEN team2.TEAM_KEY = gp.TEAM_HOME_KEY 
+                    AND gameday.GAMEDAY_KEY IS NOT NULL 
+                    AND gp.IS_FOR_RANK=1 
+                THEN gp.POINTS_AWAY
                 -- points by the opposite team when away
-                WHEN team2.TEAM_KEY = gp.TEAM_AWAY_KEY AND gp.IS_FOR_RANK=1 THEN gp.POINTS_HOME
+                WHEN team2.TEAM_KEY = gp.TEAM_AWAY_KEY 
+                    AND gameday.GAMEDAY_KEY IS NOT NULL 
+                    AND gp.IS_FOR_RANK=1 
+                THEN gp.POINTS_HOME
                 ELSE 0 END),0)
         AS POINTS_AGAINST
     FROM
@@ -89,7 +115,11 @@ calculation as (
     LEFT JOIN
         {{ref('consumpted_game_predictchamp')}} gp
         ON team2.TEAM_KEY = gp.TEAM_HOME_KEY
-        OR team2.TEAM_KEY = gp.TEAM_AWAY_KEY 
+        OR team2.TEAM_KEY = gp.TEAM_AWAY_KEY
+    LEFT JOIN
+         {{ref('consumpted_gameday')}} gameday
+        ON gameday.GAMEDAY_KEY = gp.GAMEDAY_KEY
+        AND gameday.IS_TO_CALCULATE + gameday.IS_CALCULATED > 0
     GROUP BY
         team2.TEAM_KEY,
         team2.TEAM_NAME,

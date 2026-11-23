@@ -84,66 +84,6 @@ def modify_run_type_file(df_run_type: pd.DataFrame, called_by: str, event: str, 
     logging.info("FILE RUN TYPE -> MODIFIED")
     return df_run_type_modified
 
-@config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('dbt_file_path',)})
-def personalize_yml_dbt_file(dbt_file_path: str , sr_snowflake_account: pd.Series):
- 
-    """
-        Personalizes DBT YAML files with snowflake connection attributes   
-        Args:
-            dbt_file_path (str): Local path of the dbt file
-            sr_snowflake_account (series - one row): Contains snowflake connection attributes
-        Raises:
-            Exits the program if error running the function (using decorator)
-    """
-    
-    text = files_manipulation.read_yml_as_txt(dbt_file_path)
-
-    #We first check if it needs to be personalized
-    is_personalized = "#DATABASE#" not in text
-
-    if not(is_personalized): #we personalize it if not
-
-        #We get the environment keys (GitHub secrets)
-        SNOWFLAKE_USERNAME = os.getenv('SNOWFLAKE_USERNAME')
-        SNOWFLAKE_PASSWORD = os.getenv('SNOWFLAKE_PASSWORD') 
-        if os.getenv("IS_TESTRUN") == '0':
-            database = sr_snowflake_account['DATABASE_PROD']
-        else:
-            database = sr_snowflake_account['DATABASE_TEST']
-
-        #we personalize
-        text = text.replace("#ACCOUNT#",sr_snowflake_account['ACCOUNT'])
-        text = text.replace("#DATABASE#",database)
-        text = text.replace("#WAREHOUSE#",sr_snowflake_account['WAREHOUSE'])
-        text = text.replace("#USER#",SNOWFLAKE_USERNAME)
-        text = text.replace("#PASSWORD#",SNOWFLAKE_PASSWORD)
-        files_manipulation.create_yml(dbt_file_path,text)
-        logging.info(f"FILE {dbt_file_path} -> PERSONALIZED ")
-    else:
-        logging.info(f"FILE {dbt_file_path} -> PERSONALIZED - ALREADY DONE")
-
-@config_decorators.exit_program(log_filter=lambda args: dict(args))
-def parametrize_yml_dbt_file(dbt_file_path: str):
-
-    """
-        Parametrizes DBT YAML files by removing snowflake connection attributes   
-        Args:
-            dbt_file_path (str): Local path of the dbt file
-        Raises:
-            Exits the program if error running the function (using decorator)
-    """
-
-    text = files_manipulation.read_yml_as_txt(dbt_file_path)
-
-    #we parametrize
-    text = re_sub(r'(account:\s*).+', r'\1#ACCOUNT#', text)
-    text = re_sub(r'(database:\s*).+', r'\1#DATABASE#', text)
-    text = re_sub(r'(password:\s*).+', r'\1#PASSWORD#', text)
-    text = re_sub(r'(user:\s*).+', r'\1#USER#', text)
-
-    files_manipulation.create_yml(dbt_file_path,text)
-    logging.info(f"FILE {dbt_file_path} -> PARAMETRIZED ")
-
 @config_decorators.exit_program(log_filter=lambda args: dict(args))
 def create_json_file_email():
 

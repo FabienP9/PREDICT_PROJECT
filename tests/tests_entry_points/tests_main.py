@@ -151,6 +151,7 @@ def test_main(read_csv, read_yml_as_serie):
          patch.object(main.output_message_generation,"generate_output_message", return_value=({"key": "value"},MagicMock())), \
          patch.object(main.messages_posting_process,"post_message"), \
          patch.object(main.local_environment_manipulation,"terminate_local_environment"), \
+         patch.object(main.dropbox,"terminate_folder"), \
          patch.object(main,"create_json_file_email"):
 
         main.main()

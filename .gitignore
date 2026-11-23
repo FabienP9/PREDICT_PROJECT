@@ -12,3 +12,4 @@ dist/
 .venv
 windows_interaction
 script.py
+json_file_email_details.json

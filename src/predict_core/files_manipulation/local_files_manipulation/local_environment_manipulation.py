@@ -49,7 +49,6 @@ def initiate_local_environment(called_by: str) -> dict:
         - create a local folder environment to modify files locally
         - initiate it with "INITIAL" type flagged files according to called_by argument
         - modify local "RUN_TYPE" file and upload it back to dropbox, to log the starting run info
-        - personnalize yml dbt files
         Args:
             called_by (str): the name of the function calling this function, will define precisely the flag
         Returns:
@@ -100,9 +99,6 @@ def initiate_local_environment(called_by: str) -> dict:
     remote_path_file_runtype = df_paths[df_paths["NAME"] == "RUN_TYPE"].iloc[0]['PATH']
     dropbox.upload_file(os.path.join(var.TMPF,"RUN_TYPE.csv"),remote_path_file_runtype)
     
-    #We personalize profiles.yml file with snowflake connection attributes, for potential dbt run
-    specific_files_operations.personalize_yml_dbt_file(var.DBT_PROFILES_PATH,context_dict['sr_snowflake_account_connect'])
-    
     #We filter competition file with competition to load
     if called_by == var.CALLER["COMPET"]:
         context_dict['df_competition'] = context_dict['df_competition'][context_dict['df_competition']['IS_TO_LOAD'] == 1]
@@ -116,7 +112,6 @@ def terminate_local_environment(called_by: str, context_dict: dict):
 
     """
         The purpose of this function is to terminate local folders created for the run:
-        - parametrize the dbt files
         - modify local "RUN_TYPE" file and upload it back to dropbox, to log the ending run info
         - upload files from the local environment which need to be uploaded
         - destroy local environment to terminate the program
@@ -129,8 +124,6 @@ def terminate_local_environment(called_by: str, context_dict: dict):
         """
     
     logging.info("FILES -> TERMINATE LOCAL ENVIRONMENT [START]")
-    #We parametrize profiles.yml file with snowflake connection attributes, for potential dbt run
-    specific_files_operations.parametrize_yml_dbt_file(var.DBT_PROFILES_PATH)
     
     context_dict['df_run_type'] = specific_files_operations.modify_run_type_file(context_dict['df_run_type'],called_by, event = "terminate")
 

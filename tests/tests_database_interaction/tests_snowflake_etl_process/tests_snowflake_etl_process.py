@@ -105,7 +105,8 @@ def test_update_snowflake_from_dbt(read_csv,read_yml_as_serie):
     df_paths = read_csv("paths.csv")
     lst_dbt_tables=["curated_season"]
 
-    with patch.object(snowflake_etl_process.subprocess,'run') as mock_run, \
+    with patch.object(snowflake_etl_process,'prepare_dbt_environment') as mock_prepare, \
+         patch.object(snowflake_etl_process.subprocess,'run') as mock_run, \
          patch.object(snowflake_etl_process,'create_table_file'):
 
         mock_run.return_value.returncode = 0

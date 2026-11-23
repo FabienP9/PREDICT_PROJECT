@@ -4,6 +4,7 @@ It units test the happy path for each function
 '''
 
 import os
+import pandas as pd
 from unittest.mock import patch
 
 from src.predict_core.config.config_variables import config_environment_variables
@@ -27,3 +28,17 @@ def test_check_environment_variable():
     with patch.dict(os.environ, env_values, clear=False):
         config_environment_variables.check_environment_variable("main")
 
+def test_prepare_dbt_environment():
+
+    snowflake_account = pd.Series({
+        'ACCOUNT':       'xy12345.eu-west-1',
+        'WAREHOUSE':     'WH_COMPUTE',
+        'DATABASE_PROD': 'PRONO_PROD',
+        'DATABASE_TEST': 'PRONO_TEST',
+    })
+
+    config_environment_variables.prepare_dbt_environment(snowflake_account)
+
+
+    assert os.environ['SNOWFLAKE_ACCOUNT'] == 'xy12345.eu-west-1'
+    assert os.environ['SNOWFLAKE_WAREHOUSE'] == 'WH_COMPUTE'

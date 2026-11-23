@@ -1,13 +1,13 @@
 DBT_PRONO:
   outputs:
     prod:
-      account: #ACCOUNT#
-      database: #DATABASE#
-      user: #USER#
-      password: #PASSWORD#
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      database: "{{ env_var('SNOWFLAKE_DATABASE') }}"
+      user: "{{ env_var('SNOWFLAKE_USERNAME') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
       role: ACCOUNTADMIN
       schema: LANDING
-      threads: 1
+      threads: 8
       type: snowflake
-      warehouse: COMPUTE_WH
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE') }}"
   target: prod

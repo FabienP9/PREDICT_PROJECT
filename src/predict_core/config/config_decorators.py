@@ -25,25 +25,6 @@ def execute_finally_on_error():
     '''
     
     try:
-        
-        content = ""
-        with open(var.DBT_PROFILES_PATH, 'r', encoding='utf-8') as file:
-            content = file.read() 
-
-        #we parametrize
-        content = re_sub(r'(account:\s*).+', r'\1#ACCOUNT#', content)
-        content = re_sub(r'(database:\s*).+', r'\1#DATABASE#', content)
-        content = re_sub(r'(password:\s*).+', r'\1#PASSWORD#', content)
-        content = re_sub(r'(user:\s*).+', r'\1#USER#', content)
-
-        with open(var.DBT_PROFILES_PATH, "w", encoding = "utf-8") as file:
-            file.write(content)
-        logging.info(f"FILE {var.DBT_PROFILES_PATH} -> PARAMETRIZED ")
-
-    except Exception as e:
-        logging.exception(f"Error - execute finally on error - while parametrizing dbt profile: {e}")
-
-    try:
         with open("json_file_email_details.json", "w") as f:
             json.dump(var.JSON_EMAIL_FILE_DICT, f, default=str)
     except Exception as e:

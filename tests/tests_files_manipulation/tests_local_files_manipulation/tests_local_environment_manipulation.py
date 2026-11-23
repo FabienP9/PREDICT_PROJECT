@@ -39,8 +39,7 @@ def test_initiate_local_environment(read_csv,read_yml_as_serie):
          patch.object(local_environment_manipulation.specific_files_operations,"get_paths_file_details", return_value=mock_df_paths_dict), \
          patch.object(local_environment_manipulation,"multithread_run", return_value=[mock_data_dict]), \
          patch.object(local_environment_manipulation.specific_files_operations,"modify_run_type_file", return_value=mock_df_run_type), \
-         patch.object(local_environment_manipulation.dropbox,"upload_file"), \
-         patch.object(local_environment_manipulation.specific_files_operations,"personalize_yml_dbt_file"):
+         patch.object(local_environment_manipulation.dropbox,"upload_file"):
         
         local_environment_manipulation.initiate_local_environment(called_by)
 
@@ -58,8 +57,7 @@ def test_terminate_local_environment(read_csv):
         mock_dir_entry.path = "../TMP_FOLDER/game.csv"
         mock_dir_entry.name = "game"
         
-        with patch.object(local_environment_manipulation.specific_files_operations,"parametrize_yml_dbt_file"), \
-            patch.object(local_environment_manipulation.specific_files_operations,"modify_run_type_file", return_value=mock_df_run_type), \
+        with patch.object(local_environment_manipulation.specific_files_operations,"modify_run_type_file", return_value=mock_df_run_type), \
             patch.object(local_environment_manipulation.var,"UPLOAD_FOLDER_MAP_PER_CALLER", {"main": [tmpdir]}), \
             patch.object(local_environment_manipulation,"multithread_run"), \
             patch.object(local_environment_manipulation,"destroy_local_folder"):

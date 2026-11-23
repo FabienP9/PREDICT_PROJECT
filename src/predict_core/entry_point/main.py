@@ -169,6 +169,7 @@ def main():
         snowflake_etl_process.delete_tables_data_from_python(context_dict['sr_snowflake_account_connect'],"LANDING")
         snowflake_etl_process.update_snowflake(called_by,context_dict, var.TMPF)
 
+    
     # The new added games or just ran task may have change the calendar of run
     context_dict['str_next_run_time_utc'] = tasks_calendar_management.update_calendar_related_files(called_by, context_dict['sr_snowflake_account_connect'], context_dict['df_task_done'], context_dict['sr_output_need'])
 
@@ -184,7 +185,8 @@ def main():
         multithread_run(messages_posting_process.post_message, posting_args)
     
     local_environment_manipulation.terminate_local_environment(called_by,context_dict)
-    
+    dropbox.terminate_folder()
+
     var.JSON_EMAIL_FILE_DICT['Status of run'] = 'Successful'
     create_json_file_email()
     

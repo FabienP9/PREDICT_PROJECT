@@ -4,23 +4,17 @@ It units test unexpected path
 '''
 import os
 import tempfile
+import pathlib
 from unittest.mock import patch
 import pytest
 
 from src.predict_core.config import config_decorators
 import src.predict_core.config.config_variables.config_global_variables as var
 
-def test_execute_finally_on_error_missing_profiles_file():
-    
-    # this test the function execute_finally_on_error with dbt profile missing, must log an issue
-    with tempfile.TemporaryDirectory() as tmpdir:
-        fake_path = os.path.join(tmpdir, "does_not_exist.yml")
-        with patch.object(var, "DBT_PROFILES_PATH", fake_path):
-            config_decorators.execute_finally_on_error()
-
 def test_execute_finally_on_error_tmp_folder_cleanup_error():
     
     # this test the function execute_finally_on_error with a permission error for destroying folders. Must log on issue.
+    FILE = pathlib.Path("json_file_email_details.json")
     with tempfile.TemporaryDirectory() as tmpdir:
         bad_dir = os.path.join(tmpdir, "locked")
         os.makedirs(bad_dir)
@@ -30,6 +24,7 @@ def test_execute_finally_on_error_tmp_folder_cleanup_error():
         with patch.object(var, "TMPF", bad_dir):
             with patch("shutil.rmtree", side_effect=PermissionError("locked")):
                 config_decorators.execute_finally_on_error()
+                FILE.unlink(missing_ok=True)
 
 def test_exit_program_decorator_catches_softerror_and_exits(assert_exit):
     

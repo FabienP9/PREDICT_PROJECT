@@ -197,10 +197,6 @@ prediction_files/
 │   │   │   │   ├── # Contains message posted on forums in txt files
 │   ├── -1/ # Files from the previous run (backup)
 │   │   ├── ... # Same tree than current/
-│   ├── -2/ # Files from two runs ago (backup)
-│   │   ├── ... # Same tree than current/
-│   ├── -3/ # Files from three runs ago (backup)
-│   │   ├── ... # Same tree than current/
 ├── Test/ # Folder for test environment files
 │   ├── ... # Same tree than Prod/
 ```
@@ -268,7 +264,7 @@ They must be created and updated by the software administrator, according to the
 
 - **snowflake_account_connect.yml**: Defines Snowflake connection parameters (except credentials, [stored as GitHub Secrets](#inputparameters)).
     - **ACCOUNT**: The name of the account
-    - **WAREHOUSE**: The name of the warehouse used to run DML
+    - **WAREHOUSE**: The name of the warehouse used to run DML - if not the one by default (COMPUTE_WH), it is needed to create the new warehouse at the beginning of [snowflake script creating the database](#scriptcreatingdatabase)
     - **DATABASE_PROD**: The name of the database for production
     - **DATABASE_TEST**: The name of the database for test  
 

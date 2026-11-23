@@ -14,6 +14,7 @@ import pandas as pd
 from ...config import config_decorators
 from ...config.config_multithread import multithread_run
 from ...config.config_variables import config_global_variables as var
+from ...config.config_variables.config_environment_variables import prepare_dbt_environment
 from . import sql_queries as sql
 from ...files_manipulation.local_files_manipulation.files_manipulation import create_csv
 from ..snowflake_connection_execution import snowflake_execute
@@ -227,6 +228,9 @@ def update_snowflake_from_dbt(called_by: str, sr_snowflake_account: pd.Series, d
     '''
     
     logging.info("SNOWFLAKE -> UPDATING TABLES FROM DBT [START]")
+
+    #We prepare profiles.yml file with snowflake connection attributes
+    prepare_dbt_environment(sr_snowflake_account)
 
     if called_by == var.CALLER["SNOWFLAKE"]:
         # we just run seeds and views

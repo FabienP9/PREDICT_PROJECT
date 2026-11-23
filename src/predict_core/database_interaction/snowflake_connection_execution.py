@@ -23,12 +23,14 @@ current_snowflake_connection = None
 
 @config_decorators.exit_program(log_filter=lambda args: {})
 @config_decorators.retry_function(log_filter=lambda args: {})
-def snowflake_connect(sr_snowflake_account: pd.Series) -> SnowflakeConnection:
+def snowflake_connect(sr_snowflake_account: pd.Series, db_warehouse: str | None = None) -> SnowflakeConnection:
 
     """
         The purpose of this function is to connect to Snowflake using the connector (if not already connected)
         Args:
             sr_snowflake_account (series - one row) : Contains the snowflake account parameters to run a query
+            db_warehouse (str): if given, will execute specifically with this compute warehouse, 
+                                else with the one provided with sr_snowflake_account
         Returns:
             the snowflake connection object with which we can run query
         Raises:
@@ -48,11 +50,16 @@ def snowflake_connect(sr_snowflake_account: pd.Series) -> SnowflakeConnection:
         else:
             database = sr_snowflake_account.at['DATABASE_TEST']
 
+        if (db_warehouse is None):
+            warehouse = sr_snowflake_account['WAREHOUSE']
+        else:
+            warehouse = db_warehouse
+
         current_snowflake_connection = snowflake.connector.connect(
             user = SNOWFLAKE_USERNAME,
             password= SNOWFLAKE_PASSWORD,
             account=sr_snowflake_account['ACCOUNT'],
-            warehouse=sr_snowflake_account['WAREHOUSE'],
+            warehouse=warehouse,
             database=database,
             schema=var.LANDING_DATABASE_SCHEMA,
             role=var.ROLE_DATABASE,
@@ -114,7 +121,7 @@ def snowflake_execute(sr_snowflake_account: pd.Series, query: str, db_placeholde
 
 @config_decorators.exit_program(log_filter=lambda args: {})
 @config_decorators.retry_function(log_filter=lambda args: {})
-def snowflake_execute_script(sr_snowflake_account: pd.Series, script: str, db_placeholder: str):
+def snowflake_execute_script(sr_snowflake_account: pd.Series, script: str, db_placeholder: str, db_warehouse: str | None = None):
 
     """
         The purpose of this function is to:
@@ -124,12 +131,13 @@ def snowflake_execute_script(sr_snowflake_account: pd.Series, script: str, db_pl
             sr_snowflake_account (series - one row) : Contains the snowflake account parameter to run a query
             script (str): A set of queries gathered in a script
             db_placeholder (str): to replace constant in the query string
+            db_warehouse (str): if given, will execute specifically with this compute warehouse
         Raises:
             Retry 3 times and exits the program if error executing the script (with decorators)
     """
     
     #We connect to Snowflake
-    snowconnect = snowflake_connect(sr_snowflake_account)
+    snowconnect = snowflake_connect(sr_snowflake_account, db_warehouse)
     
     #We personalized #DATABASE# and run the query
     if os.getenv("IS_TESTRUN") == '0':

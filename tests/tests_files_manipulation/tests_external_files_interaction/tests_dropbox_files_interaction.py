@@ -57,9 +57,16 @@ def test_initiate_folder():
     with patch.object(dropbox_files_interaction,"copy_folder") as mock_copy:
         dropbox_files_interaction.initiate_folder()
 
-        mock_copy.assert_any_call("current", "-1")
         mock_copy.assert_any_call("global_manual_inputs", "current/inputs/manual", sourcepath_from_root=1, targetpath_from_root=0, sync_folder=0)
         mock_copy.assert_any_call("local_manual_inputs", "current/inputs/manual",sync_folder=0)
+
+def test_terminate_folder():
+    
+    # this test the function terminate_folder
+    with patch.object(dropbox_files_interaction,"copy_folder") as mock_copy:
+        dropbox_files_interaction.terminate_folder()
+
+        mock_copy.assert_any_call("current", "-1")
 
 def test_upload_file():
    

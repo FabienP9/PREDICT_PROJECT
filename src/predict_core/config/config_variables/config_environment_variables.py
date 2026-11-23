@@ -4,6 +4,7 @@
 '''
 import logging
 import os
+import pandas as pd
 
 from .. import config_decorators
 
@@ -40,3 +41,22 @@ def check_environment_variable(called_by: str):
             raise ValueError(f"Missing environment variable: {env['var']}")
         if env["is_boolean"] == 1 and int(value) not in (0,1):
             raise ValueError(f"Bad boolean value for {env['var']}")
+
+@config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_snowflake_account',)})
+def prepare_dbt_environment(sr_snowflake_account: pd.Series):
+    """
+        Sets Snowflake connection attributes as environment variables for dbt
+        Args:
+            sr_snowflake_account (series - one row): Contains snowflake connection attributes
+        Raises:
+            Exits the program if error running the function (using decorator)
+    """
+
+    os.environ["SNOWFLAKE_ACCOUNT"]   = sr_snowflake_account['ACCOUNT']
+
+    if os.getenv("IS_TESTRUN") == '0':
+        os.environ["SNOWFLAKE_DATABASE"] = sr_snowflake_account['DATABASE_PROD']
+    else:
+        os.environ["SNOWFLAKE_DATABASE"] = sr_snowflake_account['DATABASE_TEST']
+
+    os.environ["SNOWFLAKE_WAREHOUSE"] = sr_snowflake_account['WAREHOUSE']

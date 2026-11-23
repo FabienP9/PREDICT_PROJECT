@@ -39,7 +39,11 @@ def snowflake_account_initialization():
     context_dict.update(local_environment_manipulation.initiate_local_environment(called_by))
   
     # We create the database with the script 
-    snowflake_connection_execution.snowflake_execute_script(context_dict['sr_snowflake_account_connect'],context_dict['str_script_creating_database'], sql_queries.DATABASE)
+    # to create the warehouse we will use, we need first to connect with the default one: COMPUTE_WH
+    snowflake_connection_execution.snowflake_execute_script(context_dict['sr_snowflake_account_connect'],
+                                                            context_dict['str_script_creating_database'], 
+                                                            sql_queries.DATABASE,
+                                                            db_warehouse='COMPUTE_WH')
     logging.info("INIT SNOWFLAKE -> DATABASE INITIALIZED")
 
     # We download all files from dropbox database folder 

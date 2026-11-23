@@ -123,4 +123,4 @@ def test_draw_playoffs_image_imgbb_bad_json(read_txt, assert_exit):
          patch.object(playoffs_table_generation.local_environment_manipulation,"destroy_local_folder"):
 
         mock_post.return_value.json = lambda: {"bad": "json"}
-        assert_exit(lambda: playoffs_table_generation.draw_playoffs_image(), expected_code = 1) # hard exit
+        assert_exit(lambda: playoffs_table_generation.draw_playoffs_image(), expected_code = 0) # soft exit due to imgbb failure

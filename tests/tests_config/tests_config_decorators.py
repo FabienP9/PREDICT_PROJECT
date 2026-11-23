@@ -4,22 +4,21 @@ It units test happy paths for each function
 '''
 
 import pytest
+import pathlib
 from unittest.mock import patch
 
 from src.predict_core.config import config_decorators
 import src.predict_core.config.config_variables.config_global_variables as var
 
-def test_execute_finally_on_error_parametrizes_file(write_yml,read_yml_as_txt):
+def test_execute_finally_on_error():
     
     # this test function execute_finally_on_error
-    mock_profile_file = "profiles.yml"
-    mock_profile_content = "account: myacc\ndatabase: mydb\npassword: mypwd\nuser: me\n"
-    write_yml(mock_profile_file,mock_profile_content)
-    expected_parametrized_profile_file = read_yml_as_txt("dbt_profile_parametrized_sample.yml")
-    with patch.object(var,"DBT_PROFILES_PATH", mock_profile_file):
+    FILE = pathlib.Path("json_file_email_details.json")
+    try:
         config_decorators.execute_finally_on_error()
-        content = read_yml_as_txt(mock_profile_file)
-        assert content == expected_parametrized_profile_file
+        assert FILE.is_file(), f"{FILE} was not created"
+    finally:
+        FILE.unlink(missing_ok=True)
 
 def test_exit_program_decorator_exits(assert_exit):
     

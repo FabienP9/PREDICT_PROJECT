@@ -31,15 +31,15 @@ def test_execute_finally_on_error_tmp_folder_cleanup_error():
             with patch("shutil.rmtree", side_effect=PermissionError("locked")):
                 config_decorators.execute_finally_on_error()
 
-def test_exit_program_decorator_catches_exception_and_exits(assert_exit):
+def test_exit_program_decorator_catches_softerror_and_exits(assert_exit):
     
-    # this test the decorator exit_program with exception. It musts exit the program
+    # this test the decorator exit_program with soft error. It musts exit the program
     @config_decorators.exit_program()
     def faulty_fn():
-        raise ValueError("boom")
+        raise ValueError(f"{var.SOFT_ERROR_TAG} boom")
 
     with patch.object(config_decorators,"execute_finally_on_error"):
-        assert_exit(lambda: faulty_fn())
+        assert_exit(lambda: faulty_fn(),0) # soft exit
 
 def test_retry_function_eventual_success():
     

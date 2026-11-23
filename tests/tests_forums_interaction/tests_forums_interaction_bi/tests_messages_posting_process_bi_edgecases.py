@@ -63,7 +63,7 @@ def test_login_and_post_message_bi_timesout(read_csv, assert_exit):
     patch.object(messages_posting_process_bi.var, "TIME_MESSAGE_WAIT", 1):
 
         # Should raise SystemExit
-        assert_exit(lambda: messages_posting_process_bi.login_and_post_message_bi(topic_row, message_content, is_to_edit))
+        assert_exit(lambda: messages_posting_process_bi.login_and_post_message_bi(topic_row, message_content, is_to_edit),expected_code = 0) # soft error
 
 def test_post_message_bi_times_out(read_csv, assert_exit):
     # this test the function post_message_bi with timesout
@@ -88,4 +88,4 @@ def test_post_message_bi_times_out(read_csv, assert_exit):
          patch("os.getenv", return_value="http://fake-forum"), \
          patch.object(messages_posting_process_bi.var, "TIME_MESSAGE_WAIT", 1):
         
-        assert_exit(lambda: messages_posting_process_bi.post_edit_message_bi(topic_row, "timeout test", "timeout test but in small format"))
+        assert_exit(lambda: messages_posting_process_bi.post_edit_message_bi(topic_row, "timeout test", "timeout test but in small format"),expected_code = 0) # soft error

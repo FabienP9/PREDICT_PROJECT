@@ -60,7 +60,7 @@ def post_edit_message_bi(topic_row: pd.Series, message_main: str, message_small:
     else:
         login_and_post_message_bi(topic_row, message_main, is_to_edit = 0)
 
-@config_decorators.exit_program(log_filter=lambda args: {})
+@config_decorators.exit_program(log_filter=lambda args: {}, is_soft_error = 1)
 def login_to_bi(session: requests.Session, login_url: str) -> Tuple[Literal[0, 1], str]:
 
     '''
@@ -155,7 +155,7 @@ def post_to_bi(message_content: str, session: requests.Session, post_url: str, s
 
     return post_post_successful    
 
-@config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('topic_row','is_to_edit')})
+@config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('topic_row','is_to_edit')}, is_soft_error = 1)
 @config_decorators.retry_function(log_filter=lambda args: {k: args[k] for k in ('topic_row','is_to_edit')})
 def login_and_post_message_bi(topic_row: pd.Series, message_content: str, is_to_edit: Literal[0, 1]):
 
@@ -204,4 +204,4 @@ def login_and_post_message_bi(topic_row: pd.Series, message_content: str, is_to_
                     logging.info(f"MESSAGES -> POSTING OUTPUT ON BI / TOPIC {topic_row['TOPIC_NUMBER']} [DONE] ")
 
     if (not post_successful):
-        raise ValueError(f"BI / TOPIC {topic_row['TOPIC_NUMBER']} NOT POSTED -> Time expiration")
+        raise ValueError(f"{var.SOFT_ERROR_TAG} BI / TOPIC {topic_row['TOPIC_NUMBER']} NOT POSTED -> Time expiration")

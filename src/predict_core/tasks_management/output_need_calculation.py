@@ -146,6 +146,8 @@ def generate_output_need(context_dict: dict) -> pd.Series:
     #Then we create the csv file output_need
     create_csv(os.path.join(var.TMPF,"output_need.csv"),sr_output_need.to_frame().T) 
     
+    sr_output_need_part = sr_output_need[['TASK_RUN','SEASON_DIVISION','GAMEDAY','TS_TASK_UTC','LAST_MESSAGE_CHECK_TS_UTC']]
+    var.JSON_EMAIL_FILE_DICT.update(sr_output_need_part.to_dict())
     logging.info("__________________________________________________________________")
     logging.info("IS RUNNING ==> ")
     logging.info(sr_output_need)
@@ -177,6 +179,8 @@ def set_output_need_to_check_status(sr_output_need: pd.Series) -> pd.Series:
     sr_output_need['IS_TO_RECALCULATE'] = 0
 
     create_csv(output_need_path,sr_output_need.to_frame().T, var.OUTPUT_NEED_ENCAPSULATED) 
+    sr_output_need_part = sr_output_need[['TASK_RUN','SEASON_DIVISION','GAMEDAY','TS_TASK_UTC']]
+    var.JSON_EMAIL_FILE_DICT.update(sr_output_need_part.to_dict())
     logging.info("OUTPUT NEED -> UPDATING OUTPUT_NEED [END]")    
     logging.info("__________________________________________________________________")
     logging.info("IS RUNNING UPDATED ==> OUTPUT NEED = CHECK")

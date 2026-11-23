@@ -4,6 +4,7 @@ It units test unhappy paths
 '''
 import pandas as pd
 from unittest.mock import MagicMock, patch
+import os
 
 from src.predict_core.forums_interaction import messages_details_extraction
 
@@ -17,8 +18,9 @@ def test_extract_messages_from_topic_invalid_timezone(read_csv,assert_exit):
     mock_response = MagicMock()
     mock_response.read.return_value = b"<html></html>"
     mock_df = read_csv("message_check.csv")
-    with patch.object(messages_details_extraction.urllib,'urlopen') as mock_urlopen, \
-         patch.dict(messages_details_extraction.messages_info_functions, {'BI': MagicMock()}):
+    with patch.object(messages_details_extraction.urllib.request, 'urlopen') as mock_urlopen, \
+         patch.dict(messages_details_extraction.messages_info_functions, {'BI': MagicMock()}), \
+         patch.dict(os.environ, {'BI_URL': 'http://fake-forum'}):
         
         mock_urlopen.return_value = mock_response
         messages_details_extraction.messages_info_functions['BI'].return_value = mock_df
@@ -35,8 +37,9 @@ def test_extract_messages_from_topic_with_unmatching_timestamp(read_csv):
     mock_response = MagicMock()
     mock_response.read.return_value = b"<html></html>"
     mock_df = read_csv("message_check.csv")
-    with patch.object(messages_details_extraction.urllib,'urlopen') as mock_urlopen, \
-         patch.dict(messages_details_extraction.messages_info_functions, {'BI': MagicMock()}):
+    with patch.object(messages_details_extraction.urllib.request, 'urlopen') as mock_urlopen, \
+         patch.dict(messages_details_extraction.messages_info_functions, {'BI': MagicMock()}), \
+         patch.dict(os.environ, {'BI_URL': 'http://fake-forum'}):
         
         mock_urlopen.return_value = mock_response
         messages_details_extraction.messages_info_functions['BI'].return_value = mock_df

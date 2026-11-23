@@ -404,7 +404,7 @@ def test_create_main_message_partial(read_txt, read_json, read_csv):
         assert country == "FRANCE"
         assert forum == 'BI'
 
-def test_create_small_message(read_txt, read_json, read_csv):
+def test_create_small_message(read_json):
     
     # this test the function create_small_message with all parameters for partial calculation
     param_dict = {

@@ -11,6 +11,7 @@ from shutil import rmtree as shutil_rmtree
 from typing import Literal
 from sys import exit as sys_exit
 from time import sleep as time_sleep
+import json
 
 from .config_variables import config_global_variables as var
 
@@ -38,8 +39,15 @@ def execute_finally_on_error():
         with open(var.DBT_PROFILES_PATH, "w", encoding = "utf-8") as file:
             file.write(content)
         logging.info(f"FILE {var.DBT_PROFILES_PATH} -> PARAMETRIZED ")
+
     except Exception as e:
-        logging.exception(f"Error: {e}")
+        logging.exception(f"Error - execute finally on error - while parametrizing dbt profile: {e}")
+
+    try:
+        with open("json_file_email_details.json", "w") as f:
+            json.dump(var.JSON_EMAIL_FILE_DICT, f, default=str)
+    except Exception as e:
+        logging.exception(f"Error - execute finally on error - while creating email file: {e}") 
 
     try:
         for folder in [var.TMPF, var.TMPD]:
@@ -47,9 +55,9 @@ def execute_finally_on_error():
                 shutil_rmtree(folder)
         logging.info("FILE -> TMP FOLDER DESTROYED") 
     except Exception as e:
-        logging.exception(f"Error while destroying local folder: {e}")
+        logging.exception(f"Error - execute finally on error - while destroying local temporary folder: {e}")
     
-def exit_program(log_filter=None, execute_final_function: Literal[0, 1] = 1):
+def exit_program(log_filter=None, execute_final_function: Literal[0, 1] = 1, is_soft_error: Literal[0, 1] = 0):
     '''
         Acts as a decorator for most functions if exceptions 
         Exits gracefully the program while logging the error with its context, and executing final function
@@ -67,10 +75,22 @@ def exit_program(log_filter=None, execute_final_function: Literal[0, 1] = 1):
                 bound_args.apply_defaults()
                 filtered_args = log_filter(bound_args.arguments) if log_filter else bound_args.arguments
 
-                logging.exception(f"Failed for `{func.__name__}` with args: {filtered_args} - Error: {e}")
+                if is_soft_error == 1 or var.SOFT_ERROR_TAG in str(e):
+                    error_str = f"Needs retrying because of error with `{func.__name__}` with args: {filtered_args} - Error: {e}"
+                    logging.warning(error_str)
+                    var.JSON_EMAIL_FILE_DICT['Status of run'] = 'To retry'
+                    exit_type = 0 # acts as a sucess
+                else:
+                    error_str = f"Failed for `{func.__name__}` with args: {filtered_args} - Error: {e}"
+                    logging.exception(error_str)
+                    var.JSON_EMAIL_FILE_DICT['Status of run'] = 'Failed'
+                    exit_type = 1 # acts as a failure
+                
+                var.JSON_EMAIL_FILE_DICT['Error message'] = error_str
                 if execute_final_function == 1:
                     execute_finally_on_error()
-                sys_exit(1)
+                sys_exit(exit_type)
+
         return wrapper
     return decorator
 

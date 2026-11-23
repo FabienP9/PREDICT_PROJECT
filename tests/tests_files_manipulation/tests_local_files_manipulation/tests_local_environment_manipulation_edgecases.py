@@ -45,7 +45,7 @@ def test_initiate_local_environment_missing_flag(read_yml_as_serie, read_csv, as
          patch.object(local_environment_manipulation.dropbox,"upload_file"), \
          patch.object(local_environment_manipulation.specific_files_operations,"personalize_yml_dbt_file"):
         
-        assert_exit(lambda: local_environment_manipulation.initiate_local_environment(called_by))
+        assert_exit(lambda: local_environment_manipulation.initiate_local_environment(called_by), expected_code = 1) # hard exit
 
 def test_initiate_local_environment_empty_df_paths(read_yml_as_serie, read_csv, assert_exit):
     
@@ -70,4 +70,4 @@ def test_initiate_local_environment_empty_df_paths(read_yml_as_serie, read_csv, 
          patch.object(local_environment_manipulation.dropbox,"upload_file"), \
          patch.object(local_environment_manipulation.specific_files_operations,"personalize_yml_dbt_file"):
         
-        assert_exit(lambda: local_environment_manipulation.initiate_local_environment(called_by))
+        assert_exit(lambda: local_environment_manipulation.initiate_local_environment(called_by), expected_code = 1) # hard exit

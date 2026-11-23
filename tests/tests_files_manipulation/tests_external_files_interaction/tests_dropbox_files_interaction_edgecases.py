@@ -31,7 +31,7 @@ def test_download_file_rclone_failure(assert_exit):
          patch.object(dropbox_files_interaction.var,'DROPBOX_FOLDER', 'dropbox/'), \
          patch.object(dropbox_files_interaction.subprocess,'run', return_value=subprocess.CompletedProcess(args=[], returncode=1, stderr="rclone error", stdout="")):
 
-        assert_exit(lambda: dropbox_files_interaction.download_file(dropbox_file_path, local_folder))
+        assert_exit(lambda: dropbox_files_interaction.download_file(dropbox_file_path, local_folder),expected_code = 0) # soft exit
 
 def test_get_locally_dropbox_failure(read_csv, assert_exit):
     
@@ -67,7 +67,8 @@ def test_copy_folder_fail_lsf_command(assert_exit):
 
     with patch("subprocess.run") as mock_result_list:
         mock_result_list.return_value = subprocess.CompletedProcess(args=[], returncode=1, stderr="lsf failed", stdout="")
-        assert_exit(lambda: dropbox_files_interaction.copy_folder(remote_source_folder, remote_target_folder))
+        
+        assert_exit(lambda: dropbox_files_interaction.copy_folder(remote_source_folder, remote_target_folder), expected_code = 0) # soft exit
 
 def test_upload_file_folder_path_edge():
     
@@ -89,7 +90,7 @@ def test_upload_file_fail(assert_exit):
     
     with patch('subprocess.run', return_value=subprocess.CompletedProcess(args=[], returncode=1, stderr="upload fail", stdout="")):
 
-        assert_exit(lambda: dropbox_files_interaction.upload_file(local_file_path, remote_file_path))
+        assert_exit(lambda: dropbox_files_interaction.upload_file(local_file_path, remote_file_path), expected_code = 0) # soft exit
 
 def test_download_folder_empty_listing(read_csv):
     
@@ -106,7 +107,7 @@ def test_download_folder_empty_listing(read_csv):
     
 def test_download_folder_listing_error(read_csv,assert_exit):
     
-    # this test the function download_folder with a rclone command failing for listing files. Ñust exit the program
+    # this test the function download_folder with a rclone command failing for listing files. Must exit the program
     folder_name = "database_folder"
     df_paths = read_csv("paths.csv")
     local_folder = "local_folder"
@@ -114,4 +115,4 @@ def test_download_folder_listing_error(read_csv,assert_exit):
     with patch("subprocess.run", return_value=subprocess.CompletedProcess(args=[], returncode=1, stderr="lsf error", stdout="")), \
          patch.object(dropbox_files_interaction,"multithread_run"):
 
-        assert_exit(lambda: dropbox_files_interaction.download_folder(folder_name, df_paths, local_folder))
+        assert_exit(lambda: dropbox_files_interaction.download_folder(folder_name, df_paths, local_folder), expected_code = 0) # soft exit

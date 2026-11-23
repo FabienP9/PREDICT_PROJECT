@@ -12,7 +12,7 @@ def test_get_notrun_task_malformed_timestamps(read_csv,assert_exit):
     # this test the function get_notrun_task with badly written timestamps. Must exit the program
     df_calendar = read_csv( "edgecases/calendar_with_bad_timestamp.csv")
     df_task_done = read_csv( "edgecases/task_done_with_bad_timestamp.csv")
-    assert_exit(lambda: tasks_calendar_management.get_notrun_task(df_calendar, df_task_done))
+    assert_exit(lambda: tasks_calendar_management.get_notrun_task(df_calendar, df_task_done), expected_code = 1) # hard exit
 
 def test_update_nextrun_all_null_timestamps(read_csv):
     
@@ -32,4 +32,4 @@ def test_add_task_to_taskdone_missing_column(read_csv,assert_exit):
     # this test the function add_task_to_taskdone with columns non defined. Must exit the program
     sr_output_need = pd.DataFrame({'TASK_RUN': [1]}).iloc[0]  # Missing SEASON_ID, GAMEDAY, TS_TASK_UTC...
     df_task_done = read_csv( "task_done.csv")
-    assert_exit(lambda: tasks_calendar_management.add_task_to_taskdone(sr_output_need, df_task_done))
+    assert_exit(lambda: tasks_calendar_management.add_task_to_taskdone(sr_output_need, df_task_done), expected_code = 1) # hard exit

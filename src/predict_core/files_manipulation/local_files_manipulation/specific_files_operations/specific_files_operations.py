@@ -145,7 +145,7 @@ def parametrize_yml_dbt_file(dbt_file_path: str):
     logging.info(f"FILE {dbt_file_path} -> PARAMETRIZED ")
 
 @config_decorators.exit_program(log_filter=lambda args: dict(args))
-def create_json_file_email(**kwargs: str):
+def create_json_file_email():
 
     """
         Creates a json file for emailing details if ran by github actions
@@ -155,9 +155,5 @@ def create_json_file_email(**kwargs: str):
             Exits the program if error running the function or not string arg (using decorator)
     """
 
-    for k, v in kwargs.items():
-        if not isinstance(v, (str, type(None))):
-            raise TypeError(f"Argument '{k}' must be a string, got {type(v).__name__}")
-
     with open("json_file_email_details.json", "w") as f:
-        json.dump(kwargs, f)
+        json.dump(var.JSON_EMAIL_FILE_DICT, f, default=str)

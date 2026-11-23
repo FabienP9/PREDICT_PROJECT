@@ -9,7 +9,9 @@ import logging
 import warnings
 import os
 import ssl
-import urllib.request as urllib
+import socket
+import urllib.request
+import urllib.error
 from typing import Tuple
 
 import pandas as pd
@@ -62,9 +64,21 @@ def extract_messages_from_topic(topic_row: Tuple,ts_message_extract_min_utc: pd.
         #we extract from the website page
         page_url = f"{forum_url}/viewtopic.php?t={topic_row.TOPIC_NUMBER}&start={start}"
         logging.info(f"MESSAGE -> EXTRACTING FORUM {topic_row.FORUM_SOURCE} / TOPIC {topic_row.TOPIC_NUMBER} / MESSAGES {start+1} -> X [START] ")
-        response = urllib.urlopen(page_url, context=ssl_context)
-        messagetext = response.read()
-        messagetext = messagetext.decode('utf-8') 
+        try:
+            with urllib.request.urlopen(page_url, context=ssl_context, timeout=var.TIME_MESSAGE_WAIT) as response:
+                messagetext = response.read().decode("utf-8", errors="replace")
+        except urllib.error.HTTPError as e:
+            if e.code == 429 or e.code >= 500:
+                raise ValueError(f"{var.SOFT_ERROR_TAG} PAGE {page_url} -> server error "
+                                f"(status {e.code}): {e.read()[:300]}") from e
+            raise ValueError(f"PAGE {page_url} -> request rejected (status {e.code})") from e
+        except urllib.error.URLError as e:
+            if isinstance(e.reason, (socket.gaierror, socket.timeout, ConnectionRefusedError)):
+                raise ValueError(f"{var.SOFT_ERROR_TAG} PAGE {page_url} -> network issue: {e.reason}") from e
+            raise ValueError(f"PAGE {page_url} -> url error: {e.reason}") from e
+        except (socket.timeout, TimeoutError) as e:
+            raise ValueError(f"{var.SOFT_ERROR_TAG} PAGE {page_url} -> timed out: {e}") from e
+        
         #we get all messages from the page
         get_messages_infos = messages_info_functions.get(topic_row.FORUM_SOURCE)
         df = get_messages_infos(messagetext, topic_row, start)

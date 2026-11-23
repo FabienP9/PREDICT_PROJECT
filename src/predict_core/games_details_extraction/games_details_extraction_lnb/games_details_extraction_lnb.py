@@ -11,7 +11,7 @@ from datetime import timedelta
 from ...config.config_variables import config_global_variables as var
 from ...config import config_decorators
 
-@config_decorators.exit_program(log_filter=lambda args: dict(args))
+@config_decorators.exit_program(log_filter=lambda args: dict(args), is_soft_error= 1)
 @config_decorators.retry_function(log_filter=lambda args: dict(args))
 def get_token(subset_number:int, session: requests.Session) -> str:
 
@@ -39,7 +39,7 @@ def get_token(subset_number:int, session: requests.Session) -> str:
 
     return token
 
-@config_decorators.exit_program(log_filter=lambda args: dict(args))
+@config_decorators.exit_program(log_filter=lambda args: dict(args), is_soft_error = 1)
 @config_decorators.retry_function(log_filter=lambda args: dict(args))
 def get_games_subset(subset_number:int, session, payload: dict, anchor_game_id: int | None= None) -> pd.DataFrame:
     
@@ -193,7 +193,8 @@ def get_game_details_lnb(competition_source_id: int,
         date_utc_gamebegin = pd.to_datetime(date_task_utc - timedelta(minutes=var.BASKETBALL_GAMETIME_MIN_ESTIMATED), utc=True) 
         df_game_before = df_game[df_game['DATETIME_GAME_UTC'] <= date_utc_gamebegin]
         if (not df_game_before['STATUS'].isin(['SCHEDULED','COMPLETE']).all()):
-            raise ValueError("At least one game is in progress or unknow status- retry extraction later")
+            raise ValueError(f"{var.SOFT_ERROR_TAG} At least one game is in progress or unknow status- retry extraction later")
+            
         # if some games are running but which began later, we change their scores so that they seem not played
         df_game.loc[~df_game['STATUS'].isin(['SCHEDULED', 'COMPLETE']), 'SCORE_HOME'] = 0
         df_game.loc[~df_game['STATUS'].isin(['SCHEDULED', 'COMPLETE']), 'SCORE_AWAY'] = 0

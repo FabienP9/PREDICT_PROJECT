@@ -9,7 +9,6 @@
 - [How to add sources and competition to scope](#addtoscope)
 - [Calendar management and automatic run](#calendar)
 - [Usage - Entry points](#usage)
-
 - [Modifying output_need_manual file](#modifyingoutputneedmanual)
 - [Automatic email sent](#emailsent)
 
@@ -524,11 +523,10 @@ The program runs tasks automatically based on [the planned calendar](#calendar).
 ## Automatic email sent<a name="emailsent"></a>
 
 After running [an entry point](#usage) through GitHub actions, GitHub will send an email to the recipient to inform them of the success or failure.  
-The mail of success of the [main entry point](#mainrun) will be sent with copy of:  
-- [output_need file values](#outputneed) automatically or manually generated
-- [next run time utc file text](#nextruntimeutc)
-- the sql query to validate players prediction, for a [CHECK run](#messageactioncheck). 
-If ran by GitHub action automatically without meeting any task of  [the planned calendar](#calendar), no email will be sent.
+The mail sent depends of success of the run or the type of error:
+- soft error for communication with external tools - considered as "to retry" in the email 
+- or hard failure for non planned behaviour
+with a list of deatils on the run:
 An exemple of email sent can be found in **files_examples/email_from_the_program.txt**
 
 

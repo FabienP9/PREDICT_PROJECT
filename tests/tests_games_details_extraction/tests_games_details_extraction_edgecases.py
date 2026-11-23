@@ -30,7 +30,7 @@ def test_extract_games_from_competition_unknown_source(read_csv, assert_exit):
     with patch.dict(games_details_extraction.game_info_functions, {"LNB": lambda *args, **kwargs: mock_df_game}), \
          patch.object(games_details_extraction, "create_csv"):
 
-        assert_exit(lambda: games_details_extraction.extract_games_from_competition(df_competition, df_season))
+        assert_exit(lambda: games_details_extraction.extract_games_from_competition(df_competition, df_season), expected_code = 1) # hard exit
 
 def test_extract_games_from_need_no_matching_competition(read_csv, assert_exit):
     
@@ -44,7 +44,7 @@ def test_extract_games_from_need_no_matching_competition(read_csv, assert_exit):
     with patch.dict(games_details_extraction.game_info_functions, {"LNB": lambda *args, **kwargs: mock_df_game}), \
         patch.object(games_details_extraction, "create_csv"):
 
-        assert_exit(lambda: games_details_extraction.extract_games_from_need(sr_output_need,df_competition,df_gameday_modification, df_season))
+        assert_exit(lambda: games_details_extraction.extract_games_from_need(sr_output_need,df_competition,df_gameday_modification, df_season), expected_code = 1) # hard exit
 
 def test_extract_games_from_need_function_raises(read_csv, assert_exit):
     
@@ -60,4 +60,4 @@ def test_extract_games_from_need_function_raises(read_csv, assert_exit):
     with patch.dict(games_details_extraction.game_info_functions, {'LNB': raise_error}), \
         patch.object(games_details_extraction, "create_csv"):
 
-        assert_exit(lambda: games_details_extraction.extract_games_from_need(sr_output_need,df_competition,df_gameday_modification,df_season))
+        assert_exit(lambda: games_details_extraction.extract_games_from_need(sr_output_need,df_competition,df_gameday_modification,df_season), expected_code = 1) # hard exit

@@ -10,7 +10,7 @@ import pandas as pd
 import json
 
 from src.predict_core.files_manipulation.local_files_manipulation.specific_files_operations import specific_files_operations
-
+from src.predict_core.config.config_variables import config_global_variables as var
 def test_get_paths_file_details(read_csv):
     
     # this test the function get_paths_file_details
@@ -63,13 +63,15 @@ def test_create_json_file_email():
 
     # this test the function create_json_file with empty args. Must accept it.
     filename = "json_file_email_details.json"
-    str1 = "Hello"
-    str2 = "goodbye"
+    var.JSON_EMAIL_FILE_DICT = {
+        "str1": "Hello",
+        "str2": "goodbye"
+    }
     expected_data = {
         "str1": "Hello",
         "str2": "goodbye"
     }
-    specific_files_operations.create_json_file_email(str1=str1, str2=str2)
+    specific_files_operations.create_json_file_email()
     with open(filename, "r") as f:
         data = json.load(f)
     

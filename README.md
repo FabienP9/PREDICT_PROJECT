@@ -185,14 +185,17 @@ The main entry point, which calculates results, posts them on forums, posts pred
 
 ## Error management and impacts<a name="error"></a>
 
-If an error occurs at any point, the software will behave differently depending on the origin:
-- on functions communicating with external tools (Snowflake, ImgBB, DropBox, Forums, sport leagues websites), it will retry 3 times before considering it as a failure. 
-- Otherwise it will consider as a failure directly.
+If an issue occurs at any point, the software will behave differently depending on the origin:
+- on functions communicating with external tools (Snowflake, ImgBB, DropBox, Forums, sport leagues websites), it will retry 3 times before considering it as a soft error (for communication/network/infrastructure issue) or hard failure. 
+- Otherwise it will consider as a hard failure directly.
 
-The failure stops the program immediately, running essential closing functions, then exit and send a failure email to recipients.  
+The error stops the program immediately, running essential closing functions, then exit.
 The decorators handling that behaviour are developped in *src.predict_core.config.config_decorators.py*
 
-If it was a scheduled task, ran automatically through GitHub Actions:
+If it was ran through GitHub Actions:
+- soft error is still considered as a success
+- hard failure is considered as a failure
+
 For next GitHub automatic run, the same calendar task will be retried, as it didn't complete.
 
 This ensures that:
@@ -208,7 +211,8 @@ This ensures that:
     Each test module uses dedicated material files under *tests/materials/*.  
     To run them:
     ```
-        unset # this will make sure no variables is stored locally it might fail otherwise
+        unset BI_URL # this environment variable must not exist otherwise a test will fail
+        export OVERWRITE_GAMES_STATUS=0 #this environment variable must be 0 otherwise a test will fail
         pytest # to run all tests
         pytest tests/tests_*/[...]/tests_*/tests_*.py # to run one module test
     ```

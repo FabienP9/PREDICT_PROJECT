@@ -115,8 +115,8 @@ jobs:
           run_url = f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}"
           
           msg = EmailMessage()
-          msg['Subject'] = f'GitHub Action PRE-RUN FAILED - Main Prod / auto'
-          msg.set_content(f"An error occurred before running exe_main.\n\nCheck logs: {run_url}")
+          msg['Subject'] = f'[PREDICT] Prerun Failed - Main Prod | auto'
+          msg.set_content(f"An error occurred before running main.\n\nCheck logs: {run_url}")
           msg['From'] = os.environ["GMAIL_USER"]
           msg['To'] = os.environ["RECIPIENT_EMAIL"]
 
@@ -136,42 +136,37 @@ jobs:
           python3 -m src.predict_core.entry_point.main
           echo "output=$(cat json_file_email_details.json | base64 -w0)" >> $GITHUB_ENV
 
-      - name: Send Email for program (Success or Failure)
-        id: send_email_program
-        if: ${{ env.should_proceed == 'true' && always() }} 
+      - name: Send Email (Success or Failure)
+        if: always()
         run: |
           python3 - <<EOF
-          import os, smtplib, json, base64
+          import os, smtplib, json, pathlib, base64
           from email.message import EmailMessage
 
           status = "${{ job.status }}"
           run_url = f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}"
           
           msg = EmailMessage()
+          p = pathlib.Path("json_file_email_details.json")
+          output_data = json.loads(p.read_text()) if p.exists() else {"Status of run": "S.NoDetails", "TASK_RUN": "T.NoDetails"}
 
-          if status == "success":
-              output_data = json.loads(base64.b64decode(os.environ["output"]).decode())
-              msg['Subject'] = f'GitHub Action SUCCEEDED - Main Prod / auto'
-              msg.add_alternative(f"""
-                <html>
-                  <body>
-                    <p>Succeeded to exe main</p>
-                    <p><u>Output need string:</u><br>
-                      {output_data.get('str_output_need', 'N/A').replace('\n', '<br>')}</p>
-                    <p><u>Next run (UTC):</u> {output_data.get('str_next_run_time_utc', 'N/A')}</p>
-                    <p><u>Check string</u>: {output_data.get('check_string', 'N/A')}</p>
-                    <p><u>Logs</u>: {run_url}</p>
-                  </body>
-                </html>
-                """, subtype='html')
-              
-          else:
-              msg['Subject'] = f'GitHub Action FAILED - Main Prod / auto'
-              msg.set_content(f"Failed to exe main \n\nRun logs: {run_url}")
+          rows = "".join(
+              f"<p><u>{key}</u>: {value}</p>"
+              for key, value in output_data.items()
+          )
+
+          msg["Subject"] = f"[PREDICT] {output_data.get('Status of run', 'S.Undefined')} - {output_data.get('TASK_RUN', 'T.Undefined')} - Main Prod | auto"
+          msg.add_alternative(f"""
+              <html>
+                <body>
+                  {rows}
+                  <p><u>Logs</u>: {run_url}</p>
+                </body>
+              </html>
+              """, subtype="html")
 
           msg['From'] = os.environ["GMAIL_USER"]
           msg['To'] = os.environ["RECIPIENT_EMAIL"]
-
           with smtplib.SMTP("smtp.gmail.com", 587) as server:
               server.starttls()
               server.login(os.environ["GMAIL_USER"],os.environ["GMAIL_APP_PASSWORD"])

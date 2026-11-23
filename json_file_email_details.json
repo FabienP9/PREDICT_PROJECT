@@ -1,0 +1,1 @@
+{"str1": "Hello", "str2": "goodbye", "Status of run": "Failed", "Error message": "Failed for `add_task_to_taskdone` with args: {} - Error: 'SEASON_ID'", "TASK_RUN": "CHECK", "SEASON_DIVISION": NaN, "GAMEDAY": "1ere journ\u00e9e", "TS_TASK_UTC": "2025-01-03 20:00:00", "LAST_MESSAGE_CHECK_TS_UTC": "2025-06-14 15:00:00", "Next run (UTC)": "NONE"}

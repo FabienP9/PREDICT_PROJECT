@@ -28,7 +28,7 @@ def test_exit_program_decorator_exits(assert_exit):
     def error():
         raise ValueError("boom")
 
-    assert_exit(lambda: error())
+    assert_exit(lambda: error(), expected_code = 1) # hard exit
 
 def test_retry_function_eventually_succeeds():
     

@@ -380,7 +380,8 @@ def draw_playoffs_image():
     # we push it online on ImgBB
     image_url = imgbb.push_capture_online(file_path)
     logging.info(image_url)
-    create_json_file_email(image_url = image_url)
+    var.JSON_EMAIL_FILE_DICT['Image URL'] = 'image_url'
+    create_json_file_email()
 
     # We finally destroy local folders
     local_environment_manipulation.destroy_local_folder()

@@ -91,6 +91,7 @@ def update_nextrun(df_calendar: pd.DataFrame, df_task_done: pd.DataFrame) -> str
         str_next_run_utc = str(ts_next_run_utc.strftime("%Y-%m-%d %H:%M:%S.000"))
 
     files_manipulation.create_txt(os.path.join(var.TMPF,'next_run_time_utc.txt'),str_next_run_utc)
+    var.JSON_EMAIL_FILE_DICT['Next run (UTC)'] = str_next_run_utc
     logging.info("__________________________________________________________________")
     logging.info("NEXT RUN TIME ==> ")
     logging.info(str_next_run_utc)

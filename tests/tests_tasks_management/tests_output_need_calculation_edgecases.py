@@ -19,7 +19,7 @@ def test_calculate_output_need_auto_empty_calendar(read_yml_as_serie, read_csv, 
     with patch.object(output_need_calculation.tasks_calendar_management,"get_calendar", return_value=mock_df_calendar), \
          patch.object(output_need_calculation.tasks_calendar_management,"get_notrun_task", return_value=mock_df_calendar):
 
-        assert_exit(lambda: output_need_calculation.calculate_output_need_auto(sr_snowflake_account_connect, df_task_done, str_current_run_time_utc))
+        assert_exit(lambda: output_need_calculation.calculate_output_need_auto(sr_snowflake_account_connect, df_task_done, str_current_run_time_utc), expected_code = 1) # hard exit
       
 
 def test_set_output_need_to_check_status(read_csv):

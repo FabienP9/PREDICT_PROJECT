@@ -57,8 +57,8 @@ def process_messages(context_dict: dict) -> dict:
         # We want to extract messages from the forum and download the input files related                     
         context_dict['df_message_check'],context_dict['extraction_time_utc']= \
             messages_details_extraction.extract_messages(context_dict['sr_snowflake_account_connect'],
-                                                         context_dict['sr_output_need'])            
-
+                                                        context_dict['sr_output_need'])            
+        
         # we filter messages files, to get only inputs related to those messages   
         context_dict.update(files_manipulation.filter_data(files_data_dict = context_dict, 
                                                            df_paths=context_dict['df_paths'], 
@@ -87,7 +87,7 @@ def process_messages(context_dict: dict) -> dict:
             context_dict['df_message_check_ts'].loc[context_dict['df_message_check_ts']['SEASON_ID']\
                              == context_dict['sr_output_need']['SEASON_ID'], 'LAST_CHECK_TS_UTC'] = context_dict['extraction_time_utc'] 
             files_manipulation.create_csv(os.path.join(var.TMPF,'message_check_ts.csv'),context_dict['df_message_check_ts']) 
-
+        
         return context_dict
 
 @config_decorators.exit_program(log_filter=lambda args: {})
@@ -160,7 +160,7 @@ def main():
     
     if ( context_dict['sr_output_need']['MESSAGE_ACTION'] in (var.MESSAGE_ACTION_MAP["RUN"],var.MESSAGE_ACTION_MAP["CHECK"])):
         context_dict = process_messages(context_dict)
-    
+        
     #if either messages or games are running
     if ( context_dict['sr_output_need']['MESSAGE_ACTION'] in (var.MESSAGE_ACTION_MAP["RUN"],var.MESSAGE_ACTION_MAP["CHECK"]) 
         or context_dict['sr_output_need']['GAME_ACTION'] == var.GAME_ACTION_MAP["RUN"]):
@@ -172,17 +172,18 @@ def main():
     
     # The new added games or just ran task may have change the calendar of run
     context_dict['str_next_run_time_utc'] = tasks_calendar_management.update_calendar_related_files(called_by, context_dict['sr_snowflake_account_connect'], context_dict['df_task_done'], context_dict['sr_output_need'])
-
+    
     # we generate output message and post it if the task is to init or is to calculate (partially or not)
     if context_dict['sr_output_need']['TASK_RUN'] in (var.TASK_RUN_MAP["INIT"],var.TASK_RUN_MAP["CALCULATE"]):
         output_param_dict, df_topics = output_message_generation.generate_output_message(context_dict)
     
         # we post messages for each concerned topics
-        posting_args = [(df_topics.iloc[i].to_dict(), 
-                         output_param_dict[f"MESSAGE_MAIN_{df_topics.iloc[i]['FORUM_COUNTRY']}_{df_topics.iloc[i]['FORUM_SOURCE']}"], 
-                         output_param_dict[f"MESSAGE_SMALL_{df_topics.iloc[i]['FORUM_COUNTRY']}_{df_topics.iloc[i]['FORUM_SOURCE']}"]
-                         ) for i in range(len(df_topics))]   
-        multithread_run(messages_posting_process.post_message, posting_args)
+        posting_args = [(row,
+                         output_param_dict[f"MESSAGE_MAIN_{row.FORUM_COUNTRY}_{row.FORUM_SOURCE}"], 
+                         output_param_dict[f"MESSAGE_SMALL_{row.FORUM_COUNTRY}_{row.FORUM_SOURCE}"]
+                         ) 
+                    for row in df_topics.itertuples(index=False)]  
+        multithread_run(messages_posting_process.post_edit_message, posting_args)
     
     local_environment_manipulation.terminate_local_environment(called_by,context_dict)
     dropbox.terminate_folder()

@@ -30,10 +30,10 @@ SELECT
     topic.FORUM_KEY,
     topic.SEASON_KEY,
     topic.FORUM_SOURCE,
-    topic.TOPIC_NUMBER,
+    topic.TOPIC_ID,
     topic.IS_FOR_PREDICT,
     topic.IS_FOR_RESULT,
-    topic.MESSAGE_NUMBER_TO_EDIT   
+    topic.MESSAGE_ID_TO_EDIT   
 FROM
     {{ref('curated_topic')}} topic
     {% if is_incremental() and max_updated_at is not none %}
@@ -45,10 +45,10 @@ SELECT
     final_topic.FORUM_KEY,
     final_topic.SEASON_KEY,
     final_topic.FORUM_SOURCE,
-    final_topic.TOPIC_NUMBER,
+    final_topic.TOPIC_ID,
     final_topic.IS_FOR_PREDICT,
     final_topic.IS_FOR_RESULT,
-    final_topic.MESSAGE_NUMBER_TO_EDIT,
+    final_topic.MESSAGE_ID_TO_EDIT,
     {{updated_at_fields()}}
 FROM
     final_topic

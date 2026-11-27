@@ -5,7 +5,7 @@
     Joins:
         curated_forum: foreign key
     Primary Key:
-        TOPIC_KEY based on FORUM_SOURCE and TOPIC_NUMBER
+        TOPIC_KEY based on FORUM_SOURCE and TOPIC_ID
     Foreign key:
         FORUM_KEY: 1-n relationship with forum
         SEASON_KEY: 1-n relationship with season
@@ -24,14 +24,14 @@
 -- We retrieve topics
 with final_topic as (
     SELECT 
-        MD5('TOPIC' || '^^' || topic.FORUM_SOURCE || '^^' || topic.TOPIC_NUMBER) AS TOPIC_KEY,
+        MD5('TOPIC' || '^^' || topic.FORUM_SOURCE || '^^' || topic.TOPIC_ID) AS TOPIC_KEY,
         forum.FORUM_KEY,
         season.SEASON_KEY,
         topic.FORUM_SOURCE,
-        topic.TOPIC_NUMBER,
+        topic.TOPIC_ID,
         topic.IS_FOR_PREDICT,
         topic.IS_FOR_RESULT,
-        topic.MESSAGE_NUMBER_TO_EDIT
+        topic.MESSAGE_ID_TO_EDIT
     FROM {{source("LAND","TOPIC")}} topic
     LEFT JOIN {{ref('curated_season')}} season
         ON topic.SEASON_ID = season.SEASON_ID
@@ -43,10 +43,10 @@ SELECT
     final_topic.FORUM_KEY,
     final_topic.SEASON_KEY,
     final_topic.FORUM_SOURCE,
-    final_topic.TOPIC_NUMBER,
+    final_topic.TOPIC_ID,
     final_topic.IS_FOR_PREDICT,
     final_topic.IS_FOR_RESULT,
-    final_topic.MESSAGE_NUMBER_TO_EDIT,
+    final_topic.MESSAGE_ID_TO_EDIT,
     {{updated_at_fields()}}
 FROM 
     final_topic

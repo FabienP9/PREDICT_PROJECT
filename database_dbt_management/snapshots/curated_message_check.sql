@@ -34,7 +34,7 @@
 with message as (
     SELECT
         message_check.FORUM_SOURCE,
-        message_check.TOPIC_NUMBER,
+        message_check.TOPIC_ID,
         message_check.USER,
         message_check.MESSAGE_FORUM_ID,
         message_check.CREATION_TIME_LOCAL,
@@ -82,7 +82,7 @@ message_with_key as (
     LEFT JOIN
         {{ref('curated_topic')}} topic
         ON message.FORUM_SOURCE = topic.FORUM_SOURCE
-        AND message.TOPIC_NUMBER = topic.TOPIC_NUMBER
+        AND message.TOPIC_ID = topic.TOPIC_ID
     LEFT JOIN
         {{ref('curated_user')}} user
         ON message.USER = user.USER_NAME

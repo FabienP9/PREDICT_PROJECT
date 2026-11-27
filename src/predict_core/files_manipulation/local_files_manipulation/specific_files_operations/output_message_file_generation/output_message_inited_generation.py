@@ -38,15 +38,15 @@ def transform_games_to_list(df_games: pd.DataFrame) -> str:
     df_games_copy = df_games.copy()
     df_games_copy['STRING'] = ("#" + df_games_copy['GAME_MESSAGE'] + "# " +
                                 df_games_copy['TEAM_HOME_NAME'] + " vs " +
-                                df_games_copy['TEAM_AWAY_NAME'] + " ==> +1 ")
+                                df_games_copy['TEAM_AWAY_NAME'] + " == +1 ")
     
     # we create the LIST_GAMES string by concatenating all games-strings on several lines
-    LIST_GAMES = "\n".join(df_games_copy['STRING'])
+    LIST_GAMES = "".join(f"|1b|{line}|1e|" for line in df_games_copy['STRING'])
     
     #we add the bonus line
     if len(df_games_copy) > 0:
-        bonus_line = f"#{df_games_copy.iloc[0]['GAMEDAY_MESSAGE']}.BN# __L__Bonus game ID__L__ ==> {df_games_copy.iloc[0]['GAME_MESSAGE']} "
-        LIST_GAMES += "\n"+ bonus_line
+        bonus_line = f"#{df_games_copy.iloc[0]['GAMEDAY_MESSAGE']}.BN# __L__Bonus game ID__L__ == {df_games_copy.iloc[0]['GAME_MESSAGE']} "
+        LIST_GAMES += "|1b|"+ bonus_line + "|1e|"
     
     return LIST_GAMES
 
@@ -200,7 +200,7 @@ def transform_games_to_calendar(df_games: pd.DataFrame) -> Tuple[str, dict]:
             )
             calendar_lines.extend(result_lines.tolist())
 
-    CALENDAR_GAMES = "\n".join(calendar_lines)
+    CALENDAR_GAMES = "".join(f"|1b|{line}|1e|" for line in calendar_lines)
     # We finally extract the first game time per gameday
     firstgameframe = (df_games_copy.sort_values(["DATE_EVENT_LOCAL","TIME_EVENT_LOCAL"]).groupby("GAMEDAY", as_index=False).first())
     FIRSTGAMETIME_DICT = (
@@ -227,11 +227,11 @@ def get_opened_gameday_details(gameday:str, df_games_opened:pd.DataFrame) -> str
     df_games_opened_gameday = df_games_opened[df_games_opened["GAMEDAY"]== gameday]
     LIST_GAMES = transform_games_to_list(df_games_opened_gameday)
     CALENDAR_GAMES, _ = transform_games_to_calendar(df_games_opened_gameday)
-    DETAILS_OPENED_GAMES = f"\n\n__F__underlinebegin__F__{gameday} __F__underlineend__F__\
-                            \n__F__italicbegin__F__-> Trame pour pronostics - {gameday} __F__italicend__F__\
+    DETAILS_OPENED_GAMES = f"|2b|__F__underlinebegin__F__{gameday} __F__underlineend__F__|2e|\
+                            |1b|__F__italicbegin__F__-> Trame pour pronostics - {gameday} __F__italicend__F__\
                             __F__quote2begin__F__{LIST_GAMES}__F__quote2end__F__\
                             __F__italicbegin__F__-> Calendrier de la journée (à date) - {gameday} __F__italicend__F__\
-                            __F__quote1begin__F__{CALENDAR_GAMES}__F__quote1end__F__"
+                            __F__quote1begin__F__{CALENDAR_GAMES}__F__quote1end__F__|1e|"
     return DETAILS_OPENED_GAMES
 
 @config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_init',) })
@@ -274,7 +274,7 @@ def get_next_opening_gamedays_calendar(sr_snowflake_account: pd.Series, sr_gamed
                                  "__L__FIRST_GAME__L__ " + df_next_gamedays['BEGIN_DATE_DISPLAY'] + " "+ df_next_gamedays['BEGIN_TIME_DISPLAY'] + " / " +\
                                  "__L__PREDICTIONS_RESULTS__L__ " + df_next_gamedays['DATE_RESULT_DISPLAY'] + " - " + df_next_gamedays['TIME_RESULT_DISPLAY']
 
-    CALENDAR_NEXT_OPENING = "\n".join(df_next_gamedays['STRING'])
+    CALENDAR_NEXT_OPENING = "".join(f"|1b|{line}|1e|" for line in df_next_gamedays['STRING'])
     return CALENDAR_NEXT_OPENING, len(df_next_gamedays)
     
 @config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_init',) })
@@ -317,7 +317,7 @@ def get_parameters(sr_snowflake_account: pd.Series, sr_gameday_output_init: pd.S
         df_gamedays_opened = df_games_opened.groupby("GAMEDAY")
         gameday_args = [(df_gameday_opened,) for _, df_gameday_opened in df_gamedays_opened]
         results_string = multithread_run(transform_games_to_list, gameday_args)
-        param_dict['LIST_GAMES_OPENED'] = "\n".join(results_string)
+        param_dict['LIST_GAMES_OPENED'] = "".join(f"|1b|{line}|1e|" for line in results_string)
 
     #parameters for next opening gamedays
     param_dict['CALENDAR_NEXT_OPENING'],param_dict['NB_NEXT_OPENING'] = get_next_opening_gamedays_calendar(sr_snowflake_account, sr_gameday_output_init, defined_date)

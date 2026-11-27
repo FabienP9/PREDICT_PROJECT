@@ -42,7 +42,7 @@ message_quotes_to_keep as (
 ),
 -- we extract all prediction from new or old corrected messages from curated_message_check
 -- for that we first dequote message which need it
--- the form of prediction is "#xxx# yyyy ==> zzzz ;""
+-- the form of prediction is "#xxx# yyyy ==(>) zzzz ;""
 -- we use distinct because the granularity is the message, not the prediction
 message_scope as (
     SELECT DISTINCT
@@ -61,7 +61,7 @@ message_scope as (
             ELSE
                 message.MESSAGE_CONTENT
         END AS MESSAGE_TRANSFORMED,
-        REGEXP_SUBSTR_ALL(MESSAGE_TRANSFORMED, '#[^#;]+#[^=>]+==>[^;<>]+') AS ARRAY_PREDICTIONS
+        REGEXP_SUBSTR_ALL(MESSAGE_TRANSFORMED, '#[^#;]+#[^=>]+==>?[^;<>]+') AS ARRAY_PREDICTIONS
     FROM
         {{ref('curated_message_check')}} message
     JOIN

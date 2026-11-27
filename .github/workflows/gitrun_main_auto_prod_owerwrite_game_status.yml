@@ -21,6 +21,10 @@ jobs:
       BI_URL: ${{ secrets.BI_URL }}
       BI_USERNAME: ${{ secrets.BI_USERNAME }}
       BI_PASSWORD: ${{ secrets.BI_PASSWORD }}
+      SH_URL: ${{ secrets.SH_URL }}
+      SH_USERNAME: ${{ secrets.SH_USERNAME }}
+      SH_PASSWORD: ${{ secrets.SH_PASSWORD }}
+      SH_API_KEY: ${{ secrets.SH_API_KEY }}
       SNOWFLAKE_USERNAME: ${{ secrets.SNOWFLAKE_USERNAME }}
       SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
       LNB_URL: ${{ secrets.LNB_URL }}

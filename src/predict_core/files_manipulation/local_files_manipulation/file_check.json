@@ -124,7 +124,7 @@
           "SEASON_ID": "object",
           "FORUM_SOURCE":"object",
           "FORUM_COUNTRY":"object",
-          "TOPIC_NUMBER":"int64",
+          "TOPIC_ID":"object",
           "IS_FOR_PREDICT":"int64",
           "IS_FOR_RESULT":"int64"
       }

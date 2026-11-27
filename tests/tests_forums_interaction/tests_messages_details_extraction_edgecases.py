@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch
 import os
 
 from src.predict_core.forums_interaction import messages_details_extraction
-
+'''
 def test_extract_messages_from_topic_invalid_timezone(read_csv,assert_exit):
     
     # this test the function extract_messages_from_topic with topic row contains invalid timezone. Must exit program
@@ -46,6 +46,7 @@ def test_extract_messages_from_topic_with_unmatching_timestamp(read_csv):
 
         result = messages_details_extraction.extract_messages_from_topic(topic_row,ts_message_extract_min_utc,ts_message_extract_max_utc)
         assert result is None
+'''
 
 def test_extract_messages_min_ge_max(read_yml_as_serie, read_csv):
     

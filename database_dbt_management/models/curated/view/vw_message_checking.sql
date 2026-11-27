@@ -14,8 +14,8 @@ with message_info as (
     SELECT
         season.SEASON_ID,
         topic.FORUM_SOURCE,
-        CAST(topic.TOPIC_NUMBER AS STRING) AS TOPIC_NUMBER,
-        CAST(message.MESSAGE_FORUM_ID AS STRING) AS MESSAGE_ID,
+        topic.TOPIC_ID,
+        message.MESSAGE_FORUM_ID AS MESSAGE_ID,
         user.USER_NAME,
         message.EDITION_TIME_UTC,
         message.EDITION_TIME_LOCAL AS EDITTIME,
@@ -42,8 +42,8 @@ game_predict as (
     SELECT
         season.SEASON_ID,
         topic.FORUM_SOURCE,
-        CAST(topic.TOPIC_NUMBER AS STRING) AS TOPIC_NUMBER,
-        CAST(message.MESSAGE_FORUM_ID AS STRING) AS MESSAGE_ID,
+        topic.TOPIC_ID,
+        message.MESSAGE_FORUM_ID AS MESSAGE_ID,
         user.USER_NAME,
         message.EDITION_TIME_UTC,
         message.EDITION_TIME_LOCAL AS EDITTIME,
@@ -79,8 +79,8 @@ game_bonus as (
     SELECT
         season.SEASON_ID,
         topic.FORUM_SOURCE,
-        CAST(topic.TOPIC_NUMBER AS STRING) AS TOPIC_NUMBER,
-        CAST(message.MESSAGE_FORUM_ID AS STRING) AS MESSAGE_ID,
+        topic.TOPIC_ID,
+        message.MESSAGE_FORUM_ID AS MESSAGE_ID,
         user.USER_NAME,
         message.EDITION_TIME_UTC,
         message.EDITION_TIME_LOCAL AS EDITTIME,
@@ -119,8 +119,8 @@ team_choice as (
     SELECT
         season.SEASON_ID,
         topic.FORUM_SOURCE,
-        CAST(topic.TOPIC_NUMBER AS STRING) AS TOPIC_NUMBER,
-        CAST(message.MESSAGE_FORUM_ID AS STRING) AS MESSAGE_ID,
+        topic.TOPIC_ID,
+        message.MESSAGE_FORUM_ID AS MESSAGE_ID,
         user.USER_NAME,
         message.EDITION_TIME_UTC,
         message.EDITION_TIME_LOCAL AS EDITTIME,
@@ -160,7 +160,7 @@ final as (
 -- we retrieve everything in a user-friendly display
 SELECT 
     FORUM_SOURCE,
-    TOPIC_NUMBER,
+    TOPIC_ID,
     MESSAGE_ID,
     USER_NAME,
     EDITTIME,
@@ -174,7 +174,7 @@ FROM
     final
 ORDER BY 
     FORUM_SOURCE,
-    TOPIC_NUMBER, 
+    TOPIC_ID, 
     MESSAGE_ID, 
     EDITTIME, 
     TYPE_KEY, 

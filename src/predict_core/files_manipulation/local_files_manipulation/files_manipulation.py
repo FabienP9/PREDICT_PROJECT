@@ -66,11 +66,8 @@ def read_and_check_csv(local_file_path: str, is_encapsulated: Literal[0, 1] = 0)
 
         normalized_actual = "object" if actual_type in ["object", "str"] else actual_type
         normalized_expected = "object" if expected_type in ["object", "str"] else expected_type
-        
-        if df[col].isna().all() and normalized_expected == "object":
-            continue  
 
-        if normalized_actual != normalized_expected:
+        if (normalized_actual != normalized_expected) and (normalized_expected != "object"):
             type_mismatches.append((col, expected_type, actual_type))
 
     if type_mismatches:

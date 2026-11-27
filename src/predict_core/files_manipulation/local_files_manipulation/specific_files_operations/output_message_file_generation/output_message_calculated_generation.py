@@ -66,7 +66,7 @@ def get_games_result(df_games: pd.DataFrame, sr_gameday_output_calculate: pd.Ser
 
     # we create the LIST_GAMES string by concatenating all games-strings on several lines
     df_games_copy['STRING'] = np.where(df_games_copy['IS_PLAYED'] == 1,games_played_str,games_not_played_str)
-    RESULT_GAMES = "\n".join(df_games_copy['STRING'])
+    RESULT_GAMES = "".join(f"|1b|{line}|1e|" for line in df_games_copy['STRING'])
     return RESULT_GAMES
 
 @config_decorators.exit_program(log_filter=lambda args: {})
@@ -95,7 +95,7 @@ def get_games_odds_played(df_games: pd.DataFrame) -> str:
         "__F__boldbegin__F____L__Score__L__ = " + df_games_played['SCORE_WIN_VALUE'].astype(str) + "__F__boldend__F__" 
     
     # we create the GAMES_ODDS_PLAYED string by concatenating all games-strings on several lines
-    GAMES_ODDS_PLAYED = "\n".join(df_games_played['STRING'])  
+    GAMES_ODDS_PLAYED = "".join(f"|1b|{line}|1e|" for line in df_games_played['STRING'])  
     return GAMES_ODDS_PLAYED
 
 @config_decorators.exit_program(log_filter=lambda args: {})
@@ -126,7 +126,7 @@ def get_games_odds_not_played(df_games: pd.DataFrame) -> str:
             "==> score = "+ np.maximum(55 - df_games_notplayed["PERC_PREDICTOR_WINNER_AWAY"], 15).astype(str) + "__F__italicend__F__"
             
     # we create the GAMES_ODDS_NOTPLAYED string by concatenating all games-strings on several lines
-    GAMES_ODDS_NOTPLAYED = "\n".join(df_games_notplayed['STRING'])  
+    GAMES_ODDS_NOTPLAYED = "".join(f"|1b|{line}|1e|" for line in df_games_notplayed['STRING'])  
     return GAMES_ODDS_NOTPLAYED
 
 @config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate',)})
@@ -260,7 +260,7 @@ def get_scores_average(nb_prediction: int, df_userscores_global: pd.DataFrame) -
                                         df_userscores_modified['USER_NAME'] + " - " +
                                         df_userscores_modified['AVERAGE_POINTS'].astype(str) + " pts/__L__predict__L__")
     # we create the SCORES_AVERAGE string by concatenating all users on several lines
-    SCORES_AVERAGE = "\n".join(df_userscores_modified['STRING'])
+    SCORES_AVERAGE = "".join(f"|1b|{line}|1e|" for line in df_userscores_modified['STRING'])
     return SCORES_AVERAGE, len(df_userscores_modified),NB_MIN_PREDICTION
 
 @config_decorators.exit_program(log_filter=lambda args: {'columns_df_gameday_calculated': args['df_gameday_calculated'].columns.tolist(),'sr_gameday_output_calculate': args['sr_gameday_output_calculate'],})
@@ -325,7 +325,7 @@ def get_predictchamp_result(df_gamepredictchamp: pd.DataFrame, sr_snowflake_acco
 
     # We aggregate leaders users and others per team
     def teams_group(g: pd.DataFrame) -> str:
-        team_string = "-> " + "\n-> ".join(g.loc[g["RANK_USER_TEAM"] == 1, "STRING"])
+        team_string = "".join(f"|1b|{line}|1e|" for line in g.loc[g["RANK_USER_TEAM"] == 1, "STRING"])
         others = g.loc[g["RANK_USER_TEAM"] != 1, "STRING"].tolist()
         if others:
             team_string += "   - [__L__Not counted__L__: " + "/ ".join(others) + "]"
@@ -345,27 +345,27 @@ def get_predictchamp_result(df_gamepredictchamp: pd.DataFrame, sr_snowflake_acco
     bonus_str = bonus_str.astype(float) # ensure float to allow safe fill
     df_team_summary["TEAM_STRING"] = np.where(
         bonus_str != 0,
-        df_team_summary["TEAM_STRING"] + "\n-> __L__HOMEBONUS__L__: " + bonus_str.astype(int).astype(str) + " pts",
+        df_team_summary["TEAM_STRING"] + "|1b|-> __L__HOMEBONUS__L__: " + bonus_str.astype(int).astype(str) + " pts |1e|",
         df_team_summary["TEAM_STRING"]
     )
     
     # We wrap in quotes block
-    df_team_summary["TEAM_STRING"] = "__F__quote2begin__F____L__FOR__L__ " + df_team_summary["TEAM_NAME"] + ":\n" + df_team_summary["TEAM_STRING"] + "__F__quote2end__F__"
+    df_team_summary["TEAM_STRING"] = "__F__quote2begin__F____L__FOR__L__ " + df_team_summary["TEAM_NAME"] + ":|1b|" + df_team_summary["TEAM_STRING"] + "|1e|__F__quote2end__F__"
     
     # We aggregate team string per game
     df_game_output = (
         df_team_summary
         .groupby("GAME_KEY", as_index=False)
-        .agg(TEAM_STRING=("TEAM_STRING", "\n".join))
+        .agg(TEAM_STRING=("TEAM_STRING", lambda lines: "".join(f"|1b|{line}|1e|" for line in lines)))
     )
     # we calculate the final string
     df_final = df_gamepredictchamp_modified.merge(df_game_output, on="GAME_KEY", how="left")
     df_final["RESULT_STRING"] = np.where(
         df_final["TEAM_STRING"].notna(),
-        df_final["STRING"] + "\n" + df_final["TEAM_STRING"],
+        df_final["STRING"] + "|1b|" + df_final["TEAM_STRING"] + "|1e|",
         df_final["STRING"]
     )
-    RESULTS_PREDICTCHAMP = "\n".join(df_final["RESULT_STRING"].tolist())
+    RESULTS_PREDICTCHAMP = "".join(f"|1b|{line}|1e|" for line in df_final["RESULT_STRING"].tolist())
     return RESULTS_PREDICTCHAMP
 
 @config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('sr_gameday_output_calculate',)})
@@ -411,7 +411,7 @@ def get_correction(sr_snowflake_account: pd.Series, sr_gameday_output_calculate:
 
     # we create the string of corrections group by user - one per line
     grouped = df_correction.groupby('USER_NAME')['PREDICT_ID'].apply(lambda x: f"{x.name} : {' / '.join(map(str, x))}")
-    LIST_CORRECTION = "\n".join(grouped.tolist())
+    LIST_CORRECTION = "".join(f"|1b|{line}|1e|" for line in grouped.tolist())
 
     return LIST_CORRECTION, grouped.shape[0]
 
@@ -439,7 +439,7 @@ def get_mvp_month_race_figure(sr_snowflake_account: pd.Series, sr_gameday_output
     df_month_mvp['STRING'] = np.where(df_month_mvp['LIST_TEAMS'] == '',
                                   df_month_mvp['USER_NAME'] + " - " + df_month_mvp['POINTS'].astype(str) + " pts",
                                   df_month_mvp['USER_NAME'] + " - " + df_month_mvp['POINTS'].astype(str) + " pts / " + df_month_mvp['WIN'].astype(str) + "__L__WIN__L__-" + df_month_mvp['LOSS'].astype(str) + "__L__LOSS__L__ [__L__with__L__ " + df_month_mvp['LIST_TEAMS'].astype(str) + "]")
-    LIST_USER_MONTH = "\n".join(df_month_mvp['STRING'].tolist())
+    LIST_USER_MONTH = "".join(f"|1b|{line}|1e|" for line in df_month_mvp['STRING'].tolist())
     GAMEDAY_MONTH = "__L__" + GAMEDAY_MONTH + "__L__"
     return GAMEDAY_MONTH, LIST_USER_MONTH, len(df_month_mvp)
 
@@ -488,7 +488,7 @@ def get_mvp_compet_race_figure(sr_snowflake_account: pd.Series, sr_gameday_outpu
                                   df_compet_mvp['USER_NAME'] + " - " + df_compet_mvp['POINTS'].astype(str) + " pts",
                                   df_compet_mvp['USER_NAME'] + " - " + df_compet_mvp['POINTS'].astype(str) + " pts / " + df_compet_mvp['WIN'].astype(str) + "__L__WIN__L__-" + df_compet_mvp['LOSS'].astype(str) + "__L__LOSS__L__ [__L__with__L__ " + df_compet_mvp['LIST_TEAMS'].astype(str) + "]")
     
-    LIST_USER_COMPETITION = "\n".join(df_compet_mvp['STRING'].tolist())
+    LIST_USER_COMPETITION = "".join(f"|1b|{line}|1e|" for line in df_compet_mvp['STRING'].tolist()) 
     
     return LIST_USER_COMPETITION, len(df_compet_mvp)
 

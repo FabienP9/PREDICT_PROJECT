@@ -19,6 +19,9 @@ def test_check_environment_variable():
         "BI_URL": "biurl",
         "BI_USERNAME": "user",
         "BI_PASSWORD": "password",
+        "SH_URL": "shurl",
+        "SH_USERNAME": "shuser",
+        "SH_PASSWORD": "shpassword",
         "SNOWFLAKE_USERNAME": "sfuser",
         "SNOWFLAKE_PASSWORD": "sfpass", # NOSONAR
         "LNB_URL": "lnburl",

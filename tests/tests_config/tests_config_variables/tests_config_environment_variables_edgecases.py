@@ -16,6 +16,9 @@ def test_check_environment_variable_missingvar(assert_exit):
         "OVERWRITE_GAMES_STATUS": "0",
         "BI_USERNAME": "user",
         "BI_PASSWORD": "password",
+        "SH_URL": "shurl",
+        "SH_USERNAME": "shuser",
+        "SH_PASSWORD": "shpassword",
         "SNOWFLAKE_USERNAME": "sfuser", 
         "SNOWFLAKE_PASSWORD": "sfpass", # NOSONAR
         "LNB_URL": "lnburl",
@@ -35,6 +38,9 @@ def test_check_environment_variable_badtype(assert_exit):
         "BI_URL": "biurl",
         "BI_USERNAME": "user",
         "BI_PASSWORD": "password",
+        "SH_URL": "shurl",
+        "SH_USERNAME": "shuser",
+        "SH_PASSWORD": "shpassword",
         "SNOWFLAKE_USERNAME": "sfuser",
         "SNOWFLAKE_PASSWORD": "sfpass", # NOSONAR
         "LNB_URL": "lnburl",

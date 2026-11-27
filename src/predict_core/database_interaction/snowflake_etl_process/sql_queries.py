@@ -34,7 +34,7 @@ TOPICS_QUERY = f"""
     SELECT
         FORUM_SOURCE,
         FORUM_TIMEZONE,
-        TOPIC_NUMBER
+        TOPIC_ID
     FROM
         {DATABASE}.CONSUMPTED.VW_TOPIC
     WHERE

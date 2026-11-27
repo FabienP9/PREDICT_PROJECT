@@ -16,12 +16,12 @@ sources:
                   to_model: ref('curated_forum')
                   to_column: FORUM_SOURCE
 
-          - name: TOPIC_NUMBER
-            description: The number of the topic on the forum source
+          - name: TOPIC_ID
+            description: The id of the topic on the forum source
             tests:
               - is_foreign_key:
                   to_model: ref('curated_topic')
-                  to_column: TOPIC_NUMBER
+                  to_column: TOPIC_ID
 
           - name: USER
             description: The user who posted the message
@@ -31,7 +31,7 @@ sources:
           - name: MESSAGE_FORUM_ID
             description: The identification of the message on the forum source
             tests:
-              - is_integer
+              - not_null
 
           - name: CREATION_TIME_LOCAL
             description: The time of creation of the message, in the local time of the forum

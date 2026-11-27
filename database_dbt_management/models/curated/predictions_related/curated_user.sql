@@ -25,13 +25,13 @@ with message as (
     SELECT DISTINCT
         message_check.USER,
         message_check.FORUM_SOURCE,
-        message_check.TOPIC_NUMBER
+        message_check.TOPIC_ID
     FROM {{source("LAND","MESSAGE_CHECK")}} message_check
 ),
 -- we retrieve distinct users per season
 final_user as (
     SELECT DISTINCT
-        MD5('USER' || '^^' || message.USER || '^^' || season.SEASON_ID) AS USER_KEY,
+        MD5('USER' || '^^' || LOWER(REPLACE(message.USER,' ','')) || '^^' || season.SEASON_ID) AS USER_KEY,
         message.USER AS USER_NAME,
         season.SEASON_KEY
     FROM
@@ -39,7 +39,7 @@ final_user as (
     LEFT JOIN
         {{ref('curated_topic')}} topic
         ON message.FORUM_SOURCE = topic.FORUM_SOURCE
-        AND message.TOPIC_NUMBER = topic.TOPIC_NUMBER
+        AND message.TOPIC_ID = topic.TOPIC_ID
     LEFT JOIN
         {{ref('curated_season')}} season
         ON topic.SEASON_KEY = season.SEASON_KEY

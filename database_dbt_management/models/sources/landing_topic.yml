@@ -30,10 +30,10 @@ sources:
                   to_model: ref('local_time')
                   to_column: COUNTRY 
 
-          - name: TOPIC_NUMBER
+          - name: TOPIC_ID
             description: The number of the topic on the forum source
             tests:
-              - is_integer
+              - not_null
 
           - name: IS_FOR_PREDICT
             description: Boolean to know if a topic will be used for predictions posts (1) or not (0)
@@ -47,5 +47,5 @@ sources:
               - accepted_values: 
                   values: [0, 1]
 
-          - name: MESSAGE_NUMBER_TO_EDIT
+          - name: MESSAGE_ID_TO_EDIT
             description: The number of the message to edit with output message (optional)

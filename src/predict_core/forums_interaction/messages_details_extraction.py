@@ -2,20 +2,13 @@
     The purpose of this module is to interact with forums website by:
     - getting the scope of topics: messages we want to extract
     - then extract the messages, and their details
-    - and / or post messages calculated by the program
 '''
 
 import logging
 import warnings
 import os
-import ssl
-import socket
-import urllib.request
-import urllib.error
 from typing import Tuple
-
 import pandas as pd
-import pytz
 
 from ..config import config_decorators
 from ..config.config_variables import config_global_variables as var
@@ -24,11 +17,13 @@ from ..files_manipulation.local_files_manipulation.files_manipulation import cre
 from ..database_interaction.snowflake_connection_execution import snowflake_execute
 from ..database_interaction.snowflake_etl_process import sql_queries as sql
 from .forums_interaction_bi.messages_details_extraction_bi import get_messages_details_bi
+from .forums_interaction_sh.messages_details_extraction_sh import get_messages_details_sh
 
 logging.basicConfig(level=logging.INFO)
 warnings.filterwarnings("ignore")
 messages_info_functions = {
-    "BI": get_messages_details_bi
+    "BI": get_messages_details_bi,
+    "SH": get_messages_details_sh
 }
 
 @config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('topic_row',)})
@@ -47,60 +42,11 @@ def extract_messages_from_topic(topic_row: Tuple,ts_message_extract_min_utc: pd.
             Retry 3 times and exits the program if error with url extraction (using retry decorator)
     """
 
-    #we get min and max time range in the local time of the topic
-    local_timezone = pytz.timezone(topic_row.FORUM_TIMEZONE)
-    ts_message_extract_min_local = pytz.UTC.localize(ts_message_extract_min_utc).astimezone(local_timezone).strftime("%Y-%m-%d %H:%M:%S")
-    ts_message_extract_max_local = pytz.UTC.localize(ts_message_extract_max_utc).astimezone(local_timezone).strftime("%Y-%m-%d %H:%M:%S")
+    # calling the forum particular function to extract messages
+    get_messages_infos = messages_info_functions.get(topic_row.FORUM_SOURCE)
     
-    #Initial parameters
-    forum_url = os.getenv(topic_row.FORUM_SOURCE + '_URL')
-    start = 0
-    seen_message_ids = set()
-    topic_messages = []
-    # we overwrite security for extracting from the website
-    ssl_context = ssl._create_unverified_context() # NOSONAR # Disabled SSL verification for legacy forum with invalid certification
-    
-    while True:
-        #we extract from the website page
-        page_url = f"{forum_url}/viewtopic.php?t={topic_row.TOPIC_NUMBER}&start={start}"
-        logging.info(f"MESSAGE -> EXTRACTING FORUM {topic_row.FORUM_SOURCE} / TOPIC {topic_row.TOPIC_NUMBER} / MESSAGES {start+1} -> X [START] ")
-        try:
-            with urllib.request.urlopen(page_url, context=ssl_context, timeout=var.TIME_MESSAGE_WAIT) as response:
-                messagetext = response.read().decode("utf-8", errors="replace")
-        except urllib.error.HTTPError as e:
-            if e.code == 429 or e.code >= 500:
-                raise ValueError(f"{var.SOFT_ERROR_TAG} PAGE {page_url} -> server error "
-                                f"(status {e.code}): {e.read()[:300]}") from e
-            raise ValueError(f"PAGE {page_url} -> request rejected (status {e.code})") from e
-        except urllib.error.URLError as e:
-            if isinstance(e.reason, (socket.gaierror, socket.timeout, ConnectionRefusedError)):
-                raise ValueError(f"{var.SOFT_ERROR_TAG} PAGE {page_url} -> network issue: {e.reason}") from e
-            raise ValueError(f"PAGE {page_url} -> url error: {e.reason}") from e
-        except (socket.timeout, TimeoutError) as e:
-            raise ValueError(f"{var.SOFT_ERROR_TAG} PAGE {page_url} -> timed out: {e}") from e
-        
-        #we get all messages from the page
-        get_messages_infos = messages_info_functions.get(topic_row.FORUM_SOURCE)
-        df = get_messages_infos(messagetext, topic_row, start)
-        current_ids = set(df['MESSAGE_FORUM_ID'])
-        #if we already saw messages we stop here
-        if current_ids.intersection(seen_message_ids):
-            logging.info(f"MESSAGE -> BREAKING TOPIC {topic_row.TOPIC_NUMBER}")
-            break
-        #else we add those new message of the list of seen messages
-        seen_message_ids.update(current_ids)
-        start += len(df)
-
-        # Filter on timestamp range (either creation date with none edition or edition date)
-        creation_with_edition_none = df['CREATION_TIME_LOCAL'].between(ts_message_extract_min_local, ts_message_extract_max_local) & df['EDITION_TIME_LOCAL'].isna()
-        edition = df['EDITION_TIME_LOCAL'].between(ts_message_extract_min_local, ts_message_extract_max_local)
-        df_filtered = df[creation_with_edition_none | edition]
-
-        if not df_filtered.empty:
-            topic_messages.append(df_filtered)
-        
-        logging.info(f"MESSAGE -> EXTRACTING FORUM {topic_row.FORUM_SOURCE} / TOPIC {topic_row.TOPIC_NUMBER} / MESSAGES X -> {start} [DONE] ")
-    return pd.concat(topic_messages, ignore_index=True) if topic_messages else None
+    df_messages_topic = get_messages_infos(topic_row, ts_message_extract_min_utc,ts_message_extract_max_utc)
+    return df_messages_topic
 
 @config_decorators.exit_program(log_filter=lambda args: {})
 def extract_messages(sr_snowflake_account: pd.Series, sr_output_need: pd.Series) -> Tuple[pd.DataFrame, pd.Timestamp]:
@@ -123,7 +69,7 @@ def extract_messages(sr_snowflake_account: pd.Series, sr_output_need: pd.Series)
     topics_scope_id = get_list_topics_from_need(sr_snowflake_account, sr_output_need) 
     ts_message_extract_min_utc,ts_message_extract_max_utc = get_extraction_time_range(sr_snowflake_account, sr_output_need) 
     
-    df_messages = pd.DataFrame(columns=['FORUM_SOURCE','TOPIC_NUMBER','USER',
+    df_messages = pd.DataFrame(columns=['FORUM_SOURCE','TOPIC_ID','USER',
                                             'MESSAGE_FORUM_ID','CREATION_TIME_LOCAL',
                                             'EDITION_TIME_LOCAL','MESSAGE_CONTENT'])
 

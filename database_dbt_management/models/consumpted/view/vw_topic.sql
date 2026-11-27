@@ -13,10 +13,10 @@ SELECT
     forum.FORUM_SOURCE,
     forum.FORUM_COUNTRY,
 	lt.TIMEZONE AS FORUM_TIMEZONE,
-	topic.TOPIC_NUMBER,
+	topic.TOPIC_ID,
     topic.IS_FOR_PREDICT,
     topic.IS_FOR_RESULT,
-    topic.MESSAGE_NUMBER_TO_EDIT
+    topic.MESSAGE_ID_TO_EDIT
 FROM
     {{ref('consumpted_topic')}} topic
 JOIN

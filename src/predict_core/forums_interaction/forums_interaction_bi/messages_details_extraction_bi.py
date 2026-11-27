@@ -1,12 +1,20 @@
 '''
     The purpose of this module is to extract messages details coming from the BI forum 
 ''' 
+import logging
 from datetime import datetime
 import pandas as pd
 from bs4 import BeautifulSoup as bs
 from typing import Tuple
+import os
+import ssl
+import socket
+import urllib.request
+import urllib.error
+import pytz
 
 from ...config import config_decorators
+from ...config.config_variables import config_global_variables as var
 
 @config_decorators.raise_issue_to_caller(log_filter=lambda args: {})
 def translate_french_special_date_to_english(date_string: str) -> str:
@@ -207,7 +215,7 @@ def get_editiontimes_bi(soup: bs) -> list[datetime | None]:
     return result_date
 
 @config_decorators.raise_issue_to_caller(log_filter=lambda args: {})
-def get_messages_details_bi(messagetext: str, topic_row: Tuple, start: int) -> pd.DataFrame:
+def get_messages_details_bi(topic_row: Tuple,ts_message_extract_min_utc: pd.Timestamp,ts_message_extract_max_utc: pd.Timestamp) -> pd.DataFrame:
 
     """
         Gets details from all messages
@@ -221,29 +229,88 @@ def get_messages_details_bi(messagetext: str, topic_row: Tuple, start: int) -> p
             Raise the issue to the caller if exception
     """
 
-    #we calculate for logging purpose
-    log_print = f"{topic_row.FORUM_SOURCE} / {topic_row.TOPIC_NUMBER} / {start}"
+    #we get min and max time range in the local time of the topic
+    local_timezone = pytz.timezone(topic_row.FORUM_TIMEZONE)
+    ts_message_extract_min_local = pytz.UTC.localize(ts_message_extract_min_utc).astimezone(local_timezone).strftime("%Y-%m-%d %H:%M:%S")
+    ts_message_extract_max_local = pytz.UTC.localize(ts_message_extract_max_utc).astimezone(local_timezone).strftime("%Y-%m-%d %H:%M:%S")
+    
+    #Initial parameters
+    forum_url = os.getenv(topic_row.FORUM_SOURCE + '_URL')
+    start = 0
+    seen_message_ids = set()
+    # we overwrite security for extracting from the website
+    ssl_context = ssl._create_unverified_context() # NOSONAR # Disabled SSL verification for legacy forum with invalid certification
+    
+    df_messages = pd.DataFrame(columns=['FORUM_SOURCE', 'TOPIC_ID', 'USER',
+                                    'MESSAGE_FORUM_ID', 'CREATION_TIME_LOCAL',
+                                    'EDITION_TIME_LOCAL', 'MESSAGE_CONTENT'])
 
-    #We get the details
-    soup = bs(messagetext, "html.parser")
-    users = get_users_bi(soup)
-    ids = get_ids_bi(soup)
-    creation_times_local = get_creationtimes_bi(soup)
-    contents = get_contents_outerblockquote_bi(soup)
-    edition_times_local = get_editiontimes_bi(soup)
+    #we extract from the website page
+    while True:
+        page_url = f"{forum_url}/viewtopic.php?t={topic_row.TOPIC_ID}&start={start}"
+        logging.info(f"MESSAGE -> EXTRACTING FORUM {topic_row.FORUM_SOURCE} / TOPIC {topic_row.TOPIC_ID} / MESSAGES {start+1} -> X [START] ")
+        try:
+            with urllib.request.urlopen(page_url, context=ssl_context, timeout=var.TIME_MESSAGE_WAIT) as response:
+                messagetext = response.read().decode("utf-8", errors="replace")
+        except urllib.error.HTTPError as e:
+            if e.code == 429 or e.code >= 500:
+                raise ValueError(f"{var.SOFT_ERROR_TAG} PAGE {page_url} -> server error "
+                                f"(status {e.code}): {e.read()[:300]}") from e
+            raise ValueError(f"PAGE {page_url} -> request rejected (status {e.code})") from e
+        except urllib.error.URLError as e:
+            if isinstance(e.reason, (socket.gaierror, socket.timeout, ConnectionRefusedError)):
+                raise ValueError(f"{var.SOFT_ERROR_TAG} PAGE {page_url} -> network issue: {e.reason}") from e
+            raise ValueError(f"PAGE {page_url} -> url error: {e.reason}") from e
+        except (socket.timeout, TimeoutError) as e:
+            raise ValueError(f"{var.SOFT_ERROR_TAG} PAGE {page_url} -> timed out: {e}") from e
 
-    #if not all list are same size we raise an error to the exit_program decorator
-    if len({len(users), len(ids), len(creation_times_local), len(contents), len(edition_times_local)}) != 1:
-        raise ValueError(f"A problem was noticed extracting messages. {log_print}")
+        #we calculate for logging purpose
+        log_print = f"{topic_row.FORUM_SOURCE} / {topic_row.TOPIC_ID} / {start}"
 
-    df_messages_infos = pd.DataFrame({
-        'FORUM_SOURCE': topic_row.FORUM_SOURCE,
-        'TOPIC_NUMBER': topic_row.TOPIC_NUMBER,
-        'USER': users,
-        'MESSAGE_FORUM_ID': ids,
-        'CREATION_TIME_LOCAL': creation_times_local,
-        'EDITION_TIME_LOCAL': edition_times_local,
-        'MESSAGE_CONTENT': contents
-    })
+        #We get the details
+        soup = bs(messagetext, "html.parser")
+        users = get_users_bi(soup)
+        ids = get_ids_bi(soup)
+        creation_times_local = get_creationtimes_bi(soup)
+        contents = get_contents_outerblockquote_bi(soup)
+        edition_times_local = get_editiontimes_bi(soup)
 
-    return df_messages_infos
+        #if not all list are same size we raise an error to the exit_program decorator
+        lengths = {
+            'users': len(users),
+            'ids': len(ids),
+            'creation': len(creation_times_local),
+            'contents': len(contents),
+            'edition': len(edition_times_local),
+        }
+        if len(set(lengths.values())) != 1:
+            raise ValueError(f"Mismatch extracting messages. {log_print} -> {lengths}")
+
+        df_messages_on_page = pd.DataFrame({
+            'FORUM_SOURCE': topic_row.FORUM_SOURCE,
+            'TOPIC_ID': topic_row.TOPIC_ID,
+            'USER': users,
+            'MESSAGE_FORUM_ID': ids,
+            'CREATION_TIME_LOCAL': creation_times_local,
+            'EDITION_TIME_LOCAL': edition_times_local,
+            'MESSAGE_CONTENT': contents
+        }) 
+
+        # Filter on timestamp range (either creation date with none edition or edition date)
+        creation_with_edition_none = df_messages_on_page['CREATION_TIME_LOCAL'].between(ts_message_extract_min_local, ts_message_extract_max_local) & df_messages_on_page['EDITION_TIME_LOCAL'].isna()
+        edition = df_messages_on_page['EDITION_TIME_LOCAL'].between(ts_message_extract_min_local, ts_message_extract_max_local)
+        df_filtered = df_messages_on_page[creation_with_edition_none | edition]
+        df_messages = pd.concat([df_messages, df_filtered], ignore_index=True)
+        
+        current_ids = set(df_messages_on_page['MESSAGE_FORUM_ID'])
+        #if we already saw messages we stop here
+        if current_ids.intersection(seen_message_ids):
+            logging.info(f"MESSAGE -> BREAKING FORUM {topic_row.FORUM_SOURCE} / TOPIC {topic_row.TOPIC_ID}")
+            break
+        #else we add those new message of the list of seen messages
+        seen_message_ids.update(current_ids)
+        start += len(df_messages_on_page)
+        logging.info(f"MESSAGE -> EXTRACTING FORUM {topic_row.FORUM_SOURCE} / TOPIC {topic_row.TOPIC_ID} / MESSAGES X -> {start} [DONE] ")
+    
+    df_messages = df_messages.drop_duplicates().reset_index(drop=True)
+    return df_messages

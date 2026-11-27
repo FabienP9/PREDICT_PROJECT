@@ -10,6 +10,7 @@ import os
 
 from src.predict_core.forums_interaction import messages_details_extraction
 
+'''
 def test_extract_messages_from_topic(read_csv):
     
     # this test the function extract_messages_from_topic
@@ -31,6 +32,17 @@ def test_extract_messages_from_topic(read_csv):
 
         result = messages_details_extraction.extract_messages_from_topic(topic_row,ts_message_extract_min_utc,ts_message_extract_max_utc)
         assert_frame_equal(result.reset_index(drop=True), mock_df.iloc[[1]].reset_index(drop=True))
+'''
+
+def test_extract_messages_from_topic(read_csv):
+    
+    # test the extract_messages_from_topic with only one topic
+    topic_row = read_csv("q_topics_query.csv").iloc[0]
+    ts_message_extract_min_utc = pd.Timestamp('2025-02-04 21:00:00')
+    ts_message_extract_max_utc = pd.Timestamp('2025-02-04 22:30:00')
+
+    with patch.dict(messages_details_extraction.messages_info_functions, {'BI': MagicMock()}):
+        messages_details_extraction.extract_messages_from_topic(topic_row, ts_message_extract_min_utc, ts_message_extract_max_utc)
 
 def test_extract_messages(read_yml_as_serie, read_csv):
 

@@ -18,48 +18,6 @@ from ...config.config_variables import config_global_variables as var
 
 logging.basicConfig(level=logging.INFO)
 
-@config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('topic_row',)})
-def post_edit_message_bi(topic_row: pd.Series, message_main: str, message_small: str):
-
-    '''
-        Call Post and edit function on the "BI" forum conditionnally
-        Inputs:
-            topic_row (series - one row) details about the topic to know where to post, and if to edit
-            message_main (str): main message to post (on edit post and conditionnally on new post)
-            message_small (str): small message to post (on new post to inform user of an update of the edited post)
-        Raises:
-            Exits the program if error running the function (using decorator)
-    '''
-   
-    # if there is a post we want to edit
-    if pd.notna(topic_row['MESSAGE_NUMBER_TO_EDIT']):
-
-        # we transform message main to add header for the edit post
-        date_update = datetime.now(ZoneInfo(topic_row['FORUM_TIMEZONE'])).strftime("%d/%m - %H:%M")
-        if topic_row['IS_FOR_PREDICT'] == 1:
-            string_update = "[i][Message auto-généré présentant la dernière ouverture de journée pour pronostics - Mis a jour le " + date_update + "][/i]"
-        if topic_row['IS_FOR_RESULT'] == 1:
-                string_update = "[i][Message auto-généré présentant les derniers résultats - Mis a jour le " + date_update + "][/i]"
-        message_main_header = message_main.replace(var.MESSAGE_PREFIX_PROGRAM_STRING,
-                                                              var.MESSAGE_PREFIX_PROGRAM_STRING + "\n" + string_update + "\n")
-        
-        # we replace "EDITED_MESSAGE" string of message small with the link of the edited post on BI forum
-        message_small_topic = message_small.replace("#EDITED_MESSAGE#",
-                        f"viewtopic.php?p={topic_row['MESSAGE_NUMBER_TO_EDIT']}#p{topic_row['MESSAGE_NUMBER_TO_EDIT']}")
-        
-        # we edit the edit post with main message with header
-        login_and_post_message_bi(topic_row, message_main_header, is_to_edit = 1)
-
-        # if message small is empty we post the main message to a new post else we post the small message
-        if message_small == "":
-            login_and_post_message_bi(topic_row, message_main, is_to_edit = 0)
-        else:
-            login_and_post_message_bi(topic_row, message_small_topic, is_to_edit = 0)
-
-    # if there is no message to edit on BI forum we just post the main message on a new post
-    else:
-        login_and_post_message_bi(topic_row, message_main, is_to_edit = 0)
-
 @config_decorators.exit_program(log_filter=lambda args: {}, is_soft_error = 1)
 def login_to_bi(session: requests.Session, login_url: str) -> Tuple[Literal[0, 1], str]:
 
@@ -157,7 +115,7 @@ def post_to_bi(message_content: str, session: requests.Session, post_url: str, s
 
 @config_decorators.exit_program(log_filter=lambda args: {k: args[k] for k in ('topic_row','is_to_edit')}, is_soft_error = 1)
 @config_decorators.retry_function(log_filter=lambda args: {k: args[k] for k in ('topic_row','is_to_edit')})
-def login_and_post_message_bi(topic_row: pd.Series, message_content: str, is_to_edit: Literal[0, 1]):
+def login_and_post_message_bi(topic_row: pd.Series, message_content: str, is_to_edit: Literal[0, 1], is_result: Literal[0, 1]):
 
     '''
         Posts or edits a message on the "BI" forum
@@ -172,11 +130,20 @@ def login_and_post_message_bi(topic_row: pd.Series, message_content: str, is_to_
     forum_url = os.getenv('BI_URL')
     time_max = var.TIME_MESSAGE_WAIT
     if is_to_edit == 1:
-        logging.info(f"MESSAGES -> EDITING WITH NEW OUTPUT FOR BI / TOPIC {topic_row['TOPIC_NUMBER']} / MESSAGE {topic_row['MESSAGE_NUMBER_TO_EDIT']} - Trying for {time_max} secs [START] ")
-        post_url = forum_url +"/posting.php?mode=edit&p="+ str(topic_row['MESSAGE_NUMBER_TO_EDIT'])
+        date_update = datetime.now(ZoneInfo(topic_row.FORUM_TIMEZONE)).strftime("%d/%m - %H:%M")
+        if is_result == 1:
+            string_update = "[i][Message auto-généré présentant la dernière ouverture de journée pour pronostics - Mis a jour le " + date_update + "][/i]"
+        else:
+            string_update = "[i][Message auto-généré présentant les derniers résultats - Mis a jour le " + date_update + "][/i]"
+        
+        message_content = message_content.replace(var.MESSAGE_PREFIX_PROGRAM_STRING,
+                                                              var.MESSAGE_PREFIX_PROGRAM_STRING + "\n" + string_update + "\n")
+        logging.info(f"MESSAGES -> EDITING WITH NEW OUTPUT FOR BI / TOPIC {topic_row.TOPIC_ID} / MESSAGE {topic_row.MESSAGE_ID_TO_EDIT} - Trying for {time_max} secs [START] ")
+        post_url = forum_url +"/posting.php?mode=edit&p="+ str(topic_row.MESSAGE_ID_TO_EDIT)
     else:
-        logging.info(f"MESSAGES -> POSTING OUTPUT ON BI / TOPIC {topic_row['TOPIC_NUMBER']} - Trying for {time_max} secs [START] ")
-        post_url = forum_url +"/posting.php?mode=reply&t="+ str(topic_row['TOPIC_NUMBER'])
+        
+        logging.info(f"MESSAGES -> POSTING OUTPUT ON BI / TOPIC {topic_row.TOPIC_ID} - Trying for {time_max} secs [START] ")
+        post_url = forum_url +"/posting.php?mode=reply&t="+ str(topic_row.TOPIC_ID)
     
     login_url = forum_url +'/ucp.php?mode=login'
 
@@ -199,9 +166,9 @@ def login_and_post_message_bi(topic_row: pd.Series, message_content: str, is_to_
                 time.sleep(1)
             else:
                 if is_to_edit == 1:
-                    logging.info(f"MESSAGES -> EDITING WITH NEW OUTPUT ON BI / TOPIC {topic_row['TOPIC_NUMBER']} / MESSAGE {topic_row['MESSAGE_NUMBER_TO_EDIT']} [DONE] ")
+                    logging.info(f"MESSAGES -> EDITING WITH NEW OUTPUT ON BI / TOPIC {topic_row.TOPIC_ID} / MESSAGE {topic_row.MESSAGE_ID_TO_EDIT} [DONE] ")
                 else:
-                    logging.info(f"MESSAGES -> POSTING OUTPUT ON BI / TOPIC {topic_row['TOPIC_NUMBER']} [DONE] ")
+                    logging.info(f"MESSAGES -> POSTING OUTPUT ON BI / TOPIC {topic_row.TOPIC_ID} [DONE] ")
 
     if (not post_successful):
-        raise ValueError(f"{var.SOFT_ERROR_TAG} BI / TOPIC {topic_row['TOPIC_NUMBER']} NOT POSTED -> Time expiration")
+        raise ValueError(f"{var.SOFT_ERROR_TAG} BI / TOPIC {topic_row.TOPIC_ID} NOT POSTED -> Time expiration")

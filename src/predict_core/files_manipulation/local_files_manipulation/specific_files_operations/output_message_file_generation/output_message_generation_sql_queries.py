@@ -34,8 +34,8 @@ VW_TOPIC_INIT_QUERY = f'''
         FORUM_SOURCE,
         FORUM_COUNTRY,
         FORUM_TIMEZONE,
-        TOPIC_NUMBER,
-        MESSAGE_NUMBER_TO_EDIT,
+        TOPIC_ID,
+        MESSAGE_ID_TO_EDIT,
         IS_FOR_PREDICT,
         IS_FOR_RESULT
     FROM
@@ -51,8 +51,8 @@ VW_TOPIC_CALCULATE_QUERY = f'''
         FORUM_SOURCE,
         FORUM_COUNTRY,
         FORUM_TIMEZONE,
-        TOPIC_NUMBER,
-        MESSAGE_NUMBER_TO_EDIT,
+        TOPIC_ID,
+        MESSAGE_ID_TO_EDIT,
         IS_FOR_PREDICT,
         IS_FOR_RESULT
     FROM
